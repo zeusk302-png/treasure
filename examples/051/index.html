@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서도 화면 너비에 맞게 보이도록 하는 필수 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스크롤 등장 애니메이션</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 맨 위 안내 화면: 여기서 아래로 스크롤을 시작합니다 -->
+  <header class="hero">
+    <h1>아래로 스크롤해 보세요</h1>
+    <p>화면 안으로 들어오는 카드가 <strong>아래에서 위로 스르륵</strong> 나타납니다.</p>
+    <p class="scroll-hint" aria-hidden="true">↓</p>
+  </header>
+
+  <main class="wrap">
+
+    <!--
+      reveal 클래스가 붙은 요소들이 "등장 대상"입니다.
+      처음에는 CSS가 살짝 아래로 내려가고 투명한 상태로 숨겨 둡니다.
+      화면 안에 들어오면 script.js가 is-visible 클래스를 붙여 주고,
+      그때 transition으로 부드럽게 제자리로 올라오며 나타납니다.
+    -->
+
+    <section class="card reveal">
+      <h2>01. 화면에 보이면 나타난다</h2>
+      <p>이 카드는 화면 안에 들어오는 순간 처음으로 모습을 드러냅니다.</p>
+    </section>
+
+    <section class="card reveal">
+      <h2>02. IntersectionObserver가 감시한다</h2>
+      <p>스크롤 위치를 직접 계산하지 않아도, 브라우저가 "이 요소가 화면에 보이는지"를 대신 알려 줍니다.</p>
+    </section>
+
+    <section class="card reveal">
+      <h2>03. transition이 부드럽게 만든다</h2>
+      <p>투명도(opacity)와 위치(translateY)가 0.6초 동안 천천히 바뀌어 스르륵 떠오르는 느낌을 줍니다.</p>
+    </section>
+
+    <section class="card reveal">
+      <h2>04. data 속성으로 방향도 바꾼다</h2>
+      <p>아래에서 위로뿐 아니라, 옆에서 들어오게 만들 수도 있습니다. 다음 카드를 보세요.</p>
+    </section>
+
+    <!-- data-reveal 값으로 등장 방향을 다르게 줄 수 있습니다 -->
+    <section class="card reveal" data-reveal="left">
+      <h2>05. 왼쪽에서 슬쩍 (left)</h2>
+      <p>이 카드는 왼쪽에서 미끄러져 들어옵니다. <code>data-reveal="left"</code>가 붙어 있습니다.</p>
+    </section>
+
+    <section class="card reveal" data-reveal="right">
+      <h2>06. 오른쪽에서 슬쩍 (right)</h2>
+      <p>이 카드는 오른쪽에서 미끄러져 들어옵니다. <code>data-reveal="right"</code>가 붙어 있습니다.</p>
+    </section>
+
+    <section class="card reveal">
+      <h2>07. 다시 위로 올라가면?</h2>
+      <p>맨 위로 스크롤했다가 다시 내려오면, 카드들이 한 번 더 등장합니다. (script.js의 설정으로 반복 여부를 끌 수도 있습니다.)</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>끝까지 스크롤하셨습니다. 위로 다시 올려 보세요.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

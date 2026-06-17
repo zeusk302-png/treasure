@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 날씨 위젯 (고친 버전)</title>
+
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 20px; text-align: center; }
+    #temp { font-size: 44px; font-weight: 700; margin: 8px 0; }
+    #status { color: #888; font-size: 14px; min-height: 20px; }
+    .hint { color: #888; font-size: 13px; margin-top: 20px; line-height: 1.6; }
+  </style>
+
+  <!-- ✅ 고친 핵심 ①: 스크립트를 별도 파일(script.js)로 빼고 defer 를 붙였다.
+       defer = "HTML(DOM)을 다 읽은 뒤에 실행해 줘"라는 뜻이라
+       script.js 가 돌 때 아래 #temp, #status 가 이미 존재한다. -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>부산 오늘 날씨</h1>
+
+  <div class="card">
+    <div id="temp">--℃</div>
+    <p id="status">불러오는 중...</p>
+  </div>
+
+  <p class="hint">
+    이 페이지는 정상 동작합니다. 잠깐 기다리면 현재 부산의 기온이 표시됩니다.<br />
+    CORS 를 <strong>허용해 주는</strong> 공개 API(Open-Meteo)로 바꿨기 때문입니다.
+  </p>
+</body>
+</html>

@@ -1,0 +1,229 @@
+/* =============================================================
+   실습 250 — localStorage 장바구니 디자인
+   (디자인은 보조입니다. 핵심 학습은 script.js의 상태 관리/합계 계산)
+   ============================================================= */
+
+:root {
+  --main: #2563eb; /* 파랑 포인트 색 */
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --line: #e5e7eb;
+  --text: #1f2937;
+  --muted: #6b7280;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.topbar {
+  text-align: center;
+  padding: 24px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.topbar .sub {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* 화면을 좌(상품) + 우(장바구니)로 나눈다. 좁은 화면에서는 위아래로 쌓임 */
+.layout {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 760px) {
+  .layout {
+    grid-template-columns: 1.4fr 1fr;
+    align-items: start;
+  }
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 0 0 12px;
+}
+
+/* ---------- 상품 목록 ---------- */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.product-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-card .emoji {
+  font-size: 2.2rem;
+}
+
+.product-card .name {
+  font-weight: 600;
+}
+
+.product-card .price {
+  color: var(--muted);
+}
+
+.add-btn {
+  margin-top: auto;
+  border: none;
+  background: var(--main);
+  color: #fff;
+  padding: 9px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.add-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ---------- 장바구니 ---------- */
+.cart {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.cart-empty {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.cart-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart-item .item-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.cart-item .item-sub {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qty button {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  background: #f9fafb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.qty button:hover {
+  background: #eef2ff;
+}
+
+.qty .num {
+  min-width: 22px;
+  text-align: center;
+}
+
+.item-price {
+  min-width: 78px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.remove-btn {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 4px;
+}
+
+/* ---------- 합계 ---------- */
+.summary {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 2px solid var(--line);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  color: var(--muted);
+}
+
+.summary-row.total {
+  color: var(--text);
+  font-size: 1.15rem;
+  margin-top: 4px;
+}
+
+.summary-row.total strong {
+  color: var(--main);
+}
+
+.clear-btn {
+  margin-top: 14px;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  padding: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.clear-btn:hover {
+  background: #fef2f2;
+  color: #ef4444;
+  border-color: #fecaca;
+}

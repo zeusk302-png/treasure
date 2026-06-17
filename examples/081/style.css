@@ -1,0 +1,78 @@
+/* ===== 페이지 공통 ===== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  background: #f5f6fa;
+  color: #2d3436;
+}
+
+main {
+  max-width: 520px;
+  margin: 60px auto;
+  padding: 0 16px;
+}
+
+h1 { font-size: 26px; margin-bottom: 8px; }
+.desc { color: #636e72; line-height: 1.7; margin-bottom: 28px; }
+.desc code {
+  background: #dfe6e9;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ===== 스톱워치 위젯 ===== */
+.stopwatch {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 경과 시간 숫자판.
+   고정폭 글꼴(monospace)을 쓰면 숫자가 바뀔 때 폭이 들썩이지 않습니다. */
+.display {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #2d3436;
+  margin-bottom: 28px;
+}
+
+/* 버튼 두 개를 가로로 나란히 배치 */
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn {
+  flex: 1 1 0;
+  max-width: 160px;
+  padding: 14px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.05s ease, opacity 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+
+/* 시작 버튼은 초록, 동작 중(정지 상태)일 때 빨강으로 바뀝니다.
+   색은 JS가 클래스를 갈아끼워 바꿉니다. */
+.btn-start { background: #00b894; }
+.btn-start.running { background: #d63031; }
+
+.btn-reset { background: #636e72; }
+
+/* 리셋이 무의미할 때(00:00.00이고 멈춰 있을 때) 흐리게 + 클릭 막기 */
+.btn-reset:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

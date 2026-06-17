@@ -1,0 +1,185 @@
+{
+  "name": "실습 180 — 매일 트래픽 요약 알림 (n8n, 비밀값은 자격증명/환경변수에만)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 9,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "매일 오전 9시 (Schedule Trigger)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        300
+      ],
+      "notes": "매일 오전 9시에 자동으로 한 번 돕니다. 시간을 바꾸려면 triggerAtHour 숫자만 고치면 됩니다. 어제 하루치 방문 요약을 만들어 보내는 것이 이 워크플로우의 목적입니다."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://YOUR-DOMAIN.example.com/api/stats",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "options": {}
+      },
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "방문 통계 가져오기 (HTTP Request)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Analytics 읽기 토큰 (비밀, 자격증명 저장소에만)"
+        }
+      },
+      "notes": "방문수를 알려 주는 주소를 부릅니다. ① Plausible 같은 도구는 통계 API 주소가 따로 있고, ② Vercel Analytics는 외부에서 곧장 읽는 공식 통계 API가 없어, 보통 우리 사이트에 작은 '통계 창구'(예: /api/stats)를 하나 만들어 그 안에서만 비밀 토큰을 씁니다. 어느 쪽이든 비밀 토큰은 이 노드에 직접 적지 않고, n8n > Credentials 의 'Header Auth' 자격증명(예: Name=Authorization, Value=Bearer XXX)에 저장해 여기에 연결합니다. 처음 연습할 때는 자격증명 없이 공개 테스트용 통계 주소로 형태만 익혀도 됩니다."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1a1a1a1-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "날짜",
+              "value": "={{ $now.minus({ days: 1 }).toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "b2b2b2b2-2222-4222-8222-bbbbbbbbbbbb",
+              "name": "방문수",
+              "value": "={{ $json.visitors ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "c3c3c3c3-3333-4333-8333-cccccccccccc",
+              "name": "페이지뷰",
+              "value": "={{ $json.pageviews ?? 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "33333333-3333-4333-8333-333333333333",
+      "name": "필요한 값만 추리기 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        740,
+        300
+      ],
+      "notes": "통계 응답에서 우리가 알림에 쓸 값(어제 날짜·방문수·페이지뷰)만 골라 담습니다. 응답 모양은 통계 도구마다 다르니, 실제 응답의 필드 이름($json.visitors 등)을 보고 맞춰 주세요. 값이 없을 때는 0으로 채웁니다."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4d4d4d4-4444-4444-8444-dddddddddddd",
+              "name": "메시지",
+              "value": "=📊 *{{ $json.날짜 }} 트래픽 요약*\\n• 방문자: {{ $json.방문수 }}명\\n• 페이지뷰: {{ $json.페이지뷰 }}회",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "알림 문장 만들기 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        300
+      ],
+      "notes": "사람이 읽기 좋은 한 줄 요약 문장으로 다듬습니다. 슬랙·메일 어느 쪽으로 보내든 이 '메시지' 한 칸만 가져다 쓰면 됩니다."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.메시지) }}\n}",
+        "options": {}
+      },
+      "id": "55555555-5555-4555-8555-555555555555",
+      "name": "슬랙으로 보내기 (HTTP Request)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        300
+      ],
+      "notes": "슬랙 '수신 웹훅(Incoming Webhook)' 주소로 요약 문장을 보냅니다. 이 웹훅 주소도 비밀값이라 노드에 직접 적지 않고, n8n 환경변수 SLACK_WEBHOOK_URL 로 빼 두었습니다(자리표시자). 메일로 보내고 싶으면 이 노드를 지우고 n8n 의 'Send Email' 또는 'Gmail' 노드로 바꿔, 본문에 {{ $json.메시지 }} 를 넣으면 됩니다."
+    }
+  ],
+  "connections": {
+    "매일 오전 9시 (Schedule Trigger)": {
+      "main": [
+        [
+          {
+            "node": "방문 통계 가져오기 (HTTP Request)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "방문 통계 가져오기 (HTTP Request)": {
+      "main": [
+        [
+          {
+            "node": "필요한 값만 추리기 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "필요한 값만 추리기 (Set)": {
+      "main": [
+        [
+          {
+            "node": "알림 문장 만들기 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "알림 문장 만들기 (Set)": {
+      "main": [
+        [
+          {
+            "node": "슬랙으로 보내기 (HTTP Request)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "설명": "매일 오전 9시에 자동으로 깨어나 → 어제 방문 통계를 읽고 → 요약 문장을 만들어 → 슬랙(또는 메일)으로 보내는 간단 모니터링 워크플로우입니다. 흐름: Schedule → HTTP(통계 읽기) → Set(값 추리기) → Set(문장 만들기) → HTTP(슬랙 전송). 비밀값(통계 읽기 토큰, 슬랙 웹훅 주소)은 워크플로우 JSON 이 아니라 n8n 의 Credentials/환경변수에만 둡니다. 이 JSON 에는 진짜 비밀값이 아니라 자리표시자(REPLACE_..., $env.SLACK_WEBHOOK_URL)만 있습니다."
+  }
+}

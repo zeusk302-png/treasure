@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>보안 헤더 점검 데모 페이지</title>
+  <!--
+    이 페이지는 보안 헤더를 입히기 위한 "점검 대상" 샘플 사이트입니다.
+    중요: 스타일과 스크립트를 별도 파일(style.css / app.js)로 빼놓았습니다.
+    이유 — vercel.json의 CSP가 script-src 'self', style-src 'self' 이기 때문에,
+    HTML 안에 직접 쓴 <style>...</style> 나 <script>...</script>(인라인)는 차단됩니다.
+    "외부 파일로 분리하면 CSP가 막지 않는다"는 것을 직접 보는 게 이 실습의 핵심입니다.
+  -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main>
+    <h1>보안 헤더 점검 데모</h1>
+    <p>이 사이트에는 <strong>vercel.json</strong>으로 보안 헤더가 입혀져 있습니다.</p>
+    <p>아래 버튼을 누르면, 브라우저가 지금 이 페이지에 적용한 헤더들을 보여줍니다.</p>
+
+    <button id="checkBtn" type="button">내 페이지 헤더 확인하기</button>
+
+    <pre id="output" aria-live="polite">버튼을 눌러보세요.</pre>
+
+    <section class="note">
+      <h2>인라인 차단 테스트</h2>
+      <p>
+        아래 박스의 글자가 <b>빨간색</b>이면 CSP가 정상 작동하는 것입니다.
+        (만약 인라인 style이 허용된다면 파란색이 되도록 일부러 시도했는데, CSP가 막아서 기본 빨강이 유지됩니다.)
+      </p>
+      <p class="inline-test" style="color: blue;">이 문장은 CSP가 인라인 스타일을 막는지 보는 테스트입니다.</p>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

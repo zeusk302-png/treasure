@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원 명단 (검사용 — 일부러 위험하게 만든 코드)</title>
+</head>
+<body>
+  <!--
+    ⚠️ 이 파일은 "검사할 재료"입니다. 일부러 보안 구멍을 넣어 두었습니다.
+    그대로 배포하면 안 됩니다. prompt.md로 AI에게 이 코드를 심문시키는 연습용입니다.
+    구멍이 정확히 어디인지는 README.md의 "이 코드의 함정" 표에 정리되어 있습니다.
+  -->
+  <h1>우리 동네 모임 회원 명단</h1>
+  <ul id="member-list"></ul>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // ❌ 함정 1: 비밀키(service_role)를 브라우저 코드에 그대로 박았다.
+    //    이 값은 F12 → Sources 에서 누구나 그대로 복사할 수 있고,
+    //    이 키는 RLS를 전부 우회하는 "마스터키"라 모든 테이블이 통째로 털린다.
+    //    (아래는 자리표시자지만, 실제 코드에선 진짜 sb_secret_ 값이 박혀 있었다고 가정)
+    const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
+    const SUPABASE_KEY = "sb_secret_PLACEHOLDER_DO_NOT_USE_IN_FRONTEND";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ❌ 함정 2: 회원 전체 명단(이름·전화번호·이메일)을 한 번에 통째로 조회한다.
+    const { data, error } = await supabase
+      .from("members")
+      .select("*");
+
+    // ⚠️ 함정 3: 에러가 나면 내부 구조와 전체 데이터를 콘솔에 그대로 뱉는다.
+    if (error) {
+      console.error("DB 에러 원문:", error);
+    } else {
+      console.log("전체 회원 데이터:", data); // 명단 전체가 콘솔에 노출
+      const ul = document.getElementById("member-list");
+      data.forEach((m) => {
+        const li = document.createElement("li");
+        li.textContent = `${m.name} / ${m.phone} / ${m.email}`;
+        ul.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

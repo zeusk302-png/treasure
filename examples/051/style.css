@@ -1,0 +1,123 @@
+/* ===== 기본 정리 ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #1f2430;
+  background: #f5f6fa;
+  line-height: 1.6;
+}
+
+/* ===== 맨 위 안내 화면 (스크롤 시작점) ===== */
+.hero {
+  min-height: 100vh;            /* 화면 높이를 꽉 채워, 아래로 스크롤할 거리를 만듭니다 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #4f7cff, #7b5cff);
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin: 0 0 12px;
+}
+
+.hero p {
+  margin: 4px 0;
+  max-width: 520px;
+}
+
+/* 아래 화살표가 위아래로 살짝 움직이며 "스크롤하라"고 안내합니다 */
+.scroll-hint {
+  margin-top: 32px;
+  font-size: 2rem;
+  animation: bob 1.4s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(10px); }
+}
+
+/* ===== 본문 (카드들이 등장하는 영역) ===== */
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  /* 카드 사이를 넉넉히 띄워, 하나씩 화면에 들어오며 등장하게 합니다 */
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 8px 24px rgba(31, 36, 48, 0.08);
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  color: #4f7cff;
+  font-size: 1.25rem;
+}
+
+.card p {
+  margin: 0;
+}
+
+code {
+  background: #eef1f8;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+/* ===== 핵심: 스크롤 등장 효과 =====
+   1) 평소(숨김) 상태: 투명하고(opacity:0) 살짝 아래로 내려가 있음(translateY)
+   2) transition: 이 두 값이 바뀔 때 0.6초 동안 부드럽게 변하라고 미리 약속해 둠
+   3) is-visible: 화면에 보이면 script.js가 붙여 주는 "등장" 상태  */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* 화면 안에 들어오면(script.js가 클래스를 붙이면) 제자리로 올라오며 또렷해짐 */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+}
+
+/* data-reveal 값에 따라 "처음 위치"를 다르게 줘서 등장 방향을 바꿉니다 */
+.reveal[data-reveal="left"]  { transform: translateX(-60px); }
+.reveal[data-reveal="right"] { transform: translateX(60px); }
+
+/* ===== 맨 아래 ===== */
+.footer {
+  text-align: center;
+  padding: 80px 24px;
+  color: #6b7280;
+}
+
+/* ===== 접근성 배려 =====
+   사용자가 "움직임 줄이기"를 켰다면 애니메이션 없이 바로 보여 줍니다.
+   (어지러움을 느끼는 분들을 위한 표준 배려입니다.) */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .scroll-hint {
+    animation: none;
+  }
+}

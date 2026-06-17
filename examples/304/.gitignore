@@ -1,0 +1,9 @@
+# 설치된 패키지 폴더는 커밋하지 않습니다 (용량이 크고, lockfile만 있으면 재현 가능).
+node_modules/
+
+# 비밀값(.env 류)은 절대 커밋 금지.
+.env
+.env.local
+
+# 중요: package-lock.json 은 .gitignore 에 넣지 않습니다!
+# 이 파일이야말로 '안전한 버전 고정'을 위해 반드시 커밋해야 하는 결과물입니다.

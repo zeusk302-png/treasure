@@ -1,0 +1,16 @@
+{
+  "name": "guestbook-mini",
+  "version": "1.0.0",
+  "description": "방명록 미니 앱 — npm audit 실습용 (취약점 1건 고친 후 상태)",
+  "type": "module",
+  "scripts": {
+    "audit": "npm audit",
+    "audit:json": "npm audit --json",
+    "audit:prod": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "axios": "1.7.4"
+  },
+  "devDependencies": {},
+  "//설명": "axios를 취약점이 패치된 1.7.4로 올린 '고친 후' 상태입니다. npm audit가 0 vulnerabilities를 보고하면 성공입니다."
+}

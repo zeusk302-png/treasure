@@ -1,0 +1,16 @@
+{
+  "name": "guestbook-mini",
+  "version": "1.0.0",
+  "description": "방명록 미니 앱 — npm audit 실습용 (취약점 1건 고치기 전 상태)",
+  "type": "module",
+  "scripts": {
+    "audit": "npm audit",
+    "audit:json": "npm audit --json",
+    "audit:prod": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "axios": "1.6.7"
+  },
+  "devDependencies": {},
+  "//설명": "axios 1.6.7에는 알려진 취약점(SSRF/자격증명 누출, GHSA-8hc4-vh64-cxmj)이 있습니다. 이 버전이 '고치기 전' 상태입니다. README의 단계를 따라 1.7.4 이상으로 올립니다."
+}

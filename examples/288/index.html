@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 날씨 카드 (고친 버전)</title>
+
+  <style>
+    body { font-family: sans-serif; max-width: 360px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .city { font-size: 18px; font-weight: bold; margin: 0 0 8px; }
+    .temp { font-size: 40px; margin: 0; }
+    .desc { color: #666; margin: 4px 0 0; }
+    .hint { color: #888; font-size: 13px; margin-top: 20px; }
+  </style>
+
+  <!-- ✅ 스크립트를 별도 파일로 빼고 defer 를 붙였다.
+       defer = "HTML(DOM)을 다 읽은 뒤에 실행해 줘"라는 뜻이라
+       script.js 가 돌 때는 아래 #city, #temp, #desc 가 이미 존재한다. -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>오늘의 날씨</h1>
+
+  <div class="card">
+    <p class="city" id="city">불러오는 중...</p>
+    <p class="temp" id="temp"></p>
+    <p class="desc" id="desc"></p>
+  </div>
+
+  <p class="hint">
+    이 페이지는 정상 동작합니다. 잠깐(약 0.3초) 기다리면 도시·기온·날씨가 채워집니다.
+  </p>
+</body>
+</html>

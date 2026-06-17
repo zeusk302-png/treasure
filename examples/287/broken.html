@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 날씨 위젯 (버그 버전 · CORS 차단)</title>
+
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 20px; text-align: center; }
+    #temp { font-size: 44px; font-weight: 700; margin: 8px 0; }
+    #status { color: #888; font-size: 14px; min-height: 20px; }
+    .hint { color: #888; font-size: 13px; margin-top: 20px; line-height: 1.6; }
+    code { background: #f3f3f3; padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>부산 오늘 날씨</h1>
+
+  <div class="card">
+    <div id="temp">--℃</div>
+    <p id="status">불러오는 중...</p>
+  </div>
+
+  <p class="hint">
+    이 페이지는 일부러 고장 나 있습니다. 온도가 영영 <code>--℃</code> 그대로입니다.<br />
+    <strong>F12</strong>(개발자 도구) → <strong>Console</strong> 탭을 열면 빨간 글씨로 <strong>CORS 에러</strong>가 떠 있습니다.<br />
+    그 빨간 메시지를 읽어 보세요. 코드가 틀린 게 아니라 <em>브라우저가 막은 것</em>입니다.
+  </p>
+
+  <!-- ❌ 문제의 핵심: CORS(교차 출처 차단)
+       이 페이지는 file:// 또는 우리 도메인에서 열렸는데,
+       fetch 가 "다른 출처(도메인)"인 httpbin.org 로 데이터를 요청한다.
+       그 서버가 "이 출처(우리 페이지)에서의 접근을 허락한다"는
+       Access-Control-Allow-Origin 응답 헤더를 보내 주지 않으면,
+       브라우저가 응답을 가로채 자바스크립트에게 넘겨주지 않고 차단한다.
+       → 그래서 fetch 자체가 실패(reject)하고 catch 로 빠진다. -->
+  <script>
+    // 💥 버그 지점: 아래 주소는 CORS 허용 헤더를 보내 주지 않는 서버다.
+    //    (httpbin.org 의 /headers 응답에는 Access-Control-Allow-Origin 이 없다)
+    //    그래서 브라우저에서 직접 fetch 하면 콘솔에 빨간 CORS 에러가 뜨고
+    //    응답 데이터는 우리 코드로 절대 전달되지 않는다.
+    const API_URL = "https://httpbin.org/headers";
+
+    async function loadWeather() {
+      const tempEl = document.getElementById("temp");
+      const statusEl = document.getElementById("status");
+
+      try {
+        const res = await fetch(API_URL); // ← 여기서 CORS 에 막혀 실패한다
+        const data = await res.json();
+        // (CORS 에 막히면 위 줄까지 도달하지도 못한다)
+        tempEl.textContent = "22℃";
+        statusEl.textContent = "갱신 완료";
+        console.log("받은 데이터:", data);
+      } catch (error) {
+        // CORS 차단 시 error 메시지는 "Failed to fetch" 처럼 두루뭉술하게 나온다.
+        // 진짜 원인(CORS)은 catch 가 아니라 콘솔의 빨간 줄에 적혀 있다.
+        statusEl.textContent = "불러오기 실패 (콘솔의 빨간 CORS 에러를 확인하세요)";
+        console.error("fetch 실패:", error);
+      }
+    }
+
+    loadWeather();
+  </script>
+</body>
+</html>

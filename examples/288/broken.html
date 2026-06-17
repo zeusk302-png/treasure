@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 날씨 카드 (버그 버전)</title>
+
+  <style>
+    body { font-family: sans-serif; max-width: 360px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .city { font-size: 18px; font-weight: bold; margin: 0 0 8px; }
+    .temp { font-size: 40px; margin: 0; }
+    .desc { color: #666; margin: 4px 0 0; }
+    .hint { color: #888; font-size: 13px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>오늘의 날씨</h1>
+
+  <div class="card">
+    <p class="city" id="city">불러오는 중...</p>
+    <p class="temp" id="temp"></p>
+    <p class="desc" id="desc"></p>
+  </div>
+
+  <p class="hint">
+    이 페이지는 일부러 고장 나 있습니다. 도시 이름·기온·날씨가 모두 "undefined"로만 보입니다.<br />
+    F12(개발자 도구) → Console 탭을 열어 실제 응답이 어떤 모양인지 살펴보세요.
+  </p>
+
+  <!-- ❌ 문제의 핵심: 코드가 기대하는 "키 이름"과 API가 실제로 보내는 "키 이름"이 다르다.
+       JSON.parse 는 정상이고, 에러도 안 난다. 다만 없는 이름으로 값을 꺼내니 undefined 가 나올 뿐이다.
+       이런 버그는 "응답을 콘솔에 찍어 진짜 키 이름을 눈으로 확인"하면 바로 잡힌다. -->
+  <script>
+    // 진짜 서버 대신, 0.3초 뒤에 JSON 문자열을 돌려주는 가짜 API를 흉내 낸다.
+    // 실제 fetch(...).then(res => res.text()) 으로 받는 "응답 본문(문자열)"과 같은 모양이다.
+    function fetchWeather() {
+      return new Promise(function (resolve) {
+        setTimeout(function () {
+          // 서버가 실제로 보내 주는 JSON 문자열. 키 이름을 잘 보자.
+          // 도시는 "name", 기온은 "main.temp"(중첩!), 설명은 "weather[0].description" 안에 있다.
+          const jsonText =
+            '{ "name": "부산", "main": { "temp": 24.6, "humidity": 70 }, "weather": [ { "description": "맑음" } ] }';
+          resolve(jsonText);
+        }, 300);
+      });
+    }
+
+    async function showWeather() {
+      const cityEl = document.getElementById("city");
+      const tempEl = document.getElementById("temp");
+      const descEl = document.getElementById("desc");
+
+      const jsonText = await fetchWeather();
+      const data = JSON.parse(jsonText); // 여기까지는 문제 없음. data 는 정상적인 객체다.
+
+      // 💥 버그: 아래 키 이름들이 실제 응답과 다르다.
+      //    - data.city      → 응답에는 "city" 가 없다 (진짜 이름은 "name")        → undefined
+      //    - data.temp      → 기온은 data.main.temp 안에 있다 (한 단계 더 들어가야 함) → undefined
+      //    - data.weather.description → weather 는 "배열"이라 [0] 을 거쳐야 한다       → undefined
+      cityEl.textContent = data.city;
+      tempEl.textContent = data.temp + "°C";
+      descEl.textContent = data.weather.description;
+
+      // 응답을 한 번도 안 찍어 봐서, 키 이름이 다르다는 걸 모르고 있었다.
+      // 아래 한 줄만 켜 보면 진짜 구조가 보인다.
+      // console.log("실제 응답:", data);
+    }
+
+    showWeather();
+  </script>
+</body>
+</html>

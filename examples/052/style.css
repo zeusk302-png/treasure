@@ -1,0 +1,122 @@
+/* =========================================================
+   1) 라이트(기본) 테마 색을 CSS 변수로 정의합니다.
+      :root 는 문서 전체를 가리키는 가장 바깥 선택자입니다.
+      여기에 적은 --변수이름 은 페이지 어디서나 var(...)로 꺼내 씁니다.
+   ========================================================= */
+:root {
+  --bg: #ffffff;          /* 페이지 배경색 */
+  --text: #1a1a1a;        /* 글자색 */
+  --card-bg: #f4f4f5;     /* 카드 배경색 */
+  --border: #d4d4d8;      /* 테두리색 */
+  --accent: #2563eb;      /* 강조(버튼) 색 */
+  --accent-text: #ffffff; /* 강조 버튼 위 글자색 */
+}
+
+/* =========================================================
+   2) 다크 테마 색.
+      <html data-theme="dark"> 가 되는 순간 이 블록의 변수들이
+      위 :root 값을 덮어써서, 페이지 전체 색이 한 번에 바뀝니다.
+   ========================================================= */
+[data-theme="dark"] {
+  --bg: #18181b;
+  --text: #f4f4f5;
+  --card-bg: #27272a;
+  --border: #3f3f46;
+  --accent: #60a5fa;
+  --accent-text: #0b1220;
+}
+
+/* =========================================================
+   3) 실제 스타일은 색을 직접 쓰지 않고 변수만 사용합니다.
+      그래서 변수 값만 바뀌어도 모든 요소 색이 따라 바뀝니다.
+      transition 으로 색이 부드럽게 전환됩니다.
+   ========================================================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* 상단 바 */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* 테마 전환 버튼 */
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-btn:hover {
+  border-color: var(--accent);
+}
+
+/* 본문 */
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+/* 본문 안 예시 버튼 */
+.sample-btn {
+  margin-top: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 푸터 */
+.footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0.7;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다크모드 토글 만들기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 바: 제목 + 테마 전환 버튼 -->
+  <header class="topbar">
+    <h1 class="logo">나의 블로그</h1>
+    <!--
+      aria-pressed: 버튼이 "눌린 상태"인지 보조기기에 알려줌.
+      다크모드가 켜져 있으면 true, 아니면 false 로 JS가 바꿔줍니다.
+    -->
+    <button id="themeToggle" class="theme-btn" aria-pressed="false">
+      <span class="icon">🌙</span>
+      <span class="label">다크모드</span>
+    </button>
+  </header>
+
+  <!-- 본문: 테마가 바뀌는 것을 눈으로 확인할 카드들 -->
+  <main class="content">
+    <section class="card">
+      <h2>다크모드란?</h2>
+      <p>
+        화면을 어두운 색으로 바꿔 눈의 피로를 줄여 주는 기능입니다.
+        오른쪽 위 버튼을 눌러 라이트(밝은)와 다크(어두운) 테마를 번갈아 보세요.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>어떻게 동작하나요?</h2>
+      <p>
+        색을 코드 곳곳에 직접 적지 않고 <strong>CSS 변수</strong>에 한 번만 정의합니다.
+        그리고 &lt;html&gt; 태그의 <strong>data-theme</strong> 값을 바꾸면
+        변수 값이 통째로 교체되어 페이지 전체 색이 한 번에 달라집니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>버튼 예시</h2>
+      <p>아래 버튼도 테마에 따라 색이 함께 바뀝니다.</p>
+      <button class="sample-btn">확인</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 다크모드 연습 페이지</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

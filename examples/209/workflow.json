@@ -1,0 +1,196 @@
+{
+  "name": "209 - Supabase 신규 가입자 환영 메일 자동 발송",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "id": "a1111111-1111-4111-8111-111111111111",
+      "name": "10분마다 실행 (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/profiles?select=id,email,full_name,created_at,welcome_sent&welcome_sent=is.false&order=created_at.asc&limit=50",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b2222222-2222-4222-8222-222222222222",
+      "name": "신규 가입자 조회 (Supabase REST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "c3333333-3333-4333-8333-333333333333",
+      "name": "한 명씩 반복 (Loop)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        360,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@your-domain.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=환영합니다, {{ $json.full_name || '회원' }}님!",
+        "emailFormat": "html",
+        "html": "=<div style=\"font-family: sans-serif; max-width: 480px; margin: 0 auto;\">\n  <h1 style=\"color:#2563eb;\">가입을 환영합니다!</h1>\n  <p>안녕하세요, <strong>{{ $json.full_name || '회원' }}</strong>님.</p>\n  <p>저희 서비스에 가입해 주셔서 감사합니다. 지금 바로 둘러보세요.</p>\n  <p><a href=\"https://your-domain.com\" style=\"display:inline-block; padding:10px 20px; background:#2563eb; color:#fff; text-decoration:none; border-radius:6px;\">서비스 시작하기</a></p>\n  <hr style=\"border:none; border-top:1px solid #eee; margin:24px 0;\">\n  <p style=\"color:#888; font-size:12px;\">이 메일은 자동 발송되었습니다.</p>\n</div>",
+        "options": {}
+      },
+      "id": "d4444444-4444-4444-8444-444444444444",
+      "name": "환영 메일 발송 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        600,
+        200
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 SMTP 계정"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/profiles?id=eq.{{ $json.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"welcome_sent\": true\n}",
+        "options": {}
+      },
+      "id": "e5555555-5555-4555-8555-555555555555",
+      "name": "발송 완료 표시 (welcome_sent=true)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        840,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "10분마다 실행 (Schedule)": {
+      "main": [
+        [
+          {
+            "node": "신규 가입자 조회 (Supabase REST)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "신규 가입자 조회 (Supabase REST)": {
+      "main": [
+        [
+          {
+            "node": "한 명씩 반복 (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "한 명씩 반복 (Loop)": {
+      "main": [
+        [],
+        [
+          {
+            "node": "환영 메일 발송 (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "환영 메일 발송 (SMTP)": {
+      "main": [
+        [
+          {
+            "node": "발송 완료 표시 (welcome_sent=true)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "발송 완료 표시 (welcome_sent=true)": {
+      "main": [
+        [
+          {
+            "node": "한 명씩 반복 (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "guide-209-supabase-welcome-email"
+  }
+}

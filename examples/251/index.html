@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 상세 — URL의 ?id= 로 상품 한 개 보여주기 (실습 251)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>상품 상세</h1>
+    <p class="sub">주소창의 <code>?id=</code> 값으로 상품 <strong>한 개</strong>를 불러옵니다.</p>
+  </header>
+
+  <main>
+    <!-- 처음엔 '불러오는 중…' 안내가 보였다가, 데이터가 도착하면 아래 카드가 채워집니다.
+         id가 없거나 잘못되면 안내 메시지로 바뀝니다. -->
+    <p id="status" class="status">상품을 불러오는 중…</p>
+
+    <!-- JS가 채워 넣는 상세 카드. 처음엔 숨겨 두었다가 데이터가 오면 보여 줍니다. -->
+    <article id="detail" class="detail" hidden>
+      <img id="img" class="detail-img" src="" alt="" />
+      <div class="detail-body">
+        <h2 id="name" class="detail-name"></h2>
+        <p id="price" class="detail-price"></p>
+        <p id="desc" class="detail-desc"></p>
+        <a id="back" class="back-link" href="#">← 다른 상품도 보기</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <p>
+      이 페이지는 혼자 열면 <code>?id=</code> 가 없어 안내만 나옵니다.
+      <strong>주소 끝에 <code>?id=1</code> 처럼 붙여서</strong> 열어 보세요
+      (예: <code>index.html?id=2</code>).<br />
+      먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>), <code>schema.sql</code>로
+      <code>products</code> 표·보안(RLS)·예시 데이터를 만들어 두세요.
+      자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </footer>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

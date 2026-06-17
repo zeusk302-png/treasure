@@ -1,0 +1,155 @@
+/* ===== 색·폰트 기본 정리 ===== */
+:root {
+  --main: #4f46e5;    /* 강조색 (보라) */
+  --gray: #d1d5db;    /* 기본 테두리·빈 막대 회색 */
+  --red: #dc2626;     /* 약함 빨강 */
+  --orange: #f59e0b;  /* 보통 주황 */
+  --green: #16a34a;   /* 강함 초록 */
+  --text: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: var(--text);
+}
+
+/* ===== 카드 ===== */
+.card {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px;
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.desc {
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* ===== 라벨과 입력칸 ===== */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 2px solid var(--gray);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus {
+  border-color: var(--main);
+}
+
+/* ===== 강도 막대 (바깥 틀 + 채워지는 안쪽 막대) ===== */
+.meter {
+  width: 100%;
+  height: 10px;
+  background: var(--gray);    /* 아직 안 채워진 회색 배경 */
+  border-radius: 999px;
+  overflow: hidden;           /* 안쪽 막대가 둥근 모서리를 넘지 않게 */
+}
+
+.meter-bar {
+  height: 100%;
+  width: 0%;                  /* JS가 0~100%로 너비를 바꾼다 */
+  border-radius: 999px;
+  background: var(--gray);
+  transition: width 0.25s, background-color 0.25s; /* 부드럽게 변하도록 */
+}
+
+/* JS가 강도에 따라 붙이는 동적 클래스 */
+.meter-bar.weak {
+  background: var(--red);
+}
+
+.meter-bar.medium {
+  background: var(--orange);
+}
+
+.meter-bar.strong {
+  background: var(--green);
+}
+
+/* ===== 강도 글자 ===== */
+.strength-text {
+  min-height: 20px;       /* 글자가 없을 때도 높이를 유지해 칸이 덜컹이지 않게 */
+  margin: 10px 0 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #6b7280;
+}
+
+.strength-text.weak {
+  color: var(--red);
+}
+
+.strength-text.medium {
+  color: var(--orange);
+}
+
+.strength-text.strong {
+  color: var(--green);
+}
+
+/* ===== 조건 체크리스트 ===== */
+.checklist {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 13px;
+  color: #9ca3af;          /* 아직 만족 못 한 조건은 회색 */
+}
+
+.checklist li {
+  margin-bottom: 6px;
+  padding-left: 22px;
+  position: relative;
+}
+
+/* 모든 항목 앞에 회색 동그라미 표시 */
+.checklist li::before {
+  content: "○";
+  position: absolute;
+  left: 0;
+}
+
+/* JS가 조건을 만족한 항목에 붙이는 클래스 */
+.checklist li.done {
+  color: var(--green);
+  font-weight: bold;
+}
+
+/* 만족한 항목은 앞 표시를 초록 체크로 */
+.checklist li.done::before {
+  content: "✓";
+  color: var(--green);
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한 줄 요약기 (Claude API)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <p class="badge">실습 162 · AI 기능화</p>
+      <h1>긴 글을 붙여 넣으면<br />한 줄로 요약해 주는 요약기</h1>
+      <p class="lead">
+        글을 입력하고 버튼을 누르면, 브라우저는 우리 서버의 '중간 창구'(<code>/api/summarize</code>)에만 부탁합니다.
+        진짜 Claude 호출과 <strong>비밀 키 사용은 서버 안에서만</strong> 일어나고,
+        "어떻게 요약할지"(한 줄로)는 <strong>서버 코드에 고정</strong>돼 있습니다.
+      </p>
+    </header>
+
+    <!-- 1) 요약기 본체 -->
+    <section class="card">
+      <h2>1. 요약할 글 붙여넣기</h2>
+      <label for="text">원문 (붙여넣기 OK)</label>
+      <textarea
+        id="text"
+        rows="7"
+        maxlength="6000"
+        placeholder="여기에 기사·메모·이메일 등 긴 글을 붙여 넣으세요."
+      >인공지능은 사람이 일일이 규칙을 정해 주지 않아도, 많은 데이터를 통해 스스로 규칙을 찾아내는 기술이다. 최근에는 글을 읽고 쓰는 능력이 크게 좋아져서, 요약·번역·질문 답변 같은 일을 사람 대신 빠르게 처리할 수 있게 되었다. 덕분에 비전공자도 코드를 거의 짜지 않고 AI를 자기 서비스의 한 기능으로 붙여 쓸 수 있는 시대가 열렸다.</textarea>
+
+      <div class="meter">
+        <span id="counter" class="counter">0 / 6000자</span>
+      </div>
+
+      <button id="summarizeBtn" type="button">한 줄로 요약하기</button>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+
+      <div id="result" class="answer" hidden>
+        <span class="result-label">한 줄 요약</span>
+        <p id="summary" class="summary"></p>
+      </div>
+
+      <p class="hint">
+        이 버튼이 부르는 곳은 Claude가 <em>아니라</em> <code>/api/summarize</code>(우리 서버)입니다.
+        진짜 Claude 호출·비밀 키·요약 규칙(프롬프트)은 모두 그 서버 함수 안에 있습니다.
+      </p>
+    </section>
+
+    <!-- 2) 키가 안 보이는지 직접 확인 -->
+    <section class="card">
+      <h2>2. "비밀 키가 안 보인다"를 직접 확인하기</h2>
+      <ol class="checklist">
+        <li>
+          <strong>이 페이지 소스 보기</strong>: <kbd>Ctrl</kbd>+<kbd>U</kbd>(맥은 <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>U</kbd>).
+          <code>sk-ant-</code> 으로 시작하는 글자가 단 한 개도 없어야 정상입니다.
+        </li>
+        <li>
+          <strong>개발자도구 → Network 탭</strong>(<kbd>F12</kbd>): 버튼을 누르면 <code>summarize</code> 요청이 보입니다.
+          요청 <em>Headers</em>를 펼쳐도 <code>x-api-key</code> 같은 비밀 헤더는 <strong>없습니다</strong>.
+          (그 헤더는 서버에서만 붙습니다.)
+        </li>
+        <li>
+          <strong>요청 대상</strong>: 그 요청이 <code>api.anthropic.com</code>이 <strong>아니라</strong>
+          우리 사이트의 <code>/api/summarize</code> 인지 확인합니다. 브라우저는 Claude를 직접 부르지 않습니다.
+        </li>
+      </ol>
+      <button id="scanBtn" type="button" class="secondary">이 페이지의 JS에서 키 흔적 검사하기</button>
+      <div id="scanResult" class="status"></div>
+    </section>
+
+    <footer class="foot">
+      <p>
+        공개해도 되는 값(예: Supabase <code>anon</code> 키)은 브라우저에 둬도 되지만,
+        <strong>과금되는 AI 키 같은 비밀값은 절대 브라우저에 두지 않습니다.</strong>
+        자세한 원리와 배포 방법은 <code>README.md</code>를 보세요.
+      </p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비밀번호 강도 막대 (약함·보통·강함)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>비밀번호 강도 막대</h1>
+    <p class="desc">
+      비밀번호 칸에 글자를 입력해 보세요. 길이·숫자·특수문자 같은 조건을
+      얼마나 만족하느냐에 따라 아래 막대가 빨강(약함) → 주황(보통) → 초록(강함)으로
+      실시간으로 바뀝니다.
+    </p>
+
+    <!-- 1) 비밀번호 입력칸 -->
+    <label for="password">비밀번호</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="비밀번호를 입력하세요"
+      autocomplete="new-password"
+    />
+
+    <!-- 2) 강도 막대: 채워지는 부분(bar)과 그 색이 동적으로 바뀐다 -->
+    <div class="meter" aria-hidden="true">
+      <div id="meterBar" class="meter-bar"></div>
+    </div>
+
+    <!-- 3) 강도 글자 표시 (약함/보통/강함) -->
+    <!-- aria-live="polite": 화면 낭독기가 강도가 바뀔 때 읽어줌 -->
+    <p id="strengthText" class="strength-text" aria-live="polite">비밀번호를 입력하세요</p>
+
+    <!-- 4) 어떤 조건을 만족했는지 보여주는 체크리스트 -->
+    <ul class="checklist">
+      <li id="ruleLength">8자 이상</li>
+      <li id="ruleNumber">숫자 포함</li>
+      <li id="ruleSpecial">특수문자(!@#$ 등) 포함</li>
+      <li id="ruleUpper">영어 대문자 포함</li>
+    </ul>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

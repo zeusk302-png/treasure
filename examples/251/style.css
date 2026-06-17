@@ -1,0 +1,113 @@
+/* 실습 251 — 상품 상세 페이지 스타일 (?id= 로 불러온 상품 한 개를 크게 보여 줌) */
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  margin: 0;
+  background: #f6f7f9;
+  color: #222;
+}
+
+/* 상단 제목 영역 */
+.topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+  padding: 28px 20px;
+  text-align: center;
+}
+.topbar h1 {
+  margin: 0 0 6px;
+  color: #3ecf8e;          /* Supabase 색 */
+  font-size: 1.6rem;
+}
+.topbar .sub {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+/* 상세 카드 — 위에 큰 사진, 아래에 이름·가격·설명 */
+.detail {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.detail-img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;       /* 비율 깨지지 않게 잘라서 채움 */
+  background: #f0f0f0;
+  display: block;
+}
+.detail-body {
+  padding: 22px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.detail-name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+.detail-price {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #137a4a;
+}
+.detail-desc {
+  margin: 4px 0 0;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.back-link {
+  margin-top: 12px;
+  align-self: flex-start;
+  color: #3ecf8e;
+  font-weight: 700;
+  text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* 안내 메시지(불러오는 중 / id 없음 / 실패) */
+.status {
+  text-align: center;
+  color: #888;
+  padding: 60px 16px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.status.info { color: #555; }
+.status.fail { color: #b3261e; font-weight: 700; }
+
+.foot {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  color: #999;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+code {
+  background: #eef0f2;
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+/* 화면이 좁을 때 사진 높이를 살짝 줄입니다. */
+@media (max-width: 520px) {
+  .detail-img { height: 220px; }
+  .detail-name { font-size: 1.3rem; }
+}
