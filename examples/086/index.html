@@ -1,0 +1,90 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 가장 바깥 상자입니다. lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <!-- <head>는 "화면에 안 보이는 정보(설정)" 칸입니다. -->
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. -->
+    <meta charset="UTF-8" />
+
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 브라우저 탭에 표시되는 제목입니다. -->
+    <title>이름 입력칸 만들기</title>
+
+    <!-- 이 실습은 한 파일로 끝내기 위해 간단한 스타일만 head 안에 넣었습니다. -->
+    <style>
+      /* 글자체와 여백을 살짝 줘서 보기 편하게만 합니다. (이번 실습의 핵심은 아니에요) */
+      body {
+        font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+        max-width: 420px;
+        margin: 40px auto;
+        padding: 0 16px;
+        color: #222;
+      }
+
+      /* label과 input을 위아래로 자연스럽게 배치하기 위한 여백입니다. */
+      .field {
+        margin-bottom: 16px;
+      }
+
+      /* label은 한 줄을 차지하게 해서 입력칸 위에 오도록 합니다. */
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+      }
+
+      /* 입력칸을 폭 넓고 누르기 편하게 만듭니다. */
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        box-sizing: border-box; /* padding을 포함해 너비를 계산해서 칸이 삐져나가지 않게 합니다 */
+      }
+
+      /* placeholder(입력 전 흐린 안내 글자)를 살짝 연하게 보여 줍니다. */
+      input::placeholder {
+        color: #999;
+      }
+
+      .hint {
+        font-size: 13px;
+        color: #666;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+
+  <!-- <body>는 "화면에 실제로 보이는 내용"이 들어가는 칸입니다. -->
+  <body>
+    <h1>이름 입력칸 만들기</h1>
+    <p>아래는 가장 기본적인 한 줄짜리 입력칸입니다. label, input, placeholder 세 가지로 이루어져 있어요.</p>
+
+    <!-- 입력칸 하나를 묶어 두기 위해 div로 감쌌습니다. (꼭 필요한 건 아니지만 정리하기 좋아요) -->
+    <div class="field">
+      <!--
+        <label>은 입력칸에 붙는 "이름표"입니다.
+        for="name" 은 "이 이름표는 id가 name인 입력칸의 것이다"라는 연결 고리입니다.
+        이렇게 연결하면 이름표 글자를 눌러도 입력칸에 커서가 들어갑니다.
+      -->
+      <label for="name">이름</label>
+
+      <!--
+        <input type="text">는 한 줄짜리 글자 입력칸입니다.
+        id="name"  : label의 for와 짝을 맞추는 이름표 연결용 식별자입니다.
+        placeholder : 아직 아무것도 안 적었을 때 흐리게 보이는 "예시 안내 글자"입니다.
+                      실제 입력값이 아니라, 타이핑을 시작하면 사라집니다.
+      -->
+      <input type="text" id="name" placeholder="예: 홍길동" />
+
+      <p class="hint">입력칸을 클릭하고 글자를 적으면 흐린 안내 글자가 사라집니다.</p>
+    </div>
+  </body>
+
+</html>

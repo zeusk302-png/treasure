@@ -1,0 +1,77 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;                 /* 카드를 화면 가운데로 보내기 위한 설정 */
+  align-items: center;           /* 세로 가운데 */
+  justify-content: center;       /* 가로 가운데 */
+  background: #f4f1ea;           /* 부드러운 베이지 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+}
+
+/* 명언이 담기는 카드 */
+.card {
+  background: #ffffff;
+  max-width: 420px;
+  width: 90%;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+h1 {
+  font-size: 20px;
+  color: #8a6d3b;               /* 차분한 갈색 */
+  margin: 0 0 20px;
+}
+
+/* 명언 글귀 */
+blockquote {
+  margin: 0 0 12px;
+  font-size: 18px;
+  line-height: 1.6;
+  /* 내용이 갈아끼워질 때 부드럽게 나타나도록 0.3초 동안 서서히 보이게 한다 */
+  transition: opacity 0.3s ease;
+}
+
+/* 말한 사람 이름 */
+.author {
+  margin: 0 0 24px;
+  color: #777;
+  font-style: italic;
+}
+
+/* '새 데이터로 바뀌는 중'임을 눈으로 보이게: 잠깐 투명하게 만들었다가 다시 채운다 */
+.fading {
+  opacity: 0.2;
+}
+
+/* 버튼 */
+button {
+  background: #8a6d3b;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 999px;          /* 알약 모양 */
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #6f562d;           /* 마우스를 올리면 살짝 진하게 */
+}
+
+/* 요청 중이라 버튼이 잠긴 상태 */
+button:disabled {
+  background: #c9bfa8;
+  cursor: not-allowed;
+}
+
+/* 몇 번 눌렀는지 보여주는 작은 안내문 */
+.count {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: #999;
+}

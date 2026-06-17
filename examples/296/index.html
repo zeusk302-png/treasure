@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>키 줍기 게임 — F12로 키 찾아내기</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.7; color: #222; }
+    h1 { color: #7b5e3b; }
+    .card { border: 1px solid #e5e5e5; border-radius: 12px; padding: 18px 20px; margin: 16px 0; background: #fafafa; }
+    .ok { border-left: 6px solid #2e9e5b; }
+    .danger { border-left: 6px solid #d23b3b; }
+    code { background: #eee; padding: 2px 6px; border-radius: 6px; word-break: break-all; }
+    kbd { background: #333; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.9rem; }
+    .hint { color: #666; font-size: 0.92rem; }
+    ol li { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <h1>키 줍기 게임</h1>
+  <p>
+    이 페이지는 <strong>배포된 척하는 연습용 사이트</strong>입니다.
+    화면을 아무리 봐도 키는 안 보입니다. 하지만 브라우저는 키를 <strong>이미 다 받아서</strong> 가지고 있어요.
+    개발자도구(<kbd>F12</kbd>)를 열어 <strong>숨어 있는 두 개의 키</strong>를 직접 찾아보세요.
+  </p>
+
+  <div class="card ok">
+    <h2>🟢 보여도 괜찮은 키 (공개 출입증)</h2>
+    <p>이 페이지는 아래 <strong>publishable(anon) 키</strong>로 동작합니다. 이건 화면/코드에 보여도 안전해요.</p>
+    <p class="hint">F12에서 <code>sb_publishable_</code> 로 시작하는 문자열을 찾으면 됩니다.</p>
+  </div>
+
+  <div class="card danger">
+    <h2>🔴 절대 보이면 안 되는 키 (마스터키)</h2>
+    <p>
+      이 사이트에는 누군가 <strong>실수로</strong> 비밀키(<code>service_role</code> / <code>sb_secret_</code>)를
+      프론트 코드에 박아두는 잘못을 저질렀습니다. F12로 그걸 찾아내는 게 이 게임의 핵심입니다.
+    </p>
+    <p class="hint">F12에서 <code>sb_secret_</code> 로 시작하는 문자열을 찾으면 됩니다. (이게 보이면 사고!)</p>
+  </div>
+
+  <h2>게임 방법</h2>
+  <ol>
+    <li><kbd>F12</kbd>를 눌러 개발자도구를 엽니다.</li>
+    <li><strong>Sources(소스)</strong> 탭에서 이 페이지의 코드를 열어 두 키를 눈으로 찾습니다.</li>
+    <li><strong>Network(네트워크)</strong> 탭을 켠 채 <kbd>F5</kbd>로 새로고침하면, 키가 통신에 실려 가는 것도 볼 수 있습니다.</li>
+    <li>찾은 두 값을 <code>note.md</code>에 "보여도 OK / 절대 안 됨"으로 분류해 적습니다.</li>
+  </ol>
+
+  <!--
+    ⚠️ 아래는 일부러 심어둔 "잘못된 예시"입니다.
+    실제 비밀키는 절대 이렇게 프론트 코드에 두면 안 됩니다. (여기 값도 진짜가 아닌 자리표시자입니다.)
+  -->
+  <script>
+    // 🟢 보여도 되는 공개 출입증 (publishable / anon) — 화면·코드에 노출돼도 안전
+    const SUPABASE_URL = "https://여기에-내-프로젝트.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_여기에-진짜-publishable-키-자리표시자";
+
+    // 🔴 잘못 박아둔 비밀 마스터키 (service_role / secret) — 이건 절대 프론트에 두면 안 됨!
+    //    (실습용 자리표시자 값. 진짜 키가 아닙니다. 이 줄이 바로 "찾아야 할 사고 지점"입니다.)
+    const SUPABASE_SECRET_KEY = "sb_secret_여기에-비밀키가-실수로-박힘-자리표시자";
+
+    console.log("이 페이지가 쓰는 공개 출입증(보여도 OK):", SUPABASE_PUBLISHABLE_KEY);
+    console.warn("⚠️ 코드에서 발견된 비밀 마스터키(절대 안 됨!):", SUPABASE_SECRET_KEY);
+  </script>
+</body>
+</html>

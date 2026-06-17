@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 동네 반찬가게 — 217 실습 (선보고 후실행)</title>
+  <style>
+    /* 비전공자도 읽기 쉽게: 색은 CSS 변수로 관리합니다 */
+    :root {
+      --bg: #fff7f0;       /* 따뜻한 크림색 배경 */
+      --text: #3a2e26;     /* 부드러운 갈색 글자 */
+      --accent: #d2691e;   /* 포인트 주황(반찬가게 느낌) */
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* 히어로(첫 화면) 섹션 — 이번 실습에서 '문구 한 줄'만 바꾼 곳 */
+    .hero {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      margin: 0 0 12px;
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin: 0 0 28px;
+      font-weight: 600;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .hero-btn:hover { opacity: 0.9; }
+
+    #menu {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!--
+    [217 실습 핵심] 아래 .hero-tagline 텍스트 "한 줄"만 AI에게 바꾸게 했습니다.
+    AI는 곧바로 고치지 않고 "무엇을/왜/어떻게"를 3줄로 먼저 보고했고(conversation.md 참고),
+    사람이 "진행해"라고 승인한 뒤에야 이 한 줄만 수정했습니다.
+
+    변경 전(before): <p class="hero-tagline">맛있는 반찬을 팝니다</p>
+    변경 후(after) : 아래 줄
+  -->
+  <section class="hero">
+    <h1 class="hero-title">우리 동네 반찬가게</h1>
+    <p class="hero-tagline">오늘 아침 만든 집밥 반찬, 그대로 식탁까지</p>
+    <a class="hero-btn" href="#menu">메뉴 보기</a>
+  </section>
+
+  <section id="menu">
+    <h2>오늘의 반찬</h2>
+    <ul>
+      <li>시금치 나물</li>
+      <li>제육볶음</li>
+      <li>계란말이</li>
+    </ul>
+    <p>※ 이 아래 영역과 다른 모든 구조는 실습 중에 건드리지 않았습니다. (변경 범위 = 한 줄)</p>
+  </section>
+
+</body>
+</html>

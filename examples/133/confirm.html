@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이메일 인증 완료 — Supabase 이메일 검증 실습</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 440px; margin: 60px auto; padding: 0 16px; line-height: 1.6; text-align: center; }
+    h1 { color: #7b5e3b; }
+    .icon { font-size: 3.5rem; }
+    .box { margin-top: 18px; padding: 14px; border-radius: 10px; }
+    .ok { background: #e8f5e9; color: #2e7d32; }
+    .err { background: #fdecea; color: #c62828; }
+    .wait { background: #f6f1ea; color: #7b5e3b; }
+    .mail { font-weight: 700; word-break: break-all; }
+    a.btn { display: inline-block; margin-top: 22px; padding: 11px 22px; background: #7b5e3b; color: #fff; border-radius: 999px; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <!-- 사용자가 메일 속 '이메일 확인' 링크를 누르면, Supabase가 인증을 처리한 뒤
+       signup.html에서 지정한 emailRedirectTo(= 이 confirm.html) 주소로 다시 보냅니다.
+       이 페이지는 "정말 인증이 끝났는지"를 세션으로 확인해 결과를 보여줍니다. -->
+  <div class="icon" id="icon">⏳</div>
+  <h1 id="title">이메일 인증 확인 중…</h1>
+  <div class="box wait" id="box">메일 링크를 확인하고 있습니다. 잠시만 기다려 주세요.</div>
+
+  <div id="actions"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ▼ signup.html과 같은 값으로 맞추세요. (anon/publishable 키만!)
+    const SUPABASE_URL = "https://여기에-내-프로젝트.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_여기에-내-anon-키";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const icon = document.getElementById('icon');
+    const title = document.getElementById('title');
+    const box = document.getElementById('box');
+    const actions = document.getElementById('actions');
+
+    function render(state, head, msg) {
+      icon.textContent = state === 'ok' ? '✅' : state === 'err' ? '⚠️' : '⏳';
+      title.textContent = head;
+      box.className = 'box ' + (state === 'ok' ? 'ok' : state === 'err' ? 'err' : 'wait');
+      box.innerHTML = msg;
+    }
+
+    // Supabase는 메일 링크를 누른 직후, 인증 결과를 세션으로 만들어 줍니다.
+    // getSession 으로 "지금 로그인된(=인증된) 사용자가 있는지" 확인합니다.
+    async function check() {
+      const { data, error } = await db.auth.getSession();
+
+      if (error) {
+        render('err', '확인에 실패했어요', '잠시 후 다시 시도해 주세요.<br>' + error.message);
+        return;
+      }
+
+      const session = data.session;
+      if (session && session.user) {
+        // 세션이 있다 = 이메일 확인 링크가 정상 처리됐다 = 인증 완료!
+        render('ok', '이메일 인증 완료!',
+          '<span class="mail">' + session.user.email + '</span> 인증이 끝났습니다.<br>이제 로그인할 수 있어요.');
+        actions.innerHTML = '<a class="btn" href="https://supabase.com/dashboard">대시보드에서 사용자 확인</a>';
+      } else {
+        // 세션이 없다 = 링크 없이 직접 들어왔거나, 링크가 만료됐을 수 있음
+        render('err', '아직 인증되지 않았어요',
+          '이 페이지는 <strong>메일 속 확인 링크</strong>를 눌러야 열립니다.<br>링크가 만료됐다면 가입 화면에서 "확인 메일 다시 보내기"를 눌러 주세요.');
+        actions.innerHTML = '<a class="btn" href="signup.html">가입 화면으로</a>';
+      }
+    }
+
+    // 메일 링크의 토큰을 라이브러리가 읽어 세션을 만드는 데 아주 짧은 시간이 걸릴 수 있어,
+    // 인증 상태가 바뀌는 순간(onAuthStateChange)에도 한 번 더 확인합니다.
+    db.auth.onAuthStateChange(function () { check(); });
+    check();
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>새 명언 받기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>오늘의 명언</h1>
+
+    <!-- 명언이 들어올 자리. 버튼을 누를 때마다 이 안의 내용이 갈아끼워진다. -->
+    <blockquote id="quote">아래 버튼을 눌러 첫 명언을 받아보세요.</blockquote>
+
+    <!-- 명언을 말한 사람 이름이 들어올 자리 -->
+    <p id="author" class="author"></p>
+
+    <!-- 이 버튼을 '여러 번' 누른다. 누를 때마다 새로 fetch가 실행된다. -->
+    <button id="newBtn">새 명언</button>
+
+    <!-- 지금까지 버튼을 몇 번 눌러 몇 번 호출했는지 보여주는 안내 -->
+    <p id="count" class="count">아직 받지 않았어요.</p>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

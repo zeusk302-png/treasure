@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- ✅ 정답 예시: 모든 <img>에 "의미 있는 alt"가 들어가 있습니다. -->
+<!-- 핵심 규칙 -->
+<!--  1) 내용을 전달하는 이미지 → alt에 "무엇이 보이는지"를 한 문장으로 -->
+<!--  2) 순수 장식용 이미지 → alt="" (빈 문자열)로 비워서 스크린리더가 건너뛰게 -->
+<!--  3) 파일명(IMG_2034.jpg)이나 "이미지" 같은 말은 alt로 쓰지 않기 -->
+<!--  4) title은 alt를 대체하지 못함 → alt를 반드시 넣기 -->
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>우리 빵집 - 이미지 alt 점검 (정답)</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px;
+        line-height: 1.6;
+        color: #222;
+      }
+      figure {
+        margin: 0 0 28px;
+      }
+      img {
+        width: 100%;
+        max-width: 480px;
+        height: 160px;
+        object-fit: cover;
+        background: #f0e6d8;
+        border-radius: 12px;
+        display: block;
+      }
+      figcaption {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 6px;
+      }
+      .logo {
+        width: 120px;
+        height: 48px;
+      }
+      hr {
+        margin: 32px 0;
+        border: none;
+        border-top: 1px solid #eee;
+      }
+      .icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        background: #d9b382;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ✅ 로고: 가게 이름을 그대로 alt에 (로고는 보통 "회사/가게 이름"을 적음) -->
+    <header>
+      <img class="logo" src="images/logo.png" alt="우리 빵집 로고" />
+    </header>
+
+    <h1>오늘의 빵</h1>
+
+    <!-- ✅ 무엇이 보이는지 구체적으로 설명. 캡션과 똑같이 베끼지 않고 보충 -->
+    <figure>
+      <img src="images/bread1.jpg" alt="겉이 노릇하게 구워진 네모난 통밀 식빵" />
+      <figcaption>갓 구운 통밀 식빵</figcaption>
+    </figure>
+
+    <!-- ✅ "이미지"가 아니라 실제 사물 설명 -->
+    <figure>
+      <img
+        src="images/croissant.jpg"
+        alt="결이 겹겹이 살아 있는 황금빛 버터 크루아상"
+      />
+      <figcaption>버터 크루아상</figcaption>
+    </figure>
+
+    <hr />
+
+    <!-- ✅ 순수 장식용 아이콘: alt=""(빈 값)로 두어 스크린리더가 건너뛰게 함 -->
+    <p>
+      <img class="icon" src="images/decoration-dot.png" alt="" />
+      메뉴 안내
+    </p>
+
+    <!-- ✅ alt를 넣음. title은 보조일 뿐 alt를 대체하지 못함 -->
+    <figure>
+      <img
+        src="images/coffee.jpg"
+        alt="하얀 잔에 담긴 따뜻한 핸드드립 커피"
+        title="아메리카노"
+      />
+      <figcaption>핸드드립 커피</figcaption>
+    </figure>
+  </body>
+</html>

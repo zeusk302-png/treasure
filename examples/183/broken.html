@@ -1,0 +1,89 @@
+<!doctype html>
+<!-- ⚠️ 이 파일은 "고쳐야 하는" 예시입니다. alt 텍스트가 잘못된 곳이 5군데 있어요. -->
+<!-- README.md의 표를 보고 직접 고친 뒤, index.html(정답)과 비교해 보세요. -->
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>우리 빵집 - 이미지 alt 점검 (고치기 전)</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px;
+        line-height: 1.6;
+        color: #222;
+      }
+      figure {
+        margin: 0 0 28px;
+      }
+      img {
+        width: 100%;
+        max-width: 480px;
+        height: 160px;
+        object-fit: cover;
+        background: #f0e6d8;
+        border-radius: 12px;
+        display: block;
+      }
+      figcaption {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 6px;
+      }
+      .logo {
+        width: 120px;
+        height: 48px;
+      }
+      hr {
+        margin: 32px 0;
+        border: none;
+        border-top: 1px solid #eee;
+      }
+      .icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        background: #d9b382;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ❌ 문제 1: 로고에 alt가 아예 없음 -->
+    <header>
+      <img class="logo" src="images/logo.png" />
+    </header>
+
+    <h1>오늘의 빵</h1>
+
+    <!-- ❌ 문제 2: alt가 파일 이름(의미 없음) -->
+    <figure>
+      <img src="images/bread1.jpg" alt="IMG_2034.jpg" />
+      <figcaption>갓 구운 통밀 식빵</figcaption>
+    </figure>
+
+    <!-- ❌ 문제 3: alt가 "이미지"라고만 적혀 있음(내용 설명 아님) -->
+    <figure>
+      <img src="images/croissant.jpg" alt="이미지" />
+      <figcaption>버터 크루아상</figcaption>
+    </figure>
+
+    <hr />
+
+    <!-- ❌ 문제 4: 순수 장식용 구분선 아이콘인데 alt에 글자가 들어가
+         스크린리더가 불필요하게 "장식 이미지"를 읽어줌 -->
+    <p>
+      <img class="icon" src="images/decoration-dot.png" alt="장식 이미지" />
+      메뉴 안내
+    </p>
+
+    <!-- ❌ 문제 5: alt 대신 title만 있음(title은 alt를 대체하지 못함) -->
+    <figure>
+      <img src="images/coffee.jpg" title="아메리카노" />
+      <figcaption>핸드드립 커피</figcaption>
+    </figure>
+  </body>
+</html>

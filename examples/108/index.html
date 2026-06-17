@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- 이 한 페이지만으로 동작합니다. 더블클릭해서 브라우저로 여세요. -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방문 횟수 카운터 (localStorage 실습)</title>
+  <style>
+    /* 꾸밈은 핵심이 아니라 보기 편하라고 넣은 최소한의 스타일입니다. */
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+      text-align: center;
+    }
+    h1 { font-size: 1.4rem; }
+    /* 방문 횟수를 크게 보여 주는 큰 숫자 카드 */
+    #count {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #4a6cf7;
+      margin: 8px 0 4px;
+    }
+    #message {
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+    }
+    button {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border: 0;
+      border-radius: 8px;
+      background: #eee;
+      color: #333;
+      cursor: pointer;
+    }
+    .hint { color: #888; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>방문 횟수 카운터</h1>
+  <p class="hint">이 페이지를 <b>새로고침(F5)</b> 할 때마다 숫자가 1씩 올라갑니다.</p>
+
+  <!-- 큰 숫자: 지금까지의 방문 횟수 -->
+  <div id="count">0</div>
+  <!-- "○번째 방문입니다" 안내 문구 -->
+  <p id="message"></p>
+
+  <!-- 기록을 0으로 되돌리는 버튼 -->
+  <button id="resetBtn">기록 초기화</button>
+
+  <script>
+    // 1) 화면 요소들을 미리 찾아 둡니다.
+    const countEl = document.getElementById("count");
+    const messageEl = document.getElementById("message");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // localStorage에 저장할 때 쓸 "이름표(키)"입니다. 항상 같은 글자를 써야 다시 꺼낼 수 있습니다.
+    const STORAGE_KEY = "visitCount";
+
+    // 2) ★ 핵심: 저장된 방문 횟수를 꺼낸다.
+    //    localStorage에는 "숫자"가 아니라 항상 "글자(문자열)"로 저장됩니다.
+    //    예를 들어 3이 아니라 "3" 이라는 글자로 들어 있어요.
+    //    그래서 그대로 +1 하면 "3" + 1 = "31" 처럼 글자가 이어 붙는 사고가 납니다.
+    //    Number(...)로 "글자 → 숫자"로 바꿔 줘야 제대로 계산됩니다. (이게 '형변환')
+    const saved = localStorage.getItem(STORAGE_KEY); // 처음이면 null
+    let count = Number(saved) || 0; // null이나 빈 값이면 0으로 시작
+    // 참고: parseInt(saved, 10) 을 써도 같은 효과입니다. (10 = 10진수로 읽으라는 뜻)
+
+    // 3) 이번 방문이므로 1을 더한다.
+    count = count + 1;
+
+    // 4) 늘어난 숫자를 다시 저장한다.
+    //    setItem에 숫자를 넣으면 자동으로 글자로 바뀌어 저장됩니다.
+    localStorage.setItem(STORAGE_KEY, count);
+
+    // 5) 화면에 그려 주는 함수.
+    function render(n) {
+      countEl.textContent = n;
+      messageEl.textContent = n + "번째 방문입니다!";
+    }
+    render(count);
+
+    // 6) [기록 초기화] 버튼: 저장된 값을 지우고 0으로 되돌린다.
+    //    다음 방문(새로고침) 때 다시 1부터 시작합니다.
+    resetBtn.addEventListener("click", function () {
+      localStorage.removeItem(STORAGE_KEY);
+      count = 0;
+      countEl.textContent = 0;
+      messageEl.textContent = "기록을 지웠어요. 새로고침하면 1번째부터 다시 셉니다.";
+    });
+  </script>
+</body>
+</html>

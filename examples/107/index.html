@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- 이 한 페이지만으로 동작합니다. 더블클릭해서 브라우저로 여세요. -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다크모드 기억하기 (localStorage 실습)</title>
+  <style>
+    /* 꾸밈은 핵심이 아니라 "테마가 바뀐다"를 눈으로 보라고 넣은 최소한의 스타일입니다. */
+
+    /* 라이트 모드(기본) 색 */
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 24px;
+      line-height: 1.6;
+      border-radius: 12px;
+      /* ★ 핵심: 배경/글자색을 부드럽게 바꾸는 전환 효과 */
+      transition: background-color 0.3s, color 0.3s;
+      background-color: #ffffff;
+      color: #222222;
+    }
+
+    /* 다크 모드: body에 dark 클래스가 붙었을 때만 적용되는 색 */
+    body.dark {
+      background-color: #1e1e2e;
+      color: #f0f0f0;
+    }
+
+    h1 { font-size: 1.4rem; }
+
+    button {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border: 0;
+      border-radius: 8px;
+      background: #4a6cf7;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .hint { opacity: 0.7; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>다크모드를 기억하는 페이지</h1>
+  <p class="hint">
+    버튼으로 테마를 바꾼 뒤 <b>새로고침(F5)</b> 해도 마지막에 고른 테마가 그대로 유지되는지 확인해 보세요.
+  </p>
+
+  <!-- 테마를 바꾸는 버튼. 글자는 JS가 현재 테마에 맞게 채워 줍니다. -->
+  <button id="themeBtn">테마 바꾸기</button>
+
+  <!-- 지금 어떤 테마인지 보여 주는 곳 -->
+  <p id="status"></p>
+
+  <script>
+    // 1) 화면 요소들을 미리 찾아 둡니다.
+    const themeBtn = document.getElementById("themeBtn");
+    const status = document.getElementById("status");
+
+    // localStorage에 저장할 때 쓸 "이름표(키)"입니다. 항상 같은 글자를 써야 다시 꺼낼 수 있습니다.
+    const STORAGE_KEY = "theme";
+
+    // 2) 화면에 테마를 입히는 함수.
+    //    theme이 "dark"면 body에 dark 클래스를 붙이고, 아니면 뗍니다.
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("dark");
+        themeBtn.textContent = "라이트 모드로";
+        status.textContent = "현재 테마: 다크 모드";
+      } else {
+        document.body.classList.remove("dark");
+        themeBtn.textContent = "다크 모드로";
+        status.textContent = "현재 테마: 라이트 모드";
+      }
+    }
+
+    // 3) 페이지가 열리자마자 localStorage에서 마지막 테마를 꺼내 봅니다.
+    //    getItem은 저장된 값이 없으면 null을 돌려주므로, 처음 방문이면 "light"로 시작합니다.
+    const savedTheme = localStorage.getItem(STORAGE_KEY) || "light";
+    applyTheme(savedTheme);
+
+    // 4) 버튼을 누르면 지금 테마를 보고 반대 테마로 바꿉니다.
+    themeBtn.addEventListener("click", function () {
+      // body에 dark 클래스가 이미 있으면 다음 테마는 light, 없으면 dark.
+      const isDark = document.body.classList.contains("dark");
+      const nextTheme = isDark ? "light" : "dark";
+
+      applyTheme(nextTheme);                       // 화면에 바로 반영
+      localStorage.setItem(STORAGE_KEY, nextTheme); // ★ 여기서 브라우저에 저장됩니다.
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입 → 메일 확인 안내 — Supabase 이메일 검증 실습</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 440px; margin: 48px auto; padding: 0 16px; line-height: 1.6; }
+    h1 { color: #7b5e3b; }
+    label { display: block; margin-top: 12px; font-weight: 600; font-size: 0.95rem; }
+    input { width: 100%; padding: 9px; margin: 6px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+    button { width: 100%; margin-top: 14px; padding: 11px 18px; background: #7b5e3b; color: #fff; border: 0; border-radius: 999px; font-size: 1rem; cursor: pointer; }
+    button:disabled { background: #bbb; cursor: not-allowed; }
+    #err { margin-top: 16px; padding: 12px; border-radius: 8px; background: #fdecea; color: #c62828; display: none; }
+    #err.show { display: block; }
+
+    /* '메일함을 확인하세요' 안내 화면. 처음엔 숨겨두고, 가입에 성공하면 보입니다. */
+    #notice { display: none; text-align: center; padding: 8px 0; }
+    #notice.show { display: block; }
+    #notice .icon { font-size: 3rem; }
+    #notice .mail { font-weight: 700; color: #7b5e3b; word-break: break-all; }
+    #notice .tip { margin-top: 18px; font-size: 0.9rem; color: #666; background: #f6f1ea; padding: 12px; border-radius: 8px; text-align: left; }
+    #resend { background: transparent; color: #7b5e3b; border: 1px solid #7b5e3b; }
+  </style>
+</head>
+<body>
+  <h1>회원가입</h1>
+
+  <!-- 1단계: 가입 폼 -->
+  <form id="form">
+    <p>이메일과 비밀번호로 가입하면, 그 메일함으로 <strong>확인 링크</strong>가 갑니다.</p>
+
+    <label for="email">이메일</label>
+    <input id="email" type="email" placeholder="you@example.com" required />
+
+    <label for="password">비밀번호 (6자 이상)</label>
+    <input id="password" type="password" placeholder="••••••" minlength="6" required />
+
+    <button type="submit" id="submitBtn">가입하기</button>
+  </form>
+
+  <!-- 에러 메시지 자리 -->
+  <div id="err"></div>
+
+  <!-- 2단계: 가입 성공 후 '메일함을 확인하세요' 안내 화면 -->
+  <div id="notice">
+    <div class="icon">📬</div>
+    <h2>메일함을 확인하세요</h2>
+    <p><span id="sentTo" class="mail"></span> 으로<br />확인 메일을 보냈습니다.</p>
+    <p>메일 속 <strong>"이메일 확인" 링크</strong>를 누르면 가입이 완료되고,<br />그때부터 로그인할 수 있습니다.</p>
+
+    <button type="button" id="resend">확인 메일 다시 보내기</button>
+
+    <div class="tip">
+      <strong>메일이 안 보이나요?</strong>
+      <ul style="margin:6px 0 0; padding-left:18px;">
+        <li>스팸함도 확인해 보세요.</li>
+        <li>테스트 중이라면 Supabase 대시보드 → Authentication → Users 에서 바로 확인 처리할 수 있어요.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ▼ 아래 두 값을 내 Supabase 프로젝트 값으로 바꾸세요. (Settings → API)
+    //   anon(publishable) 키는 "공개돼도 되는 출입증"이라 브라우저에 둬도 됩니다.
+    //   service_role(secret) 키는 절대 여기 두지 마세요 — 모든 보안(RLS)을 우회하는 비밀 키입니다.
+    const SUPABASE_URL = "https://여기에-내-프로젝트.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_여기에-내-anon-키";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById('form');
+    const btn = document.getElementById('submitBtn');
+    const errBox = document.getElementById('err');
+    const notice = document.getElementById('notice');
+    const sentTo = document.getElementById('sentTo');
+    const resendBtn = document.getElementById('resend');
+
+    let lastEmail = ""; // '다시 보내기'에 쓰려고 가입한 이메일을 기억해 둡니다.
+
+    function showError(text) {
+      errBox.textContent = text;
+      errBox.classList.add('show');
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      errBox.classList.remove('show');
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      btn.disabled = true;
+      btn.textContent = '가입 중…';
+
+      // 핵심: signUp 으로 사용자를 만들면, '이메일 확인'이 켜져 있을 때
+      //       Supabase가 자동으로 확인 메일을 보냅니다.
+      //       emailRedirectTo = 사용자가 메일 링크를 누른 뒤 '돌아올' 내 페이지 주소입니다.
+      const { data, error } = await db.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          emailRedirectTo: window.location.origin + '/confirm.html'
+        }
+      });
+
+      btn.disabled = false;
+      btn.textContent = '가입하기';
+
+      if (error) {
+        showError('가입 실패: ' + error.message);
+        return;
+      }
+
+      // 가입 요청 성공 → 폼을 숨기고 '메일함을 확인하세요' 안내 화면을 보여줍니다.
+      lastEmail = email;
+      sentTo.textContent = email;
+      form.style.display = 'none';
+      notice.classList.add('show');
+    });
+
+    // 확인 메일 다시 보내기 (메일을 못 받았을 때)
+    resendBtn.addEventListener('click', async function () {
+      if (!lastEmail) return;
+      resendBtn.disabled = true;
+      resendBtn.textContent = '보내는 중…';
+
+      const { error } = await db.auth.resend({
+        type: 'signup',
+        email: lastEmail,
+        options: { emailRedirectTo: window.location.origin + '/confirm.html' }
+      });
+
+      resendBtn.disabled = false;
+      resendBtn.textContent = '확인 메일 다시 보내기';
+      alert(error ? ('다시 보내기 실패: ' + error.message) : '확인 메일을 다시 보냈어요!');
+    });
+  </script>
+</body>
+</html>
