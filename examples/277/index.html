@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>추천 도서 카드 — (고친 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #eef1f6;
+      display: flex;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    /* 추천 도서 카드 — 보라색 배경에 흰 글씨, 가격은 굵게 강조 */
+    .card {
+      width: 280px;
+      padding: 24px;
+      border-radius: 16px;
+
+      /* FIXED ①: 'bacground' → 'background' (배경색 정상 적용) */
+      background: #6c4ad6;
+
+      /* FIXED ②: 'colour' → 'color' (글자색 정상 적용, color 는 미국식 철자만 인정) */
+      color: #ffffff;
+
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h2 {
+      margin: 0 0 8px 0;
+
+      /* FIXED ③: 'font-sze' → 'font-size' (제목 크기 정상 적용) */
+      font-size: 22px;
+    }
+
+    .card .author {
+      margin: 0 0 16px 0;
+
+      /* FIXED ④: 'opactiy' → 'opacity' (글자가 살짝 연해짐) */
+      opacity: 0.8;
+    }
+
+    .card .price {
+      /* FIXED ⑤: 'font-weigth' → 'font-weight' (가격 굵게 강조) */
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>아주 작은 습관의 힘</h2>
+    <p class="author">제임스 클리어 지음</p>
+    <p class="price">15,800원</p>
+  </div>
+</body>
+</html>

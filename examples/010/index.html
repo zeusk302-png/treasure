@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사진을 클릭하면 링크로 이동하는 카드 만들기</title>
+</head>
+<body>
+  <h1>사진을 클릭하면 링크로 이동하기</h1>
+  <p>
+    이번에는 <code>&lt;a&gt;</code>(링크) 태그 <strong>안에</strong>
+    <code>&lt;img&gt;</code>(사진) 태그를 넣어볼 거예요.
+    이렇게 태그를 <em>겹쳐 넣는 것</em>을 "중첩(nesting)"이라고 부릅니다.
+    사진을 클릭하면 링크로 이동하게 됩니다.
+  </p>
+
+  <!--
+    핵심 개념: 태그 중첩(nesting)
+    - "중첩"이란, 태그 안에 또 다른 태그를 넣는 것이에요. (상자 안에 작은 상자를 넣듯이)
+    - <a> ... </a> 는 "여기를 누르면 다른 곳으로 이동하는 링크"를 만드는 태그예요.
+    - 평소에는 <a> 안에 글자(예: "여기를 클릭")를 넣지만,
+      글자 대신 <img>(사진)를 넣으면 "사진 전체가 클릭 버튼"이 됩니다.
+
+    구조를 그림으로 보면:
+        <a href="이동할주소">        ← 바깥쪽: 링크
+            <img src="그림주소" />   ← 안쪽: 사진
+        </a>                          ← 링크 닫기
+
+    규칙: 안쪽 태그(<img>)는 바깥쪽 태그(<a>...</a>)를 넘어가면 안 돼요.
+          항상 "나중에 연 것을 먼저 닫는다"가 중첩의 기본 규칙입니다.
+  -->
+
+  <h2>예시 1) 사진을 클릭하면 다른 사이트로 이동</h2>
+  <p>아래 사진을 클릭하면 새 탭에서 다른 사이트가 열립니다.</p>
+
+  <!--
+    target="_blank" 는 "새 탭에서 열기"라는 뜻이에요. (008번 실습에서 배운 내용)
+    아래에서 <a> 가 바깥, <img> 가 안쪽으로 "중첩"되어 있는 모양을 잘 보세요.
+  -->
+  <a href="https://www.busan.go.kr" target="_blank">
+    <img
+      src="https://picsum.photos/seed/busan-card/400/250"
+      alt="부산 풍경 사진 (클릭하면 부산시청 홈페이지로 이동)"
+      width="400"
+    />
+  </a>
+
+  <hr />
+
+  <h2>예시 2) "카드"처럼 사진 + 제목 + 설명 묶기</h2>
+  <p>
+    사진뿐 아니라 제목·설명까지 통째로 묶어 클릭하게 만들 수도 있어요.
+    <code>&lt;a&gt;</code> 안에 <code>&lt;img&gt;</code>, <code>&lt;h3&gt;</code>,
+    <code>&lt;p&gt;</code> 를 모두 넣으면 "카드 전체"가 하나의 클릭 영역이 됩니다.
+    이것도 똑같은 "중첩"이에요.
+  </p>
+
+  <!-- <a> 안에 img + h3 + p 를 함께 넣어 "카드 전체"를 클릭 영역으로 만들기 -->
+  <a href="https://developer.mozilla.org/ko/" target="_blank">
+    <img
+      src="https://picsum.photos/seed/study-card/400/250"
+      alt="공부하는 모습 사진 (클릭하면 MDN 학습 사이트로 이동)"
+      width="400"
+    />
+    <h3>웹 개발 공부하러 가기</h3>
+    <p>사진, 제목, 설명까지 카드 전체를 누르면 이동합니다.</p>
+  </a>
+
+  <hr />
+
+  <h2>예시 3) 인터넷 없이도 보이는 그림으로 만든 클릭 카드</h2>
+  <p>
+    아래 그림은 글자로 직접 그린 그림이라 인터넷이 없어도 항상 보입니다.
+    이 그림도 <code>&lt;a&gt;</code> 안에 넣었기 때문에 클릭하면 이동합니다.
+  </p>
+
+  <!-- 인터넷이 없어도 항상 보이는 SVG 그림을 <a> 안에 중첩 -->
+  <a href="https://developer.mozilla.org/ko/docs/Web/HTML/Element/a" target="_blank">
+    <img
+      src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'&gt;&lt;rect width='300' height='200' fill='%234a90d9'/&gt;&lt;circle cx='240' cy='50' r='30' fill='%23ffe066'/&gt;&lt;polygon points='0,200 120,90 240,200' fill='%232e7d32'/&gt;&lt;text x='150' y='185' font-size='18' fill='white' text-anchor='middle'&gt;클릭해 보세요&lt;/text&gt;&lt;/svg&gt;"
+      alt="파란 하늘에 노란 해와 초록 산이 있는 그림 (클릭하면 a 태그 설명서로 이동)"
+      width="300"
+    />
+  </a>
+
+  <hr />
+
+  <p>
+    더 알아보기:
+    <a href="https://developer.mozilla.org/ko/docs/Web/HTML/Element/a">a 태그(링크) 공식 설명서(MDN)</a>
+    /
+    <a href="https://developer.mozilla.org/ko/docs/Web/HTML/Element/img">img 태그(이미지) 공식 설명서(MDN)</a>
+  </p>
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* 페이지 전체 기본 정리 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  background: #f5f6f8;
+  color: #222;
+}
+
+/* 가운데 정렬되는 본문 영역 */
+.wrap {
+  max-width: 360px;
+  margin: 60px auto;
+  padding: 28px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.hint {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+/* 폼 안의 항목들을 위에서 아래로 쌓기 */
+.greet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* 이름 입력칸 모양 */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d0d3d8;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #1e88e5;
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+}
+
+/* 인사하기 버튼 */
+.greet-btn {
+  margin-top: 14px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #1e88e5;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.greet-btn:hover {
+  opacity: 0.9;
+}
+
+/* 결과(인사말)가 표시되는 자리 */
+.result {
+  margin: 22px 0 0;
+  min-height: 24px; /* 글자가 없을 때도 자리를 비워둬서 화면이 덜컹거리지 않게 */
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e88e5;
+}

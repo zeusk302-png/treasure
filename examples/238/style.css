@@ -1,0 +1,118 @@
+/* 이 파일은 index.html의 모양(색·여백·글꼴)을 꾸며 줍니다.
+   index.html과 같은 저장소(같은 폴더)에 함께 올려야 디자인이 적용됩니다. */
+
+:root {
+  --main: #2563eb;     /* 파랑: Vercel/배포의 느낌 */
+  --bg: #f1f5f9;
+  --text: #1e293b;
+  --muted: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  line-height: 1.6;
+}
+
+.card {
+  max-width: 560px;
+  width: 100%;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 프로필 영역 (가운데 정렬) */
+.profile {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.avatar {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: var(--main);
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  margin: 0 0 4px;
+  color: var(--text);
+}
+
+.role {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* 본문 섹션 */
+section {
+  margin-top: 24px;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+  color: var(--main);
+}
+
+/* 기술 칩 목록 (가로로 줄바꿈) */
+.chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips li {
+  background: #e0e7ff;
+  color: var(--main);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+a {
+  color: var(--main);
+  font-weight: 600;
+}
+
+.badge {
+  margin-top: 28px;
+  padding: 12px;
+  background: #dbeafe;
+  border: 1px solid var(--main);
+  border-radius: 10px;
+  font-weight: 600;
+  color: var(--main);
+  text-align: center;
+}
+
+.foot {
+  color: var(--muted);
+  font-size: 0.9rem;
+}

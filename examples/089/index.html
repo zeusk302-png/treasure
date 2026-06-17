@@ -1,0 +1,203 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 가장 바깥 상자입니다. lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <!-- <head>는 "화면에 안 보이는 정보(설정)" 칸입니다. -->
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. -->
+    <meta charset="UTF-8" />
+
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 브라우저 탭에 표시되는 제목입니다. -->
+    <title>지역 선택 드롭다운 — select와 option</title>
+
+    <!-- 이 실습은 한 파일로 끝내기 위해 간단한 스타일만 head 안에 넣었습니다. (핵심은 select/option이에요) -->
+    <style>
+      /* 글자체와 여백을 살짝 줘서 보기 편하게만 합니다. */
+      body {
+        font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+        max-width: 480px;
+        margin: 40px auto;
+        padding: 0 16px;
+        color: #222;
+      }
+
+      /* 입력칸 한 묶음(라벨 + 드롭다운)을 카드처럼 묶어 구분이 잘 되게 합니다. */
+      .field {
+        margin-bottom: 18px;
+        padding: 14px 16px;
+        border: 1px solid #e2e2e2;
+        border-radius: 10px;
+        background: #fafafa;
+      }
+
+      /* label은 "이 입력칸이 무엇을 묻는지" 알려주는 글자입니다. 굵게 보여줍니다. */
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      /* 드롭다운(select)을 누르기 좋게 넓고 크게 만듭니다. */
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      /* 제출 버튼을 누르기 좋게 크게 만듭니다. */
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        color: #fff;
+        background: #4b7bec;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #3867d6;
+      }
+
+      /* 제출 결과를 보여주는 박스입니다. 처음에는 숨겨 둡니다. */
+      #result {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border: 1px solid #c3e6cb;
+        border-radius: 10px;
+        background: #eafaf0;
+        white-space: pre-line; /* 줄바꿈(\n)을 화면에서 실제 줄바꿈으로 보여줍니다 */
+      }
+
+      .hint {
+        font-size: 13px;
+        color: #666;
+        margin: 6px 0 0;
+      }
+    </style>
+  </head>
+
+  <!-- <body>는 "화면에 실제로 보이는 내용"이 들어가는 칸입니다. -->
+  <body>
+    <h1>지역 선택 드롭다운</h1>
+    <p>
+      보기가 많을 때(예: 시·도 17개)는 동그라미(라디오)를 줄줄이 늘어놓기보다
+      <strong>드롭다운(select)</strong>이 훨씬 깔끔합니다. 평소엔 한 줄만 보이다가,
+      누르면 보기 목록이 펼쳐지는 입력칸이에요.
+      <br />
+      드롭다운은 <code>&lt;select&gt;</code>라는 상자 안에
+      보기 하나하나를 <code>&lt;option&gt;</code>으로 넣어 만듭니다.
+      그리고 특정 <code>option</code>에 <code>selected</code>를 붙이면
+      <strong>처음부터 그 항목이 골라진 상태</strong>로 시작합니다.
+    </p>
+
+    <!--
+      <form>은 입력칸들을 하나로 묶는 상자입니다.
+      여기서는 서버로 보내지 않고(JS로 결과만 보여줌) 선택값을 화면에 표시할 거예요.
+    -->
+    <form id="regionForm">
+
+      <!--
+        [드롭다운 1] 시·도 선택
+        포인트:
+        - <label>의 for="sido" 와 <select>의 id="sido" 를 같은 이름으로 맞췄습니다.
+          그러면 라벨 글자("거주 지역")를 눌러도 드롭다운이 열립니다.
+        - 맨 위 option은 value=""(빈 값)인 안내문입니다. disabled(고를 수 없음) + selected(처음 보임)로
+          "여기서 골라 주세요" 같은 안내를 띄우는 흔한 방법이에요.
+        - 각 option의 value는 "실제로 전달되는 값"이고, 태그 사이 글자는 "사람에게 보이는 글자"입니다.
+      -->
+      <div class="field">
+        <label for="sido">거주 지역 (시·도)</label>
+        <select id="sido" name="sido">
+          <!-- value=""(빈 값)이고 disabled라 고를 수 없는 안내문. selected라서 처음에 이게 보입니다. -->
+          <option value="" disabled selected>-- 지역을 선택하세요 --</option>
+          <option value="서울">서울특별시</option>
+          <option value="부산">부산광역시</option>
+          <option value="대구">대구광역시</option>
+          <option value="인천">인천광역시</option>
+          <option value="광주">광주광역시</option>
+          <option value="대전">대전광역시</option>
+          <option value="울산">울산광역시</option>
+          <option value="세종">세종특별자치시</option>
+          <option value="경기">경기도</option>
+          <option value="강원">강원특별자치도</option>
+          <option value="제주">제주특별자치도</option>
+        </select>
+        <p class="hint">
+          맨 위 "-- 지역을 선택하세요 --"는 <code>disabled selected</code>라서
+          <strong>안내문</strong> 역할만 하고 실제로 고를 수는 없어요.
+        </p>
+      </div>
+
+      <!--
+        [드롭다운 2] 기본 선택값(selected) 체험용
+        포인트: 여기서는 "부산"에 selected를 붙였습니다.
+        그래서 이 드롭다운은 처음 열었을 때부터 "부산"이 골라진 상태로 시작합니다.
+        (가장 많이 고르는 값을 미리 골라 두면 사용자가 편해집니다.)
+      -->
+      <div class="field">
+        <label for="favorite">가장 좋아하는 여행지 (기본값: 부산)</label>
+        <select id="favorite" name="favorite">
+          <option value="서울">서울</option>
+          <!-- selected: 이 항목이 "처음부터 골라진" 상태가 됩니다. -->
+          <option value="부산" selected>부산</option>
+          <option value="강릉">강릉</option>
+          <option value="여수">여수</option>
+          <option value="제주">제주</option>
+        </select>
+        <p class="hint">
+          이 드롭다운은 처음부터 <strong>부산</strong>이 골라져 있죠?
+          <code>&lt;option ... selected&gt;</code> 덕분이에요.
+        </p>
+      </div>
+
+      <!-- type="submit" 버튼을 누르면 form이 "제출"됩니다. -->
+      <button type="submit">선택 확인</button>
+    </form>
+
+    <!-- 제출하면 여기에 고른 값이 표시됩니다. 처음엔 hidden(숨김)으로 안 보입니다. -->
+    <div id="result" hidden></div>
+
+    <!--
+      아래 JavaScript는 "이번 실습의 핵심"은 아닙니다.
+      서버 없이도 '내가 고른 값'을 눈으로 확인하라고 결과를 화면에 보여줄 뿐이에요.
+      드롭다운(select) 자체는 JS 없이도 HTML만으로 잘 작동합니다.
+    -->
+    <script>
+      // 폼(form)과 결과 박스를 가져옵니다.
+      const form = document.getElementById("regionForm");
+      const resultBox = document.getElementById("result");
+
+      // 제출(submit) 이벤트가 일어나면 아래 함수가 실행됩니다.
+      form.addEventListener("submit", function (event) {
+        // 기본 동작(페이지 새로고침/서버 전송)을 막습니다. 우리는 화면에만 보여줄 거예요.
+        event.preventDefault();
+
+        // 드롭다운에서 "지금 골라진 값"은 select 요소의 .value 로 읽습니다.
+        const sido = document.getElementById("sido");
+        const favorite = document.getElementById("favorite");
+
+        // 시·도는 안내문(빈 값)을 그대로 둔 채 제출했을 수 있으니, 안내해 줍니다.
+        const sidoText = sido.value ? sido.value : "(아직 선택 안 함)";
+
+        // 결과 박스에 보기 좋게 출력합니다.
+        resultBox.hidden = false;
+        resultBox.textContent =
+          "선택된 값\n" +
+          "1. 거주 지역(시·도): " + sidoText + "\n" +
+          "2. 좋아하는 여행지: " + favorite.value;
+      });
+    </script>
+  </body>
+
+</html>

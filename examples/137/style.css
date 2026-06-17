@@ -1,0 +1,182 @@
+/* 실습 137 — 내 프로필 카드 (getUser로 읽은 내 정보 보여주기) */
+body {
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  margin: 0;
+  line-height: 1.6;
+  color: #2b2b2b;
+}
+
+/* 헤더: 왼쪽 로고 / 오른쪽 메뉴 (flex space-between) */
+#appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #3a4a5e;
+  color: #fff;
+}
+
+#appHeader .logo {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+#appHeader nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#appHeader nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#appHeader nav a:hover {
+  text-decoration: underline;
+}
+
+#appHeader .user {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* 로그인하러 가기 버튼 (로그아웃 상태) */
+#appHeader .login-btn {
+  padding: 6px 16px;
+  background: #fff;
+  color: #3a4a5e;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* 본문 */
+main {
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  color: #3a4a5e;
+  font-size: 1.4rem;
+}
+
+.hint {
+  color: #777;
+  font-size: 0.92rem;
+}
+
+.hint code {
+  background: #eef3f8;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+/* 프로필 카드 */
+.profile-card {
+  margin-top: 24px;
+  padding: 28px 22px;
+  background: #fff;
+  border: 1px solid #cdd9e6;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(58, 74, 94, 0.08);
+  text-align: center;
+}
+
+.profile-card .loading { color: #999; }
+
+.profile-card .locked {
+  color: #888;
+  margin: 0;
+}
+
+/* 이메일 첫 글자로 만든 동그란 아바타 */
+.profile-card .avatar {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #3a4a5e;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card .email {
+  font-size: 1.15rem;
+  color: #2b2b2b;
+  margin: 0 0 18px;
+  word-break: break-all;
+}
+
+/* 정보 목록 (dt/dd) — 왼쪽 라벨 / 오른쪽 값 */
+.profile-card .info {
+  margin: 0;
+  text-align: left;
+}
+
+.profile-card .info dt {
+  font-size: 0.82rem;
+  color: #8a97a6;
+  margin-top: 12px;
+}
+
+.profile-card .info dd {
+  margin: 2px 0 0;
+  font-size: 0.98rem;
+  word-break: break-all;
+}
+
+.profile-card .info code {
+  background: #eef3f8;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+/* 데모 로그인 박스 */
+.demo-login {
+  margin-top: 28px;
+  padding: 16px;
+  background: #f5f6f7;
+  border-radius: 12px;
+}
+
+.demo-login input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.demo-login button {
+  width: 100%;
+  padding: 12px;
+  background: #3a4a5e;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#msg {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  background: #fdecea;
+  color: #c62828;
+}
+
+#msg.show { display: block; }

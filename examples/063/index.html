@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실시간 글자 수 카운터</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>한 줄 소개 적기</h1>
+    <p class="hint">타이핑할 때마다 아래에 글자 수가 바로바로 표시돼요.</p>
+
+    <!-- 여러 줄 입력칸(textarea) -->
+    <!-- maxlength="100" : 100자를 넘으면 더 이상 입력되지 않습니다 (브라우저가 막아줍니다) -->
+    <label for="message">소개 문구 (최대 100자)</label>
+    <textarea
+      id="message"
+      maxlength="100"
+      rows="4"
+      placeholder="여기에 자기소개를 적어보세요"
+    ></textarea>
+
+    <!-- 글자 수가 표시될 자리.
+         처음 값 0/100은 화면이 비어 있을 때를 보여주는 것이고,
+         타이핑이 시작되면 script.js가 이 숫자를 계속 바꿉니다. -->
+    <p class="counter">
+      <span id="count">0</span>/<span id="max">100</span>
+    </p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

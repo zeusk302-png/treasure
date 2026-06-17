@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 프로필 카드 — 로그인한 사람의 이메일·가입일 보여주기 실습</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 공통 헤더: 로그인 상태면 이메일이, 아니면 '로그인하러 가기'가 보입니다. -->
+  <header id="appHeader"></header>
+
+  <main>
+    <h1>내 프로필 (마이페이지)</h1>
+    <p class="hint">
+      이 페이지는 <strong>지금 로그인한 사람이 누구인지</strong>를 읽어서 카드로 보여줍니다.<br />
+      Supabase의 <code>getUser()</code>로 현재 사용자의 <strong>이메일·가입 시각·user id</strong>를 가져옵니다.
+    </p>
+
+    <!-- ★ 이번 실습의 결과물: 로그인한 사람의 정보가 채워질 프로필 카드 -->
+    <section id="profileCard" class="profile-card">
+      <p class="loading">불러오는 중…</p>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────
+         아래 데모 로그인 박스는 '프로필을 보려면 먼저 로그인부터'
+         하기 편하라고 넣은 보조 장치입니다.
+         실제 서비스에서 로그인은 login.html(실습 132)에서 합니다.
+    ─────────────────────────────────────────────────────────── -->
+    <div class="demo-login" id="demoLogin">
+      <p><strong>내 프로필을 보려면 먼저 로그인하세요</strong></p>
+      <form id="loginForm">
+        <input id="email" type="email" placeholder="이메일" required />
+        <input id="password" type="password" placeholder="비밀번호" required />
+        <button type="submit">로그인</button>
+      </form>
+      <div id="msg"></div>
+    </div>
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 이번 실습의 결과물: getUser로 내 정보를 읽어 카드를 그리는 스크립트 -->
+  <script src="app.js"></script>
+</body>
+</html>

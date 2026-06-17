@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이름 입력하면 인사말 출력하기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>인사말 만들기</h1>
+    <p class="hint">이름을 적고 버튼을 누르면 인사말이 나타나요.</p>
+
+    <!-- onsubmit="return false;" : 엔터를 눌러도 페이지가 새로고침되지 않게 막아줍니다 -->
+    <form class="greet-form" onsubmit="return false;">
+      <label for="nameInput">이름</label>
+
+      <!-- 사용자가 글자를 적는 칸. JS는 id로 이 칸을 찾아 value(적힌 값)를 읽습니다 -->
+      <input
+        type="text"
+        id="nameInput"
+        placeholder="예) 세영"
+        autocomplete="off"
+      />
+
+      <!-- 이 버튼을 누르면 script.js가 입력값을 읽어 인사말을 만듭니다 -->
+      <button type="button" id="greetBtn" class="greet-btn">인사하기</button>
+    </form>
+
+    <!-- 만들어진 인사말이 여기에 표시됩니다. 처음에는 비어 있습니다 -->
+    <p id="result" class="result" aria-live="polite"></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

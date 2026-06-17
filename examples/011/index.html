@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>용어 사전(설명 목록) 만들기</title>
+</head>
+<body>
+  <h1>나만의 웹 용어 사전</h1>
+  <p>
+    아래는 <code>&lt;dl&gt;</code> 태그로 만든 "설명 목록(용어 사전)"입니다.
+    용어 하나에 설명 하나가 짝지어진 형태예요.
+  </p>
+
+  <!--
+    핵심: 설명 목록은 "용어 + 그 용어의 설명"이 짝을 이루는 목록이에요.
+    사전, 용어 정리, FAQ, 항목 설명표처럼 "이건 무엇이다"를 적을 때 딱 맞습니다.
+
+    태그 3개가 한 세트로 움직여요:
+    - <dl> : Description List. 설명 목록 전체를 감싸는 "바구니". (dl = 설명 목록)
+    - <dt> : Description Term. 설명할 "용어(제목)". (dt = 용어, 굵게 보임)
+    - <dd> : Description Details. 그 용어의 "설명(내용)". (dd = 설명, 한 칸 들여써짐)
+
+    순서: <dl> 안에 <dt>(용어) 한 줄, 바로 아래 <dd>(설명) 한 줄. 이걸 반복합니다.
+    브라우저는 <dt> 를 왼쪽 끝에, <dd> 를 안쪽으로 들여써서 사전처럼 보여줍니다.
+  -->
+
+  <!-- 용어 사전 본문: 용어(dt) 1개 + 설명(dd) 1개가 한 짝 -->
+  <dl>
+    <dt>HTML</dt>
+    <dd>웹페이지의 "뼈대"를 만드는 언어입니다. 제목, 글, 사진, 링크처럼 "무엇이 있는지"를 적습니다.</dd>
+
+    <dt>CSS</dt>
+    <dd>웹페이지의 "꾸미기"를 담당합니다. 글자 색, 크기, 배치, 여백처럼 "어떻게 보일지"를 정합니다.</dd>
+
+    <dt>자바스크립트(JavaScript)</dt>
+    <dd>웹페이지를 "움직이게" 만드는 언어입니다. 버튼을 누르면 반응하는 것 같은 동작을 담당합니다.</dd>
+
+    <dt>브라우저(Browser)</dt>
+    <dd>웹페이지를 열어서 보여주는 프로그램입니다. 크롬, 엣지, 사파리 등이 있습니다.</dd>
+  </dl>
+
+  <hr />
+
+  <h2>한 용어에 설명이 여러 개일 수도 있어요</h2>
+  <p>
+    하나의 용어(<code>&lt;dt&gt;</code>) 아래에 설명(<code>&lt;dd&gt;</code>)을
+    여러 개 적을 수도 있습니다. 아래 "태그"가 그 예입니다.
+  </p>
+
+  <dl>
+    <dt>태그(Tag)</dt>
+    <dd>HTML에서 명령을 적는 단위입니다. 보통 여는 것과 닫는 것이 짝을 이룹니다.</dd>
+    <dd>예: <code>&lt;p&gt;안녕하세요&lt;/p&gt;</code> 처럼 <code>&lt;p&gt;</code> 로 열고 <code>&lt;/p&gt;</code> 로 닫습니다.</dd>
+  </dl>
+
+  <hr />
+
+  <p>
+    더 알아보기:
+    <a href="https://developer.mozilla.org/ko/docs/Web/HTML/Element/dl">dl 설명 목록 공식 설명서(MDN)</a>
+  </p>
+</body>
+</html>

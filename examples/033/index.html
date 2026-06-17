@@ -1,0 +1,155 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>flexbox로 버튼 3개 가로로 나란히 놓기</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /* 페이지 전체의 기본 모양입니다. 글꼴은 시스템 기본 고딕을 쓰고, 배경은 옅은 회색으로 둡니다. */
+      body {
+        font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+        background-color: #f7f8fa;
+        color: #2b2b2b;
+        margin: 0;
+        padding: 40px 20px;
+        line-height: 1.6;
+      }
+
+      /* 본문을 가운데로 모으고 너무 넓게 퍼지지 않게 폭을 제한합니다. */
+      .page {
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 26px;
+        margin: 0 0 8px 0;
+      }
+
+      .lead {
+        color: #6b7280;
+        margin: 0 0 28px 0;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin: 32px 0 10px 0;
+        padding-top: 18px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      /* 버튼 3개의 공통 모양입니다. 색만 다르게 줄 거라 모양은 여기서 한 번에 정합니다. */
+      .btn {
+        padding: 12px 20px;
+        font-size: 15px;
+        color: #ffffff;
+        border: none;            /* 버튼 기본 테두리를 없앱니다. */
+        border-radius: 8px;      /* 모서리를 둥글게 합니다. */
+        cursor: pointer;         /* 마우스를 올리면 손가락 모양이 됩니다. */
+      }
+      /* 버튼마다 다른 색을 줍니다. */
+      .btn-red   { background-color: #ef4444; }
+      .btn-green { background-color: #22c55e; }
+      .btn-blue  { background-color: #3b82f6; }
+
+      /*
+        ★★★ 이번 실습의 핵심: display:flex ★★★
+
+        아무 설정도 안 한 버튼은 '블록'이라 한 줄에 하나씩, 위에서 아래로 쌓입니다.
+        버튼들을 감싸는 '부모 상자(.row)'에 display:flex 한 줄을 주면,
+        그 안의 자식(버튼)들이 '가로로 한 줄에' 나란히 놓입니다.
+
+        - display: flex;     → "이 상자 안의 자식들을 한 줄로 정렬해" 라는 뜻입니다.
+        - flex-direction: row;  → 정렬 방향을 '가로(→)'로 한다는 뜻입니다.
+                                  사실 row(가로)가 기본값이라 안 써도 가로가 되지만,
+                                  처음 배울 때는 방향을 눈으로 보려고 일부러 적었습니다.
+                                  (이걸 column 으로 바꾸면 다시 세로로 쌓입니다.)
+        - gap: 12px;         → 자식들 사이의 간격입니다. 버튼끼리 딱 붙지 않게 띄웁니다.
+      */
+      .row {
+        display: flex;          /* ← 이 한 줄이 버튼을 가로로 만듭니다. (핵심!) */
+        flex-direction: row;    /* ← 정렬 방향: 가로(→). 기본값이라 생략 가능. */
+        gap: 12px;              /* ← 버튼 사이 간격 */
+
+        /* 어디가 'flex 상자'인지 눈에 잘 보이게 옅은 테두리와 배경을 줍니다. (연출용) */
+        background-color: #ffffff;
+        border: 1px dashed #cbd5e1;
+        border-radius: 10px;
+        padding: 16px;
+      }
+
+      /*
+        ★ 비교용 상자 (.row-block) ★
+        위의 .row 와 내용물(버튼 3개)은 똑같지만, display:flex 를 '주지 않은' 상자입니다.
+        display 설정이 없으면 버튼들이 한 줄로 안 모이고 세로로 쌓이는 것을 보여 주기 위한 비교군입니다.
+      */
+      .row-block {
+        /* display:flex 가 없습니다. 그래서 버튼들이 세로로 쌓입니다. */
+        background-color: #ffffff;
+        border: 1px dashed #cbd5e1;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      /* 세로로 쌓일 때 버튼들이 위아래로 딱 붙지 않게 아래 여백만 살짝 줍니다. */
+      .row-block .btn {
+        margin-bottom: 8px;
+      }
+
+      /* 본문 안에서 코드처럼 보여 줄 작은 글자를 표시합니다. */
+      code {
+        background-color: #eef2ff;
+        color: #3730a3;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 90%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+
+      <h1>flexbox로 버튼 3개 가로로 나란히 놓기</h1>
+      <p class="lead">
+        버튼을 감싸는 <strong>부모 상자</strong>에 <code>display: flex;</code> 한 줄만 주면
+        안에 든 버튼들이 가로로 나란히 줄을 섭니다. 두 상자를 비교해 보세요.
+      </p>
+
+      <h2>① display:flex 를 준 상자 — 가로로 나란히</h2>
+      <p>
+        아래 상자에는 <code>display: flex;</code> 가 들어 있어서 버튼 3개가
+        <strong>한 줄에 가로로</strong> 놓입니다.
+      </p>
+      <!-- 이 div(.row)가 'flex 상자(부모)'입니다. 안의 버튼 3개가 자식입니다. -->
+      <div class="row">
+        <button class="btn btn-red">빨강</button>
+        <button class="btn btn-green">초록</button>
+        <button class="btn btn-blue">파랑</button>
+      </div>
+
+      <h2>② display:flex 가 없는 상자 — 세로로 쌓임</h2>
+      <p>
+        버튼은 똑같지만 이 상자에는 <code>display: flex;</code> 가
+        <strong>없습니다</strong>. 그래서 버튼들이 위에서 아래로 하나씩 쌓입니다.
+        이 차이가 바로 flex의 역할입니다.
+      </p>
+      <!-- 이 div(.row-block)에는 display:flex 가 없습니다. 그래서 버튼이 세로로 쌓입니다. -->
+      <div class="row-block">
+        <button class="btn btn-red">빨강</button>
+        <button class="btn btn-green">초록</button>
+        <button class="btn btn-blue">파랑</button>
+      </div>
+
+    </div>
+  </body>
+
+</html>
