@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 — Supabase 실습</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 520px; margin: 40px auto; padding: 0 16px; line-height: 1.6; }
+    h1 { color: #7b5e3b; }
+    input, textarea { width: 100%; padding: 9px; margin: 6px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+    button { padding: 10px 18px; background: #7b5e3b; color: #fff; border: 0; border-radius: 999px; cursor: pointer; }
+    .entry { border-bottom: 1px dashed #ddd; padding: 12px 0; }
+    .entry .who { font-weight: 600; }
+    .entry .when { color: #999; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>방명록</h1>
+
+  <form id="form">
+    <input id="name" placeholder="이름" required />
+    <textarea id="message" placeholder="한마디 남겨주세요" rows="3" required></textarea>
+    <button type="submit">남기기</button>
+  </form>
+
+  <h2>남겨진 글</h2>
+  <div id="list">불러오는 중…</div>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // 아래 두 값을 내 Supabase 프로젝트 값으로 바꾸세요.
+    // (Settings → API). anon 키는 공개돼도 되는 '출입증'이라 여기 둬도 됩니다.
+    const SUPABASE_URL = "https://여기에-내-프로젝트.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_여기에-내-anon-키";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const listEl = document.getElementById('list');
+
+    async function loadEntries() {
+      const { data, error } = await db
+        .from('guestbook')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) { listEl.textContent = '에러: ' + error.message; return; }
+      listEl.innerHTML = data.map(function (row) {
+        return '<div class="entry"><div class="who">' + escapeHtml(row.name) +
+               '</div><div>' + escapeHtml(row.message) +
+               '</div><div class="when">' + new Date(row.created_at).toLocaleString('ko-KR') +
+               '</div></div>';
+      }).join('') || '아직 글이 없어요.';
+    }
+
+    document.getElementById('form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !message) return;
+      const { error } = await db.from('guestbook').insert({ name: name, message: message });
+      if (error) { alert('저장 실패: ' + error.message); return; }
+      e.target.reset();
+      loadEntries();
+    });
+
+    // 사용자가 넣은 글에 태그가 끼어들지 않도록 최소한의 안전 처리
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    loadEntries();
+  </script>
+</body>
+</html>
