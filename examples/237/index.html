@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+  실습 237 — 포트폴리오에 프로필 사진·기술스택 뱃지·CSS 카드 스타일 입히기
+  - HTML은 "내용과 구조"만 담고, 꾸미기(색·여백·테두리·그림자)는 모두 style.css에서 합니다.
+  - 서버도 데이터베이스도 필요 없습니다. 이 파일을 더블클릭하면 바로 열립니다.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서도 글자/박스가 알맞게 보이도록 하는 한 줄 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김세영 · 포트폴리오</title>
+  <!-- 같은 폴더의 style.css 파일을 불러옵니다. 이 줄이 있어야 꾸미기가 적용됩니다. -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- main: 페이지의 "본문 한 덩어리"라는 의미의 시맨틱 태그 -->
+  <main class="page">
+
+    <!-- ① 카드 한 장 = 하나의 흰 박스. CSS에서 .card 에 테두리/그림자/둥근모서리를 줍니다. -->
+    <section class="card profile">
+      <!--
+        프로필 사진.
+        - src 에 본인 사진 파일명을 넣으면 됩니다(예: src="me.jpg").
+        - 지금은 사진 파일이 없어도 깨져 보이지 않도록, 글자가 들어간 임시 이미지(placeholder) 주소를 씁니다.
+        - alt 는 사진이 안 뜰 때 대신 보일 설명글입니다(접근성·SEO에 중요).
+      -->
+      <img
+        class="avatar"
+        src="https://placehold.co/160x160/2563eb/ffffff?text=ME"
+        alt="김세영 프로필 사진"
+      />
+      <h1 class="name">김세영</h1>
+      <p class="tagline">웹으로 문제를 푸는 걸 좋아하는 비전공 출신 메이커</p>
+      <p class="bio">
+        부산에서 코딩을 배우는 중입니다. AI에게 잘 시키는 법을 익혀
+        작은 서비스를 직접 만들고 배포하는 것을 목표로 하고 있습니다.
+      </p>
+    </section>
+
+    <!-- ② 기술스택 뱃지 카드. ul/li 목록을 CSS로 "알약 모양 뱃지"가 가로로 나열되게 꾸밉니다. -->
+    <section class="card">
+      <h2 class="section-title">기술 스택</h2>
+      <ul class="badges">
+        <li class="badge">HTML</li>
+        <li class="badge">CSS</li>
+        <li class="badge">JavaScript</li>
+        <li class="badge">Supabase</li>
+        <li class="badge">Vercel</li>
+        <li class="badge">n8n</li>
+      </ul>
+    </section>
+
+    <!-- ③ 연락처 카드 -->
+    <section class="card">
+      <h2 class="section-title">연락처</h2>
+      <ul class="contact">
+        <li>Email: <a href="mailto:zeusk302@gmail.com">zeusk302@gmail.com</a></li>
+        <li>GitHub: <a href="https://github.com/" target="_blank" rel="noopener">github.com/내아이디</a></li>
+      </ul>
+    </section>
+
+    <footer class="footer">© 2026 김세영 · HTML/CSS로 만든 한 페이지 포트폴리오</footer>
+  </main>
+</body>
+</html>

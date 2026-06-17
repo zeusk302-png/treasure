@@ -1,0 +1,208 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>구글 폰트로 제목·본문 타이포그래피 꾸미기</title>
+
+    <!--
+      ★ 이번 실습의 핵심 1단계: 구글 폰트 불러오기 ★
+      아래 <link> 세 줄은 Google Fonts(무료 웹폰트 창고)에서 폰트 파일을 가져오는 '주문서'입니다.
+      이 줄들이 있어야 내 컴퓨터에 깔려 있지 않은 폰트도 방문자 화면에 똑같이 보입니다.
+      - 앞의 두 줄(preconnect)은 "폰트 서버랑 미리 연결해 둬" 라는 속도 최적화입니다. (그대로 두면 됩니다)
+      - 세 번째 줄이 진짜 주문서입니다. family=Noto+Sans+KR 은 한글 본문용,
+        family=Black+Han+Sans 는 굵은 한글 제목용 폰트를 주문한다는 뜻입니다.
+        Noto Sans KR 뒤의 :wght@400;700 은 "보통 굵기(400)와 굵은(700) 두 종류를 같이 달라"는 뜻입니다.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /*
+        ★ 이번 실습의 핵심 2단계: 불러온 폰트를 글자에 '적용'하기 ★
+        위에서 <link>로 주문만 했다고 글꼴이 바뀌지는 않습니다.
+        여기서 font-family 로 "이 글자는 그 폰트로 보여줘"라고 지정해야 비로소 적용됩니다.
+      */
+
+      /* 페이지 전체의 기본 글꼴을 '본문용' Noto Sans KR 로 지정합니다.
+         쉼표 뒤 sans-serif 는 '혹시 웹폰트를 못 불러오면 시스템 기본 고딕체라도 써라'는 안전장치(폴백)입니다. */
+      body {
+        font-family: "Noto Sans KR", sans-serif;
+        background-color: #f7f8fa;
+        color: #2b2b2b;
+        /* line-height(줄간격): 글자 크기의 몇 배로 줄 사이를 띄울지입니다.
+           1.0이면 줄이 빽빽해 답답하고, 1.7쯤이면 본문이 시원하게 읽힙니다. 단위 없이 숫자만 쓰는 게 좋습니다. */
+        line-height: 1.7;
+        margin: 0;
+        padding: 40px 20px;
+      }
+
+      /* 본문 영역을 가운데로 모으고 너무 넓게 퍼지지 않게 폭을 제한합니다. (한 줄이 너무 길면 읽기 불편해요) */
+      .page {
+        max-width: 680px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 48px 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      /*
+        ★ 제목 폰트 ★
+        h1(큰 제목)에는 본문과 '다른' 폰트인 Black Han Sans 를 줍니다.
+        이렇게 제목과 본문 폰트를 다르게 쓰면 화면에 위계(리듬)가 생겨 전문적으로 보입니다.
+        Black Han Sans 는 원래 아주 굵은 폰트라 font-weight 를 따로 줄 필요가 없습니다.
+      */
+      h1 {
+        font-family: "Black Han Sans", sans-serif;
+        font-size: 40px;
+        line-height: 1.25;     /* 제목은 글자가 커서 본문(1.7)보다 줄간격을 좁혀야 자연스럽습니다. */
+        color: #1a1a1a;
+        margin: 0 0 8px 0;
+      }
+
+      /* 부제목입니다. 본문 폰트(Noto Sans KR)를 쓰되 굵기를 700(굵게)으로 올려 강조합니다. */
+      h2 {
+        font-family: "Noto Sans KR", sans-serif;
+        font-weight: 700;       /* 700 = 굵게. 위 <link> 주문서에 700을 포함시켰기에 쓸 수 있습니다. */
+        font-size: 22px;
+        line-height: 1.4;
+        color: #333333;
+        margin: 36px 0 12px 0;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      /* 본문 문단입니다. 굵기 400(보통), 줄간격은 body에서 물려받은 1.7 그대로라 읽기 편합니다. */
+      p {
+        font-weight: 400;       /* 400 = 보통 굵기. 본문은 보통 굵기가 눈이 편합니다. */
+        font-size: 16px;
+        color: #444444;
+        margin: 0 0 16px 0;
+      }
+
+      /* 안내 문구(부제) 한 줄입니다. 본문보다 흐린 색으로 톤을 낮춥니다. */
+      .lead {
+        font-size: 18px;
+        color: #6b7280;
+        margin-bottom: 28px;
+      }
+
+      /*
+        ★ 비교용 박스 ★
+        '줄간격이 있고 없고'가 얼마나 다른지 눈으로 보기 위한 두 박스입니다.
+        line-height 차이만 빼면 똑같은 글입니다.
+      */
+      .compare {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;        /* 화면이 좁아지면 두 박스가 위아래로 쌓이게 합니다. */
+        margin-top: 12px;
+      }
+      .compare .card {
+        flex: 1 1 280px;        /* 두 박스가 공간을 나눠 갖되, 좁아지면 줄바꿈됩니다. */
+        background-color: #f3f4f6;
+        border-radius: 8px;
+        padding: 16px 18px;
+        font-size: 15px;
+      }
+      .compare .label {
+        font-weight: 700;
+        font-size: 13px;
+        color: #2563eb;
+        margin-bottom: 8px;
+      }
+      /* 왼쪽 박스: 줄간격이 거의 없어 답답한 예시 */
+      .tight {
+        line-height: 1.1;
+      }
+      /* 오른쪽 박스: 줄간격이 넉넉해 시원한 예시 */
+      .loose {
+        line-height: 1.9;
+      }
+
+      /* 본문 안에서 코드처럼 보여 줄 작은 글자(폰트 이름 등)를 표시합니다. */
+      code {
+        background-color: #eef2ff;
+        color: #3730a3;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 90%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 본문 전체를 흰 카드 하나로 감쌌습니다. -->
+    <div class="page">
+
+      <!-- 제목: Black Han Sans 폰트 + 큰 크기 + 좁은 줄간격 -->
+      <h1>타이포그래피가 화면의 인상을 바꾼다</h1>
+
+      <!-- 부제: 본문 폰트지만 흐린 색으로 -->
+      <p class="lead">
+        제목과 본문에 <strong>다른 폰트</strong>를 쓰고, 본문에 <strong>넉넉한 줄간격</strong>을 주는 것만으로도
+        같은 글이 훨씬 읽기 좋고 전문적으로 보입니다.
+      </p>
+
+      <h2>1. 제목과 본문은 폰트가 다릅니다</h2>
+      <p>
+        이 페이지의 큰 제목은 <code>Black Han Sans</code>(굵은 제목용),
+        지금 읽고 있는 본문은 <code>Noto Sans KR</code>(읽기 편한 본문용)입니다.
+        둘 다 구글 폰트에서 무료로 불러온 것이고, 적용은 CSS의 <code>font-family</code> 한 줄로 합니다.
+        제목과 본문을 살짝 다르게 두면 화면에 '리듬'이 생겨 전문적으로 보입니다.
+      </p>
+
+      <h2>2. 같은 본문도 굵기로 강조가 됩니다</h2>
+      <p>
+        본문은 보통 굵기(<code>font-weight: 400</code>)로 두고, 강조할 단어만
+        <strong>굵게(700)</strong> 처리하면 시선이 자연스럽게 그쪽으로 갑니다.
+        굵기를 쓰려면 위쪽 폰트 주문서(<code>&lt;link&gt;</code>)에 그 굵기를 함께 주문해 두어야 합니다.
+        이 페이지는 <code>:wght@400;700</code>으로 두 굵기를 주문해 뒀습니다.
+      </p>
+
+      <h2>3. 줄간격(line-height)이 가독성을 가른다</h2>
+      <p>
+        아래 두 박스는 <strong>똑같은 글</strong>인데 <code>line-height</code>만 다릅니다.
+        왼쪽은 줄이 빽빽해 답답하고, 오른쪽은 줄 사이가 넉넉해 눈이 편합니다.
+        본문은 보통 <code>1.6 ~ 1.8</code> 사이가 읽기 좋습니다.
+      </p>
+
+      <div class="compare">
+        <!-- 줄간격이 좁은 예시 -->
+        <div class="card tight">
+          <div class="label">line-height: 1.1 (답답함)</div>
+          좋은 글꼴과 적당한 줄간격은 디자인을 몰라도 화면을 깔끔하게 만들어 줍니다.
+          반대로 줄이 빽빽하면 글이 길어 보이고 읽다가 줄을 놓치기 쉽습니다.
+        </div>
+        <!-- 줄간격이 넓은 예시 -->
+        <div class="card loose">
+          <div class="label">line-height: 1.9 (시원함)</div>
+          좋은 글꼴과 적당한 줄간격은 디자인을 몰라도 화면을 깔끔하게 만들어 줍니다.
+          줄 사이가 넉넉하면 한 줄 한 줄이 또렷이 구분되어 훨씬 편하게 읽힙니다.
+        </div>
+      </div>
+
+      <h2>직접 바꿔 보기</h2>
+      <p>
+        이 파일을 메모장이나 VS Code로 열어 <code>body</code>의 <code>line-height: 1.7;</code> 숫자를
+        <code>1.0</code>이나 <code>2.2</code>로 바꿔 저장하고 브라우저를 새로고침(F5)해 보세요.
+        본문 전체의 답답함·시원함이 즉시 달라지는 것을 느낄 수 있습니다.
+      </p>
+
+    </div>
+  </body>
+
+</html>

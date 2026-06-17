@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>책 검색 — 제목·표지 목록</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>📚 책 검색</h1>
+    <p class="lead">검색어를 넣고 검색하면, 공개 도서 API가 보내준 책 목록이 아래에 펼쳐집니다.</p>
+
+    <!-- 검색창과 버튼.
+         form으로 감싸면 키보드 Enter로도 검색이 되도록 만들기 쉽다. -->
+    <form id="searchForm" class="searchBar">
+      <!-- value="해리포터" 로 첫 화면에 예시 검색어를 미리 채워 둔다. -->
+      <input
+        id="keyword"
+        type="text"
+        placeholder="예: 해리포터, 어린왕자, javascript"
+        value="해리포터"
+        autocomplete="off"
+      />
+      <button type="submit">검색</button>
+    </form>
+
+    <!-- 받아오는 중/결과 없음/실패 안내가 들어갈 자리 -->
+    <p id="status" class="status">검색 버튼을 눌러보세요.</p>
+
+    <!-- ★핵심★ API가 돌려준 책 '배열'을 하나씩 펼쳐서
+         이 안에 책 카드(li)를 여러 개 그려 넣는다. 처음에는 빈 칸이다. -->
+    <ul id="bookList" class="bookList"></ul>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

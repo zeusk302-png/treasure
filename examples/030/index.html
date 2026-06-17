@@ -1,0 +1,215 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>그림자 넣은 떠 있는 카드 만들기 (box-shadow)</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /* 페이지 전체의 기본 글꼴과 배경입니다. 본문이 아니라 '꾸미기'라 따로 신경 쓰지 않아도 됩니다. */
+      body {
+        font-family: "맑은 고딕", sans-serif;
+        background-color: #f4f5f7; /* 그림자는 밝은 회색 배경 위에서 가장 잘 보입니다. */
+        padding: 24px;
+        line-height: 1.6;
+        color: #222;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      /* 설명 문단입니다. */
+      .desc {
+        max-width: 760px;
+        color: #555;
+      }
+
+      /*
+        ★ 이번 실습의 핵심 ★
+
+        box-shadow 는 박스 뒤에 '그림자'를 깔아 카드가 종이처럼 떠 있는 느낌을 줍니다.
+        값은 보통 네 가지를 순서대로 적습니다:
+
+            box-shadow:  x   y   blur   색;
+
+        - x (가로 거리) : 그림자를 '오른쪽(+)' 또는 '왼쪽(-)'으로 얼마나 밀지.   예) 0 이면 안 밈
+        - y (세로 거리) : 그림자를 '아래(+)' 또는 '위(-)'로 얼마나 밀지.        예) 8px 이면 아래로 8px
+        - blur (번짐)   : 그림자 가장자리를 얼마나 '부드럽게 흐리게' 할지.       예) 0 이면 칼처럼 또렷, 클수록 뿌옇게
+        - 색            : 그림자 색. 보통 'rgba(0,0,0, 투명도)'로 검정에 투명도를 줘 자연스럽게 만듭니다.
+
+        rgba(0, 0, 0, 0.2) 는 "검정색을 20%만 진하게(80% 투명하게)"라는 뜻입니다.
+        투명도 숫자(맨 뒤)가 작을수록 그림자가 옅고, 클수록 진합니다.
+      */
+
+      /* 카드 4장을 가로로 나란히, 화면이 좁으면 줄바꿈되게 늘어놓는 칸입니다. (이번 주제 아님 — 그냥 배치용) */
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        margin-top: 28px;
+        margin-bottom: 36px;
+      }
+
+      /* 네 카드의 공통 모양입니다. 차이는 오직 box-shadow 한 줄뿐입니다. */
+      .card {
+        width: 220px;
+        padding: 24px;
+        background-color: #ffffff; /* 흰 카드여야 회색 배경 위에서 그림자가 잘 보입니다. */
+        border-radius: 12px;       /* 모서리를 둥글게 — 그림자도 둥근 모서리를 따라갑니다. */
+      }
+
+      .card h2 {
+        font-size: 17px;
+        margin: 0 0 8px;
+      }
+
+      .card code {
+        display: block;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #1f5fd1;
+        word-break: break-all; /* 긴 값이 카드 밖으로 넘치지 않게 줄바꿈 */
+      }
+
+      /*
+        1번 카드 — 그림자 없음(비교용 기준)
+        그림자가 없으면 카드가 배경에 '붙어' 있는 듯 평평하게 보입니다.
+        box-shadow: none; 은 "그림자 없음"이라는 뜻입니다.
+      */
+      .card-1 {
+        box-shadow: none;
+      }
+
+      /*
+        2번 카드 — 또렷한 그림자 (blur = 0)
+        아래로 8px 내린 자리에, 번짐 0 → 가장자리가 칼처럼 또렷한 그림자가 깔립니다.
+        값 읽는 법:  x=0(안 밈)  y=8px(아래로)  blur=0(또렷)  색=검정 25%
+      */
+      .card-2 {
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25);
+      }
+
+      /*
+        3번 카드 — 부드럽게 떠 있는 그림자 (blur 큼)  ← 실무에서 가장 많이 쓰는 모양
+        2번과 x·y는 같지만 blur 를 16px 로 키워 가장자리를 뿌옇게 번지게 했습니다.
+        그래서 카드가 종이처럼 살짝 '떠 있는' 느낌이 납니다.
+        값 읽는 법:  x=0  y=8px(아래로)  blur=16px(많이 번짐)  색=검정 18%
+      */
+      .card-3 {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+      }
+
+      /*
+        4번 카드 — 더 높이 떠 있는 그림자
+        y를 16px로, blur를 32px로 더 키우면 그림자가 더 아래·더 넓게 퍼져
+        카드가 화면에서 '더 높이' 떠 있는 것처럼 보입니다.
+        값이 클수록 = 더 높이 떠 있는 느낌, 이라고 기억하면 쉽습니다.
+        값 읽는 법:  x=0  y=16px(아래로 더 많이)  blur=32px(아주 많이 번짐)  색=검정 22%
+      */
+      .card-4 {
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+      }
+
+      /* 아래는 '하나하나 조절해보기' 실험용 큰 카드입니다. */
+      .playground {
+        max-width: 760px;
+        margin-top: 8px;
+        padding: 28px;
+        background-color: #ffffff;
+        border-radius: 14px;
+        /* x=6px(오른쪽)  y=10px(아래)  blur=24px(부드럽게)  색=검정 20% */
+        box-shadow: 6px 10px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      .playground h2 {
+        margin-top: 0;
+        font-size: 18px;
+      }
+
+      .legend {
+        max-width: 760px;
+        margin-top: 28px;
+        padding: 16px 20px;
+        background-color: #eef2ff;
+        border-left: 4px solid #4c6ef5;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #333;
+      }
+      .legend code {
+        color: #1f5fd1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>box-shadow: 카드에 그림자를 넣어 '떠 있게' 만들기</h1>
+
+    <p class="desc">
+      아래 네 카드는 <strong>모양·크기·색이 모두 똑같습니다.</strong> 다른 점은 단 한 줄,
+      <code>box-shadow</code> 값뿐입니다. 그림자 값은 보통
+      <code>x(가로) y(세로) blur(번짐) 색</code> 순서로 적습니다. 왼쪽부터 오른쪽으로 갈수록
+      그림자가 더 부드럽고 멀어져, 카드가 점점 더 <strong>높이 떠 있는</strong> 느낌이 나는 것을 비교해 보세요.
+    </p>
+
+    <div class="row">
+      <!-- 1번: 그림자 없음 — 평평하게 붙어 보임 -->
+      <div class="card card-1">
+        <h2>1 · 그림자 없음</h2>
+        <p>평평하게 배경에 붙어 보여요.</p>
+        <code>box-shadow: none;</code>
+      </div>
+
+      <!-- 2번: blur 0 — 또렷한 그림자 -->
+      <div class="card card-2">
+        <h2>2 · 또렷한 그림자</h2>
+        <p>blur가 0이라 가장자리가 칼처럼 또렷해요.</p>
+        <code>box-shadow: 0 8px 0 rgba(0,0,0,.25);</code>
+      </div>
+
+      <!-- 3번: blur 큼 — 부드럽게 떠 있는 그림자 (실무에서 가장 많이 씀) -->
+      <div class="card card-3">
+        <h2>3 · 부드럽게 떠 있음</h2>
+        <p>blur가 커서 종이처럼 살짝 떠 보여요.</p>
+        <code>box-shadow: 0 8px 16px rgba(0,0,0,.18);</code>
+      </div>
+
+      <!-- 4번: y·blur 더 큼 — 더 높이 떠 있는 그림자 -->
+      <div class="card card-4">
+        <h2>4 · 더 높이 떠 있음</h2>
+        <p>y와 blur가 더 커서 더 높이 뜬 느낌이에요.</p>
+        <code>box-shadow: 0 16px 32px rgba(0,0,0,.22);</code>
+      </div>
+    </div>
+
+    <!-- 실험용 카드: 값을 직접 바꿔보며 그림자가 어떻게 변하는지 익히는 곳 -->
+    <div class="playground">
+      <h2>직접 바꿔보는 실험용 카드</h2>
+      <p>
+        이 카드의 그림자는 <code>box-shadow: 6px 10px 24px rgba(0, 0, 0, 0.2);</code> 입니다.
+        x를 6px 줘서 그림자가 살짝 <strong>오른쪽</strong>으로, y를 10px 줘서 <strong>아래쪽</strong>으로 밀려 있습니다.
+        <br />
+        파일을 열어 이 숫자들을 바꿔 저장하고 새로고침하면, 그림자가 어디로 어떻게 움직이는지 바로 보입니다.
+      </p>
+    </div>
+
+    <div class="legend">
+      <strong>그림자 값 읽는 법 한눈에:</strong>
+      <code>box-shadow: x y blur 색;</code><br />
+      · <strong>x</strong> = 그림자를 오른쪽(+)/왼쪽(-)으로 미는 거리 ·
+      <strong>y</strong> = 아래(+)/위(-)로 미는 거리 ·
+      <strong>blur</strong> = 가장자리를 흐리게 번지는 정도(클수록 뿌옇게) ·
+      <strong>색</strong> = 보통 <code>rgba(0,0,0,0.2)</code>처럼 검정 + 투명도(작을수록 옅음)
+    </div>
+  </body>
+
+</html>

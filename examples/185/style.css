@@ -1,0 +1,101 @@
+/*
+  이 실습의 핵심은 '제목 위계(의미 구조)'이지 디자인이 아닙니다.
+  그래도 단계가 눈에 들어오도록, h1·h2·h3에 살짝 다른 스타일만 줍니다.
+  중요: 제목을 '크게 보이려고' 고르면 안 되듯, 크기는 CSS가 담당합니다.
+*/
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  line-height: 1.7;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: #222;
+}
+
+/* h1: 페이지 대제목 — 가장 크고, 아래에 굵은 선 */
+main h1 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #f3b14a;
+  color: #c9760f;
+}
+
+/* h2: 큰 단원 — 왼쪽에 색 막대를 붙여 단계가 보이게 */
+main h2 {
+  font-size: 1.4rem;
+  margin: 32px 0 8px;
+  padding-left: 10px;
+  border-left: 5px solid #f3b14a;
+  color: #b5680d;
+}
+
+/* h3: 세부 항목 — h2보다 한 단계 작고 살짝 들여쓰기 */
+main h3 {
+  font-size: 1.1rem;
+  margin: 18px 0 6px 12px;
+  color: #555;
+}
+
+main p {
+  margin: 0 0 8px 12px;
+}
+
+/* ---- 아래는 학습 설명 영역(결과물 아님) 전용 스타일 ---- */
+
+.lesson {
+  margin-top: 56px;
+  padding: 20px;
+  background: #f7f7f7;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+}
+
+.lesson h2 {
+  font-size: 1.15rem;
+  margin-top: 24px;
+  border-left: none;
+  padding-left: 0;
+  color: #333;
+}
+
+.lesson h2:first-child {
+  margin-top: 0;
+}
+
+.tree {
+  font-family: "D2Coding", Consolas, "Courier New", monospace;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 14px 16px;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+code {
+  background: #eee;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.compare th,
+.compare td {
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare th {
+  background: #efe6d6;
+}

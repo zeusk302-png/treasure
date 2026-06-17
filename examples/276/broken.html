@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 동네 카페 — (고장난 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f1ea;
+      color: #2b2b2b;
+    }
+    /* 가운데 정렬된 본문 상자 */
+    .container {
+      max-width: 720px;
+      margin: 40px auto;        /* 좌우 auto = 화면 가운데로 */
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    .card {
+      border: 1px solid #e5e0d5;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 16px;
+      background: #fbfaf6;
+    }
+    h1 { margin-top: 0; color: #6b4f2a; }
+    .price { font-weight: bold; color: #a9772f; }
+    footer { text-align: center; color: #999; margin: 24px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>우리 동네 카페</h1>
+    <p>매일 아침 직접 볶은 원두로 내리는 작은 카페입니다.</p>
+
+    <div class="card">
+      <h2>오늘의 메뉴</h2>
+      <p>핸드드립 커피 — <span class="price">4,500원</span></p>
+      <!-- BUG: 여기서 첫 번째 .card 상자를 닫는 닫는태그(div 닫기)가 빠져 있습니다 -->
+
+    <div class="card">
+      <h2>찾아오시는 길</h2>
+      <p>부산광역시 어딘가 1길 23, 1층</p>
+    </div>
+  </div>
+
+  <footer>© 2026 우리 동네 카페</footer>
+</body>
+</html>

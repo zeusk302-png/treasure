@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비밀번호 보기/가리기 토글</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>로그인</h1>
+    <p class="hint">눈 아이콘을 누르면 비밀번호를 보거나 가릴 수 있어요.</p>
+
+    <form class="login-form" onsubmit="return false;">
+      <!-- 보통 입력칸 (참고용) -->
+      <label for="email">이메일</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="you@example.com"
+        autocomplete="username"
+      />
+
+      <!-- 비밀번호 입력칸 + 눈 버튼을 한 칸 안에 같이 둡니다 -->
+      <label for="password">비밀번호</label>
+      <div class="password-field">
+        <!-- 처음엔 type="password"라서 점(●●●)으로 가려져 보입니다 -->
+        <input
+          type="password"
+          id="password"
+          placeholder="비밀번호를 입력하세요"
+          autocomplete="current-password"
+        />
+
+        <!-- 이 버튼을 누르면 위 입력칸의 type을 바꿉니다 (핵심!) -->
+        <!-- aria-pressed: 지금 보이는 상태인지(true) 가린 상태인지(false)를 알려줍니다 -->
+        <button
+          type="button"
+          id="toggleBtn"
+          class="toggle-btn"
+          aria-label="비밀번호 보기"
+          aria-pressed="false"
+        >
+          <!-- 가린 상태일 때 보여줄 아이콘(눈 위 빗금). 보이는 상태가 되면 JS가 바꿉니다 -->
+          <span id="toggleIcon" aria-hidden="true">🙈</span>
+        </button>
+      </div>
+
+      <button type="submit" class="submit-btn">로그인</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

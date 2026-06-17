@@ -1,6 +1,6 @@
 # 실습 300선 — 1년 커리큘럼
 
-> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 46 / 305 준비됨)**
+> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 62 / 305 준비됨)**
 
 !!! tip "난이도 읽는 법"
     ★ 입문 · ★★ 기초 · ★★★ 중급 · ★★★★ 응용 · ★★★★★ 종합·프로젝트
@@ -35,8 +35,8 @@
 | 005 | 라면 끓이는 순서(번호 목록) 만들기 | ol과 li로 1·2·3 번호가 자동으로 붙는 조리 순서 페이지를 만들며 순서 있는 목록을 익힌다 | ★☆☆☆☆ | 순서 있는 목록(ol/li) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/005) |
 | 006 | 굵게·기울임·강조로 문장 꾸미기 | strong·em·br을 사용해 한 문단 안에서 단어를 강조하고 줄을 바꾸며 인라인 텍스트 태그의 의미를 익힌다 | ★☆☆☆☆ | 강조 태그(strong/em), 줄바꿈(br) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/006) |
 | 007 | 다른 사이트로 가는 링크 모음 페이지 | a 태그의 href로 좋아하는 사이트 3곳으로 이동하는 링크 페이지를 만들며 외부 링크의 작동 원리를 익힌다 | ★★☆☆☆ | 하이퍼링크(a/href) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/007) |
-| 008 | 새 탭에서 열리는 링크와 메일 보내기 링크 만들기 | target="_blank"로 새 탭 링크를, mailto로 메일 작성 링크를 만들며 링크 속성과 특수 링크를 익힌다 | ★★☆☆☆ | link target, mailto | 준비중 |
-| 009 | 이미지 한 장 넣고 설명(alt) 달기 | img 태그로 사진을 띄우고 src·alt·width를 설정하며 이미지 삽입과 대체 텍스트의 중요성을 익힌다 | ★★☆☆☆ | 이미지(img), src/alt | 준비중 |
+| 008 | 새 탭에서 열리는 링크와 메일 보내기 링크 만들기 | target="_blank"로 새 탭 링크를, mailto로 메일 작성 링크를 만들며 링크 속성과 특수 링크를 익힌다 | ★★☆☆☆ | link target, mailto | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/008) |
+| 009 | 이미지 한 장 넣고 설명(alt) 달기 | img 태그로 사진을 띄우고 src·alt·width를 설정하며 이미지 삽입과 대체 텍스트의 중요성을 익힌다 | ★★☆☆☆ | 이미지(img), src/alt | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/009) |
 | 010 | 사진을 클릭하면 링크로 이동하는 카드 만들기 | a 태그 안에 img를 넣어 클릭 가능한 이미지 링크를 만들며 태그 중첩(nesting) 구조를 익힌다 | ★★☆☆☆ | 태그 중첩, 이미지 링크 | 준비중 |
 | 011 | 용어 사전(설명 목록) 만들기 | dl·dt·dd로 'HTML이란?' 같은 용어와 설명이 짝지어진 사전형 목록을 만들며 설명 목록 구조를 익힌다 | ★★☆☆☆ | 설명 목록(dl/dt/dd) | 준비중 |
 | 012 | 메뉴 안에 메뉴(중첩 목록)로 사이트 메뉴 만들기 | ul 안에 또 ul을 넣어 대분류·소분류가 있는 메뉴 트리를 만들며 목록 중첩과 들여쓰기 구조를 익힌다 | ★★☆☆☆ | 중첩 목록 | 준비중 |
@@ -62,8 +62,8 @@
 | 027 | 박스에 여백(margin)과 안쪽 여백(padding) 주기 | div 박스 하나에 margin과 padding을 다르게 줘보며 '바깥 여백 vs 안쪽 여백' 차이를 눈으로 확인한다 | ★☆☆☆☆ | margin, padding | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/027) |
 | 028 | 테두리·둥근 모서리 가진 명함 박스 만들기 | border, border-radius, width/height로 이름과 직함이 담긴 명함 모양 박스를 만들며 박스의 외형 속성을 익힌다 | ★☆☆☆☆ | border, border-radius, width/height | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/028) |
 | 029 | box-sizing으로 박스 크기 계산 이해하기 | border-box와 content-box를 비교해보며 padding/border가 박스 전체 크기에 어떻게 더해지는지 박스모델 원리를 이해한다 | ★★☆☆☆ | box-sizing, 박스모델 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/029) |
-| 030 | 그림자 넣은 떠 있는 카드 만들기 | box-shadow로 카드에 그림자를 넣어 입체감을 주며 그림자 값(x, y, blur, 색)의 의미를 익힌다 | ★★☆☆☆ | box-shadow | 준비중 |
-| 031 | 구글 폰트로 제목·본문 타이포그래피 꾸미기 | Google Fonts를 불러와 제목과 본문에 다른 폰트·굵기·줄간격을 적용하며 font-family, font-weight, line-height를 익힌다 | ★★☆☆☆ | font-family, line-height, 웹폰트 | 준비중 |
+| 030 | 그림자 넣은 떠 있는 카드 만들기 | box-shadow로 카드에 그림자를 넣어 입체감을 주며 그림자 값(x, y, blur, 색)의 의미를 익힌다 | ★★☆☆☆ | box-shadow | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/030) |
+| 031 | 구글 폰트로 제목·본문 타이포그래피 꾸미기 | Google Fonts를 불러와 제목과 본문에 다른 폰트·굵기·줄간격을 적용하며 font-family, font-weight, line-height를 익힌다 | ★★☆☆☆ | font-family, line-height, 웹폰트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/031) |
 | 032 | 색 팔레트와 CSS 변수로 테마 색 관리하기 | --main-color 같은 CSS 변수(custom property)에 브랜드 색 3~4개를 정의해 페이지 전체에서 재사용하며 색 일관성을 익힌다 | ★★☆☆☆ | CSS 변수, 색 팔레트, var() | 준비중 |
 | 033 | flexbox로 버튼 3개 가로로 나란히 놓기 | display:flex로 부모를 감싸 버튼들을 가로로 배치하며 flex의 기본 동작(주축 정렬)을 처음 경험한다 | ★★☆☆☆ | display:flex, flex-direction | 준비중 |
 | 034 | flexbox로 박스를 화면 정중앙에 놓기 | justify-content와 align-items를 함께 써서 박스 하나를 화면 한가운데에 두며 가로·세로 중앙 정렬을 마스터한다 | ★★☆☆☆ | justify-content, align-items | 준비중 |
@@ -97,8 +97,8 @@
 | 057 | 버튼 클릭으로 화면 글자 바꾸기 | 버튼을 누르면 <p> 안의 텍스트가 다른 문장으로 바뀌게 해서 DOM에서 요소를 골라 내용을 바꾸는 법을 배운다 | ★☆☆☆☆ | getElementById, textContent | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/057) |
 | 058 | 박스 색깔 바꾸기 버튼 3개 만들기 | 빨강·초록·파랑 버튼을 만들어 누르는 색으로 박스 배경색이 바뀌게 해서 style 속성을 JS로 조작한다 | ★☆☆☆☆ | element.style, 이벤트 연결 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/058) |
 | 059 | 다크모드 토글 버튼 만들기 | 버튼 한 번으로 밝은 화면/어두운 화면을 번갈아 바꿔 classList.toggle로 상태를 켜고 끄는 패턴을 익힌다 | ★★☆☆☆ | classList.toggle, CSS 클래스 전환 | 준비중 |
-| 060 | 더보기/접기 텍스트 토글 만들기 | 긴 글을 '더보기' 버튼으로 펼치고 '접기'로 다시 숨겨 요소를 보였다 숨겼다 하는 show/hide를 배운다 | ★★☆☆☆ | hidden 속성, display 토글 | 준비중 |
-| 061 | 비밀번호 보기/가리기 눈 아이콘 토글 | 입력칸의 type을 password↔text로 바꿔 비밀번호를 보였다 가렸다 해 input 속성을 동적으로 바꾸는 법을 익힌다 | ★★☆☆☆ | input type 변경, toggle 상태 | 준비중 |
+| 060 | 더보기/접기 텍스트 토글 만들기 | 긴 글을 '더보기' 버튼으로 펼치고 '접기'로 다시 숨겨 요소를 보였다 숨겼다 하는 show/hide를 배운다 | ★★☆☆☆ | hidden 속성, display 토글 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/060) |
+| 061 | 비밀번호 보기/가리기 눈 아이콘 토글 | 입력칸의 type을 password↔text로 바꿔 비밀번호를 보였다 가렸다 해 input 속성을 동적으로 바꾸는 법을 익힌다 | ★★☆☆☆ | input type 변경, toggle 상태 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/061) |
 | 062 | 이름 입력하면 인사말 출력하기 | 입력칸에 이름을 적고 버튼을 누르면 '○○님 안녕하세요'가 화면에 뜨게 해 사용자 입력값을 읽어 출력한다 | ★★☆☆☆ | input.value, 문자열 결합 | 준비중 |
 | 063 | 실시간 글자 수 카운터 만들기 | 텍스트칸에 타이핑할 때마다 '0/100' 글자 수가 즉시 갱신되게 해 input 이벤트로 실시간 반응을 만든다 | ★★☆☆☆ | input 이벤트, .length | 준비중 |
 | 064 | 체크박스로 '약관 동의' 버튼 활성화하기 | 체크박스를 켜야만 '가입' 버튼이 눌리게 해 checked 상태를 읽어 다른 요소를 제어하는 법을 배운다 | ★★☆☆☆ | checkbox checked, disabled 속성 | 준비중 |
@@ -130,7 +130,7 @@
 |---|---|---|---|---|---|
 | 086 | 이름 한 줄 입력칸 만들고 placeholder 넣기 | text input과 label, placeholder를 붙여 가장 기본적인 입력칸을 만들며 폼 요소의 뼈대를 배운다 | ★☆☆☆☆ | input text, label, placeholder | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/086) |
 | 087 | 입력 종류 6종 모아보기 (이메일·전화·숫자·날짜·색상·범위) | type 속성만 바꿔 키패드·달력·색상 선택기가 달라지는 것을 체험하며 input type을 배운다 | ★☆☆☆☆ | input type, email/tel/number/date/color/range | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/087) |
-| 088 | 라디오 버튼과 체크박스로 설문 항목 만들기 | 택일(radio)과 복수선택(checkbox)을 name 속성으로 묶어 선택형 입력을 배운다 | ★☆☆☆☆ | radio, checkbox, name 그룹 | 준비중 |
+| 088 | 라디오 버튼과 체크박스로 설문 항목 만들기 | 택일(radio)과 복수선택(checkbox)을 name 속성으로 묶어 선택형 입력을 배운다 | ★☆☆☆☆ | radio, checkbox, name 그룹 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/088) |
 | 089 | 드롭다운(select)으로 지역 선택 메뉴 만들기 | select와 option, 기본 선택값을 설정해 목록형 입력을 만드는 법을 배운다 | ★☆☆☆☆ | select, option, selected | 준비중 |
 | 090 | 여러 줄 메시지 입력칸(textarea)과 전송 버튼 폼 | textarea와 submit 버튼을 form으로 감싸 하나의 제출 가능한 폼 구조를 완성한다 | ★☆☆☆☆ | textarea, form, submit | 준비중 |
 | 091 | required로 필수 입력 막기 (빈 칸이면 제출 안 됨) | required 속성으로 빈 칸 제출을 브라우저가 막아주는 HTML 기본 검증을 배운다 | ★★☆☆☆ | required, HTML 기본 검증 | 준비중 |
@@ -158,7 +158,7 @@
 | 108 | 방문 횟수 카운터 만들기 | 페이지에 들어올 때마다 localStorage에 저장된 숫자를 1씩 올려 '몇 번째 방문입니다'를 표시하며 숫자 저장과 형변환(Number) 배우기 | ★☆☆☆☆ | 숫자 저장, parseInt/Number | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/108) |
 | 109 | 한 줄 메모장: 글 저장하고 지우기 버튼 | textarea에 쓴 메모를 저장 버튼으로 localStorage에 넣고, 지우기 버튼으로 removeItem 해서 저장과 삭제의 짝을 경험하기 | ★★☆☆☆ | setItem/removeItem | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/109) |
 | 110 | 할 일 목록을 배열로 localStorage에 저장하기 (JSON) | 할 일을 추가하면 배열에 push하고 JSON.stringify로 저장, 불러올 때 JSON.parse로 복원해 '여러 개 데이터=배열+JSON' 패턴 익히기 | ★★☆☆☆ | 배열, JSON.stringify/parse | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/110) |
-| 111 | 할 일 항목 개별 삭제와 완료 체크 토글 | 각 할 일에 삭제 버튼과 완료 체크박스를 붙여, 배열에서 특정 항목을 찾아 제거(filter)하거나 done 값을 바꿔 다시 저장하는 '배열 수정' 익히기 | ★★★☆☆ | filter/map, 객체 상태 변경 | 준비중 |
+| 111 | 할 일 항목 개별 삭제와 완료 체크 토글 | 각 할 일에 삭제 버튼과 완료 체크박스를 붙여, 배열에서 특정 항목을 찾아 제거(filter)하거나 done 값을 바꿔 다시 저장하는 '배열 수정' 익히기 | ★★★☆☆ | filter/map, 객체 상태 변경 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/111) |
 | 112 | 간단 가계부 v1: 수입·지출 입력하고 합계 계산하기 | 금액과 분류를 입력해 localStorage 배열에 저장하고, reduce로 총합과 잔액을 자동 계산해 보여주며 데이터로 계산하는 감각 익히기 | ★★★☆☆ | 객체 배열, reduce 합계 | 준비중 |
 | 113 | localStorage 데이터의 한계 체험과 Supabase로 넘어갈 이유 정리하기 | 다른 브라우저·다른 기기에서는 내 할 일이 안 보이는 걸 직접 확인하고, '여러 사람/여러 기기가 공유하려면 서버 DB가 필요하다'를 Claude에게 설명받아 1쪽 메모로 정리하기 | ★★☆☆☆ | 클라이언트 저장의 한계, DB 필요성 | 준비중 |
 | 114 | Supabase 프로젝트 만들고 첫 테이블(memos) 생성하기 | Supabase 가입 후 프로젝트를 만들고 Table Editor로 memos 테이블(id, content, created_at)을 GUI로 만들어 '서버에 표 하나 생기는' 첫 경험하기 | ★★☆☆☆ | Supabase 프로젝트, 테이블 컬럼 | 준비중 |
@@ -188,7 +188,7 @@
 | 133 | 이메일 인증 확인 메일 안내 화면 만들기 | 회원가입 직후 '메일함을 확인하세요' 안내 화면을 만들고, 확인 링크를 눌러야 로그인되는 이메일 검증(email confirmation) 흐름을 이해한다. | ★★☆☆☆ | 이메일 검증(confirmation), 인증 메일 리다이렉트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/133) |
 | 134 | 새로고침해도 로그인 유지되게 하기 (세션 읽기) | 페이지가 열릴 때 getSession으로 현재 로그인 상태를 읽어, 새로고침하거나 다시 들어와도 로그인이 풀리지 않게 만든다. | ★★☆☆☆ | getSession, 세션 유지(persistSession) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/134) |
 | 135 | 로그인 상태에 따라 헤더 바뀌게 하기 (실시간 감지) | onAuthStateChange로 로그인/로그아웃 순간을 감지해, 헤더에 '로그인' 버튼과 '내 계정' 메뉴를 자동으로 바꿔 보여준다. | ★★☆☆☆ | onAuthStateChange, 상태 기반 UI 전환 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/135) |
-| 136 | 로그아웃 버튼 만들고 깔끔하게 빠져나가기 | signOut으로 세션을 지우고 로그인 페이지로 보내며, 로그아웃 후 보호 데이터가 화면에 남지 않도록 정리하는 법을 익힌다. | ★★☆☆☆ | signOut, 세션 정리 | 준비중 |
+| 136 | 로그아웃 버튼 만들고 깔끔하게 빠져나가기 | signOut으로 세션을 지우고 로그인 페이지로 보내며, 로그아웃 후 보호 데이터가 화면에 남지 않도록 정리하는 법을 익힌다. | ★★☆☆☆ | signOut, 세션 정리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/136) |
 | 137 | 로그인한 사람의 이메일·가입일 보여주는 '내 프로필' 카드 | getUser로 현재 사용자 정보(이메일·가입 시각·user id)를 가져와 마이페이지에 카드로 표시하며 '누가 로그인했는지' 읽는 법을 배운다. | ★★☆☆☆ | getUser, 사용자 정보 표시 | 준비중 |
 | 138 | 로그인 안 하면 못 들어가는 보호된 페이지 만들기 | 마이페이지 진입 시 세션을 검사해, 비로그인 사용자는 자동으로 로그인 페이지로 돌려보내는 '문지기(라우트 가드)'를 만든다. | ★★★☆☆ | 보호된 페이지, 라우트 가드, 리다이렉트 | 준비중 |
 | 139 | 비밀번호 찾기·재설정 메일 흐름 만들기 | resetPasswordForEmail로 재설정 메일을 보내고, 메일 링크로 돌아온 사용자가 updateUser로 새 비밀번호를 저장하는 전체 흐름을 만든다. | ★★★☆☆ | resetPasswordForEmail, 비밀번호 재설정 | 준비중 |
@@ -208,7 +208,7 @@
 | 148 | '새 명언' 버튼으로 누를 때마다 다른 글귀 받기 | 버튼 클릭 이벤트마다 fetch를 다시 호출해 매번 새 데이터를 받아 갈아끼우며 '한 번 받고 끝'이 아닌 반복 호출의 흐름을 이해한다 | ★☆☆☆☆ | 클릭마다 재호출, DOM 갱신 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/148) |
 | 149 | 랜덤 강아지/고양이 사진 API로 사진 갤러리 만들기 | 이미지 URL을 주는 공개 API를 호출해 응답 속 주소를 img 태그 src에 꽂아 사진을 띄우며 'JSON 안의 값을 화면 요소에 연결한다'를 익힌다 | ★★☆☆☆ | JSON 값을 img src에 연결, 랜덤 이미지 API | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/149) |
 | 150 | 오늘의 명언 + 작가 이름 카드로 예쁘게 묶기 | 응답 JSON에서 글귀와 작가 두 개 이상의 필드를 뽑아 한 카드 안에 함께 배치하며 'JSON의 여러 키를 동시에 꺼내 쓴다'를 익힌다 | ★★☆☆☆ | 여러 필드 추출, 객체 구조 읽기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/150) |
-| 151 | 공개 도서 검색 API로 책 제목·표지 목록 뽑기 | 검색어로 도서 API를 호출해 응답으로 온 책 '배열'을 반복(map/forEach)해 제목과 표지 썸네일 목록을 그리며 '배열 응답을 여러 개로 펼치기'를 익힌다 | ★★☆☆☆ | 배열 응답 순회, 목록 렌더링 | 준비중 |
+| 151 | 공개 도서 검색 API로 책 제목·표지 목록 뽑기 | 검색어로 도서 API를 호출해 응답으로 온 책 '배열'을 반복(map/forEach)해 제목과 표지 썸네일 목록을 그리며 '배열 응답을 여러 개로 펼치기'를 익힌다 | ★★☆☆☆ | 배열 응답 순회, 목록 렌더링 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/151) |
 | 152 | 입력창에 검색어 받아 실시간 도서 검색 붙이기 | 사용자가 input에 입력한 검색어를 fetch URL에 끼워 넣어 동적으로 요청을 만들며 'URL 쿼리 파라미터에 사용자 값을 안전하게 합치기'를 익힌다 | ★★☆☆☆ | 쿼리 파라미터 조립, encodeURIComponent | 준비중 |
 | 153 | 공개 날씨 API로 도시 이름 넣어 오늘 날씨 표시하기 | 도시명을 받아 무료 날씨 API를 호출하고 기온·날씨 상태·아이콘을 화면에 표시하며 'API 키 없이 쓰는 공개 엔드포인트'와 한국어 표기를 익힌다 | ★★★☆☆ | 날씨 API, 응답 필드 매핑 | 준비중 |
 | 154 | 내 위치(Geolocation)로 현재 지역 날씨 자동 표시하기 | 브라우저 위치 권한을 받아 좌표를 얻고 그 좌표로 날씨 API를 호출하며 '권한 요청·거부 처리'와 두 단계(위치→날씨) 연결을 익힌다 | ★★★☆☆ | Geolocation API, 권한 처리, 호출 연쇄 | 준비중 |
@@ -230,7 +230,7 @@
 |---|---|---|---|---|---|
 | 166 | GitHub 계정 만들고 첫 저장소(repository) 만들기 | GitHub에 가입해 빈 저장소 하나를 만들어보며 '코드를 보관하는 인터넷 창고' 개념을 익힌다 | ★☆☆☆☆ | GitHub 계정, 저장소(repo) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/166) |
 | 167 | 완성한 index.html을 드래그앤드롭으로 GitHub에 올리기 | 이미 만든 정적 페이지 파일들을 GitHub 웹 화면에서 끌어다 올려 '내 코드가 인터넷에 저장됐다'를 눈으로 확인한다 | ★☆☆☆☆ | 파일 업로드, 커밋(commit) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/167) |
-| 168 | GitHub Pages로 정적 사이트를 무료 주소에 띄우기 | 저장소 설정에서 Pages를 켜 username.github.io 주소로 내 페이지를 세상에 공개하고 첫 배포 URL을 받는다 | ★☆☆☆☆ | GitHub Pages, 정적 호스팅 | 준비중 |
+| 168 | GitHub Pages로 정적 사이트를 무료 주소에 띄우기 | 저장소 설정에서 Pages를 켜 username.github.io 주소로 내 페이지를 세상에 공개하고 첫 배포 URL을 받는다 | ★☆☆☆☆ | GitHub Pages, 정적 호스팅 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/168) |
 | 169 | Vercel에 GitHub 저장소 연결해 자동배포 켜기 | Vercel에 GitHub로 로그인하고 저장소를 import해 .vercel.app 주소를 받으며 '연결만 하면 배포되는' 흐름을 경험한다 | ★★☆☆☆ | Vercel 연동, 첫 배포 | 준비중 |
 | 170 | 글자 한 줄 고치고 git push로 자동 재배포 확인하기 | GitHub에서 제목 문구를 수정·커밋하면 Vercel이 스스로 다시 빌드·배포하는 컨베이어 벨트(파이프라인)를 눈으로 따라간다 | ★★☆☆☆ | 자동배포 파이프라인, push 트리거 | 준비중 |
 | 171 | Vercel Deployments 탭에서 배포 성공/실패 읽는 법 익히기 | Ready(초록)와 Error(빨강) 상태, 커밋 해시, 빌드 로그 위치를 확인해 '반영이 안 될 때 어디를 봐야 하나'를 판단한다 | ★★☆☆☆ | 배포 상태, 빌드 로그 | 준비중 |
@@ -252,7 +252,7 @@
 | 182 | lang·charset·viewport 기본 메타 3종 세트 채우기 | html lang="ko", charset=utf-8, viewport 메타를 넣어 한글 깨짐·모바일 확대 문제를 없애고 '기본기 메타'를 이해한다 | ★☆☆☆☆ | lang, charset, viewport | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/182) |
 | 183 | 모든 이미지에 의미 있는 alt 텍스트 붙이기 | 사이트의 모든 <img>에 내용을 설명하는 alt를 달고, 장식용 이미지는 alt=""로 비워 스크린리더와 검색엔진이 이미지를 이해하게 한다 | ★☆☆☆☆ | alt 텍스트, 대체 텍스트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/183) |
 | 184 | 카톡·SNS 공유 미리보기용 OG 태그 만들기 | og:title·og:description·og:image·og:url 메타를 넣어 카카오톡·페이스북에 링크를 붙였을 때 예쁜 미리보기 카드가 뜨게 한다 | ★★☆☆☆ | Open Graph, 공유 미리보기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/184) |
-| 185 | h1~h3 제목 위계로 문서 뼈대 바로잡기 | 페이지에 h1은 하나만 두고 h2·h3로 단계를 맞춰 검색엔진과 스크린리더가 이해하는 올바른 '목차 구조'를 만든다 | ★★☆☆☆ | 제목 위계, 시맨틱 구조 | 준비중 |
+| 185 | h1~h3 제목 위계로 문서 뼈대 바로잡기 | 페이지에 h1은 하나만 두고 h2·h3로 단계를 맞춰 검색엔진과 스크린리더가 이해하는 올바른 '목차 구조'를 만든다 | ★★☆☆☆ | 제목 위계, 시맨틱 구조 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/185) |
 | 186 | robots.txt 손으로 만들어 올리기 | public 폴더에 robots.txt를 두고 Allow/Disallow 의미를 익혀, 운영 사이트에 'Disallow: /' 전면 차단이 남지 않게 점검한다 | ★★☆☆☆ | robots.txt, 크롤러 허용/차단 | 준비중 |
 | 187 | 내 페이지 주소를 적은 sitemap.xml 만들기 | 사이트의 모든 페이지 URL을 담은 sitemap.xml을 만들어 검색엔진이 페이지 목록을 한 번에 알 수 있게 한다 | ★★☆☆☆ | sitemap.xml, URL 목록 | 준비중 |
 | 188 | canonical 태그로 대표 주소 한 개 지정하기 | <link rel="canonical">을 넣어 www·끝슬래시 등 중복 주소 때문에 검색 점수가 갈리는 문제를 막는 '대표 주소 지정' 개념을 익힌다 | ★★☆☆☆ | canonical, 중복 URL 정리 | 준비중 |
@@ -272,7 +272,7 @@
 | 197 | 고정 텍스트를 내 이메일로 보내는 워크플로우 만들기 | Manual Trigger 뒤에 Gmail(또는 Send Email) 노드를 붙여 '안녕하세요, n8n 테스트입니다'라는 고정 메일을 내 주소로 발송하며 자격증명(Credential) 연결과 액션 노드를 배운다 | ★☆☆☆☆ | 이메일 노드, 자격증명 연결, 액션 실행 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/197) |
 | 198 | 노드 사이로 데이터 흘려보내고 표현식으로 꺼내 쓰기 | Set 노드에서 이름/시간 값을 만들고, 다음 노드에서 {{$json.name}} 같은 표현식으로 그 값을 메일 본문에 끼워 넣으며 노드 간 데이터 전달과 expression 문법을 익힌다 | ★★☆☆☆ | Set 노드, 표현식($json), 데이터 매핑 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/198) |
 | 199 | Webhook URL로 외부 요청 받아보기 | Webhook 노드를 추가해 고유 URL을 발급받고, 브라우저나 테스트로 호출했을 때 들어온 데이터를 n8n이 받아 표시하게 만들며 '웹훅이 뭔지'를 몸으로 이해한다 | ★★☆☆☆ | Webhook 트리거, HTTP 요청 수신, 테스트 호출 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/199) |
-| 200 | 공개 API를 HTTP Request 노드로 호출해 결과 받기 | HTTP Request 노드로 공개 날씨(또는 환율) API를 호출하고 응답 JSON에서 원하는 값 하나(예: 오늘 기온)를 꺼내 Set 노드로 정리하며 외부 API 연동의 기본을 배운다 | ★★☆☆☆ | HTTP Request 노드, JSON 응답 파싱 | 준비중 |
+| 200 | 공개 API를 HTTP Request 노드로 호출해 결과 받기 | HTTP Request 노드로 공개 날씨(또는 환율) API를 호출하고 응답 JSON에서 원하는 값 하나(예: 오늘 기온)를 꺼내 Set 노드로 정리하며 외부 API 연동의 기본을 배운다 | ★★☆☆☆ | HTTP Request 노드, JSON 응답 파싱 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/200) |
 | 201 | 크론(Schedule)으로 매일 아침 자동 실행 설정하기 | Schedule Trigger 노드로 '매일 오전 8시'에 자동 실행되게 설정하고, 활성화(Active) 토글을 켜서 수동 클릭 없이 워크플로우가 정기적으로 도는 것을 확인하며 크론/정기 실행을 익힌다 | ★★☆☆☆ | Schedule 트리거, 크론, 워크플로우 활성화 | 준비중 |
 | 202 | 매일 아침 오늘 날씨를 이메일로 받기 | Schedule + HTTP Request(날씨 API) + Email 노드를 이어 매일 아침 '오늘 날씨' 메일을 자동 수신하며, 정기 실행과 API와 이메일을 하나의 흐름으로 결합하는 법을 배운다 | ★★★☆☆ | 스케줄+API+이메일 결합, 자동 발송 | 준비중 |
 | 203 | Slack 채널로 자동 메시지 보내기 | Slack 노드 자격증명을 연결하고 지정한 채널에 '서버 점검 알림' 같은 메시지를 보내며, 이메일 외의 알림 채널(Slack)을 연동하는 법을 익힌다 | ★★★☆☆ | Slack 노드 연동, 채널 메시지 발송 | 준비중 |
@@ -296,7 +296,7 @@
 | 216 | 나쁜 프롬프트 vs 좋은 프롬프트 3개 짝지어 적어보기 | '다크모드 토글 만들어줘'를 맥락·목표·제약을 넣어 다시 쓰며 프롬프트 3원칙의 차이를 눈으로 익힌다 | ★☆☆☆☆ | 프롬프트 3원칙(맥락·목표·제약) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/216) |
 | 217 | AI에게 '실행 전에 무엇을 할지 3줄로 먼저 보고해' 시키기 | 히어로 섹션 한 줄 소개 문구를 바꾸되 AI가 멋대로 시작하지 않고 계획부터 보고하게 만드는 지시를 연습한다 | ★☆☆☆☆ | 선보고 후실행, 디렉터 지시 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/217) |
 | 218 | 한 단어/한 화면만 콕 집어 고치라고 지시하기 | '전부 다 바꿔줘' 대신 '푸터 연락처 이메일만' 식으로 범위를 좁혀 멀쩡한 코드를 지키는 지시법을 익힌다 | ★☆☆☆☆ | 변경 범위 한정, 회귀 방지 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/218) |
-| 219 | AI에게 '추정인지 확인된 사실인지 표시해줘' 요구하기 | 오늘 날씨 표시용 공개 API 이름을 물으며 함수·URL이 실제인지 추정인지 신뢰도 표시를 요구해 환각을 거른다 | ★★☆☆☆ | 환각 검증, 신뢰도 표시 | 준비중 |
+| 219 | AI에게 '추정인지 확인된 사실인지 표시해줘' 요구하기 | 오늘 날씨 표시용 공개 API 이름을 물으며 함수·URL이 실제인지 추정인지 신뢰도 표시를 요구해 환각을 거른다 | ★★☆☆☆ | 환각 검증, 신뢰도 표시 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/219) |
 | 220 | 내 첫 기획서 PLAN.md 만들기 (AI가 나에게 질문하게) | 포트폴리오 사이트를 만들기 전 AI가 나에게 하나씩 물어보며 PLAN.md(무엇을·누구를·범위)를 정리하게 한다 | ★★☆☆☆ | PLAN.md, 역질문 기획 | 준비중 |
 | 221 | AI에게 '내가 안 물어봐도 놓치기 쉬운 위험 5가지' 먼저 말하게 하기 | 이메일 수집 랜딩 기획에서 보안·개인정보·비용 같은 '모르는 줄도 모르는 것'을 AI가 자발적으로 경고하게 만든다 | ★★☆☆☆ | Unknown Unknowns, 선제 경고 프롬프트 | 준비중 |
 | 222 | 프로젝트 CLAUDE.md 작성하기 (언어·스택·하지 말 것) | 매 대화마다 설명을 반복하지 않도록 한국어·스택·네이밍·금지사항을 담은 CLAUDE.md를 만들어 새 대화에 적용한다 | ★★☆☆☆ | CLAUDE.md, 프로젝트 메모리 | 준비중 |
@@ -319,7 +319,7 @@
 | # | 실습 | 목표 | 난이도 | 개념 | 코드 |
 |---|---|---|---|---|---|
 | 236 | 한 장짜리 자기소개 포트폴리오 페이지 만들기 | 이름·한 줄 소개·연락처가 담긴 정적 HTML 한 페이지를 만들어 시맨틱 구조의 기본을 익힌다 | ★☆☆☆☆ | 정적 HTML, 시맨틱 태그 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/236) |
-| 237 | 포트폴리오에 프로필 사진·기술스택 뱃지·CSS 카드 스타일 입히기 | 이미지·리스트·카드 레이아웃을 CSS로 꾸며 시각적으로 정돈된 한 페이지 포트폴리오로 완성한다 | ★☆☆☆☆ | CSS 박스모델, 카드 레이아웃 | 준비중 |
+| 237 | 포트폴리오에 프로필 사진·기술스택 뱃지·CSS 카드 스타일 입히기 | 이미지·리스트·카드 레이아웃을 CSS로 꾸며 시각적으로 정돈된 한 페이지 포트폴리오로 완성한다 | ★☆☆☆☆ | CSS 박스모델, 카드 레이아웃 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/237) |
 | 238 | 포트폴리오를 GitHub에 올리고 Vercel로 첫 배포해 내 URL 갖기 | 정적 사이트를 GitHub 저장소에 올리고 Vercel에 연결해 누구나 접속 가능한 실제 주소를 만든다 | ★☆☆☆☆ | Git 커밋·푸시, Vercel 배포 | 준비중 |
 | 239 | 블로그 글 목록 페이지를 HTML 카드 리스트로 만들기 | 여러 글의 제목·요약·날짜를 카드 리스트로 나열한 블로그 홈을 만들어 반복 UI 구조를 익힌다 | ★☆☆☆☆ | 리스트 UI, 반복 구조 | 준비중 |
 | 240 | 블로그 다크모드 토글 버튼 만들기 | 버튼 클릭으로 라이트/다크 테마를 전환하는 토글을 만들어 JS 이벤트와 클래스 조작을 배운다 | ★★☆☆☆ | JS 이벤트, 클래스 토글, CSS 변수 | 준비중 |
@@ -363,7 +363,7 @@
 
 | # | 실습 | 목표 | 난이도 | 개념 | 코드 |
 |---|---|---|---|---|---|
-| 276 | 닫는 태그 빠진 HTML 고치기 — 화면이 통째로 기울어진 페이지 | </div>가 빠져 레이아웃이 무너진 정적 페이지를 받아 태그 짝을 맞춰 정상 복구하며, HTML은 여는/닫는 태그가 짝이어야 한다는 것을 배운다 | ★☆☆☆☆ | HTML 태그 짝, 마크업 구조 | 준비중 |
+| 276 | 닫는 태그 빠진 HTML 고치기 — 화면이 통째로 기울어진 페이지 | </div>가 빠져 레이아웃이 무너진 정적 페이지를 받아 태그 짝을 맞춰 정상 복구하며, HTML은 여는/닫는 태그가 짝이어야 한다는 것을 배운다 | ★☆☆☆☆ | HTML 태그 짝, 마크업 구조 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/276) |
 | 277 | 오타 난 CSS 속성 살리기 — 색이 하나도 안 먹는 카드 | colour, bacground, font-weigth 같은 오타 속성 때문에 스타일이 적용 안 되는 카드 컴포넌트를 F12 요소검사로 찾아 고치며 CSS 속성명 정확성을 배운다 | ★☆☆☆☆ | CSS 속성 오타, 개발자도구 요소검사 | 준비중 |
 | 278 | 세미콜론·따옴표 빠진 JS 한 줄 고치기 — 아무 버튼도 안 눌리는 페이지 | 구문 오류(SyntaxError)로 스크립트 전체가 죽어 버튼이 먹통인 페이지를 F12 콘솔의 빨간 줄을 읽고 고치며, JS는 한 곳만 깨져도 전부 멈춘다는 것을 배운다 | ★☆☆☆☆ | SyntaxError, 콘솔 에러 읽기 | 준비중 |
 | 279 | 오타 클래스명 매칭하기 — 가운데 정렬이 안 되는 박스 | HTML의 class="continer"와 CSS의 .container가 안 맞아 스타일이 빠진 레이아웃을 고치며, 선택자는 철자가 정확히 일치해야 적용된다는 것을 배운다 | ★☆☆☆☆ | CSS 선택자 매칭, 클래스명 | 준비중 |
