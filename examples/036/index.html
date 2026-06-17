@@ -1,0 +1,174 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>flex-wrap으로 줄바꿈되는 태그 목록 만들기</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /* 페이지 전체의 기본 모양입니다. */
+      body {
+        font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+        background-color: #f7f8fa;
+        color: #2b2b2b;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      /* 본문을 가운데로 모으고 좌우 여백을 줍니다. (이번 실습의 주인공은 아래 .tags 입니다.) */
+      .page {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 0 0 8px 0;
+      }
+      .lead {
+        color: #6b7280;
+        margin: 0 0 24px 0;
+      }
+      code {
+        background-color: #eef2ff;
+        color: #3730a3;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 90%;
+      }
+
+      /*
+        ★★★ 이번 실습의 핵심: 줄바꿈되는 태그(칩) 목록 ★★★
+
+        '칩(chip)'은 블로그 글 밑에 붙는 #해시태그, 쇼핑몰의 필터 키워드처럼
+        작고 둥근 알약 모양의 라벨을 말합니다.
+        이런 칩이 여러 개일 때, 한 줄에 다 안 들어가면 자동으로 아랫줄로
+        '넘어가게(줄바꿈)' 만드는 것이 이번 목표입니다.
+
+        부모 상자(.tags)에게 딱 세 줄만 주면 됩니다 ↓
+      */
+      .tags {
+        display: flex;       /* ← 칩들을 가로 한 줄로 나란히 놓습니다. */
+
+        /*
+          ★ flex-wrap: wrap ★ (이번 실습의 진짜 핵심!)
+          기본값(nowrap)이면 칩이 아무리 많아도 한 줄에 '억지로' 욱여넣어
+          칩이 찌그러지거나 화면 밖으로 삐져나갑니다.
+          wrap 으로 바꾸면 → "한 줄에 안 들어가면 아랫줄로 넘겨라"가 됩니다.
+        */
+        flex-wrap: wrap;
+
+        /*
+          ★ gap ★
+          칩과 칩 사이의 '틈'입니다. 가로 간격과 세로(줄 사이) 간격을 한 번에 줍니다.
+          (margin으로 일일이 주던 옛날 방식보다 훨씬 간단합니다.
+           특히 줄바꿈됐을 때 윗줄·아랫줄 사이 간격까지 알아서 챙겨줍니다.)
+        */
+        gap: 10px;
+
+        /* 칩들을 담는 영역을 살짝 꾸밉니다(이번 실습 본질과는 무관). */
+        padding: 16px;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+      }
+
+      /* 칩 하나하나의 모양입니다. (알약처럼 둥글게) */
+      .tag {
+        /* white-space:nowrap → 칩 '안의' 글자는 줄바꿈되지 않게 합니다.
+           (줄바꿈은 칩과 칩 '사이'에서만 일어나야 하니까요.) */
+        white-space: nowrap;
+        padding: 6px 14px;
+        font-size: 14px;
+        color: #3730a3;
+        background-color: #eef2ff;   /* 연한 보라 배경 */
+        border: 1px solid #c7d2fe;
+        border-radius: 999px;        /* 숫자를 아주 크게 주면 양끝이 완전히 둥근 알약 모양이 됩니다. */
+      }
+
+      /* 두 번째 예시: 색이 다른 칩 묶음 (구조는 위와 똑같고 색만 다릅니다.) */
+      .tag.green {
+        color: #166534;
+        background-color: #dcfce7;
+        border-color: #86efac;
+      }
+
+      .section-title {
+        font-size: 16px;
+        margin: 28px 0 10px 0;
+        color: #374151;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="page">
+      <h1>flex-wrap으로 줄바꿈되는 태그 목록</h1>
+      <p class="lead">
+        아래 둥근 <strong>칩(태그)</strong>들을 보세요. 칩이 많아 한 줄에 다 들어가지 않으면
+        <strong>자동으로 아랫줄로 넘어갑니다</strong>.
+        이 마법은 칩들을 감싼 부모 상자에 준
+        <code>display: flex;</code>, <code>flex-wrap: wrap;</code>, <code>gap: 10px;</code>
+        딱 세 줄 덕분입니다.
+      </p>
+
+      <p>
+        브라우저 창 너비를 마우스로 <strong>넓혔다 줄였다</strong> 해보세요.
+        창이 좁아지면 칩들이 알아서 줄을 바꿔 가며 차곡차곡 쌓이고,
+        창이 넓어지면 다시 윗줄로 올라붙습니다. 칸 수를 우리가 일일이 정해 줄 필요가 없습니다.
+      </p>
+
+      <!--
+        ★ 칩 묶음 (1) ★
+        .tags 가 'flex 부모'이고, 그 안의 .tag 들이 자식(칩)입니다.
+        자식 개수가 많아서 flex-wrap:wrap 덕분에 자동으로 여러 줄로 접힙니다.
+      -->
+      <h2 class="section-title"># 기술 스택 태그</h2>
+      <div class="tags">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">flexbox</span>
+        <span class="tag">flex-wrap</span>
+        <span class="tag">gap</span>
+        <span class="tag">반응형 웹</span>
+        <span class="tag">Supabase</span>
+        <span class="tag">Vercel</span>
+        <span class="tag">n8n 자동화</span>
+        <span class="tag">AI 디렉팅</span>
+        <span class="tag">접근성</span>
+        <span class="tag">시맨틱 마크업</span>
+        <span class="tag">미디어쿼리</span>
+      </div>
+
+      <!--
+        ★ 칩 묶음 (2) ★
+        색만 다른 두 번째 묶음입니다. 구조(flex-wrap, gap)는 위와 완전히 같습니다.
+        '같은 패턴을 색만 바꿔 재사용'하는 감각을 익혀 보세요.
+      -->
+      <h2 class="section-title"># 관심 분야 태그</h2>
+      <div class="tags">
+        <span class="tag green">디자인</span>
+        <span class="tag green">마케팅</span>
+        <span class="tag green">자동화</span>
+        <span class="tag green">데이터 분석</span>
+        <span class="tag green">콘텐츠 기획</span>
+        <span class="tag green">검색엔진 최적화(SEO)</span>
+        <span class="tag green">고객 응대</span>
+        <span class="tag green">소상공인 창업</span>
+        <span class="tag green">사이드 프로젝트</span>
+      </div>
+    </div>
+
+  </body>
+
+</html>

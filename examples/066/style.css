@@ -1,0 +1,96 @@
+/* 화면 전체 기본 설정: 카드 하나를 가운데에 띄웁니다. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  color: #1f2937;
+}
+
+/* 가운데 흰색 카드 */
+.card {
+  background: #ffffff;
+  padding: 32px 40px 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  width: 320px;
+}
+
+.card h1 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.desc {
+  margin: 0 0 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* 사진 자리 (이모지로 대신) */
+.photo {
+  height: 180px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fde68a, #fca5a5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+/* 하트 버튼 + 숫자를 가로로 나란히 */
+.like-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 하트 버튼: 배경 없는 동그란 버튼 */
+.like-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 50%;
+  transition: transform 0.08s ease;
+}
+
+/* 누르는 순간 살짝 작아졌다 돌아오는 느낌 */
+.like-btn:active {
+  transform: scale(0.85);
+}
+
+/* 기본(좋아요 안 한) 하트는 회색 외곽선 모양 */
+.heart {
+  color: #9ca3af;
+  transition: color 0.15s ease;
+}
+
+/* 좋아요를 누른 상태: JS가 버튼에 liked 클래스를 붙이면 빨간 하트가 됩니다 */
+.like-btn.liked .heart {
+  color: #ef4444;
+}
+
+/* 좋아요 숫자 */
+.count {
+  font-size: 20px;
+  font-weight: 700;
+  min-width: 24px;
+}
+
+.count-label {
+  font-size: 14px;
+  color: #6b7280;
+}

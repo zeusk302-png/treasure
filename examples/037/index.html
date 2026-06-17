@@ -1,0 +1,224 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>flexbox로 3단 가격표(프라이싱) 카드 만들기</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /* 페이지 전체의 기본 모양입니다. */
+      body {
+        font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+        background-color: #f7f8fa;
+        color: #2b2b2b;
+        margin: 0;
+        line-height: 1.6;
+        padding: 40px 20px;   /* 페이지 가장자리 여백 */
+      }
+
+      h1 {
+        font-size: 26px;
+        text-align: center;
+        margin: 0 0 8px 0;
+      }
+      .lead {
+        text-align: center;
+        color: #6b7280;
+        margin: 0 0 36px 0;
+      }
+
+      /*
+        ★★★ 이번 실습의 핵심 1: 카드 3개를 한 줄에 나란히 놓기 ★★★
+
+        가격표는 "요금제 카드 3개가 한 줄에 나란히" 놓인 모양입니다.
+        세 카드를 한 줄로 놓으려면 그것들을 감싸는 부모 상자에 display:flex 를 줍니다.
+        - gap:24px   → 카드 사이의 간격(틈)
+        - max-width  → 너무 넓은 화면에서 카드가 끝없이 늘어지지 않게 전체 폭 제한
+        - margin:0 auto → 제한된 폭을 화면 가운데로 모음
+      */
+      .pricing {
+        display: flex;          /* ← 안의 카드들을 가로 한 줄로 놓습니다. */
+        gap: 24px;              /* 카드 사이 간격 */
+        max-width: 960px;       /* 전체 가격표의 최대 너비 */
+        margin: 0 auto;         /* 가운데 정렬 */
+        align-items: stretch;   /* 카드들의 '높이'를 가장 큰 카드에 맞춰 똑같이 늘립니다. */
+      }
+
+      /*
+        ★★★ 이번 실습의 핵심 2: flex: 1 로 너비를 똑같이 나누기 ★★★
+
+        카드 하나하나(.card)에 flex:1 을 줍니다.
+        flex:1 은 "남는 가로 공간을 형제들과 똑같은 비율로 나눠 가져라"라는 뜻입니다.
+        (정확히는 flex-grow:1 / flex-shrink:1 / flex-basis:0 을 한 번에 쓴 줄임말입니다.)
+
+        세 카드가 모두 flex:1 이므로 → 1 : 1 : 1 비율로 너비를 똑같이 3등분합니다.
+        카드 안의 글자 길이가 달라도 너비는 항상 균등하게 유지됩니다.
+        (이게 없으면 카드는 '글자 길이만큼만' 차지해 폭이 제각각이 됩니다.)
+      */
+      .card {
+        flex: 1;                /* ← 핵심! 남는 공간을 1:1:1로 나눠 너비를 균등하게. */
+
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;          /* 둥근 모서리 */
+        padding: 28px 24px;
+        text-align: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);  /* 살짝 떠 있는 느낌의 그림자 */
+
+        /* 카드 '안'도 세로 flex로 만들어 버튼을 항상 맨 아래에 붙입니다. */
+        display: flex;
+        flex-direction: column;       /* 세로 쌓기 */
+      }
+
+      /* 요금제 이름 (예: 무료 / 프로 / 팀) */
+      .card .name {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 12px 0;
+        color: #374151;
+      }
+
+      /* 가격 표시 */
+      .card .price {
+        font-size: 34px;
+        font-weight: 800;
+        margin: 0 0 4px 0;
+        color: #111827;
+      }
+      .card .price small {
+        font-size: 15px;
+        font-weight: 500;
+        color: #9ca3af;
+      }
+
+      /* 카드 안의 혜택 목록 */
+      .card ul {
+        list-style: none;       /* 점(•) 제거 */
+        padding: 0;
+        margin: 20px 0;
+        text-align: left;
+        color: #4b5563;
+        font-size: 15px;
+
+        /* flex-grow:1 → 이 목록이 카드 안에서 남는 세로 공간을 다 차지하게 만들어,
+           아래 버튼이 카드 길이와 상관없이 항상 맨 아래에 붙도록 합니다. */
+        flex-grow: 1;
+      }
+      .card ul li {
+        padding: 6px 0;
+        border-bottom: 1px solid #f3f4f6;  /* 항목 사이 연한 구분선 */
+      }
+      .card ul li::before {
+        content: "✓ ";          /* 각 항목 앞에 체크 표시 */
+        color: #22c55e;
+        font-weight: 700;
+      }
+
+      /* 신청 버튼 */
+      .card button {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: #3b82f6;
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .card button:hover {
+        background-color: #dbeafe;
+      }
+
+      /*
+        가운데 '프로' 카드만 강조하기 (선택 사항).
+        flex:1 은 그대로 두므로 너비는 여전히 균등하고, 색만 눈에 띄게 바꿉니다.
+        가운데 카드가 형제들과 똑같이 1/3 너비를 가지는지 비교해 보는 용도이기도 합니다.
+      */
+      .card.featured {
+        border-color: #3b82f6;
+        box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
+      }
+      .card.featured button {
+        color: #ffffff;
+        background-color: #3b82f6;
+        border-color: #3b82f6;
+      }
+      .card.featured button:hover {
+        background-color: #2563eb;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 12px;
+        color: #ffffff;
+        background-color: #3b82f6;
+        padding: 3px 10px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>요금제 안내</h1>
+    <p class="lead">아래 카드 3개는 <strong>flex: 1</strong> 덕분에 너비가 정확히 1:1:1로 똑같이 나뉩니다.</p>
+
+    <!--
+      ★ 가격표 본체 ★
+      .pricing 이 'flex 부모'이고, 그 안의 .card 3개가 자식입니다.
+      자식 .card 마다 flex:1 이 걸려 있어 셋이 화면 너비를 똑같이 3등분합니다.
+    -->
+    <section class="pricing">
+
+      <!-- (1) 무료 카드 -->
+      <div class="card">
+        <p class="name">무료</p>
+        <p class="price">₩0<small> /월</small></p>
+        <ul>
+          <li>프로젝트 1개</li>
+          <li>기본 템플릿</li>
+          <li>커뮤니티 지원</li>
+        </ul>
+        <button>무료로 시작</button>
+      </div>
+
+      <!-- (2) 프로 카드 (가운데, 강조) -->
+      <div class="card featured">
+        <span class="badge">인기</span>
+        <p class="name">프로</p>
+        <p class="price">₩9,900<small> /월</small></p>
+        <ul>
+          <li>프로젝트 무제한</li>
+          <li>모든 템플릿</li>
+          <li>이메일 지원</li>
+          <li>광고 제거</li>
+        </ul>
+        <button>프로 시작</button>
+      </div>
+
+      <!-- (3) 팀 카드 -->
+      <div class="card">
+        <p class="name">팀</p>
+        <p class="price">₩29,000<small> /월</small></p>
+        <ul>
+          <li>프로의 모든 기능</li>
+          <li>팀원 10명</li>
+          <li>우선 지원</li>
+        </ul>
+        <button>팀 문의</button>
+      </div>
+
+    </section>
+
+  </body>
+
+</html>

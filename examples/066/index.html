@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>좋아요 버튼 카드</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>오늘의 사진</h1>
+    <p class="desc">마음에 들면 하트를 눌러 좋아요를 남겨 보세요.</p>
+
+    <!-- 사진 자리 (실제 이미지 대신 색 박스로 대신합니다) -->
+    <div class="photo">🌅</div>
+
+    <!-- 좋아요 영역: 하트 버튼 + 좋아요 개수 -->
+    <div class="like-area">
+      <!-- aria-pressed: 지금 눌린 상태(on/off)를 보조기기에 알려주는 표시 -->
+      <button id="likeBtn" class="like-btn" aria-pressed="false" aria-label="좋아요">
+        <!-- 이 하트 글자의 색과 모양을 JS가 켜고 끕니다 -->
+        <span id="heart" class="heart">♡</span>
+      </button>
+
+      <!-- 좋아요 숫자를 보여주는 곳. JS가 이 안의 글자를 바꿉니다. -->
+      <span id="count" class="count">0</span>
+      <span class="count-label">명이 좋아합니다</span>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

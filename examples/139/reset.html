@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>새 비밀번호 정하기 — 비밀번호 재설정(139)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="appHeader">
+    <a class="logo" href="forgot.html">🔑 비밀번호 재설정</a>
+  </header>
+
+  <main>
+    <h1>새 비밀번호 정하기</h1>
+    <p class="hint">
+      메일 링크를 통해 들어오면, 잠깐 동안 유효한 <strong>임시 출입증(세션)</strong>이 자동으로 만들어집니다.<br />
+      이 동안 새 비밀번호를 정해 저장할 수 있습니다.
+    </p>
+
+    <!-- 2단계: 새 비밀번호를 받아 저장하는 폼 -->
+    <form id="resetForm" class="auth-form">
+      <input id="password" type="password" placeholder="새 비밀번호 (6자 이상)" minlength="6" required />
+      <input id="password2" type="password" placeholder="새 비밀번호 다시 입력" minlength="6" required />
+      <button type="submit">새 비밀번호 저장</button>
+    </form>
+
+    <!-- 저장 성공 안내 (처음엔 숨김) -->
+    <div id="doneBox" class="info-box" hidden>
+      ✅ 비밀번호를 바꿨습니다! 잠시 후 로그인 페이지로 이동합니다…
+    </div>
+
+    <div id="msg"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="reset.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 위치 날씨 — 접속 위치 기준 현재 날씨 자동 표시</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>📍 내 위치 날씨</h1>
+    <p class="lead">
+      페이지를 열면 <strong>브라우저가 "위치를 알려줘도 될까요?"</strong>라고 물어봅니다.
+      <strong>허용</strong>하면 지금 있는 곳의 <strong>좌표(위도·경도)</strong>를 받아
+      그 좌표로 <strong>무료 공개 날씨 API</strong>를 불러 <strong>현재 날씨</strong>를 보여줍니다.
+      이번 실습의 핵심은 <strong>"권한 요청·거부 처리"</strong>와
+      <strong>"위치 → 날씨 두 단계 연결"</strong>입니다.
+    </p>
+
+    <!-- 위치 권한을 다시 요청하는 버튼.
+         처음에 거부했거나, 다른 곳으로 이동했을 때 다시 시도할 수 있다. -->
+    <div class="actions">
+      <button id="locateBtn" type="button">📍 내 위치로 날씨 보기</button>
+    </div>
+
+    <!-- ★학습 포인트★ '위치 → 날씨' 두 단계가 어떻게 진행되는지 눈으로 보여주는 칸. -->
+    <div class="urlBox">
+      <span class="urlLabel">① 브라우저에서 받은 내 좌표(위도·경도)</span>
+      <code id="coordsView" class="urlView">(아직 위치 요청 전)</code>
+      <span class="urlLabel" style="margin-top:10px;">② 좌표 → 날씨 받기 요청 주소</span>
+      <code id="weatherUrlView" class="urlView">(아직 요청 전)</code>
+    </div>
+
+    <!-- 받아오는 중 / 권한 거부 / 실패 안내가 들어갈 자리 -->
+    <p id="status" class="status">위치 권한을 허용하면 현재 위치의 날씨가 표시됩니다.</p>
+
+    <!-- 날씨 결과 카드. 처음에는 숨겨져 있다. -->
+    <section id="result" class="weather" hidden>
+      <div class="icon" id="weatherIcon">⛅</div>
+      <div class="temp" id="temp">--°C</div>
+      <div class="desc" id="desc">날씨 상태</div>
+      <p class="place" id="place">내 위치</p>
+      <ul class="extra">
+        <li><span class="exLabel">체감</span><span id="feels">--°C</span></li>
+        <li><span class="exLabel">습도</span><span id="humidity">--%</span></li>
+        <li><span class="exLabel">바람</span><span id="wind">-- m/s</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

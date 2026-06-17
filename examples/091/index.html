@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>required로 필수 입력 막기 - 회원가입 폼</title>
+  <style>
+    /* 비전공자용: 보기 좋게 만드는 기본 스타일입니다. 검증과는 직접 관련 없습니다. */
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 24px;
+      color: #222;
+    }
+    .card {
+      max-width: 420px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+    .desc {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 20px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 16px 0 6px;
+    }
+    /* 별표(*)는 필수 항목임을 사람 눈에 알려주는 표시입니다. */
+    .star { color: #e03131; }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+    textarea { resize: vertical; min-height: 70px; }
+
+    /* required 항목이 비어 있을 때(=잘못된 상태) 브라우저가 :invalid 로 표시해 줍니다.
+       사용자가 한 번이라도 건드린 칸만 빨갛게 보이도록 :placeholder-shown 으로 첫 화면에서는 막습니다. */
+    input:required:invalid:not(:placeholder-shown),
+    textarea:required:invalid:not(:placeholder-shown) {
+      border-color: #e03131;
+      background: #fff5f5;
+    }
+    input:required:valid:not(:placeholder-shown),
+    textarea:required:valid:not(:placeholder-shown) {
+      border-color: #2f9e44;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #4263eb;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { background: #3b5bdb; }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #888;
+      line-height: 1.6;
+    }
+    .success {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #ebfbee;
+      color: #2b8a3e;
+      font-size: 14px;
+      text-align: center;
+    }
+    .success.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>무료 회원가입</h1>
+    <p class="desc"><span class="star">*</span> 표시는 꼭 입력해야 하는 항목입니다.</p>
+
+    <!-- 핵심: form 안의 input/textarea에 required 속성만 붙이면
+         빈 칸인 채로 '가입하기'를 눌렀을 때 브라우저가 제출을 막고 안내 풍선을 띄워 줍니다.
+         JavaScript 한 줄 없이 HTML 속성만으로 동작합니다. -->
+    <form id="signupForm">
+      <label for="name">이름 <span class="star">*</span></label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="홍길동"
+        required
+      />
+
+      <label for="email">이메일 <span class="star">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="example@email.com"
+        required
+      />
+
+      <label for="region">지역 <span class="star">*</span></label>
+      <!-- select도 required를 쓸 수 있습니다. 빈 값("")인 첫 옵션을 고른 채로는 제출되지 않습니다. -->
+      <select id="region" name="region" required>
+        <option value="">-- 지역을 선택하세요 --</option>
+        <option value="busan">부산</option>
+        <option value="seoul">서울</option>
+        <option value="other">기타</option>
+      </select>
+
+      <label for="message">가입 이유 (선택 입력)</label>
+      <!-- 이 칸에는 required가 없습니다. 비워 둬도 제출이 됩니다. -->
+      <textarea
+        id="message"
+        name="message"
+        placeholder="자유롭게 적어주세요 (안 적어도 됩니다)"
+      ></textarea>
+
+      <button type="submit">가입하기</button>
+    </form>
+
+    <div class="success" id="successMsg">가입 완료! 모든 필수 항목이 채워졌습니다.</div>
+
+    <p class="note">
+      [실험] 아무것도 입력하지 않고 '가입하기'를 눌러보세요.<br />
+      브라우저가 "이 입력란을 작성하세요" 같은 안내를 띄우며 제출을 막아줍니다.
+    </p>
+  </div>
+
+  <script>
+    // 이 페이지의 검증은 100% HTML의 required 속성이 담당합니다.
+    // 아래 스크립트는 "필수 항목이 모두 통과되면 어떻게 되는지"를 보여주기 위한 것일 뿐입니다.
+    // (검증 실패 시에는 submit 이벤트 자체가 발생하지 않으므로 이 코드는 실행되지 않습니다.)
+    const form = document.getElementById("signupForm");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function (event) {
+      // 실제 서버가 없으므로 진짜 전송은 막고, 성공 메시지만 보여줍니다.
+      event.preventDefault();
+      successMsg.classList.add("show");
+    });
+  </script>
+</body>
+</html>

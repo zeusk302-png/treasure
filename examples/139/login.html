@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 — 비밀번호 재설정 실습(139)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="appHeader">
+    <a class="logo" href="login.html">🔑 로그인</a>
+  </header>
+
+  <main>
+    <h1>로그인</h1>
+    <p class="hint">
+      비밀번호를 바꾼 뒤에는 <strong>새 비밀번호</strong>로 로그인하세요.<br />
+      (이 페이지는 재설정 흐름의 도착지로만 둔 간단한 로그인 폼입니다. 자세한 로그인 실습은 132번을 참고하세요.)
+    </p>
+
+    <form id="loginForm" class="auth-form">
+      <input id="email" type="email" placeholder="이메일" required />
+      <input id="password" type="password" placeholder="비밀번호" required />
+      <button type="submit">로그인</button>
+    </form>
+    <div id="loginDone" class="info-box" hidden>✅ 로그인 성공! 새 비밀번호가 잘 저장되었습니다.</div>
+    <div id="msg"></div>
+
+    <p class="hint" style="margin-top:24px;">
+      또 비밀번호가 기억나지 않나요? <a href="forgot.html">비밀번호 찾기</a>
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    // 새 비밀번호가 제대로 저장됐는지 '확인용'으로만 둔 간단한 로그인 폼입니다.
+    const msgEl = document.getElementById("msg");
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msgEl.classList.remove("show");
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const { error } = await db.auth.signInWithPassword({ email, password });
+      if (error) {
+        msgEl.textContent = "로그인 실패: " + error.message;
+        msgEl.classList.add("show");
+        return;
+      }
+      document.getElementById("loginDone").hidden = false;
+    });
+  </script>
+</body>
+</html>

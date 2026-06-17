@@ -1,0 +1,162 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f4f1ea;            /* 부드러운 베이지 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+  /* 카드를 가로 가운데에 두고, 위쪽부터 시작하게 한다. */
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+/* 버튼과 결과가 담기는 큰 카드 */
+.card {
+  background: #ffffff;
+  max-width: 560px;
+  width: 100%;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 24px;
+  color: #8a6d3b;                /* 차분한 갈색 */
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.lead {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.lead strong {
+  color: #8a6d3b;
+}
+
+/* '내 위치로 날씨 보기' 버튼 묶음 */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.actions button {
+  background: #8a6d3b;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.actions button:hover {
+  background: #6f562d;           /* 마우스를 올리면 살짝 진하게 */
+}
+
+.actions button:disabled {
+  background: #cdbf9f;           /* 요청 중에는 흐리게 + 클릭 불가 */
+  cursor: default;
+}
+
+/* ★학습 포인트★ 받은 좌표와 만든 '주소'를 보여주는 박스 */
+.urlBox {
+  background: #2b2b2b;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  overflow-x: auto;              /* 주소가 길면 가로로 스크롤 */
+}
+
+.urlLabel {
+  display: block;
+  color: #c8b88f;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.urlView {
+  display: block;
+  color: #9fe3a0;                /* 코드처럼 보이는 연두색 */
+  font-family: "Consolas", "D2Coding", monospace;
+  font-size: 13px;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+/* 받아오는 중 / 권한 거부 / 결과 안내 문구 */
+.status {
+  color: #999;
+  font-size: 14px;
+  margin: 0 0 16px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* === 날씨 결과 카드 === */
+.weather {
+  background: #fbf9f4;
+  border: 1px solid #efe9dd;
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+.weather .icon {
+  font-size: 64px;
+  line-height: 1;
+}
+
+.weather .temp {
+  font-size: 44px;
+  font-weight: bold;
+  color: #2b2b2b;
+  margin: 8px 0 2px;
+}
+
+.weather .desc {
+  font-size: 18px;
+  color: #6f562d;
+  margin-bottom: 4px;
+}
+
+.weather .place {
+  font-size: 14px;
+  color: #999;
+  margin: 0 0 16px;
+}
+
+/* 체감·습도·바람 한 줄 요약 */
+.weather .extra {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  border-top: 1px solid #efe9dd;
+  padding-top: 14px;
+}
+
+.weather .extra li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #2b2b2b;
+}
+
+.weather .exLabel {
+  font-size: 12px;
+  font-weight: normal;
+  color: #aaa;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비밀번호 찾기 — 재설정 메일 보내기(139)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="appHeader">
+    <a class="logo" href="forgot.html">🔑 비밀번호 찾기</a>
+  </header>
+
+  <main>
+    <h1>비밀번호를 잊으셨나요?</h1>
+    <p class="hint">
+      가입할 때 쓴 이메일을 입력하면, 그 주소로 <strong>재설정 링크</strong>가 담긴 메일을 보냅니다.<br />
+      메일 속 링크를 누르면 새 비밀번호를 정하는 페이지(<code>reset.html</code>)로 이동합니다.
+    </p>
+
+    <!-- 1단계: 이메일을 받아 재설정 메일을 보내는 폼 -->
+    <form id="forgotForm" class="auth-form">
+      <input id="email" type="email" placeholder="가입한 이메일" required />
+      <button type="submit">재설정 메일 보내기</button>
+    </form>
+
+    <!-- 보낸 뒤 보여줄 안내 (처음엔 숨김) -->
+    <div id="sentBox" class="info-box" hidden>
+      📬 <strong id="sentEmail"></strong> 으로 재설정 메일을 보냈습니다.<br />
+      메일함(스팸함도)을 확인하고 링크를 눌러 주세요.
+    </div>
+
+    <div id="msg"></div>
+
+    <p class="hint" style="margin-top:24px;">
+      비밀번호가 기억났다면? <a href="login.html">로그인하러 가기</a>
+    </p>
+  </main>
+
+  <!-- Supabase 라이브러리 → 공통 설정 → 이 페이지 스크립트 순서로 불러옵니다 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="forgot.js"></script>
+</body>
+</html>

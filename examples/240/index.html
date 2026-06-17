@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 코딩 일기 — 다크모드 토글</title>
+  <!-- 같은 폴더에 있는 style.css(모양)와 script.js(동작)를 불러옵니다.
+       세 파일(index.html / style.css / script.js)이 같은 폴더에 함께 있어야 합니다. -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 페이지 맨 위: 블로그 이름 + 다크모드 토글 버튼 -->
+  <header class="site-header">
+    <div class="header-text">
+      <h1>오늘의 코딩 일기</h1>
+      <p class="tagline">비전공자가 하루 한 줄씩 적는 웹 개발 기록</p>
+    </div>
+
+    <!--
+      다크모드 토글 버튼.
+      - 버튼을 누르면 script.js가 <body>에 'dark' 클래스를 붙였다 뗐다 합니다.
+      - aria-pressed: 지금 다크모드가 켜졌는지(true/false)를 보조기기에 알려 줍니다.
+      - 버튼 안의 글자(🌙 다크모드 / ☀️ 라이트모드)는 script.js가 바꿔 줍니다.
+    -->
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+      🌙 다크모드
+    </button>
+  </header>
+
+  <!-- 본문: 글 카드들이 들어가는 영역 -->
+  <main class="post-list">
+    <!-- 글 카드 1 -->
+    <article class="post-card">
+      <h2 class="post-title">버튼 클릭으로 화면 색을 바꿨다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-18">2026년 6월 18일</time>
+        <span class="tag">JavaScript</span>
+      </p>
+      <p class="post-summary">
+        버튼 하나로 밝은 화면과 어두운 화면을 번갈아 바꿨다.
+        클래스를 붙였다 떼는 것만으로 화면 전체가 바뀐다는 게 신기했다.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+
+    <!-- 글 카드 2 -->
+    <article class="post-card">
+      <h2 class="post-title">CSS 변수의 쓸모를 알았다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-17">2026년 6월 17일</time>
+        <span class="tag">CSS</span>
+      </p>
+      <p class="post-summary">
+        색을 :root에 변수로 모아 두니, 다크모드일 때 값만 갈아끼우면
+        페이지 전체 색이 한 번에 바뀐다. 한곳만 고치면 되는 게 편하다.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+
+    <!-- 글 카드 3 -->
+    <article class="post-card">
+      <h2 class="post-title">이벤트가 무엇인지 감을 잡았다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-16">2026년 6월 16일</time>
+        <span class="tag">이벤트</span>
+      </p>
+      <p class="post-summary">
+        '버튼이 눌리면 이걸 해라'라고 미리 약속해 두는 것이 이벤트였다.
+        addEventListener라는 한 줄이 그 약속을 거는 자리였다.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+  </main>
+
+  <!-- 페이지 맨 아래: 저작권 줄 -->
+  <footer class="site-footer">
+    <p>© 2026 오늘의 코딩 일기 · 다크모드 토글이 동작하는 블로그</p>
+  </footer>
+
+  <!--
+    script.js는 <body> 맨 끝에서 불러옵니다.
+    이유: 위쪽 HTML(버튼·카드)이 먼저 화면에 만들어진 뒤에 JS가 실행돼야
+    버튼을 정확히 찾아 이벤트를 걸 수 있기 때문입니다.
+  -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내비게이션 바와 섹션으로 한 페이지 사이트 뼈대 만들기</title>
+
+  <!--
+    이 실습의 주인공은 "글자"가 아니라 "구역(영역) 태그"입니다.
+    아래 <style>의 색칠은 어디까지나 "어느 태그가 어느 영역인지 눈에 보이게" 하려는 보조 장치예요.
+    (CSS는 뒤 단원에서 본격적으로 배웁니다. 지금은 "영역마다 색이 다르구나" 정도만 느끼면 충분합니다.)
+  -->
+  <style>
+    /* 전체 기본 여백 정리 + 읽기 좋은 글꼴 */
+    body { margin: 0; font-family: sans-serif; line-height: 1.6; color: #222; }
+
+    /* 상단 메뉴(nav)에 색을 입혀 "여기가 메뉴 영역"임을 보이게 함 */
+    nav { background: #2b3a55; padding: 16px; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
+    nav a { color: #fff; text-decoration: none; }
+
+    /* 본문 묶음(main)은 가운데로 모아 읽기 편하게 */
+    main { max-width: 760px; margin: 0 auto; padding: 20px; }
+
+    /* 각 section을 옅은 선/색으로 구분해 "한 덩어리"처럼 보이게 함 */
+    section { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 20px; background: #fafafa; }
+
+    /* article은 section 안의 "독립된 카드 한 장"임을 보이게 함 */
+    article { border-left: 4px solid #2b3a55; padding: 8px 12px; margin-bottom: 12px; background: #fff; }
+
+    /* 맨 아래 푸터 */
+    footer { background: #eee; text-align: center; padding: 16px; color: #555; }
+  </style>
+</head>
+<body>
+
+  <!--
+    [1] nav : "내비게이션(navigation) 바" = 사이트 안을 돌아다니는 메뉴 모음 영역.
+    메뉴 항목은 보통 <ul><li> 목록으로 적고, 각 항목은 <a> 링크로 만듭니다.
+    href="#소개" 처럼 # 으로 시작하면 "이 페이지 안의 그 id 위치로 점프"한다는 뜻입니다.
+  -->
+  <nav>
+    <ul>
+      <li><a href="#소개">소개</a></li>
+      <li><a href="#기능">기능</a></li>
+      <li><a href="#후기">후기</a></li>
+    </ul>
+  </nav>
+
+  <!--
+    [2] main : 이 페이지의 "진짜 본문"을 한 번에 묶는 영역.
+    한 페이지에 main 은 하나만 두는 것이 원칙입니다. (메뉴/푸터는 main 밖에 둡니다.)
+  -->
+  <main>
+
+    <!--
+      [3] section : "주제가 같은 한 덩어리"를 묶는 영역.
+      여기서는 '소개' 라는 한 주제를 묶었습니다.
+      id="소개" 를 붙였기 때문에 위 메뉴의 href="#소개" 가 이 위치로 점프할 수 있습니다.
+      section 안에는 보통 그 덩어리의 제목(h2)을 하나 둡니다.
+    -->
+    <section id="소개">
+      <h2>소개</h2>
+      <p>
+        안녕하세요! 이 페이지는 "한 페이지 사이트(랜딩 페이지)"의 뼈대를 보여 줍니다.
+        위쪽 메뉴(<code>nav</code>)를 누르면 아래의 각 구역(<code>section</code>)으로 이동합니다.
+      </p>
+    </section>
+
+    <!-- 두 번째 덩어리: '기능' 이라는 주제를 묶은 section -->
+    <section id="기능">
+      <h2>주요 기능</h2>
+
+      <!--
+        [4] article : section 안에서 "그것만 따로 떼어 내도 말이 되는 독립된 글 한 토막".
+        뉴스 기사 한 건, 블로그 글 한 편, 상품 카드 한 장처럼 "각각 완결된 내용"에 씁니다.
+        여기서는 기능 설명 카드 두 장을 각각 article 로 만들었습니다.
+      -->
+      <article>
+        <h3>빠른 시작</h3>
+        <p>복잡한 설치 없이, HTML 파일 하나만 열면 바로 동작합니다.</p>
+      </article>
+
+      <article>
+        <h3>깔끔한 구조</h3>
+        <p>nav · section · article 로 영역이 또렷하게 나뉘어 읽기 쉽습니다.</p>
+      </article>
+    </section>
+
+    <!-- 세 번째 덩어리: '후기' 주제 -->
+    <section id="후기">
+      <h2>사용 후기</h2>
+
+      <article>
+        <h3>비전공 직장인 김OO</h3>
+        <p>"태그 이름만 보고도 어디가 메뉴인지, 본문인지 한눈에 보여요."</p>
+      </article>
+    </section>
+
+  </main>
+
+  <!--
+    [5] footer : 페이지 맨 아래의 "바닥글" 영역.
+    저작권 표시, 연락처, 추가 링크 등을 보통 여기에 둡니다. footer 는 main 밖에 둡니다.
+  -->
+  <footer>
+    <p>© 2026 나의 첫 랜딩 페이지 — HTML 시맨틱 레이아웃 연습</p>
+  </footer>
+
+</body>
+</html>

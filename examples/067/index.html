@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디지털 시계 - 실시간 시:분:초</title>
+  <style>
+    /* 화면 가운데에 시계를 두기 위한 최소한의 꾸밈입니다 */
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      gap: 12px;
+      background-color: #0f172a; /* 어두운 남색 배경 */
+      color: #e2e8f0;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 500;
+      margin: 0;
+      color: #94a3b8;
+    }
+
+    /* 시계 숫자를 보여줄 박스입니다 */
+    #clock {
+      font-size: 64px;
+      font-weight: 700;
+      /* 숫자 글꼴: 숫자 폭이 일정해서 1초마다 글자가 덜컹거리지 않습니다 */
+      font-family: "Courier New", monospace;
+      letter-spacing: 4px;
+      background-color: #1e293b;
+      padding: 24px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 오늘 날짜를 보여줄 작은 글씨 */
+    #date {
+      font-size: 16px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <h1>실시간 디지털 시계</h1>
+
+  <!-- 1초마다 이 안의 숫자를 자바스크립트가 갈아끼웁니다. -->
+  <!-- 처음에는 "--:--:--"로 두고, 페이지가 열리면 바로 현재 시각으로 바뀝니다. -->
+  <div id="clock">--:--:--</div>
+
+  <!-- 오늘 날짜도 함께 보여줍니다 -->
+  <div id="date">날짜를 불러오는 중...</div>
+
+  <!-- 화면(HTML)을 다 만든 뒤에 자바스크립트를 불러옵니다 -->
+  <script src="script.js"></script>
+</body>
+</html>
