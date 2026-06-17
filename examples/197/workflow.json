@@ -1,0 +1,57 @@
+{
+  "name": "197 - 고정 텍스트 메일 보내기",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "수동 실행 (Manual Trigger)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "YOUR_EMAIL@example.com",
+        "subject": "n8n 테스트 메일입니다",
+        "emailType": "text",
+        "message": "안녕하세요, n8n 테스트입니다.\n\n이 메일은 n8n 워크플로우가 자동으로 보냈습니다.",
+        "options": {}
+      },
+      "id": "22222222-2222-2222-2222-222222222222",
+      "name": "Gmail로 메일 보내기",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_GMAIL_CREDENTIAL_ID",
+          "name": "내 Gmail 계정 (자격증명)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "수동 실행 (Manual Trigger)": {
+      "main": [
+        [
+          {
+            "node": "Gmail로 메일 보내기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

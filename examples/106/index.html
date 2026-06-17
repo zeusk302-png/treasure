@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- 이 한 페이지만으로 동작합니다. 더블클릭해서 브라우저로 여세요. -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이름 기억하기 (localStorage 실습)</title>
+  <style>
+    /* 꾸밈은 핵심이 아니라 보기 편하라고 넣은 최소한의 스타일입니다. */
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { font-size: 1.4rem; }
+    .row { display: flex; gap: 8px; margin: 16px 0; }
+    input {
+      flex: 1;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border: 0;
+      border-radius: 8px;
+      background: #4a6cf7;
+      color: #fff;
+      cursor: pointer;
+    }
+    button.ghost { background: #eee; color: #333; }
+    #greeting {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      min-height: 1.6em; /* 글자가 없을 때도 자리가 흔들리지 않게 */
+    }
+    .hint { color: #888; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>이름을 기억하는 페이지</h1>
+  <p class="hint">이름을 저장한 뒤 <b>새로고침(F5)</b> 해도 그대로 남아 있는지 확인해 보세요.</p>
+
+  <div class="row">
+    <!-- 사용자가 이름을 입력하는 칸 -->
+    <input id="nameInput" type="text" placeholder="이름을 입력하세요" />
+    <!-- 저장 버튼 -->
+    <button id="saveBtn">저장</button>
+  </div>
+
+  <div class="row">
+    <!-- 저장된 이름을 지우는 버튼 -->
+    <button id="clearBtn" class="ghost">지우기</button>
+  </div>
+
+  <!-- 저장된 이름이 표시되는 곳 -->
+  <p id="greeting"></p>
+
+  <script>
+    // 1) 화면 요소들을 미리 찾아 둡니다.
+    const nameInput = document.getElementById("nameInput");
+    const saveBtn = document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const greeting = document.getElementById("greeting");
+
+    // localStorage에 저장할 때 쓸 "이름표(키)"입니다. 항상 같은 글자를 써야 다시 꺼낼 수 있습니다.
+    const STORAGE_KEY = "savedName";
+
+    // 2) 화면에 인사말을 그리는 함수.
+    //    이름이 있으면 인사하고, 없으면 안내 문구를 보여줍니다.
+    function showGreeting(name) {
+      if (name) {
+        greeting.textContent = name + "님, 안녕하세요!";
+      } else {
+        greeting.textContent = "아직 저장된 이름이 없어요.";
+      }
+    }
+
+    // 3) 페이지가 열리자마자 localStorage에서 이름을 꺼내 봅니다.
+    //    getItem은 저장된 값이 없으면 null을 돌려줍니다.
+    const savedName = localStorage.getItem(STORAGE_KEY);
+    nameInput.value = savedName || ""; // 입력칸에도 채워 두면 편합니다.
+    showGreeting(savedName);
+
+    // 4) [저장] 버튼: 입력칸의 값을 localStorage에 넣습니다.
+    saveBtn.addEventListener("click", function () {
+      const name = nameInput.value.trim(); // 앞뒤 공백 제거
+      if (!name) {
+        alert("이름을 입력해 주세요.");
+        return;
+      }
+      localStorage.setItem(STORAGE_KEY, name); // ★ 여기서 브라우저에 저장됩니다.
+      showGreeting(name);
+    });
+
+    // 5) [지우기] 버튼: 저장된 값을 삭제합니다.
+    clearBtn.addEventListener("click", function () {
+      localStorage.removeItem(STORAGE_KEY);
+      nameInput.value = "";
+      showGreeting(null);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실습 147 — Network 탭으로 내 API 요청 엿보기</title>
+  <style>
+    /* 비전공자도 읽기 쉽게 최소한만 꾸밉니다 */
+    body {
+      font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+      max-width: 640px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { font-size: 1.4rem; }
+    button {
+      font-size: 1rem;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: #3f51b5;
+      color: #fff;
+      cursor: pointer;
+    }
+    #quote {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f3f4ff;
+      border-radius: 8px;
+      min-height: 48px;
+    }
+    .panel {
+      margin-top: 28px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .hint { color: #666; font-size: 0.85rem; }
+    .recorded {
+      margin-top: 16px;
+      padding: 12px;
+      background: #eefbf0;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>실습 147 — Network 탭으로 내 API 요청 엿보기</h1>
+  <p>
+    아래 버튼을 누르면 공개 명언 API에서 글귀 한 줄을 받아옵니다.
+    누르는 순간 <strong>F12 → Network 탭</strong>을 열어 둔 채로 보세요.
+    그러면 "내 화면에 보이는 글" 뒤에서 실제로 어떤 <strong>요청과 응답</strong>이
+    오갔는지 1차 증거를 직접 볼 수 있습니다.
+  </p>
+
+  <!-- 1) 명언 받아오기 -->
+  <button id="loadBtn">명언 받아오기</button>
+  <div id="quote">여기에 명언이 표시됩니다.</div>
+
+  <!-- 2) 내가 Network 탭에서 본 것을 직접 적어보는 칸 -->
+  <div class="panel">
+    <h2 style="font-size:1.1rem; margin-top:0;">내가 관찰한 것 적기</h2>
+    <p class="hint">
+      Network 탭에서 방금 생긴 요청을 클릭하면 보이는 값을 그대로 옮겨 적으세요.
+      "AI가 그럴 거다"가 아니라 <strong>눈앞의 진짜 값</strong>을 적는 게 핵심입니다.
+    </p>
+
+    <label for="reqUrl">요청 URL (Headers 탭의 Request URL)</label>
+    <input id="reqUrl" placeholder="예: https://api.quotable.io/random" />
+
+    <label for="status">상태코드 (Status)</label>
+    <input id="status" placeholder="예: 200" />
+
+    <label for="respPart">응답 JSON 일부 (Response 탭에서 본 글귀 한 줄)</label>
+    <input id="respPart" placeholder='예: "content": "..." 부분을 붙여넣기' />
+
+    <button id="saveBtn" style="margin-top:14px;">관찰 결과 기록하기</button>
+    <div id="recorded" class="recorded" hidden></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

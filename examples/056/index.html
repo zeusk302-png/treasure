@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>첫 이벤트 - 버튼 누르면 알림창</title>
+  <style>
+    /* 화면 가운데에 버튼을 두기 위한 최소한의 꾸밈입니다 */
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      gap: 16px;
+    }
+    /* 누를 버튼 모양 */
+    #helloBtn {
+      font-size: 18px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4f46e5;
+      color: white;
+      cursor: pointer;
+    }
+    #helloBtn:hover {
+      background-color: #4338ca;
+    }
+  </style>
+</head>
+<body>
+  <h1>첫 이벤트 실습</h1>
+  <p>아래 버튼을 눌러보세요.</p>
+
+  <!-- 우리가 누를 버튼 1개. id로 이름표를 붙여 자바스크립트가 찾을 수 있게 합니다 -->
+  <button id="helloBtn">눌러보세요</button>
+
+  <!-- 화면(HTML)을 다 만든 뒤에 자바스크립트를 불러옵니다 -->
+  <script src="script.js"></script>
+</body>
+</html>
