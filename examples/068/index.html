@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ 아코디언 (한 번에 하나만 열림)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <h1>자주 묻는 질문 (FAQ)</h1>
+    <p class="lead">질문을 누르면 답이 펼쳐집니다. 다른 질문을 열면 이전 답은 자동으로 닫혀요.</p>
+
+    <!--
+      아코디언 한 칸 = .faq-item
+        ├─ button.faq-question : 누르는 질문 (버튼이라 키보드로도 눌러짐)
+        └─ div.faq-answer      : 펼쳐지는 답
+      "열림" 상태는 .faq-item 에 is-open 클래스가 붙었는지로 구분합니다.
+    -->
+    <section class="faq" aria-label="자주 묻는 질문 목록">
+
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>수강 신청은 어떻게 하나요?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>홈페이지 상단의 "수강 신청" 버튼을 누른 뒤, 원하는 과정을 선택하고 정보를 입력하면 됩니다. 신청 후 안내 메일이 발송됩니다.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>수강료 환불이 가능한가요?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>개강 전까지는 100% 환불됩니다. 개강 후에는 진행 회차에 따라 환불 금액이 달라지며, 자세한 기준은 환불 정책 페이지에서 확인할 수 있습니다.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>비전공자도 따라갈 수 있나요?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>네. 모든 강의는 컴퓨터 비전공자를 기준으로 설계되어 있습니다. HTML 한 줄부터 차근차근 시작하므로 사전 지식이 없어도 괜찮습니다.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>수업은 온라인인가요, 오프라인인가요?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>온라인 실시간 수업과 오프라인 강의실 수업을 모두 운영합니다. 신청할 때 원하는 방식을 선택할 수 있습니다.</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

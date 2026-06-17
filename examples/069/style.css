@@ -1,0 +1,94 @@
+/* 화면 전체 기본 설정: 카드 하나를 가운데에 띄웁니다. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  color: #1f2937;
+}
+
+/* 가운데 흰색 카드 */
+.card {
+  background: #ffffff;
+  padding: 28px 32px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 360px;
+}
+
+.card h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.desc {
+  margin: 0 0 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== 탭 버튼 줄 ===== */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #e5e7eb; /* 탭 줄 아래 회색 밑줄 */
+  margin-bottom: 16px;
+}
+
+/* 탭 버튼 한 개의 기본 모습 (선택 안 된 상태) */
+.tab {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 14px;
+  color: #6b7280;            /* 평소엔 흐린 회색 글자 */
+  border-bottom: 2px solid transparent; /* 자리만 잡아두고 색은 투명 */
+  margin-bottom: -2px;        /* .tabs의 밑줄과 정확히 겹치게 끌어올림 */
+  transition: color 0.15s ease;
+}
+
+.tab:hover {
+  color: #1f2937; /* 마우스를 올리면 진해짐 */
+}
+
+/* 선택된 탭: JS가 is-active 클래스를 붙이면 글자가 진해지고 파란 밑줄이 생깁니다 */
+.tab.is-active {
+  color: #2563eb;
+  font-weight: 700;
+  border-bottom-color: #2563eb; /* 선택된 탭 아래 파란 줄 */
+}
+
+/* ===== 탭 내용(패널) ===== */
+/* 모든 패널은 기본적으로 숨김 */
+.panel {
+  display: none;
+}
+
+/* JS가 is-active를 붙인 패널만 화면에 보입니다 */
+.panel.is-active {
+  display: block;
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.panel ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.9;
+}
+
+.panel p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+}

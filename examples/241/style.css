@@ -1,0 +1,83 @@
+/*
+  ── 색을 "변수"로 정해 두기 ────────────────────────────────
+  :root 는 "문서 전체"를 가리킵니다. 여기에 --배경색 / --글자색 같은
+  색 변수를 정해 두면, 아래에서 var(--배경색) 처럼 가져다 쓸 수 있습니다.
+  기본값(아무 표시 없을 때)은 "밝은 모드" 색입니다.
+*/
+:root {
+  --bg: #ffffff;        /* 배경색 */
+  --text: #1a1a1a;      /* 글자색 */
+  --card-bg: #f4f4f5;   /* 카드(박스) 배경색 */
+  --border: #e4e4e7;    /* 테두리색 */
+  --accent: #2563eb;    /* 강조색(버튼 등) */
+}
+
+/*
+  ── 어두운 모드일 때의 색 ──────────────────────────────────
+  index.html 의 <html> 태그에 data-theme="dark" 라는 표시가 붙으면
+  아래 색들이 위 기본값을 덮어씁니다. 즉 표시 하나로 페이지 전체 색이 바뀝니다.
+  자바스크립트는 이 data-theme 표시를 켰다 껐다 하는 일만 합니다.
+*/
+[data-theme="dark"] {
+  --bg: #18181b;
+  --text: #f4f4f5;
+  --card-bg: #27272a;
+  --border: #3f3f46;
+  --accent: #60a5fa;
+}
+
+/* 페이지 전체의 기본 모양. 색은 위에서 정한 변수를 가져다 씁니다. */
+body {
+  font-family: system-ui, "맑은 고딕", sans-serif;
+  line-height: 1.7;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  background: var(--bg);
+  color: var(--text);
+  /* 색이 갑자기 휙 바뀌지 않고 0.25초에 걸쳐 부드럽게 바뀌게 합니다. */
+  transition: background 0.25s, color 0.25s;
+}
+
+/* 맨 위 영역: 제목(왼쪽)과 버튼(오른쪽)을 양 끝으로 벌려 놓습니다. */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+h1 { font-size: 22px; margin: 0; }
+h2 { font-size: 17px; margin-top: 0; }
+
+/* 테마 전환 버튼 모양 */
+#theme-toggle {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--accent);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 15px;
+  white-space: nowrap;  /* 글자가 두 줄로 쪼개지지 않게 */
+}
+
+/* 본문 안 박스(카드) */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+/* 저장된 값을 보여 주는 작은 코드 표시 */
+code {
+  background: var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+}

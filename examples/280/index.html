@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>안 눌리는 신청 버튼 — (고친 정답 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f6fb;
+    }
+
+    /* 상단에 항상 붙어 있는 고정 헤더 */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: #6c4ad6;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 20px;
+      box-sizing: border-box;
+
+      /* FIX 1: 헤더에 z-index 를 또렷하게 줘서 '항상 맨 위' 레이어임을 명시합니다. */
+      z-index: 100;
+    }
+
+    .content {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px;
+
+      /*
+        FIX 2: 고정 헤더(높이 120px) 만큼 본문을 아래로 밀어줍니다.
+        헤더는 화면에서 '떠 있는' 요소라 자리를 차지하지 않으므로,
+        본문이 헤더에 가려지지 않도록 위쪽 여백을 직접 확보해야 합니다.
+      */
+      padding-top: 144px;   /* 헤더 높이 120px + 여유 24px */
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .apply-btn {
+      /*
+        FIX 3: z-index: -1 을 없앴습니다.
+        이제 버튼이 뒤 레이어로 밀려나지 않으므로, 헤더와 겹치지 않는
+        본문 영역에서 클릭이 정상적으로 버튼에 도달합니다.
+      */
+      margin-top: 16px;
+      padding: 14px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #ff5a8a;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    FIX 요약:
+    1) 헤더에 z-index: 100 을 줘서 명확히 '맨 위' 레이어로 만들고,
+    2) 본문(.content)에 padding-top: 144px 를 줘서 고정 헤더 아래로 내용을 밀어내고,
+    3) 버튼의 z-index: -1 을 제거해 뒤로 숨지 않게 했습니다.
+    이제 헤더와 버튼이 화면에서 겹치지 않으므로 '신청하기' 버튼이 정상 클릭됩니다.
+  -->
+  <header class="header">우리 동네 마라톤 신청 페이지</header>
+
+  <main class="content">
+    <div class="card">
+      <h1>마라톤 참가 신청</h1>
+      <p>아래 버튼을 누르면 신청이 완료됩니다.</p>
+      <button class="apply-btn" onclick="alert('신청이 완료되었습니다!')">신청하기</button>
+    </div>
+  </main>
+</body>
+</html>

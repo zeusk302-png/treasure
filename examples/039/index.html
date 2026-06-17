@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2x2 사진 갤러리 - CSS Grid 실습</title>
+  <!-- 같은 폴더에 있는 style.css 파일을 불러옵니다 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <h1>나의 여행 사진 갤러리</h1>
+    <p>CSS Grid로 만든 2열 x 2행(2x2) 사진 격자입니다.</p>
+  </header>
+
+  <main>
+    <!-- 이 div가 '격자판' 역할을 합니다. 여기에 display:grid 를 줍니다. -->
+    <section class="gallery">
+      <!-- 사진 4장. 인터넷 연결 없이도 보이도록 placehold.co 대신
+           직접 그린 SVG 색 블록을 data URL로 사용했습니다. -->
+      <figure class="gallery-item">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%23ff7f50'/><text x='50%25' y='50%25' fill='white' font-size='40' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>사진 1</text></svg>"
+          alt="바다 사진" />
+        <figcaption>바다</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%234caf50'/><text x='50%25' y='50%25' fill='white' font-size='40' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>사진 2</text></svg>"
+          alt="숲 사진" />
+        <figcaption>숲</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%232196f3'/><text x='50%25' y='50%25' fill='white' font-size='40' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>사진 3</text></svg>"
+          alt="하늘 사진" />
+        <figcaption>하늘</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%239c27b0'/><text x='50%25' y='50%25' fill='white' font-size='40' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>사진 4</text></svg>"
+          alt="노을 사진" />
+        <figcaption>노을</figcaption>
+      </figure>
+    </section>
+  </main>
+</body>
+</html>

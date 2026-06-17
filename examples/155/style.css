@@ -1,0 +1,166 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f4f1ea;            /* 부드러운 베이지 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+  /* 카드를 가로 가운데에 두고, 위쪽부터 시작하게 한다. */
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+/* 계산기가 담기는 큰 카드 */
+.card {
+  background: #ffffff;
+  max-width: 560px;
+  width: 100%;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 24px;
+  color: #2f7d4f;                /* 차분한 초록 (환율/금융 느낌) */
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.lead {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.lead strong {
+  color: #2f7d4f;
+}
+
+/* ★학습 포인트★ 만든 '주소'와 받아온 '환율'을 보여주는 박스 */
+.urlBox {
+  background: #2b2b2b;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  overflow-x: auto;              /* 주소가 길면 가로로 스크롤 */
+}
+
+.urlLabel {
+  display: block;
+  color: #9fcbb0;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.urlView {
+  display: block;
+  color: #9fe3a0;                /* 코드처럼 보이는 연두색 */
+  font-family: "Consolas", "D2Coding", monospace;
+  font-size: 13px;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+/* 받아오는 중 / 실패 / 성공 안내 문구 */
+.status {
+  color: #999;
+  font-size: 14px;
+  margin: 0 0 16px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* === 환전 입력 영역 === */
+.converter {
+  background: #f6faf7;
+  border: 1px solid #e2efe7;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.curLabel {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2f7d4f;
+}
+
+/* 금액 입력 칸 */
+.amount {
+  width: 100%;
+  box-sizing: border-box;        /* padding이 너비에 포함되게 */
+  padding: 12px 14px;
+  font-size: 20px;
+  text-align: right;             /* 금액은 오른쪽 정렬이 읽기 편하다 */
+  border: 1px solid #cfe0d5;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.amount:focus {
+  outline: none;
+  border-color: #2f7d4f;
+  box-shadow: 0 0 0 3px rgba(47, 125, 79, 0.15);
+}
+
+.amount:disabled {
+  background: #eef2ef;           /* 환율 받기 전에는 흐리게 + 입력 불가 */
+  color: #aaa;
+}
+
+/* 두 입력 칸 사이의 ⇅ 표시 */
+.swapWrap {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.swapMark {
+  font-size: 22px;
+  color: #2f7d4f;
+}
+
+/* 적용 환율·기준 날짜 한 줄 */
+.info {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin: 14px 0 0;
+  min-height: 18px;              /* 글자가 없을 때도 자리를 유지해 화면이 덜 흔들림 */
+}
+
+/* '오늘 환율 다시 받기' 버튼 묶음 */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.actions button {
+  background: #2f7d4f;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.actions button:hover {
+  background: #25623e;           /* 마우스를 올리면 살짝 진하게 */
+}
+
+.actions button:disabled {
+  background: #aecbb9;           /* 받아오는 중에는 흐리게 + 클릭 불가 */
+  cursor: default;
+}

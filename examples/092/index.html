@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이메일 형식·글자 수 제한 검증 - 회원가입 폼</title>
+  <style>
+    /* 비전공자용: 보기 좋게 만드는 기본 스타일입니다. 검증과는 직접 관련 없습니다. */
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 24px;
+      color: #222;
+    }
+    .card {
+      max-width: 440px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+    .desc {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 20px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 16px 0 6px;
+    }
+    /* 별표(*)는 필수 항목임을 사람 눈에 알려주는 표시입니다. */
+    .star { color: #e03131; }
+    /* 입력칸 아래 작은 안내 글씨(몇 글자까지 가능한지 등)를 보여주는 도움말입니다. */
+    .hint {
+      font-size: 12px;
+      color: #888;
+      margin: 4px 0 0;
+    }
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+
+    /* 사용자가 한 번이라도 입력한 칸에서만 색을 표시합니다(:placeholder-shown 으로 첫 화면은 막음).
+       형식/길이가 맞지 않으면 :invalid 가 되어 빨갛게, 맞으면 :valid 가 되어 초록색이 됩니다.
+       이 색은 보너스 표시일 뿐이고, 진짜 검증은 input 속성(type/minlength/maxlength)이 합니다. */
+    input:invalid:not(:placeholder-shown) {
+      border-color: #e03131;
+      background: #fff5f5;
+    }
+    input:valid:not(:placeholder-shown) {
+      border-color: #2f9e44;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #4263eb;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { background: #3b5bdb; }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #888;
+      line-height: 1.6;
+    }
+    .success {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #ebfbee;
+      color: #2b8a3e;
+      font-size: 14px;
+      text-align: center;
+    }
+    .success.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>회원가입</h1>
+    <p class="desc"><span class="star">*</span> 표시는 꼭 입력해야 하는 항목입니다.</p>
+
+    <!-- 핵심: JavaScript 한 줄 없이, input 태그의 '속성'만으로 형식과 길이를 검사합니다.
+         - type="email"  → @ 가 포함된 이메일 형식인지 브라우저가 검사
+         - minlength      → 최소 몇 글자 이상이어야 하는지
+         - maxlength      → 더 이상 못 치도록 입력 자체를 막는 '상한선'
+         빈 칸 방지를 위해 required 도 함께 붙였습니다(091 실습 복습). -->
+    <form id="signupForm">
+      <label for="email">이메일 <span class="star">*</span></label>
+      <!-- type="email" : @ 가 없거나 형식이 어색하면 "@를 포함하세요" 같은 안내가 뜹니다. -->
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="example@email.com"
+        required
+      />
+      <p class="hint">@ 가 포함된 올바른 이메일 형식이어야 합니다.</p>
+
+      <label for="username">아이디 <span class="star">*</span></label>
+      <!-- minlength="4" maxlength="12" : 4글자 미만이면 제출 시 안내가 뜨고,
+           12글자를 넘으면 아예 더 입력되지 않습니다(maxlength 는 즉시 막음). -->
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="영문/숫자 4~12자"
+        minlength="4"
+        maxlength="12"
+        required
+      />
+      <p class="hint">4자 이상 12자 이하로 입력하세요. (13자째부터는 입력이 막힙니다.)</p>
+
+      <label for="password">비밀번호 <span class="star">*</span></label>
+      <!-- minlength="8" : 8글자 미만이면 "최소 8자 이상 입력하세요" 안내가 뜹니다. -->
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="8자 이상"
+        minlength="8"
+        maxlength="20"
+        required
+      />
+      <p class="hint">8자 이상 20자 이하로 입력하세요.</p>
+
+      <button type="submit">가입하기</button>
+    </form>
+
+    <div class="success" id="successMsg">가입 완료! 형식과 글자 수 검증을 모두 통과했습니다.</div>
+
+    <p class="note">
+      [실험 1] 이메일 칸에 <strong>abc</strong>(@ 없음)를 넣고 가입하기를 눌러보세요.<br />
+      [실험 2] 아이디 칸에 <strong>ab</strong>(2글자)만 넣고 눌러보세요.<br />
+      [실험 3] 아이디 칸에 13글자 이상 타이핑해보세요. 더 안 쳐집니다.
+    </p>
+  </div>
+
+  <script>
+    // 이 페이지의 형식·길이 검증은 100% HTML 속성(type/minlength/maxlength)이 담당합니다.
+    // 아래 스크립트는 "모든 검증을 통과하면 어떻게 되는지"를 보여주기 위한 것일 뿐입니다.
+    // (검증 실패 시에는 submit 이벤트 자체가 발생하지 않으므로 이 코드는 실행되지 않습니다.)
+    const form = document.getElementById("signupForm");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function (event) {
+      // 실제 서버가 없으므로 진짜 전송은 막고, 성공 메시지만 보여줍니다.
+      event.preventDefault();
+      successMsg.classList.add("show");
+    });
+  </script>
+</body>
+</html>

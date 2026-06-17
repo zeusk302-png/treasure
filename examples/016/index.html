@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내부 앵커 링크로 목차 만들기</title>
+  <style>
+    /* 화면을 부드럽게 스크롤시켜서 '점프'가 자연스럽게 보이도록 합니다. */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* 기본 글꼴과 여백을 보기 좋게 정리합니다. (앵커 학습의 핵심은 아니지만 가독성을 위해 둡니다) */
+    body {
+      font-family: "맑은 고딕", system-ui, sans-serif;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px;
+      color: #222;
+    }
+
+    h1 {
+      border-bottom: 3px solid #4f46e5;
+      padding-bottom: 8px;
+    }
+
+    /* 목차 박스 */
+    .toc {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 16px 16px 16px 36px;
+      margin-bottom: 32px;
+    }
+
+    .toc strong {
+      display: block;
+      margin-left: -16px;
+      margin-bottom: 8px;
+      color: #4f46e5;
+    }
+
+    /* 각 섹션을 충분히 길게 보이도록 최소 높이를 줍니다.
+       그래야 목차를 눌렀을 때 '점프'하는 것이 눈에 잘 보입니다. */
+    section {
+      min-height: 70vh;
+      padding-top: 12px;
+    }
+
+    /* 맨 위로 돌아가는 링크 */
+    .back-to-top {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.9em;
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .back-to-top:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 페이지 맨 위에 id="top"을 달아두면, 아래에서 #top 링크로 다시 올라올 수 있습니다. -->
+  <h1 id="top">초보자를 위한 웹 입문 안내서</h1>
+
+  <!-- 목차: a 태그의 href에 #섹션id 를 적으면, 그 id를 가진 요소로 이동합니다. -->
+  <nav class="toc">
+    <strong>목차</strong>
+    <ul>
+      <li><a href="#intro">1. 웹이란 무엇인가</a></li>
+      <li><a href="#html">2. HTML 살펴보기</a></li>
+      <li><a href="#css">3. CSS 살펴보기</a></li>
+      <li><a href="#js">4. 자바스크립트 살펴보기</a></li>
+    </ul>
+  </nav>
+
+  <!-- 각 섹션에는 목차의 href와 짝이 맞는 id를 달아줍니다. -->
+  <section id="intro">
+    <h2>1. 웹이란 무엇인가</h2>
+    <p>
+      웹(Web)은 인터넷 위에서 서로 연결된 문서들의 거대한 그물망입니다.
+      우리가 매일 보는 웹페이지도 사실은 글자로 적힌 문서일 뿐이고,
+      브라우저가 그 문서를 읽어서 화면에 예쁘게 그려줍니다.
+    </p>
+    <p>
+      이 안내서를 따라 읽다 보면 웹페이지가 어떻게 만들어지는지
+      큰 그림을 잡을 수 있습니다. 위 목차에서 원하는 항목을 누르면
+      해당 부분으로 바로 이동합니다.
+    </p>
+    <a class="back-to-top" href="#top">↑ 맨 위로</a>
+  </section>
+
+  <section id="html">
+    <h2>2. HTML 살펴보기</h2>
+    <p>
+      HTML은 웹페이지의 '뼈대'입니다. 제목, 문단, 목록, 이미지처럼
+      페이지에 무엇이 들어갈지를 태그(tag)로 표시합니다.
+    </p>
+    <p>
+      예를 들어 큰 제목은 &lt;h1&gt;, 문단은 &lt;p&gt; 태그로 적습니다.
+      태그는 대부분 여는 태그와 닫는 태그가 한 쌍을 이룹니다.
+    </p>
+    <a class="back-to-top" href="#top">↑ 맨 위로</a>
+  </section>
+
+  <section id="css">
+    <h2>3. CSS 살펴보기</h2>
+    <p>
+      CSS는 웹페이지의 '옷'입니다. 색깔, 글꼴, 여백, 배치처럼
+      어떻게 보일지를 정합니다. HTML이 뼈대라면 CSS는 그 위에
+      입히는 디자인이라고 생각하면 쉽습니다.
+    </p>
+    <p>
+      같은 HTML이라도 CSS만 바꾸면 전혀 다른 느낌의 페이지가 됩니다.
+    </p>
+    <a class="back-to-top" href="#top">↑ 맨 위로</a>
+  </section>
+
+  <section id="js">
+    <h2>4. 자바스크립트 살펴보기</h2>
+    <p>
+      자바스크립트는 웹페이지의 '동작'을 담당합니다. 버튼을 누르면
+      반응하거나, 입력한 값을 처리하는 등 페이지를 살아 움직이게 만듭니다.
+    </p>
+    <p>
+      HTML(뼈대) + CSS(디자인) + 자바스크립트(동작), 이 세 가지가
+      웹페이지를 이루는 기본 재료입니다. 여기까지 읽으셨다면
+      웹의 큰 그림을 모두 본 셈입니다!
+    </p>
+    <a class="back-to-top" href="#top">↑ 맨 위로</a>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>안 눌리는 신청 버튼 — (고장난 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f6fb;
+    }
+
+    /*
+      상단에 항상 붙어 있는 고정 헤더입니다.
+      position: fixed 라서 화면 맨 위에 둥둥 떠 있고, 다른 글자들 위를 덮습니다.
+    */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;            /* 헤더가 꽤 두껍습니다 */
+      background: #6c4ad6;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 20px;
+      box-sizing: border-box;
+      /* BUG 1: z-index 를 안 적어서 쌓임 순서가 애매합니다 (기본값 auto). */
+    }
+
+    /*
+      본문 영역입니다.
+      BUG 2: padding-top 이 없어서, 고정 헤더(높이 120px) 가 본문 위쪽을
+      그대로 덮어버립니다. 그래서 헤더 아래에 있어야 할 안내문과 버튼이
+      헤더에 가려집니다.
+    */
+    .content {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .apply-btn {
+      /*
+        BUG 3: position: relative + z-index: -1 때문에 이 버튼이
+        '뒤 레이어'로 밀려납니다. 그 위를 헤더가 덮고 있으면,
+        클릭이 버튼이 아니라 헤더로 들어가서 버튼이 안 눌립니다.
+      */
+      position: relative;
+      z-index: -1;
+
+      margin-top: 16px;
+      padding: 14px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #ff5a8a;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    BUG 요약: 고정 헤더(.header)가 본문 위를 덮고 있는데,
+    1) 본문(.content)에 padding-top 이 없어 버튼이 헤더 영역과 겹치고,
+    2) 버튼(.apply-btn)은 z-index: -1 로 뒤로 밀려 있어서,
+    헤더가 클릭을 가로채 '신청하기' 버튼이 눌리지 않습니다.
+  -->
+  <header class="header">우리 동네 마라톤 신청 페이지</header>
+
+  <main class="content">
+    <div class="card">
+      <h1>마라톤 참가 신청</h1>
+      <p>아래 버튼을 누르면 신청이 완료됩니다.</p>
+      <!-- 이 버튼을 눌러도 alert 가 안 뜹니다 (헤더에 가려 클릭이 안 됨) -->
+      <button class="apply-btn" onclick="alert('신청이 완료되었습니다!')">신청하기</button>
+    </div>
+  </main>
+</body>
+</html>

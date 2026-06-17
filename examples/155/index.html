@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실시간 환전 계산기 — 원↔달러 (환율 API)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>💱 실시간 환전 계산기</h1>
+    <p class="lead">
+      페이지를 열면 <strong>무료 공개 환율 API</strong>에서 <strong>오늘의 환율</strong>을 받아옵니다.
+      금액을 입력하면 <strong>원(KRW) ↔ 달러(USD)</strong>로 즉시 환산됩니다.
+      이번 실습의 핵심은 <strong>"받아온 숫자(환율)로 직접 계산 로직을 만들기"</strong>와
+      <strong>"한쪽을 입력하면 반대쪽이 자동으로 바뀌는 양방향 계산"</strong>입니다.
+    </p>
+
+    <!-- ★학습 포인트★ 우리가 만든 API 요청 '주소'와, 받아온 '오늘 환율'을 눈으로 보여주는 칸 -->
+    <div class="urlBox">
+      <span class="urlLabel">① 오늘 환율을 받아오는 요청 주소</span>
+      <code id="urlView" class="urlView">(아직 요청 전)</code>
+      <span class="urlLabel" style="margin-top:10px;">② 받아온 오늘 환율 (1 USD = ? KRW)</span>
+      <code id="rateView" class="urlView">(아직 요청 전)</code>
+    </div>
+
+    <!-- 받아오는 중 / 실패 / 성공 안내가 들어갈 자리 -->
+    <p id="status" class="status">오늘 환율을 받아오는 중…</p>
+
+    <!-- === 환전 입력 영역 === -->
+    <!-- 두 칸 중 '한 칸'만 입력하면 다른 칸이 자동으로 채워진다(양방향 계산). -->
+    <section class="converter">
+      <div class="row">
+        <label class="curLabel" for="krwInput">🇰🇷 원 (KRW)</label>
+        <input
+          id="krwInput"
+          class="amount"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          placeholder="예: 13000"
+          disabled
+        />
+      </div>
+
+      <div class="swapWrap">
+        <span class="swapMark">⇅</span>
+      </div>
+
+      <div class="row">
+        <label class="curLabel" for="usdInput">🇺🇸 달러 (USD)</label>
+        <input
+          id="usdInput"
+          class="amount"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          placeholder="예: 10"
+          disabled
+        />
+      </div>
+    </section>
+
+    <!-- 적용된 환율과 환율 기준 날짜를 보여주는 한 줄 -->
+    <p id="info" class="info"></p>
+
+    <div class="actions">
+      <button id="refreshBtn" type="button" disabled>🔄 오늘 환율 다시 받기</button>
+    </div>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

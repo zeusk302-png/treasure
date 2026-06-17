@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이번 주 시간표(표) 만들기</title>
+
+  <!--
+    이 실습의 주인공은 "표" 입니다.
+    표는 가로줄(행, <tr>)과 세로칸(열)으로 이루어진 격자예요.
+    - <table>  : 표 전체를 감싸는 바깥 상자
+    - <tr>     : 가로 한 줄 (table row) — 한 줄이 통째로 <tr> 입니다
+    - <th>     : 머리글 칸 (table header) — "요일", "교시" 같은 제목 칸. 보통 굵게/가운데로 표시됩니다
+    - <td>     : 보통 데이터 칸 (table data) — 실제 내용(예: '수학')이 들어가는 칸
+
+    아래 <style>의 테두리/색은 "어느 칸이 어디인지 눈에 보이게" 하려는 보조 장치예요.
+    (CSS는 뒤 단원에서 본격적으로 배웁니다. 지금은 표의 "구조"에 집중하세요.)
+  -->
+  <style>
+    body { margin: 0; font-family: sans-serif; line-height: 1.6; color: #222; padding: 20px; }
+
+    /* border-collapse: 칸과 칸 사이의 이중 테두리를 한 줄로 합쳐 깔끔하게 보이게 함 */
+    table { border-collapse: collapse; width: 100%; max-width: 640px; }
+
+    /* th(머리글)와 td(데이터) 모두에 테두리와 여백을 줘서 격자가 또렷이 보이게 함 */
+    th, td { border: 1px solid #bbb; padding: 10px; text-align: center; }
+
+    /* 머리글 칸(th)은 색을 입혀 "여기가 제목 줄/제목 칸"임을 한눈에 보이게 함 */
+    th { background: #2b3a55; color: #fff; }
+
+    /* caption: 표의 제목. 표 위쪽 가운데에 표시됩니다 */
+    caption { font-size: 1.1em; font-weight: bold; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>이번 주 시간표</h1>
+
+  <!--
+    [표 읽는 법]
+    - 맨 윗줄(<tr>)은 "요일 머리글" 입니다. 모든 칸이 <th> 예요. (제목 칸이니까요)
+    - 두 번째 줄부터는 "1교시", "2교시" ... 처럼 시간이 들어갑니다.
+      이때 맨 왼쪽 칸(예: '1교시')도 그 줄의 "제목" 이므로 <th> 로 만듭니다.
+      나머지 과목 칸(예: '국어')은 일반 데이터이므로 <td> 로 만듭니다.
+    => 즉, "제목 역할을 하는 칸"은 위쪽이든 왼쪽이든 모두 <th>, 실제 내용은 <td> 입니다.
+  -->
+  <table>
+    <!-- caption: 표 전체의 제목 (선택 사항이지만, 표가 무엇인지 알려주어 읽기 좋습니다) -->
+    <caption>○○님의 한 주 학습 시간표</caption>
+
+    <!--
+      [1] 머리글 줄: 가로 한 줄(<tr>) 안에, 요일 제목 칸들을 <th> 로 나열합니다.
+      맨 왼쪽 첫 칸은 "교시 / 요일" 처럼 빈 모서리 자리라서 짧게 '교시' 라고 적었습니다.
+    -->
+    <tr>
+      <th>교시</th>
+      <th>월</th>
+      <th>화</th>
+      <th>수</th>
+      <th>목</th>
+      <th>금</th>
+    </tr>
+
+    <!--
+      [2] 1교시 줄: 맨 왼쪽 '1교시' 는 줄의 제목이므로 <th>,
+      그 오른쪽 요일별 내용은 <td> 입니다.
+      한 줄(<tr>) 안의 칸 개수가 머리글 줄과 똑같이 6개(교시1 + 요일5)인 점을 꼭 확인하세요.
+    -->
+    <tr>
+      <th>1교시</th>
+      <td>국어</td>
+      <td>수학</td>
+      <td>영어</td>
+      <td>과학</td>
+      <td>체육</td>
+    </tr>
+
+    <!-- [3] 2교시 줄 -->
+    <tr>
+      <th>2교시</th>
+      <td>수학</td>
+      <td>영어</td>
+      <td>국어</td>
+      <td>음악</td>
+      <td>미술</td>
+    </tr>
+
+    <!-- [4] 3교시 줄 -->
+    <tr>
+      <th>3교시</th>
+      <td>영어</td>
+      <td>과학</td>
+      <td>사회</td>
+      <td>국어</td>
+      <td>수학</td>
+    </tr>
+
+    <!-- [5] 4교시 줄 -->
+    <tr>
+      <th>4교시</th>
+      <td>사회</td>
+      <td>체육</td>
+      <td>수학</td>
+      <td>영어</td>
+      <td>창체</td>
+    </tr>
+  </table>
+
+</body>
+</html>

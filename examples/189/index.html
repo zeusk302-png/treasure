@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<!--
+  ===========================================================================
+  189 실습용 "일부러 점수가 낮게 나오는" 연습 페이지
+  ===========================================================================
+  이 페이지는 Lighthouse를 처음 돌려보고 "빨간 항목"을 직접 보기 위한
+  연습용입니다. 그래서 흔한 문제들을 일부러 한 개씩 심어 두었습니다.
+  (실제 운영 페이지에서는 절대 이렇게 만들면 안 됩니다!)
+
+  Lighthouse를 돌리면 아래 4개 점수가 모두 100점이 아닌 것을 볼 수 있고,
+  각 점수의 "빨간(또는 주황) 항목"이 무엇을 가리키는지 README.md를 보며
+  하나씩 해석하는 것이 이번 실습의 목표입니다.
+
+  ▼ 일부러 심어 둔 문제들 (어느 점수에 영향을 주는지)
+    - <html>에 lang 속성이 없음            → 접근성(Accessibility)
+    - <title>, <meta description>가 없음   → SEO
+    - <meta viewport>가 없음               → SEO / 접근성(모바일)
+    - <img>에 alt(대체 텍스트)가 없음       → 접근성
+    - <img>에 width/height가 없음 + 큰 원본 → 성능(CLS, LCP)
+    - 글자색/배경색 대비가 너무 약함         → 접근성(색 대비)
+    - 버튼이 <div>로 만들어져 있음           → 접근성(키보드/스크린리더)
+    - 화면을 막는(차단) 인라인 스크립트       → 성능(블로킹)
+  ===========================================================================
+-->
+<head>
+  <meta charset="UTF-8" />
+
+  <!--
+    문제 1: 모바일 화면 설정(viewport) 태그가 없습니다.
+    이게 없으면 휴대폰에서 글자가 깨알같이 보이고,
+    Lighthouse의 SEO/접근성 점수가 깎입니다.
+    [고치는 법] 아래 한 줄을 추가:
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  -->
+
+  <!--
+    문제 2: <title>(페이지 제목)과 <meta name="description">(설명)이 없습니다.
+    검색엔진은 이 둘을 보고 검색 결과 제목/요약을 만듭니다.
+    없으면 SEO 점수가 깎입니다.
+    [고치는 법]
+    <title>부산 코딩스쿨 — 비전공자 웹개발 가이드</title>
+    <meta name="description" content="비전공 청년을 위한 웹개발 따라하기 가이드입니다." />
+  -->
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+    }
+    /*
+      문제 3: 글자색(연한 회색)과 배경색(흰색)의 대비가 너무 약합니다.
+      눈이 좋지 않은 사람은 글을 읽기 어렵고,
+      Lighthouse 접근성의 "색 대비(contrast)" 항목이 빨갛게 됩니다.
+      [고치는 법] color를 진한 색(예: #222)으로 바꾸기.
+    */
+    .weak-text {
+      color: #bbbbbb;
+      background-color: #ffffff;
+    }
+    /*
+      문제 4: <div>로 만든 가짜 버튼입니다.
+      보기에는 버튼 같지만, 키보드 Tab으로 선택되지 않고
+      스크린리더가 "버튼"이라고 읽어주지도 못합니다.
+      Lighthouse 접근성 점수가 깎입니다.
+      [고치는 법] <div> 대신 진짜 <button> 태그를 쓰기.
+    */
+    .fake-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4f46e5;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<!--
+  문제 5: <html> 태그에 lang 속성이 없습니다. (위 첫 줄 확인)
+  이 페이지가 한국어인지 영어인지 컴퓨터가 알 수 없어서
+  스크린리더가 엉뚱한 발음으로 읽고, 접근성 점수가 깎입니다.
+  [고치는 법] 맨 위 <html>을 <html lang="ko"> 로 바꾸기.
+-->
+<body>
+  <header>
+    <h1>우리 동네 빵집</h1>
+    <p class="weak-text">갓 구운 빵을 매일 아침 만나보세요. (이 문장은 일부러 흐리게 만들었습니다)</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>대표 메뉴</h2>
+
+      <!--
+        문제 6: <img>에 alt(대체 텍스트)가 없고, width/height도 없습니다.
+        - alt가 없으면: 눈이 보이지 않는 사람이 "이게 무슨 그림인지" 알 수 없음 → 접근성 감점
+        - width/height가 없으면: 사진이 늦게 로딩되며 화면이 갑자기 밀림(CLS) → 성능 감점
+        [고치는 법]
+        <img src="..." alt="크루아상 사진" width="600" height="400" />
+        그리고 이미지 자체도 너무 크면 줄여야 합니다. (190번 실습에서 다룸)
+      -->
+      <img src="https://placehold.co/1600x1200/png?text=Bread+Photo+(too+big)" />
+
+      <p>매일 아침 6시에 갓 구운 크루아상과 식빵을 준비합니다.</p>
+
+      <!--
+        문제 7: 진짜 <button>이 아니라 <div>로 만든 가짜 버튼입니다.
+        (위 .fake-button 스타일 설명 참고)
+      -->
+      <div class="fake-button" onclick="alert('주문!')">주문하기</div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="weak-text">&copy; 2026 우리 동네 빵집</p>
+  </footer>
+
+  <!--
+    문제 8: 화면 그리기를 막는(블로킹) 무거운 스크립트입니다.
+    이 반복문이 끝날 때까지 브라우저가 멈춰 있어서 화면이 늦게 뜹니다.
+    Lighthouse 성능 점수가 깎입니다.
+    [고치는 법] 불필요한 무거운 작업을 없애거나, 스크립트를 나중에 실행하기.
+  -->
+  <script>
+    // 일부러 0.x초 정도 브라우저를 붙잡아 두는 의미 없는 반복문 (실습용)
+    var waste = 0;
+    for (var i = 0; i < 30000000; i++) {
+      waste += i;
+    }
+    console.log("일부러 화면을 늦게 그리게 만든 연습용 코드입니다.", waste);
+  </script>
+</body>
+</html>

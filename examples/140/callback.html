@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 처리 중 — 구글 소셜 로그인 실습(140)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="appHeader">
+    <a class="logo" href="login.html">🔐 소셜 로그인</a>
+  </header>
+
+  <main>
+    <!-- 1) 돌아온 직후: 세션을 확인하는 동안 잠깐 보이는 화면 -->
+    <div id="checking">
+      <h1>로그인 처리 중…</h1>
+      <p class="hint">구글에서 돌아왔어요. 잠시만요, 로그인 정보를 확인하고 있습니다. ⏳</p>
+    </div>
+
+    <!-- 2) 로그인 성공: 누구로 로그인됐는지 보여주는 화면 (처음엔 숨김) -->
+    <div id="welcome" hidden>
+      <h1>로그인 성공! 🎉</h1>
+      <div class="profile-card">
+        <img id="avatar" class="avatar" alt="프로필 사진" hidden />
+        <p><strong>이름:</strong> <span id="name">-</span></p>
+        <p><strong>이메일:</strong> <span id="email">-</span></p>
+        <p class="hint"><strong>로그인 방식:</strong> <span id="provider">-</span></p>
+      </div>
+      <button id="logoutBtn" class="google-btn" type="button" style="margin-top:18px;">
+        로그아웃
+      </button>
+    </div>
+
+    <!-- 3) 세션이 없을 때(직접 들어왔거나 실패): 다시 로그인하라는 안내 (처음엔 숨김) -->
+    <div id="noSession" hidden>
+      <h1>로그인 정보가 없어요</h1>
+      <p class="hint">
+        이 페이지는 구글 로그인을 마친 뒤 <strong>자동으로 돌아오는 도착지</strong>입니다.
+        주소를 직접 입력해 들어왔거나 로그인이 취소되면 이 화면이 보입니다.
+      </p>
+      <p><a href="login.html">← 로그인 페이지로 돌아가기</a></p>
+    </div>
+
+    <div id="msg"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="callback.js"></script>
+</body>
+</html>

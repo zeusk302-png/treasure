@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>본문 + 사이드바 2단 레이아웃</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 헤더 -->
+  <header class="site-header">
+    <h1>부산 코딩 일지</h1>
+    <p>본문은 자동으로 넓어지고, 사이드바는 고정 너비인 2단 레이아웃</p>
+  </header>
+
+  <!-- 핵심: 이 div가 flex 컨테이너(부모)입니다 -->
+  <div class="layout">
+
+    <!-- 본문: flex:1 → 남는 공간을 모두 차지(가변) -->
+    <main class="content">
+      <h2>오늘 배운 것</h2>
+      <p>
+        화면을 좌우 두 칸으로 나누는 가장 흔한 방법이 바로
+        "본문 + 사이드바" 레이아웃입니다. 블로그, 쇼핑몰, 관리자 화면 대부분이
+        이 구조를 씁니다.
+      </p>
+      <p>
+        이 페이지에서 <strong>본문(왼쪽)</strong>은 화면이 넓어지면 같이 넓어지고,
+        좁아지면 같이 좁아집니다. 반면 <strong>사이드바(오른쪽)</strong>는
+        항상 240px 너비를 유지합니다. 브라우저 창 너비를 마우스로 늘였다 줄여보세요.
+      </p>
+
+      <h3>이 레이아웃의 비밀</h3>
+      <ul>
+        <li>부모(.layout)에 <code>display: flex</code> 를 줍니다.</li>
+        <li>사이드바에는 <code>width: 240px; flex-shrink: 0;</code> → 고정 너비.</li>
+        <li>본문에는 <code>flex: 1;</code> → 남은 공간을 전부 차지.</li>
+      </ul>
+
+      <p>
+        아래 카드들은 본문이 넓어질수록 글이 더 시원하게 보인다는 걸
+        보여주기 위한 예시입니다.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <h4>1단계</h4>
+          <p>HTML 뼈대를 먼저 만든다.</p>
+        </article>
+        <article class="card">
+          <h4>2단계</h4>
+          <p>CSS flex로 좌우를 나눈다.</p>
+        </article>
+        <article class="card">
+          <h4>3단계</h4>
+          <p>너비를 줄여보며 확인한다.</p>
+        </article>
+      </div>
+    </main>
+
+    <!-- 사이드바: 고정 너비(가변하지 않음) -->
+    <aside class="sidebar">
+      <h2>사이드바</h2>
+      <p>이 영역은 항상 같은 너비입니다.</p>
+
+      <nav>
+        <h3>메뉴</h3>
+        <ul>
+          <li><a href="#">홈</a></li>
+          <li><a href="#">강의 목록</a></li>
+          <li><a href="#">실습 자료</a></li>
+          <li><a href="#">문의하기</a></li>
+        </ul>
+      </nav>
+
+      <div class="widget">
+        <h3>공지</h3>
+        <p>다음 수업은 flexbox 응용입니다.</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 하단 푸터 -->
+  <footer class="site-footer">
+    <p>&copy; 2026 부산 코딩 스쿨 · 실습 예제 038</p>
+  </footer>
+</body>
+</html>

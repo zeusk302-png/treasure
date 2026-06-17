@@ -1,0 +1,93 @@
+/* ===== 기본 정리 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  background: #f4f6fb;
+  color: #1f2430;
+  line-height: 1.6;
+}
+
+.page {
+  max-width: 640px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.lead {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* ===== 아코디언 한 칸 ===== */
+.faq-item {
+  background: #ffffff;
+  border: 1px solid #e3e7ef;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden; /* 둥근 모서리 안으로 답 영역이 잘리게 */
+}
+
+/* 질문(누르는 버튼) */
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  background: transparent;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: left;
+  color: #1f2430;
+  cursor: pointer;
+}
+
+.faq-question:hover {
+  background: #f7f9fc;
+}
+
+/* + / - 아이콘 */
+.faq-icon {
+  flex-shrink: 0;
+  font-size: 22px;
+  font-weight: 400;
+  color: #3b82f6;
+  transition: transform 0.25s ease;
+}
+
+/* ===== 답 영역 ===== */
+/*
+  max-height 트릭으로 부드럽게 펼침/접힘.
+  기본(닫힘): max-height 0 + 투명 → 화면에서 사라짐
+  열림: is-open 일 때 충분한 높이를 주고 보이게 함
+*/
+.faq-answer {
+  max-height: 0;
+  opacity: 0;
+  padding: 0 20px;
+  color: #4b5563;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+/* ===== 열린 상태 (JS가 .faq-item 에 is-open 을 붙임) ===== */
+.faq-item.is-open .faq-answer {
+  max-height: 300px; /* 답 길이보다 넉넉하게 */
+  opacity: 1;
+  padding: 0 20px 18px;
+}
+
+.faq-item.is-open .faq-icon {
+  transform: rotate(45deg); /* + 를 45도 돌리면 × 모양 → 닫기 느낌 */
+}
