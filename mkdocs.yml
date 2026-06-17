@@ -1,0 +1,60 @@
+site_name: 여러분을 위한 웹개발 가이드
+site_description: 바이브코딩 그다음 — 비전공자를 위한 웹개발 길잡이
+site_url: https://zeusk302-png.github.io/treasure/
+site_author: 김세영
+
+repo_url: https://github.com/zeusk302-png/treasure
+repo_name: zeusk302-png/treasure
+
+theme:
+  name: material
+  language: ko
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 다크 모드로
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 라이트 모드로
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+
+nav:
+  - 홈: index.md
+  - 마음가짐:
+      - 디렉터의 자리: 01-마음가짐/index.md
+  - 검색 노출(SEO):
+      - SEO 한눈에: 09-검색노출-seo/index.md
