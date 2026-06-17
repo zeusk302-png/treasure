@@ -55,6 +55,6 @@ plugins:
 nav:
   - 홈: index.md
   - 마음가짐:
-      - 디렉터의 자리: 01-마음가짐/index.md
+      - 디렉터의 자리: 01-mindset/index.md
   - 검색 노출(SEO):
-      - SEO 한눈에: 09-검색노출-seo/index.md
+      - SEO 한눈에: 09-seo/index.md
