@@ -1,0 +1,3052 @@
+[
+  {
+    "id": "001",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "내 첫 HTML 문서 만들기 (Hello, World)",
+    "goal": "html/head/body 기본 골격과 title 태그를 갖춘 빈 페이지를 만들어 브라우저로 열어보며 HTML 문서의 뼈대를 익힌다",
+    "difficulty": 1,
+    "concept": "HTML 문서 구조, html/head/body",
+    "deliverable": "HTML 페이지(index.html)"
+  },
+  {
+    "id": "002",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "자기소개 한 문단 페이지 만들기",
+    "goal": "h1 제목과 p 문단으로 이름·취미를 적은 한 화면짜리 자기소개 페이지를 만들며 제목과 문단의 차이를 익힌다",
+    "difficulty": 1,
+    "concept": "제목(h1), 문단(p)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "003",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "제목 6단계로 목차처럼 정리하기",
+    "goal": "h1부터 h6까지 계층을 써서 책 목차처럼 보이는 페이지를 만들며 제목의 위계(중요도) 개념을 익힌다",
+    "difficulty": 1,
+    "concept": "제목 위계(h1~h6)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "004",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "오늘 할 일 체크리스트(번호 없는 목록) 만들기",
+    "goal": "ul과 li로 오늘 할 일을 점 목록으로 나열한 페이지를 만들며 순서 없는 목록의 구조를 익힌다",
+    "difficulty": 1,
+    "concept": "순서 없는 목록(ul/li)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "005",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "라면 끓이는 순서(번호 목록) 만들기",
+    "goal": "ol과 li로 1·2·3 번호가 자동으로 붙는 조리 순서 페이지를 만들며 순서 있는 목록을 익힌다",
+    "difficulty": 1,
+    "concept": "순서 있는 목록(ol/li)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "006",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "굵게·기울임·강조로 문장 꾸미기",
+    "goal": "strong·em·br을 사용해 한 문단 안에서 단어를 강조하고 줄을 바꾸며 인라인 텍스트 태그의 의미를 익힌다",
+    "difficulty": 1,
+    "concept": "강조 태그(strong/em), 줄바꿈(br)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "007",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "다른 사이트로 가는 링크 모음 페이지",
+    "goal": "a 태그의 href로 좋아하는 사이트 3곳으로 이동하는 링크 페이지를 만들며 외부 링크의 작동 원리를 익힌다",
+    "difficulty": 2,
+    "concept": "하이퍼링크(a/href)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "008",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "새 탭에서 열리는 링크와 메일 보내기 링크 만들기",
+    "goal": "target=\"_blank\"로 새 탭 링크를, mailto로 메일 작성 링크를 만들며 링크 속성과 특수 링크를 익힌다",
+    "difficulty": 2,
+    "concept": "link target, mailto",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "009",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "이미지 한 장 넣고 설명(alt) 달기",
+    "goal": "img 태그로 사진을 띄우고 src·alt·width를 설정하며 이미지 삽입과 대체 텍스트의 중요성을 익힌다",
+    "difficulty": 2,
+    "concept": "이미지(img), src/alt",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "010",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "사진을 클릭하면 링크로 이동하는 카드 만들기",
+    "goal": "a 태그 안에 img를 넣어 클릭 가능한 이미지 링크를 만들며 태그 중첩(nesting) 구조를 익힌다",
+    "difficulty": 2,
+    "concept": "태그 중첩, 이미지 링크",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "011",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "용어 사전(설명 목록) 만들기",
+    "goal": "dl·dt·dd로 'HTML이란?' 같은 용어와 설명이 짝지어진 사전형 목록을 만들며 설명 목록 구조를 익힌다",
+    "difficulty": 2,
+    "concept": "설명 목록(dl/dt/dd)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "012",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "메뉴 안에 메뉴(중첩 목록)로 사이트 메뉴 만들기",
+    "goal": "ul 안에 또 ul을 넣어 대분류·소분류가 있는 메뉴 트리를 만들며 목록 중첩과 들여쓰기 구조를 익힌다",
+    "difficulty": 2,
+    "concept": "중첩 목록",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "013",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "인용문과 가로줄로 블로그 글 본문 꾸미기",
+    "goal": "blockquote·hr·문단을 조합해 인용구와 구분선이 들어간 글 본문 페이지를 만들며 본문 구성 태그를 익힌다",
+    "difficulty": 2,
+    "concept": "인용(blockquote), 구분선(hr)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "014",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "헤더·메인·푸터로 페이지 영역 나누기",
+    "goal": "header·main·footer 시맨틱 태그로 페이지를 세 영역으로 구분하며 의미 있는 구조 태그의 역할을 익힌다",
+    "difficulty": 3,
+    "concept": "시맨틱 태그(header/main/footer)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "015",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "내비게이션 바와 섹션으로 한 페이지 사이트 뼈대 만들기",
+    "goal": "nav·section·article로 상단 메뉴와 본문 섹션을 구분한 랜딩 페이지 뼈대를 만들며 시맨틱 레이아웃을 익힌다",
+    "difficulty": 3,
+    "concept": "시맨틱 레이아웃(nav/section/article)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "016",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "페이지 안에서 이동하는 목차 링크(앵커) 만들기",
+    "goal": "id와 #앵커 링크로 긴 글의 목차를 누르면 해당 섹션으로 점프하게 만들며 내부 앵커 이동을 익힌다",
+    "difficulty": 3,
+    "concept": "id, 내부 앵커 링크",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "017",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "이번 주 시간표(표) 만들기",
+    "goal": "table·tr·th·td로 요일과 시간이 들어간 시간표를 만들며 행·열·머리글로 이루어진 표의 기본 구조를 익힌다",
+    "difficulty": 3,
+    "concept": "표(table/tr/th/td)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "018",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "셀 병합으로 가격표 만들기",
+    "goal": "colspan·rowspan으로 셀을 가로·세로로 합친 요금제 비교 표를 만들며 표의 셀 병합 기법을 익힌다",
+    "difficulty": 3,
+    "concept": "셀 병합(colspan/rowspan)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "019",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "표에 머리·본문·바닥 구역과 캡션 붙이기",
+    "goal": "caption·thead·tbody·tfoot로 합계 행이 분리된 정돈된 가계부 표를 만들며 표의 의미적 구역 나누기를 익힌다",
+    "difficulty": 3,
+    "concept": "표 구역(thead/tbody/tfoot/caption)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "020",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "style 속성으로 글자 색·크기 바꾸기",
+    "goal": "태그의 style 속성에 color·font-size를 직접 써서 제목과 문단의 글자를 꾸미며 인라인 스타일의 기본을 익힌다",
+    "difficulty": 4,
+    "concept": "인라인 스타일, color/font-size",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "021",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "배경색·여백·테두리로 알림 박스 만들기",
+    "goal": "div에 인라인 style로 background·padding·border를 주어 색 있는 안내 박스를 만들며 박스 꾸미기 속성을 익힌다",
+    "difficulty": 4,
+    "concept": "background/padding/border",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "022",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "인라인 스타일로 상품 소개 카드 디자인하기",
+    "goal": "이미지·제목·설명·가격을 한 박스에 모으고 둥근 모서리·그림자·정렬을 인라인 스타일로 입혀 카드 UI를 만든다",
+    "difficulty": 4,
+    "concept": "border-radius/box-shadow/text-align",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "023",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "줄무늬 배경과 테두리로 가독성 좋은 표 꾸미기",
+    "goal": "표의 th·td에 인라인 style로 테두리·배경·여백을 주어 한 줄 걸러 색이 다른 읽기 쉬운 표를 만든다",
+    "difficulty": 4,
+    "concept": "표 스타일링(border/background)",
+    "deliverable": "HTML 페이지"
+  },
+  {
+    "id": "024",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "한 화면 자기소개 페이지(프로필) 종합 완성하기",
+    "goal": "header·main·footer, 프로필 이미지, 링크, 소개 문단, 기술 목록, 인라인 스타일을 모두 합쳐 완성형 1페이지 프로필을 만든다",
+    "difficulty": 5,
+    "concept": "시맨틱+이미지+링크+목록 종합",
+    "deliverable": "HTML 페이지(완성 프로필)"
+  },
+  {
+    "id": "025",
+    "code": "A",
+    "category": "기초 HTML/CSS",
+    "title": "AI 디렉팅으로 '맛집 소개' 페이지 만들고 깨진 태그 고치기",
+    "goal": "Claude에게 시맨틱 구조·표·이미지·링크를 갖춘 맛집 페이지를 요청해 받은 코드의 닫히지 않은 태그와 잘못된 중첩을 직접 찾아 고친다",
+    "difficulty": 5,
+    "concept": "AI 디렉팅, 태그 디버깅, 종합 구조",
+    "deliverable": "고칠 깨진 코드 + 완성 HTML 페이지"
+  },
+  {
+    "id": "026",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "글자 색·배경색·글꼴 크기 바꿔보기",
+    "goal": "color, background-color, font-size 세 속성만으로 한 문단의 모양을 바꿔보며 CSS 기본 문법(선택자-속성-값)을 익힌다",
+    "difficulty": 1,
+    "concept": "color, background-color, font-size",
+    "deliverable": "스타일을 입힌 HTML 페이지 1장"
+  },
+  {
+    "id": "027",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "박스에 여백(margin)과 안쪽 여백(padding) 주기",
+    "goal": "div 박스 하나에 margin과 padding을 다르게 줘보며 '바깥 여백 vs 안쪽 여백' 차이를 눈으로 확인한다",
+    "difficulty": 1,
+    "concept": "margin, padding",
+    "deliverable": "여백을 적용한 박스 HTML 페이지"
+  },
+  {
+    "id": "028",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "테두리·둥근 모서리 가진 명함 박스 만들기",
+    "goal": "border, border-radius, width/height로 이름과 직함이 담긴 명함 모양 박스를 만들며 박스의 외형 속성을 익힌다",
+    "difficulty": 1,
+    "concept": "border, border-radius, width/height",
+    "deliverable": "명함 카드 HTML 페이지"
+  },
+  {
+    "id": "029",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "box-sizing으로 박스 크기 계산 이해하기",
+    "goal": "border-box와 content-box를 비교해보며 padding/border가 박스 전체 크기에 어떻게 더해지는지 박스모델 원리를 이해한다",
+    "difficulty": 2,
+    "concept": "box-sizing, 박스모델",
+    "deliverable": "두 박스를 비교한 HTML 페이지"
+  },
+  {
+    "id": "030",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "그림자 넣은 떠 있는 카드 만들기",
+    "goal": "box-shadow로 카드에 그림자를 넣어 입체감을 주며 그림자 값(x, y, blur, 색)의 의미를 익힌다",
+    "difficulty": 2,
+    "concept": "box-shadow",
+    "deliverable": "그림자 카드 HTML 페이지"
+  },
+  {
+    "id": "031",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "구글 폰트로 제목·본문 타이포그래피 꾸미기",
+    "goal": "Google Fonts를 불러와 제목과 본문에 다른 폰트·굵기·줄간격을 적용하며 font-family, font-weight, line-height를 익힌다",
+    "difficulty": 2,
+    "concept": "font-family, line-height, 웹폰트",
+    "deliverable": "타이포그래피 적용 HTML 페이지"
+  },
+  {
+    "id": "032",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "색 팔레트와 CSS 변수로 테마 색 관리하기",
+    "goal": "--main-color 같은 CSS 변수(custom property)에 브랜드 색 3~4개를 정의해 페이지 전체에서 재사용하며 색 일관성을 익힌다",
+    "difficulty": 2,
+    "concept": "CSS 변수, 색 팔레트, var()",
+    "deliverable": "색 변수로 통일된 HTML 페이지"
+  },
+  {
+    "id": "033",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "flexbox로 버튼 3개 가로로 나란히 놓기",
+    "goal": "display:flex로 부모를 감싸 버튼들을 가로로 배치하며 flex의 기본 동작(주축 정렬)을 처음 경험한다",
+    "difficulty": 2,
+    "concept": "display:flex, flex-direction",
+    "deliverable": "버튼 가로 배치 HTML 페이지"
+  },
+  {
+    "id": "034",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "flexbox로 박스를 화면 정중앙에 놓기",
+    "goal": "justify-content와 align-items를 함께 써서 박스 하나를 화면 한가운데에 두며 가로·세로 중앙 정렬을 마스터한다",
+    "difficulty": 2,
+    "concept": "justify-content, align-items",
+    "deliverable": "중앙 정렬 박스 HTML 페이지"
+  },
+  {
+    "id": "035",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "로고-메뉴-버튼이 양끝 배치된 내비바 만들기",
+    "goal": "flex의 space-between으로 왼쪽 로고, 가운데 메뉴, 오른쪽 버튼을 배치하며 실전 내비게이션 바 레이아웃을 익힌다",
+    "difficulty": 3,
+    "concept": "flex space-between, 내비바",
+    "deliverable": "상단 내비게이션 바 HTML 페이지"
+  },
+  {
+    "id": "036",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "flex-wrap으로 줄바꿈되는 태그 목록 만들기",
+    "goal": "여러 개의 작은 태그(칩)를 flex-wrap과 gap으로 배치해 공간이 부족하면 자동 줄바꿈되게 하며 wrap과 gap을 익힌다",
+    "difficulty": 3,
+    "concept": "flex-wrap, gap",
+    "deliverable": "태그 칩 목록 HTML 페이지"
+  },
+  {
+    "id": "037",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "flexbox로 3단 가격표(프라이싱) 카드 만들기",
+    "goal": "동일한 카드 3개를 flex로 균등 배치하고 flex:1로 너비를 나눠 가격표 섹션을 만들며 flex-grow 개념을 익힌다",
+    "difficulty": 3,
+    "concept": "flex:1, flex-grow",
+    "deliverable": "3단 가격표 HTML 섹션"
+  },
+  {
+    "id": "038",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "본문은 자동, 사이드바는 고정인 2단 레이아웃 만들기",
+    "goal": "flex에서 사이드바는 고정 너비, 본문은 flex:1로 남은 공간을 채우게 해 콘텐츠+사이드바 레이아웃을 익힌다",
+    "difficulty": 3,
+    "concept": "flex 고정/가변, 사이드바 레이아웃",
+    "deliverable": "본문+사이드바 2단 HTML 페이지"
+  },
+  {
+    "id": "039",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "grid로 사진 4장 2×2 갤러리 만들기",
+    "goal": "display:grid와 grid-template-columns로 2열 격자를 만들어 이미지 갤러리를 배치하며 grid의 기본 행/열 개념을 익힌다",
+    "difficulty": 3,
+    "concept": "display:grid, grid-template-columns",
+    "deliverable": "2×2 이미지 갤러리 HTML 페이지"
+  },
+  {
+    "id": "040",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "fr 단위로 비율 나눈 대시보드 격자 만들기",
+    "goal": "1fr 2fr 1fr 같은 fr 단위와 gap으로 영역 크기를 비율로 나눠 대시보드형 격자를 만들며 fr과 grid gap을 익힌다",
+    "difficulty": 3,
+    "concept": "fr 단위, grid gap",
+    "deliverable": "비율 격자 대시보드 HTML 페이지"
+  },
+  {
+    "id": "041",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "auto-fit·minmax로 카드 수가 자동 조절되는 그리드",
+    "goal": "repeat(auto-fit, minmax(...))로 화면 너비에 따라 카드 열 개수가 자동으로 늘고 주는 반응형 카드 그리드를 만든다",
+    "difficulty": 4,
+    "concept": "repeat, auto-fit, minmax",
+    "deliverable": "자동 반응형 카드 그리드 HTML 페이지"
+  },
+  {
+    "id": "042",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "grid-area로 헤더·사이드·본문·푸터 전체 페이지 골격 짜기",
+    "goal": "grid-template-areas로 이름 붙인 영역을 배치해 헤더-사이드바-본문-푸터의 전체 페이지 레이아웃 골격을 완성한다",
+    "difficulty": 4,
+    "concept": "grid-template-areas, grid-area",
+    "deliverable": "전체 페이지 골격 HTML 레이아웃"
+  },
+  {
+    "id": "043",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "이미지 위에 글자 얹은 히어로 섹션 만들기",
+    "goal": "position:relative/absolute와 배경 이미지·반투명 오버레이로 첫 화면 히어로(대표 배너)에 제목·버튼을 얹는 레이아웃을 익힌다",
+    "difficulty": 4,
+    "concept": "position relative/absolute, 히어로",
+    "deliverable": "히어로 배너 HTML 섹션"
+  },
+  {
+    "id": "044",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "스크롤해도 위에 붙어 있는 스티키 내비바",
+    "goal": "position:sticky와 top:0으로 스크롤 시 상단에 고정되는 내비게이션 바를 만들며 sticky와 z-index를 익힌다",
+    "difficulty": 4,
+    "concept": "position:sticky, z-index",
+    "deliverable": "스티키 내비바 HTML 페이지"
+  },
+  {
+    "id": "045",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "오른쪽 아래 떠 있는 플로팅 액션 버튼(FAB)",
+    "goal": "position:fixed로 화면 모서리에 항상 떠 있는 둥근 버튼을 만들며 fixed 포지셔닝과 위치 지정(right/bottom)을 익힌다",
+    "difficulty": 4,
+    "concept": "position:fixed, FAB",
+    "deliverable": "플로팅 버튼이 있는 HTML 페이지"
+  },
+  {
+    "id": "046",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "미디어쿼리로 모바일에서 메뉴 세로로 쌓기",
+    "goal": "@media (max-width) 분기로 작은 화면에서 가로 메뉴를 세로로 바꾸며 반응형 분기점(breakpoint) 개념을 익힌다",
+    "difficulty": 4,
+    "concept": "미디어쿼리, breakpoint",
+    "deliverable": "반응형 메뉴 HTML 페이지"
+  },
+  {
+    "id": "047",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "모바일 우선으로 1열→2열→3열 반응형 카드 만들기",
+    "goal": "모바일 1열을 기본으로 두고 미디어쿼리 두 단계로 태블릿 2열·데스크톱 3열로 늘리며 모바일 퍼스트 설계를 익힌다",
+    "difficulty": 4,
+    "concept": "모바일 퍼스트, 다단계 미디어쿼리",
+    "deliverable": "단계별 반응형 카드 그리드 HTML 페이지"
+  },
+  {
+    "id": "048",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "햄버거 버튼으로 열리는 모바일 슬라이드 메뉴",
+    "goal": "체크박스/JS 토글과 transform:translateX, transition으로 옆에서 미끄러져 나오는 모바일 메뉴를 만든다",
+    "difficulty": 5,
+    "concept": "햄버거 메뉴, transform, transition",
+    "deliverable": "햄버거 메뉴 동작 HTML/CSS/JS 페이지"
+  },
+  {
+    "id": "049",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "마우스 올리면 떠오르는 hover 카드 효과",
+    "goal": ":hover 상태에서 transform:translateY와 box-shadow를 transition으로 부드럽게 바꿔 카드가 떠오르는 인터랙션을 만든다",
+    "difficulty": 4,
+    "concept": ":hover, transition, transform",
+    "deliverable": "호버 효과 카드 HTML 페이지"
+  },
+  {
+    "id": "050",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "@keyframes로 빙글 도는 로딩 스피너 만들기",
+    "goal": "@keyframes와 animation으로 무한 회전하는 로딩 스피너를 만들며 키프레임 애니메이션과 무한 반복을 익힌다",
+    "difficulty": 4,
+    "concept": "@keyframes, animation, rotate",
+    "deliverable": "로딩 스피너 HTML 페이지"
+  },
+  {
+    "id": "051",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "스크롤 내리면 아래에서 위로 나타나는 등장 애니메이션",
+    "goal": "IntersectionObserver(JS)로 보일 때 클래스를 붙여 opacity·translateY를 transition으로 전환하는 스크롤 등장 효과를 만든다",
+    "difficulty": 5,
+    "concept": "scroll reveal, IntersectionObserver, transition",
+    "deliverable": "스크롤 등장 애니메이션 HTML/JS 페이지"
+  },
+  {
+    "id": "052",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "버튼 하나로 켜고 끄는 다크모드 토글 만들기",
+    "goal": "CSS 변수와 data-theme 속성을 JS로 전환해 라이트/다크 테마를 한 버튼으로 바꾸며 테마 토글 구조를 익힌다",
+    "difficulty": 5,
+    "concept": "다크모드, CSS 변수, data-theme 토글",
+    "deliverable": "다크모드 토글 HTML/CSS/JS 페이지"
+  },
+  {
+    "id": "053",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "새로고침해도 유지되고 OS 설정 따르는 다크모드",
+    "goal": "localStorage로 선택한 테마를 저장하고 prefers-color-scheme로 OS 기본 테마를 따르게 해 실전 다크모드를 완성한다",
+    "difficulty": 5,
+    "concept": "localStorage, prefers-color-scheme",
+    "deliverable": "지속·시스템 연동 다크모드 HTML/CSS/JS 페이지"
+  },
+  {
+    "id": "054",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "히어로+내비+카드+푸터를 합친 랜딩페이지 한 장 조립",
+    "goal": "앞서 배운 내비바·히어로·카드 그리드·푸터를 모두 합쳐 반응형 한 장짜리 랜딩페이지로 조립하며 섹션 구성 흐름을 익힌다",
+    "difficulty": 5,
+    "concept": "랜딩페이지 조립, 섹션 레이아웃, 푸터",
+    "deliverable": "완성형 반응형 랜딩페이지 HTML/CSS 1장"
+  },
+  {
+    "id": "055",
+    "code": "B",
+    "category": "CSS 레이아웃·디자인",
+    "title": "AI에게 디자인 시스템 지시해 일관된 컴포넌트 세트 만들기",
+    "goal": "Claude에게 색·간격·폰트 규칙(디자인 토큰)을 정의시키고 그 규칙으로 버튼·카드·폼을 통일되게 생성하도록 '디렉터'로 지시하는 법을 익힌다",
+    "difficulty": 5,
+    "concept": "디자인 시스템, 디자인 토큰, AI 디렉팅",
+    "deliverable": "AI 지시 프롬프트 템플릿 + 일관된 컴포넌트 CSS 세트"
+  },
+  {
+    "id": "056",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "버튼 누르면 알림창 띄우기 (첫 이벤트)",
+    "goal": "버튼 1개를 만들고 클릭하면 alert가 뜨게 해서 '이벤트'가 무엇인지 처음 체감한다",
+    "difficulty": 1,
+    "concept": "click 이벤트, addEventListener",
+    "deliverable": "버튼 1개와 script가 든 HTML 페이지"
+  },
+  {
+    "id": "057",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "버튼 클릭으로 화면 글자 바꾸기",
+    "goal": "버튼을 누르면 <p> 안의 텍스트가 다른 문장으로 바뀌게 해서 DOM에서 요소를 골라 내용을 바꾸는 법을 배운다",
+    "difficulty": 1,
+    "concept": "getElementById, textContent",
+    "deliverable": "문구가 바뀌는 HTML 페이지"
+  },
+  {
+    "id": "058",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "박스 색깔 바꾸기 버튼 3개 만들기",
+    "goal": "빨강·초록·파랑 버튼을 만들어 누르는 색으로 박스 배경색이 바뀌게 해서 style 속성을 JS로 조작한다",
+    "difficulty": 1,
+    "concept": "element.style, 이벤트 연결",
+    "deliverable": "색 변경 박스가 있는 HTML 페이지"
+  },
+  {
+    "id": "059",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "다크모드 토글 버튼 만들기",
+    "goal": "버튼 한 번으로 밝은 화면/어두운 화면을 번갈아 바꿔 classList.toggle로 상태를 켜고 끄는 패턴을 익힌다",
+    "difficulty": 2,
+    "concept": "classList.toggle, CSS 클래스 전환",
+    "deliverable": "다크모드 토글이 되는 HTML 페이지"
+  },
+  {
+    "id": "060",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "더보기/접기 텍스트 토글 만들기",
+    "goal": "긴 글을 '더보기' 버튼으로 펼치고 '접기'로 다시 숨겨 요소를 보였다 숨겼다 하는 show/hide를 배운다",
+    "difficulty": 2,
+    "concept": "hidden 속성, display 토글",
+    "deliverable": "더보기 토글 글 블록이 있는 HTML 페이지"
+  },
+  {
+    "id": "061",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "비밀번호 보기/가리기 눈 아이콘 토글",
+    "goal": "입력칸의 type을 password↔text로 바꿔 비밀번호를 보였다 가렸다 해 input 속성을 동적으로 바꾸는 법을 익힌다",
+    "difficulty": 2,
+    "concept": "input type 변경, toggle 상태",
+    "deliverable": "비밀번호 표시 토글 입력 폼"
+  },
+  {
+    "id": "062",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "이름 입력하면 인사말 출력하기",
+    "goal": "입력칸에 이름을 적고 버튼을 누르면 '○○님 안녕하세요'가 화면에 뜨게 해 사용자 입력값을 읽어 출력한다",
+    "difficulty": 2,
+    "concept": "input.value, 문자열 결합",
+    "deliverable": "이름 입력 인사말 페이지"
+  },
+  {
+    "id": "063",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "실시간 글자 수 카운터 만들기",
+    "goal": "텍스트칸에 타이핑할 때마다 '0/100' 글자 수가 즉시 갱신되게 해 input 이벤트로 실시간 반응을 만든다",
+    "difficulty": 2,
+    "concept": "input 이벤트, .length",
+    "deliverable": "글자 수 표시 텍스트 영역"
+  },
+  {
+    "id": "064",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "체크박스로 '약관 동의' 버튼 활성화하기",
+    "goal": "체크박스를 켜야만 '가입' 버튼이 눌리게 해 checked 상태를 읽어 다른 요소를 제어하는 법을 배운다",
+    "difficulty": 2,
+    "concept": "checkbox checked, disabled 속성",
+    "deliverable": "동의 체크 후 활성화되는 폼"
+  },
+  {
+    "id": "065",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "+ - 버튼으로 숫자 카운터 만들기",
+    "goal": "플러스·마이너스 버튼으로 숫자를 1씩 올리고 내려 변수에 값을 저장하고 화면에 반영하는 흐름을 익힌다",
+    "difficulty": 2,
+    "concept": "변수 상태, 증감 연산",
+    "deliverable": "수량 카운터 위젯 페이지"
+  },
+  {
+    "id": "066",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "좋아요 하트 토글 + 개수 세기",
+    "goal": "하트를 누르면 색이 채워지고 좋아요 수가 +1/-1 되게 해 토글 상태와 숫자 상태를 함께 다룬다",
+    "difficulty": 2,
+    "concept": "토글, 카운트 상태",
+    "deliverable": "좋아요 버튼 카드"
+  },
+  {
+    "id": "067",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "디지털 시계 만들기 (실시간 시:분:초)",
+    "goal": "현재 시각을 1초마다 갱신해 화면에 표시하며 setInterval과 Date 객체로 시간을 다루는 법을 배운다",
+    "difficulty": 3,
+    "concept": "setInterval, Date 객체",
+    "deliverable": "실시간 디지털 시계 페이지"
+  },
+  {
+    "id": "068",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "FAQ 아코디언 만들기 (한 번에 하나만 열림)",
+    "goal": "질문을 누르면 답이 펼쳐지고 다른 질문을 열면 이전 것이 닫히게 해 여러 요소를 반복 처리하는 법을 익힌다",
+    "difficulty": 3,
+    "concept": "querySelectorAll, forEach, 활성 클래스",
+    "deliverable": "FAQ 아코디언 섹션"
+  },
+  {
+    "id": "069",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "탭 메뉴 만들기 (탭 클릭 시 내용 전환)",
+    "goal": "탭 버튼을 누르면 해당 패널만 보이고 나머지는 숨겨지게 해 'data 속성으로 짝 맞추기' 패턴을 배운다",
+    "difficulty": 3,
+    "concept": "data-* 속성, 활성 패널 전환",
+    "deliverable": "3개 탭 콘텐츠 전환 위젯"
+  },
+  {
+    "id": "070",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "드롭다운 메뉴 만들기 (바깥 클릭 시 닫힘)",
+    "goal": "버튼을 누르면 메뉴가 펼쳐지고 바깥을 클릭하면 닫히게 해 이벤트 버블링과 document 클릭 감지를 배운다",
+    "difficulty": 3,
+    "concept": "이벤트 버블링, document click",
+    "deliverable": "드롭다운 메뉴 컴포넌트"
+  },
+  {
+    "id": "071",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "모달 팝업 창 만들기 (열기/닫기/오버레이)",
+    "goal": "버튼으로 팝업을 띄우고 X·오버레이·ESC로 닫히게 해 화면 위에 띄우는 레이어와 키보드 이벤트를 다룬다",
+    "difficulty": 3,
+    "concept": "모달, keydown(ESC), 오버레이",
+    "deliverable": "모달 팝업이 있는 페이지"
+  },
+  {
+    "id": "072",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "토스트 알림 만들기 (3초 후 자동 사라짐)",
+    "goal": "버튼을 누르면 '저장됨' 알림이 떴다가 잠시 후 사라지게 해 setTimeout으로 시간차 동작을 만든다",
+    "difficulty": 3,
+    "concept": "setTimeout, 임시 메시지",
+    "deliverable": "토스트 알림 데모 페이지"
+  },
+  {
+    "id": "073",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "이미지 갤러리 라이트박스 만들기",
+    "goal": "썸네일을 누르면 큰 이미지가 모달로 뜨고 좌우 버튼으로 넘기게 해 클릭한 요소의 데이터를 읽어 활용한다",
+    "difficulty": 3,
+    "concept": "이미지 src 교체, 인덱스 이동",
+    "deliverable": "썸네일 갤러리 + 라이트박스"
+  },
+  {
+    "id": "074",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "별점(★) 평점 입력 위젯 만들기",
+    "goal": "별 위에 마우스를 올리면 미리보기, 클릭하면 점수가 고정되게 해 mouseover/mouseout과 클릭을 조합한다",
+    "difficulty": 3,
+    "concept": "mouseover/mouseout, 인덱스 기반 채움",
+    "deliverable": "별점 입력 컴포넌트"
+  },
+  {
+    "id": "075",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "이미지 슬라이더 만들기 (이전/다음 버튼)",
+    "goal": "여러 이미지를 좌우 버튼으로 한 장씩 넘기고 끝에서 처음으로 순환되게 해 배열 인덱스로 화면을 제어한다",
+    "difficulty": 4,
+    "concept": "배열, 인덱스 순환, transform",
+    "deliverable": "수동 이미지 슬라이더"
+  },
+  {
+    "id": "076",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "자동 재생 캐러셀 만들기 (점 인디케이터 포함)",
+    "goal": "슬라이드가 일정 간격으로 자동 넘어가고 하단 점으로 위치를 표시·이동하게 해 타이머와 인덱스 상태를 합친다",
+    "difficulty": 4,
+    "concept": "setInterval 자동전환, 인디케이터 동기화",
+    "deliverable": "자동 캐러셀 컴포넌트"
+  },
+  {
+    "id": "077",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "스크롤하면 맨 위로 가기 버튼 나타나기",
+    "goal": "일정 높이 이상 내려가면 'TOP' 버튼이 나타나고 누르면 부드럽게 맨 위로 가게 해 scroll 이벤트를 다룬다",
+    "difficulty": 4,
+    "concept": "scroll 이벤트, scrollTo, 부드러운 이동",
+    "deliverable": "맨 위로 버튼이 있는 긴 페이지"
+  },
+  {
+    "id": "078",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "스크롤 진행률 바 + 헤더 색 변하기",
+    "goal": "페이지를 읽은 비율을 상단 바로 보여주고 스크롤 시 헤더 배경이 바뀌게 해 스크롤 위치를 수치로 환산한다",
+    "difficulty": 4,
+    "concept": "scrollY, scrollHeight 비율 계산",
+    "deliverable": "읽기 진행률 바가 있는 글 페이지"
+  },
+  {
+    "id": "079",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "스크롤하면 요소가 스르륵 등장하기 (페이드인)",
+    "goal": "화면에 들어온 카드만 애니메이션으로 나타나게 해 IntersectionObserver로 '보이는지'를 감지하는 법을 배운다",
+    "difficulty": 4,
+    "concept": "IntersectionObserver, 등장 애니메이션",
+    "deliverable": "스크롤 등장 효과 섹션"
+  },
+  {
+    "id": "080",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "숫자 카운트업 애니메이션 만들기",
+    "goal": "통계 영역이 보일 때 0부터 목표 숫자까지 빠르게 올라가게 해 시간에 따라 값을 증가시키는 연출을 익힌다",
+    "difficulty": 4,
+    "concept": "requestAnimationFrame 또는 setInterval, 보간",
+    "deliverable": "통계 카운트업 섹션"
+  },
+  {
+    "id": "081",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "스톱워치 만들기 (시작/정지/리셋)",
+    "goal": "시작·정지·초기화 버튼으로 경과 시간을 1/100초까지 재게 해 타이머 시작/정지 상태 관리를 익힌다",
+    "difficulty": 4,
+    "concept": "setInterval/clearInterval, 경과시간 계산",
+    "deliverable": "스톱워치 위젯 페이지"
+  },
+  {
+    "id": "082",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "할 일 목록(To-Do) 만들기 — 추가와 삭제",
+    "goal": "입력한 할 일을 목록에 추가하고 삭제 버튼으로 지우게 해 배열에 데이터를 넣고 빼며 화면을 다시 그리는 법을 배운다",
+    "difficulty": 4,
+    "concept": "배열 push/filter, createElement, 다시 그리기",
+    "deliverable": "추가·삭제되는 할 일 목록 앱"
+  },
+  {
+    "id": "083",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "할 일 목록 업그레이드 — 완료 체크와 개수 표시",
+    "goal": "각 할 일을 완료로 체크해 줄을 긋고 '남은 할 일 N개'를 보여줘 항목별 상태를 가진 배열을 다루는 법을 배운다",
+    "difficulty": 4,
+    "concept": "객체 배열, 완료 상태, 필터링 집계",
+    "deliverable": "체크·집계 기능이 있는 할 일 목록"
+  },
+  {
+    "id": "084",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "다크모드 설정을 localStorage로 기억하기",
+    "goal": "다크모드 선택을 저장해 새로고침·재방문해도 유지되게 해 localStorage로 상태를 저장·복원하는 법을 배운다",
+    "difficulty": 5,
+    "concept": "localStorage setItem/getItem, 초기 상태 복원",
+    "deliverable": "설정이 유지되는 다크모드 페이지"
+  },
+  {
+    "id": "085",
+    "code": "C",
+    "category": "자바스크립트 인터랙션",
+    "title": "할 일 목록 완성 — localStorage로 데이터 영구 저장 + 필터",
+    "goal": "할 일을 JSON으로 저장해 재방문 시 그대로 불러오고 전체/진행/완료 필터를 붙여 한 화면에 모든 개념을 합친 미니 앱을 완성한다",
+    "difficulty": 5,
+    "concept": "JSON.stringify/parse, localStorage 영속화, 필터 상태",
+    "deliverable": "데이터가 유지되는 완성형 할 일 앱"
+  },
+  {
+    "id": "086",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "이름 한 줄 입력칸 만들고 placeholder 넣기",
+    "goal": "text input과 label, placeholder를 붙여 가장 기본적인 입력칸을 만들며 폼 요소의 뼈대를 배운다",
+    "difficulty": 1,
+    "concept": "input text, label, placeholder",
+    "deliverable": "HTML 페이지(이름 입력칸 1개)"
+  },
+  {
+    "id": "087",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "입력 종류 6종 모아보기 (이메일·전화·숫자·날짜·색상·범위)",
+    "goal": "type 속성만 바꿔 키패드·달력·색상 선택기가 달라지는 것을 체험하며 input type을 배운다",
+    "difficulty": 1,
+    "concept": "input type, email/tel/number/date/color/range",
+    "deliverable": "HTML 페이지(입력 종류 6개 나열)"
+  },
+  {
+    "id": "088",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "라디오 버튼과 체크박스로 설문 항목 만들기",
+    "goal": "택일(radio)과 복수선택(checkbox)을 name 속성으로 묶어 선택형 입력을 배운다",
+    "difficulty": 1,
+    "concept": "radio, checkbox, name 그룹",
+    "deliverable": "HTML 페이지(미니 설문 폼)"
+  },
+  {
+    "id": "089",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "드롭다운(select)으로 지역 선택 메뉴 만들기",
+    "goal": "select와 option, 기본 선택값을 설정해 목록형 입력을 만드는 법을 배운다",
+    "difficulty": 1,
+    "concept": "select, option, selected",
+    "deliverable": "HTML 페이지(지역 선택 드롭다운)"
+  },
+  {
+    "id": "090",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "여러 줄 메시지 입력칸(textarea)과 전송 버튼 폼",
+    "goal": "textarea와 submit 버튼을 form으로 감싸 하나의 제출 가능한 폼 구조를 완성한다",
+    "difficulty": 1,
+    "concept": "textarea, form, submit",
+    "deliverable": "HTML 페이지(문의 폼 레이아웃)"
+  },
+  {
+    "id": "091",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "required로 필수 입력 막기 (빈 칸이면 제출 안 됨)",
+    "goal": "required 속성으로 빈 칸 제출을 브라우저가 막아주는 HTML 기본 검증을 배운다",
+    "difficulty": 2,
+    "concept": "required, HTML 기본 검증",
+    "deliverable": "HTML 페이지(필수 항목 있는 폼)"
+  },
+  {
+    "id": "092",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "이메일 형식·글자 수 제한 검증 (type·minlength·maxlength)",
+    "goal": "type=email과 minlength/maxlength로 형식과 길이를 코드 없이 검증하는 법을 배운다",
+    "difficulty": 2,
+    "concept": "type=email, minlength, maxlength",
+    "deliverable": "HTML 페이지(가입 폼 형식 검증)"
+  },
+  {
+    "id": "093",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "전화번호 패턴 검증과 안내 메시지 (pattern·title)",
+    "goal": "pattern 정규식과 title 속성으로 '010-0000-0000' 같은 형식을 강제하고 힌트를 띄운다",
+    "difficulty": 2,
+    "concept": "pattern, 정규식 기초, title 힌트",
+    "deliverable": "HTML 페이지(전화번호 입력 폼)"
+  },
+  {
+    "id": "094",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "에러 안내문에 빨강 테두리·아래 메시지 스타일 입히기",
+    "goal": ":invalid, :valid CSS 의사클래스로 잘못된 입력을 시각적으로 표시하는 법을 배운다",
+    "difficulty": 2,
+    "concept": ":invalid, :valid, focus 스타일",
+    "deliverable": "HTML+CSS 페이지(검증 상태 스타일)"
+  },
+  {
+    "id": "095",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "입력하는 순간 글자 수 카운터 보여주기",
+    "goal": "input 이벤트와 textContent로 타이핑할 때마다 '23/100' 글자 수를 실시간 표시한다",
+    "difficulty": 3,
+    "concept": "input 이벤트, value.length",
+    "deliverable": "JS 스크립트+HTML(실시간 글자 카운터)"
+  },
+  {
+    "id": "096",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "이메일 실시간 검증: 입력 중 형식 맞으면 초록 체크",
+    "goal": "JS로 입력값을 정규식 검사해 타이핑 도중 즉시 통과/실패 표시를 띄우는 법을 배운다",
+    "difficulty": 3,
+    "concept": "input 이벤트, 정규식 test(), 실시간 피드백",
+    "deliverable": "JS 스크립트+HTML(실시간 이메일 검증)"
+  },
+  {
+    "id": "097",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "비밀번호 보기/숨기기 토글 버튼 만들기",
+    "goal": "버튼 클릭으로 input type을 password↔text로 바꿔 눈 아이콘 토글 UX를 구현한다",
+    "difficulty": 3,
+    "concept": "type 속성 변경, click 이벤트, 토글",
+    "deliverable": "JS 스크립트+HTML(비밀번호 표시 토글)"
+  },
+  {
+    "id": "098",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "비밀번호 확인 일치 검사 (두 칸 비교)",
+    "goal": "비밀번호와 확인란 두 값을 비교해 다르면 즉시 경고를 띄우는 실시간 검증을 만든다",
+    "difficulty": 3,
+    "concept": "값 비교, 실시간 검증, 에러 토글",
+    "deliverable": "JS 스크립트+HTML(비밀번호 일치 검사)"
+  },
+  {
+    "id": "099",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "비밀번호 강도 막대(약함·보통·강함) 표시하기",
+    "goal": "길이·숫자·특수문자 조건을 점수화해 색깔 막대로 강도를 보여주는 로직을 배운다",
+    "difficulty": 3,
+    "concept": "조건 점수화, 정규식 여러 개, 동적 클래스",
+    "deliverable": "JS 스크립트+HTML(비밀번호 강도 미터)"
+  },
+  {
+    "id": "100",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "제출 막고 직접 검사 후 에러 모아 보여주기 (preventDefault)",
+    "goal": "submit을 가로채 모든 칸을 검사하고 통과 못 한 항목 목록을 한 번에 보여주는 패턴을 배운다",
+    "difficulty": 4,
+    "concept": "submit 이벤트, preventDefault, 일괄 검증",
+    "deliverable": "JS 스크립트+HTML(커스텀 검증 폼)"
+  },
+  {
+    "id": "101",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "검색창에 입력하면 목록이 즉시 걸러지는 필터 만들기",
+    "goal": "input 값으로 카드/리스트를 includes로 필터링해 실시간 검색 기능을 구현한다",
+    "difficulty": 4,
+    "concept": "filter, includes(), 실시간 검색",
+    "deliverable": "JS 스크립트+HTML(검색 필터 목록)"
+  },
+  {
+    "id": "102",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "타이핑 멈춘 뒤 검색 실행하는 디바운스 적용하기",
+    "goal": "setTimeout 디바운스로 키 입력마다가 아닌 멈춘 0.3초 뒤 한 번만 검색하게 최적화한다",
+    "difficulty": 4,
+    "concept": "디바운스, setTimeout/clearTimeout",
+    "deliverable": "JS 스크립트+HTML(디바운스 검색)"
+  },
+  {
+    "id": "103",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "드래그앤드롭 파일 첨부 영역과 미리보기 UI",
+    "goal": "drop 영역에 파일을 끌어놓으면 파일명·이미지 미리보기를 보여주는 첨부 UI를 만든다",
+    "difficulty": 4,
+    "concept": "input file, dragover/drop 이벤트, FileReader 미리보기",
+    "deliverable": "JS 스크립트+HTML(파일 첨부 UI)"
+  },
+  {
+    "id": "104",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "단계별로 넘어가는 3단계 가입 폼(스텝 인디케이터)",
+    "goal": "한 화면에서 다음/이전으로 단계를 전환하고 각 단계 검증을 통과해야 넘어가는 다단계 폼을 만든다",
+    "difficulty": 5,
+    "concept": "다단계 폼, 단계 상태 관리, 단계별 검증",
+    "deliverable": "JS 스크립트+HTML(멀티스텝 폼)"
+  },
+  {
+    "id": "105",
+    "code": "D",
+    "category": "폼·입력·검증",
+    "title": "검증 통과한 문의 폼을 Supabase에 저장하고 전송 후 피드백 띄우기",
+    "goal": "검증을 통과한 값을 Supabase 테이블에 insert하고 로딩 스피너→성공/실패 메시지를 보여주는 전송 흐름을 완성한다",
+    "difficulty": 5,
+    "concept": "Supabase insert, async/await, 로딩·성공·에러 피드백",
+    "deliverable": "JS 스크립트+HTML(Supabase 연동 문의 폼)"
+  },
+  {
+    "id": "106",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "이름 입력값 localStorage에 저장하고 새로고침해도 남기기",
+    "goal": "입력창에 친 이름을 localStorage.setItem으로 저장하고, 페이지를 새로고침해도 그 값이 그대로 보이게 만들어 '브라우저에 데이터가 저장된다'는 감각 익히기",
+    "difficulty": 1,
+    "concept": "localStorage.setItem/getItem",
+    "deliverable": "이름 저장/표시되는 HTML 한 페이지(input+버튼)"
+  },
+  {
+    "id": "107",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "다크모드 토글 상태를 localStorage로 기억하기",
+    "goal": "다크/라이트 모드 토글 버튼을 만들고, 선택한 테마를 localStorage에 저장해 다음 방문 때도 마지막 테마가 유지되게 하기",
+    "difficulty": 1,
+    "concept": "테마 토글, 상태 기억",
+    "deliverable": "body class를 바꾸는 다크모드 토글 페이지"
+  },
+  {
+    "id": "108",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "방문 횟수 카운터 만들기",
+    "goal": "페이지에 들어올 때마다 localStorage에 저장된 숫자를 1씩 올려 '몇 번째 방문입니다'를 표시하며 숫자 저장과 형변환(Number) 배우기",
+    "difficulty": 1,
+    "concept": "숫자 저장, parseInt/Number",
+    "deliverable": "방문 횟수를 보여주는 단일 페이지"
+  },
+  {
+    "id": "109",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "한 줄 메모장: 글 저장하고 지우기 버튼",
+    "goal": "textarea에 쓴 메모를 저장 버튼으로 localStorage에 넣고, 지우기 버튼으로 removeItem 해서 저장과 삭제의 짝을 경험하기",
+    "difficulty": 2,
+    "concept": "setItem/removeItem",
+    "deliverable": "저장·삭제되는 한 줄 메모 페이지"
+  },
+  {
+    "id": "110",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "할 일 목록을 배열로 localStorage에 저장하기 (JSON)",
+    "goal": "할 일을 추가하면 배열에 push하고 JSON.stringify로 저장, 불러올 때 JSON.parse로 복원해 '여러 개 데이터=배열+JSON' 패턴 익히기",
+    "difficulty": 2,
+    "concept": "배열, JSON.stringify/parse",
+    "deliverable": "추가·표시되는 할 일 목록 JS 페이지"
+  },
+  {
+    "id": "111",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "할 일 항목 개별 삭제와 완료 체크 토글",
+    "goal": "각 할 일에 삭제 버튼과 완료 체크박스를 붙여, 배열에서 특정 항목을 찾아 제거(filter)하거나 done 값을 바꿔 다시 저장하는 '배열 수정' 익히기",
+    "difficulty": 3,
+    "concept": "filter/map, 객체 상태 변경",
+    "deliverable": "삭제·완료 토글 가능한 할 일 앱(localStorage)"
+  },
+  {
+    "id": "112",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "간단 가계부 v1: 수입·지출 입력하고 합계 계산하기",
+    "goal": "금액과 분류를 입력해 localStorage 배열에 저장하고, reduce로 총합과 잔액을 자동 계산해 보여주며 데이터로 계산하는 감각 익히기",
+    "difficulty": 3,
+    "concept": "객체 배열, reduce 합계",
+    "deliverable": "수입/지출 합계가 나오는 가계부 페이지(localStorage)"
+  },
+  {
+    "id": "113",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "localStorage 데이터의 한계 체험과 Supabase로 넘어갈 이유 정리하기",
+    "goal": "다른 브라우저·다른 기기에서는 내 할 일이 안 보이는 걸 직접 확인하고, '여러 사람/여러 기기가 공유하려면 서버 DB가 필요하다'를 Claude에게 설명받아 1쪽 메모로 정리하기",
+    "difficulty": 2,
+    "concept": "클라이언트 저장의 한계, DB 필요성",
+    "deliverable": "한계 비교 실험 메모 + 다음 단계 학습 프롬프트 템플릿"
+  },
+  {
+    "id": "114",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "Supabase 프로젝트 만들고 첫 테이블(memos) 생성하기",
+    "goal": "Supabase 가입 후 프로젝트를 만들고 Table Editor로 memos 테이블(id, content, created_at)을 GUI로 만들어 '서버에 표 하나 생기는' 첫 경험하기",
+    "difficulty": 2,
+    "concept": "Supabase 프로젝트, 테이블 컬럼",
+    "deliverable": "memos 테이블이 생성된 Supabase 대시보드 + 컬럼 설계 메모"
+  },
+  {
+    "id": "115",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "Supabase 클라이언트 연결하고 프로젝트 URL·anon key 안전하게 다루기",
+    "goal": "CDN으로 supabase-js를 불러와 createClient로 연결하고, anon key가 무엇인지·왜 공개돼도 되는지(RLS 전제)를 이해한 뒤 연결 성공을 콘솔로 확인하기",
+    "difficulty": 3,
+    "concept": "supabase-js, createClient, anon key",
+    "deliverable": "콘솔에 연결 확인 로그가 찍히는 HTML/JS 페이지"
+  },
+  {
+    "id": "116",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "방명록 글 1건 Supabase에 insert 하기",
+    "goal": "이름과 메시지를 입력받아 supabase.from('guestbook').insert()로 서버에 한 줄 저장하고, 대시보드 Table Editor에서 실제로 들어간 것을 눈으로 확인하기",
+    "difficulty": 3,
+    "concept": "insert, from()",
+    "deliverable": "글이 서버에 저장되는 방명록 입력 폼"
+  },
+  {
+    "id": "117",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "방명록 글 목록 select로 불러와 화면에 그리기",
+    "goal": "supabase.from('guestbook').select()로 전체 글을 가져와 forEach로 li를 만들어 목록을 렌더링하고, '서버 데이터를 받아 DOM에 뿌리는' 흐름 완성하기",
+    "difficulty": 3,
+    "concept": "select, 데이터 렌더링",
+    "deliverable": "서버 글이 목록으로 표시되는 방명록 페이지"
+  },
+  {
+    "id": "118",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "insert 후 목록 자동 새로고침 + async/await로 깔끔하게 만들기",
+    "goal": "글을 등록하면 다시 select 해서 목록이 즉시 갱신되게 하고, 콜백 대신 async/await와 try/catch로 비동기 흐름과 에러 표시를 정리하기",
+    "difficulty": 3,
+    "concept": "async/await, 에러 처리",
+    "deliverable": "등록 즉시 갱신되는 방명록(비동기 정리판)"
+  },
+  {
+    "id": "119",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "RLS(행 수준 보안) 켜고 읽기/쓰기 정책 추가하기",
+    "goal": "테이블에 RLS를 활성화한 뒤 '누구나 읽기/쓰기 허용' 정책을 추가해, 정책이 없으면 데이터가 안 보이는 이유와 보안의 기본 개념을 체험하기",
+    "difficulty": 4,
+    "concept": "RLS, policy",
+    "deliverable": "RLS 정책이 적용돼 정상 동작하는 방명록 + 정책 설명 메모"
+  },
+  {
+    "id": "120",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "할 일 앱을 localStorage에서 Supabase todos 테이블로 이전하기",
+    "goal": "앞서 만든 할 일 배열 구조를 todos 테이블로 옮기고, 추가는 insert·목록은 select로 바꿔 '로컬 앱을 서버 앱으로 마이그레이션'하는 전 과정 경험하기",
+    "difficulty": 4,
+    "concept": "마이그레이션, insert/select",
+    "deliverable": "Supabase로 동작하는 할 일 앱"
+  },
+  {
+    "id": "121",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "할 일 완료 상태 update로 서버에 반영하기",
+    "goal": "체크박스를 누르면 supabase.update({done:true}).eq('id', id)로 특정 행만 수정해 'eq로 한 건 골라 update'하는 패턴 익히기",
+    "difficulty": 4,
+    "concept": "update, eq 필터",
+    "deliverable": "완료 토글이 서버에 저장되는 할 일 앱"
+  },
+  {
+    "id": "122",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "할 일 삭제 delete로 서버에서 지우기",
+    "goal": "삭제 버튼에 supabase.delete().eq('id', id)를 연결해 서버 행을 제거하고, 삭제 전 confirm으로 실수 방지까지 더해 CRUD의 D 완성하기",
+    "difficulty": 4,
+    "concept": "delete, eq, confirm",
+    "deliverable": "추가·조회·수정·삭제가 모두 되는 할 일 CRUD 앱"
+  },
+  {
+    "id": "123",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "방명록을 최신순으로 정렬해서 보여주기",
+    "goal": "select에 .order('created_at', {ascending:false})를 붙여 최신 글이 위로 오게 하고, 정렬 기준을 created_at/이름 등으로 바꿔보며 order 사용법 익히기",
+    "difficulty": 3,
+    "concept": "order, 정렬 방향",
+    "deliverable": "최신순 정렬되는 방명록 목록"
+  },
+  {
+    "id": "124",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "방명록 키워드 검색창 만들기 (ilike 부분 일치)",
+    "goal": "검색어를 입력하면 .ilike('message', '%검색어%')로 부분 일치·대소문자 무시 검색 결과만 보여줘 서버 측 필터링 배우기",
+    "difficulty": 4,
+    "concept": "ilike, 부분 검색",
+    "deliverable": "키워드 검색되는 방명록 페이지"
+  },
+  {
+    "id": "125",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "글이 많을 때 페이지네이션 만들기 (range)",
+    "goal": ".range(시작, 끝)과 count 옵션으로 한 페이지에 10개씩 끊어 보여주고 이전/다음 버튼으로 페이지를 넘기며 대량 데이터 처리 익히기",
+    "difficulty": 5,
+    "concept": "range, count, 페이지네이션",
+    "deliverable": "이전/다음 버튼이 있는 페이지네이션 목록"
+  },
+  {
+    "id": "126",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "각 글에 좋아요 버튼 달고 RPC로 카운트 증가시키기",
+    "goal": "likes 컬럼을 만들고 좋아요 버튼 클릭 시 increment하는 Postgres 함수를 만들어 supabase.rpc()로 호출해, 동시성에 안전한 카운트 증가 방식을 배우기",
+    "difficulty": 5,
+    "concept": "좋아요, RPC, 증가 함수",
+    "deliverable": "좋아요 수가 서버에서 증가하는 글 목록"
+  },
+  {
+    "id": "127",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "가계부를 Supabase로 옮기고 분류별 합계 집계하기",
+    "goal": "expenses 테이블로 옮긴 뒤 select로 받아 분류별 지출 합계를 화면에서 reduce로 계산하고, 월별 필터(gte/lte로 날짜 범위)까지 더해 데이터 집계 감각 익히기",
+    "difficulty": 5,
+    "concept": "날짜 범위 필터(gte/lte), 집계",
+    "deliverable": "분류·월별 집계가 되는 Supabase 가계부"
+  },
+  {
+    "id": "128",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "Realtime 구독으로 다른 사람 글이 실시간으로 뜨게 하기",
+    "goal": "supabase.channel().on('postgres_changes')로 방명록 INSERT를 구독해, 다른 브라우저에서 글을 쓰면 내 화면에 새로고침 없이 바로 나타나게 만들기",
+    "difficulty": 5,
+    "concept": "Realtime 구독, postgres_changes",
+    "deliverable": "실시간으로 갱신되는 방명록 페이지"
+  },
+  {
+    "id": "129",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "Vercel 배포 + 환경변수로 Supabase 키 관리하기",
+    "goal": "GitHub에 올린 정적 사이트를 Vercel로 배포하고, 키를 코드에 박지 않고 환경변수/설정 파일로 분리해 '실제 서비스처럼 공개'하는 마무리 경험하기",
+    "difficulty": 4,
+    "concept": "Vercel 배포, 환경변수, GitHub",
+    "deliverable": "공개 URL로 접속되는 배포된 CRUD 앱"
+  },
+  {
+    "id": "130",
+    "code": "E",
+    "category": "데이터: localStorage→Supabase CRUD",
+    "title": "n8n으로 새 글 알림 자동화 + Claude 디렉터 프롬프트로 전체 점검하기",
+    "goal": "Supabase에 글이 들어오면 n8n 워크플로우(Webhook/스케줄)로 이메일·슬랙 알림을 보내고, 만든 CRUD 앱을 Claude에게 '디렉터' 관점으로 코드 리뷰·개선 지시까지 받아 마무리하기",
+    "difficulty": 5,
+    "concept": "n8n 자동화, Webhook, AI 디렉팅",
+    "deliverable": "새 글 알림 n8n 워크플로우 + 리뷰용 디렉터 프롬프트 템플릿"
+  },
+  {
+    "id": "131",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "Supabase 프로젝트에 Auth 켜고 이메일 회원가입 폼 만들기",
+    "goal": "Supabase 대시보드에서 이메일 인증을 켜고, 정적 페이지에 회원가입 폼(이메일·비밀번호)을 붙여 signUp으로 첫 사용자를 만들어 본다.",
+    "difficulty": 1,
+    "concept": "Supabase Auth, signUp, 이메일 회원가입",
+    "deliverable": "회원가입 폼이 있는 signup.html 페이지 + Supabase 사용자 1명 생성"
+  },
+  {
+    "id": "132",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "이메일·비밀번호 로그인 폼 만들고 '로그인 성공' 띄우기",
+    "goal": "signInWithPassword로 로그인하고, 성공하면 환영 메시지, 실패하면 에러 메시지를 화면에 보여주며 인증의 첫 흐름을 익힌다.",
+    "difficulty": 1,
+    "concept": "signInWithPassword, 인증 성공/실패 처리",
+    "deliverable": "로그인 폼 + 성공/에러 메시지가 나오는 login.html"
+  },
+  {
+    "id": "133",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "이메일 인증 확인 메일 안내 화면 만들기",
+    "goal": "회원가입 직후 '메일함을 확인하세요' 안내 화면을 만들고, 확인 링크를 눌러야 로그인되는 이메일 검증(email confirmation) 흐름을 이해한다.",
+    "difficulty": 2,
+    "concept": "이메일 검증(confirmation), 인증 메일 리다이렉트",
+    "deliverable": "가입 후 안내 페이지 + 인증 완료 후 돌아오는 confirm 페이지"
+  },
+  {
+    "id": "134",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "새로고침해도 로그인 유지되게 하기 (세션 읽기)",
+    "goal": "페이지가 열릴 때 getSession으로 현재 로그인 상태를 읽어, 새로고침하거나 다시 들어와도 로그인이 풀리지 않게 만든다.",
+    "difficulty": 2,
+    "concept": "getSession, 세션 유지(persistSession)",
+    "deliverable": "로그인 상태가 새로고침 후에도 유지되는 페이지"
+  },
+  {
+    "id": "135",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "로그인 상태에 따라 헤더 바뀌게 하기 (실시간 감지)",
+    "goal": "onAuthStateChange로 로그인/로그아웃 순간을 감지해, 헤더에 '로그인' 버튼과 '내 계정' 메뉴를 자동으로 바꿔 보여준다.",
+    "difficulty": 2,
+    "concept": "onAuthStateChange, 상태 기반 UI 전환",
+    "deliverable": "로그인 여부에 따라 메뉴가 바뀌는 공통 헤더 스크립트"
+  },
+  {
+    "id": "136",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "로그아웃 버튼 만들고 깔끔하게 빠져나가기",
+    "goal": "signOut으로 세션을 지우고 로그인 페이지로 보내며, 로그아웃 후 보호 데이터가 화면에 남지 않도록 정리하는 법을 익힌다.",
+    "difficulty": 2,
+    "concept": "signOut, 세션 정리",
+    "deliverable": "로그아웃 버튼 + 로그아웃 후 리다이렉트 동작"
+  },
+  {
+    "id": "137",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "로그인한 사람의 이메일·가입일 보여주는 '내 프로필' 카드",
+    "goal": "getUser로 현재 사용자 정보(이메일·가입 시각·user id)를 가져와 마이페이지에 카드로 표시하며 '누가 로그인했는지' 읽는 법을 배운다.",
+    "difficulty": 2,
+    "concept": "getUser, 사용자 정보 표시",
+    "deliverable": "내 정보를 보여주는 mypage.html 카드"
+  },
+  {
+    "id": "138",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "로그인 안 하면 못 들어가는 보호된 페이지 만들기",
+    "goal": "마이페이지 진입 시 세션을 검사해, 비로그인 사용자는 자동으로 로그인 페이지로 돌려보내는 '문지기(라우트 가드)'를 만든다.",
+    "difficulty": 3,
+    "concept": "보호된 페이지, 라우트 가드, 리다이렉트",
+    "deliverable": "비로그인 시 차단되는 보호 페이지 + 가드 스크립트(auth-guard.js)"
+  },
+  {
+    "id": "139",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "비밀번호 찾기·재설정 메일 흐름 만들기",
+    "goal": "resetPasswordForEmail로 재설정 메일을 보내고, 메일 링크로 돌아온 사용자가 updateUser로 새 비밀번호를 저장하는 전체 흐름을 만든다.",
+    "difficulty": 3,
+    "concept": "resetPasswordForEmail, 비밀번호 재설정",
+    "deliverable": "비밀번호 찾기 폼 + 새 비밀번호 입력 페이지"
+  },
+  {
+    "id": "140",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "구글(소셜) 로그인 버튼 붙이기",
+    "goal": "Supabase 대시보드에서 구글 OAuth를 설정하고 signInWithOAuth로 '구글로 계속하기' 버튼을 붙여 소셜 로그인과 리다이렉트 흐름을 이해한다.",
+    "difficulty": 3,
+    "concept": "signInWithOAuth, 소셜 로그인, 리다이렉트 URL",
+    "deliverable": "구글 로그인 버튼 + OAuth 콜백 처리 페이지"
+  },
+  {
+    "id": "141",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "내 메모만 보이는 '비밀 메모장' — RLS로 본인 데이터만 보기",
+    "goal": "memos 테이블에 RLS를 켜고 auth.uid() = user_id 정책을 걸어, 로그인한 사람이 자기 메모만 읽고 쓰게 만들며 행 수준 보안을 체험한다.",
+    "difficulty": 4,
+    "concept": "RLS, auth.uid(), 본인 데이터 격리",
+    "deliverable": "본인 메모만 보이는 memo.html + RLS 정책 SQL"
+  },
+  {
+    "id": "142",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "다른 사람 데이터가 진짜 안 보이는지 두 계정으로 검증하기",
+    "goal": "계정 A로 만든 메모가 계정 B에서 안 보이는지, URL·콘솔로 직접 시도해도 막히는지 확인하며 'UI 가짜 보안'과 'DB 진짜 보안'의 차이를 검증한다.",
+    "difficulty": 4,
+    "concept": "RLS 검증, 인가(접근 통제) 테스트",
+    "deliverable": "두 계정 교차 테스트 시나리오 + 검증 체크리스트"
+  },
+  {
+    "id": "143",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "회원정보 수정 — 닉네임·프로필을 안전하게 바꾸기",
+    "goal": "profiles 테이블(또는 user_metadata)을 만들어 updateUser/update로 닉네임을 수정하고, 본인만 자기 프로필을 고치도록 RLS로 막는다.",
+    "difficulty": 4,
+    "concept": "회원정보 수정, updateUser, profiles 테이블",
+    "deliverable": "닉네임 수정 폼 + profiles RLS 정책이 걸린 마이페이지"
+  },
+  {
+    "id": "144",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "역할(role)에 따라 화면 나누기 — 일반회원 vs 관리자",
+    "goal": "profiles에 role 컬럼을 두고 admin/user를 구분해, 관리자에게만 '관리 메뉴'를 보여주고 일반회원에겐 숨기는 역할 기반 분기를 만든다.",
+    "difficulty": 5,
+    "concept": "역할(role), 인가, 역할 기반 UI 분기",
+    "deliverable": "role에 따라 메뉴가 달라지는 헤더 + 관리자 전용 admin.html"
+  },
+  {
+    "id": "145",
+    "code": "F",
+    "category": "인증·권한",
+    "title": "관리자만 들어가는 회원 목록 페이지 (역할 + RLS 종합)",
+    "goal": "RLS 정책에서 역할을 직접 검사해 admin만 전체 회원 목록을 조회하게 하고, 일반회원이 URL로 직접 들어와도 데이터가 막히는 역할 기반 접근 통제를 완성한다.",
+    "difficulty": 5,
+    "concept": "역할 기반 RLS, 관리자 인가, 접근 통제 종합",
+    "deliverable": "관리자 전용 회원 목록 페이지 + 역할 검사 RLS 정책 SQL"
+  },
+  {
+    "id": "146",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "공개 명언 API 한 줄 받아서 화면에 띄우기",
+    "goal": "fetch로 명언 API를 한 번 호출해 응답 JSON에서 글귀 한 줄을 꺼내 화면에 표시하며 'API 호출 = 남의 주방에 음식 한 접시 주문'을 체험한다",
+    "difficulty": 1,
+    "concept": "fetch 기초, JSON 응답 읽기",
+    "deliverable": "버튼을 누르면 명언 한 줄이 뜨는 HTML 페이지"
+  },
+  {
+    "id": "147",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "개발자 도구 Network 탭으로 내 API 요청 엿보기",
+    "goal": "명언을 받아오는 동안 F12 Network 탭에서 요청 URL·상태코드(200)·응답 JSON을 직접 열어보며 'AI 말 대신 눈앞의 1차 증거를 본다'를 익힌다",
+    "difficulty": 1,
+    "concept": "Network 탭, 상태코드 200, 요청·응답 관찰",
+    "deliverable": "관찰 결과(요청 URL·상태코드·응답 일부)를 캡처해 페이지에 적은 HTML"
+  },
+  {
+    "id": "148",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "'새 명언' 버튼으로 누를 때마다 다른 글귀 받기",
+    "goal": "버튼 클릭 이벤트마다 fetch를 다시 호출해 매번 새 데이터를 받아 갈아끼우며 '한 번 받고 끝'이 아닌 반복 호출의 흐름을 이해한다",
+    "difficulty": 1,
+    "concept": "클릭마다 재호출, DOM 갱신",
+    "deliverable": "누를 때마다 명언이 바뀌는 인터랙티브 HTML 페이지"
+  },
+  {
+    "id": "149",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "랜덤 강아지/고양이 사진 API로 사진 갤러리 만들기",
+    "goal": "이미지 URL을 주는 공개 API를 호출해 응답 속 주소를 img 태그 src에 꽂아 사진을 띄우며 'JSON 안의 값을 화면 요소에 연결한다'를 익힌다",
+    "difficulty": 2,
+    "concept": "JSON 값을 img src에 연결, 랜덤 이미지 API",
+    "deliverable": "버튼을 누르면 랜덤 동물 사진이 바뀌는 HTML 페이지"
+  },
+  {
+    "id": "150",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "오늘의 명언 + 작가 이름 카드로 예쁘게 묶기",
+    "goal": "응답 JSON에서 글귀와 작가 두 개 이상의 필드를 뽑아 한 카드 안에 함께 배치하며 'JSON의 여러 키를 동시에 꺼내 쓴다'를 익힌다",
+    "difficulty": 2,
+    "concept": "여러 필드 추출, 객체 구조 읽기",
+    "deliverable": "글귀와 작가가 함께 보이는 명언 카드 HTML 페이지"
+  },
+  {
+    "id": "151",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "공개 도서 검색 API로 책 제목·표지 목록 뽑기",
+    "goal": "검색어로 도서 API를 호출해 응답으로 온 책 '배열'을 반복(map/forEach)해 제목과 표지 썸네일 목록을 그리며 '배열 응답을 여러 개로 펼치기'를 익힌다",
+    "difficulty": 2,
+    "concept": "배열 응답 순회, 목록 렌더링",
+    "deliverable": "검색어를 넣으면 책 목록이 뜨는 HTML 페이지"
+  },
+  {
+    "id": "152",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "입력창에 검색어 받아 실시간 도서 검색 붙이기",
+    "goal": "사용자가 input에 입력한 검색어를 fetch URL에 끼워 넣어 동적으로 요청을 만들며 'URL 쿼리 파라미터에 사용자 값을 안전하게 합치기'를 익힌다",
+    "difficulty": 2,
+    "concept": "쿼리 파라미터 조립, encodeURIComponent",
+    "deliverable": "검색어 입력→결과 목록이 바뀌는 도서 검색 HTML 페이지"
+  },
+  {
+    "id": "153",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "공개 날씨 API로 도시 이름 넣어 오늘 날씨 표시하기",
+    "goal": "도시명을 받아 무료 날씨 API를 호출하고 기온·날씨 상태·아이콘을 화면에 표시하며 'API 키 없이 쓰는 공개 엔드포인트'와 한국어 표기를 익힌다",
+    "difficulty": 3,
+    "concept": "날씨 API, 응답 필드 매핑",
+    "deliverable": "도시명→오늘 날씨가 뜨는 위젯 HTML 페이지"
+  },
+  {
+    "id": "154",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "내 위치(Geolocation)로 현재 지역 날씨 자동 표시하기",
+    "goal": "브라우저 위치 권한을 받아 좌표를 얻고 그 좌표로 날씨 API를 호출하며 '권한 요청·거부 처리'와 두 단계(위치→날씨) 연결을 익힌다",
+    "difficulty": 3,
+    "concept": "Geolocation API, 권한 처리, 호출 연쇄",
+    "deliverable": "접속 위치 기준 현재 날씨가 자동으로 뜨는 HTML 페이지"
+  },
+  {
+    "id": "155",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "환율 API로 원↔달러 실시간 환전 계산기 만들기",
+    "goal": "환율 API에서 오늘 환율을 받아 사용자가 입력한 금액을 즉시 환산하며 '받아온 숫자 데이터로 계산 로직 만들기'를 익힌다",
+    "difficulty": 3,
+    "concept": "환율 API, 숫자 데이터 가공, 양방향 계산",
+    "deliverable": "금액 입력→환산 결과가 즉시 바뀌는 환전 계산기 HTML 페이지"
+  },
+  {
+    "id": "156",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "로딩 스피너와 '실패했어요' 에러 메시지 붙이기",
+    "goal": "요청 시작에 로딩 표시, 성공 시 결과, 실패 시 사용자용 에러 문구를 보여주는 세 가지 화면 상태를 만들며 'AI가 잘 빠뜨리는 실패 경로 처리'를 익힌다",
+    "difficulty": 3,
+    "concept": "로딩/성공/에러 상태, try-catch",
+    "deliverable": "로딩·에러 상태가 모두 보이는 날씨 또는 도서 위젯 HTML 페이지"
+  },
+  {
+    "id": "157",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "응답이 늦거나 끊길 때 타임아웃·재시도 처리 넣기",
+    "goal": "요청에 타임아웃을 걸고 실패하면 한 번 재시도하는 흐름을 만들며 '네트워크는 항상 성공한다는 가정'이 왜 위험한지 디렉터 시각으로 검증한다",
+    "difficulty": 4,
+    "concept": "AbortController 타임아웃, 재시도",
+    "deliverable": "느린/실패 응답을 흉내 내며 타임아웃·재시도가 동작하는 HTML 데모"
+  },
+  {
+    "id": "158",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "지도 라이브러리로 검색한 장소에 핀 찍기",
+    "goal": "Leaflet 같은 공개 지도와 지오코딩 API를 연결해 입력한 주소를 좌표로 바꿔 지도에 마커를 표시하며 '외부 지도 SDK 임베드와 좌표 다루기'를 익힌다",
+    "difficulty": 4,
+    "concept": "지도 임베드, 지오코딩, 마커",
+    "deliverable": "주소 입력→지도에 핀이 찍히는 HTML 페이지"
+  },
+  {
+    "id": "159",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "도서 검색 결과에 '다음 페이지' 페이지네이션 붙이기",
+    "goal": "offset·page 파라미터로 결과를 나눠 받아 이전/다음 버튼으로 페이지를 넘기며 '많은 데이터를 한 번에 다 받지 않고 쪽 단위로 가져오기'를 익힌다",
+    "difficulty": 4,
+    "concept": "페이지네이션, offset/page 파라미터",
+    "deliverable": "이전/다음 버튼으로 페이지가 넘어가는 도서 검색 HTML 페이지"
+  },
+  {
+    "id": "160",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "입력하는 동안만 검색하는 디바운스·중복요청 막기",
+    "goal": "타이핑이 멈춘 뒤에만 검색하도록 디바운스를 걸고 이전 요청을 취소해 '입력할 때마다 API를 두들겨 호출 한도를 태우는 함정'을 막는 법을 익힌다",
+    "difficulty": 4,
+    "concept": "디바운스, 요청 취소, rate limit 의식",
+    "deliverable": "타이핑이 멈추면 한 번만 검색하는 실시간 도서 검색 HTML 페이지"
+  },
+  {
+    "id": "161",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "비밀 API 키를 프론트에 안 박고 서버로 숨기기 (프록시)",
+    "goal": "OpenAI/Claude 키를 브라우저 코드에 두면 왜 위험한지 확인하고, Vercel 서버리스 함수 또는 n8n 웹훅을 '중간 창구'로 두어 키를 서버에만 보관하는 구조를 만든다",
+    "difficulty": 5,
+    "concept": "API 키 보안, 서버리스/n8n 프록시, 키 노출 방지",
+    "deliverable": "키가 빌드 산출물에 안 보이는 것을 확인한 프록시 호출 데모(서버리스 함수 또는 n8n 워크플로우)"
+  },
+  {
+    "id": "162",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "Claude API로 글 요약해 주는 '한 줄 요약기' 만들기",
+    "goal": "긴 글을 입력하면 프록시를 거쳐 Claude API로 보내 한 줄 요약을 받아 표시하며 'AI를 내 사이트의 한 기능으로 부리기'와 프롬프트를 코드에 고정하는 법을 익힌다",
+    "difficulty": 5,
+    "concept": "Claude API 호출, 프롬프트 설계, AI 기능화",
+    "deliverable": "텍스트 입력→한 줄 요약이 나오는 요약기 HTML 페이지(서버 프록시 포함)"
+  },
+  {
+    "id": "163",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "AI 답변을 타자 치듯 흘려보내는 스트리밍 응답 붙이기",
+    "goal": "AI 응답을 한 번에 받지 않고 스트리밍으로 조각조각 받아 화면에 이어 붙이며 '긴 응답의 체감 속도'와 스트리밍 데이터 처리를 익힌다",
+    "difficulty": 5,
+    "concept": "스트리밍 응답, 점진적 렌더링",
+    "deliverable": "답변이 실시간으로 흘러나오는 AI 챗 위젯 HTML 페이지"
+  },
+  {
+    "id": "164",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "여러 외부 API를 엮은 'AI 여행 한 컷' 미니앱 완성하기",
+    "goal": "도시를 입력하면 날씨 API·지도·이미지 API 결과를 모아 Claude API로 그날의 추천 한마디까지 생성하는 미니앱을 만들며 '여러 외부 연동을 하나의 흐름으로 묶고 부분 실패를 견디게 설계'한다",
+    "difficulty": 5,
+    "concept": "다중 API 조합, 병렬 호출, 부분 실패 처리",
+    "deliverable": "도시 입력→날씨·지도·사진·AI 코멘트가 한 화면에 뜨는 미니앱(Vercel 배포)"
+  },
+  {
+    "id": "165",
+    "code": "G",
+    "category": "API·외부연동",
+    "title": "토큰·요청 한도와 비용을 점검하는 '안전 호출' 점검표 만들기",
+    "goal": "AI/외부 API의 토큰 사용량·요청 한도·예상 비용을 로그로 남기고 한도 초과 시 막는 가드를 넣으며 '요금폭탄과 한도 초과를 디렉터가 먼저 검증하는 루틴'을 완성한다",
+    "difficulty": 5,
+    "concept": "토큰·비용 관리, rate limit 가드, 사용량 로깅",
+    "deliverable": "호출별 토큰·비용을 보여주고 한도를 넘으면 차단하는 점검 대시보드(서버 함수 + 페이지)"
+  },
+  {
+    "id": "166",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "GitHub 계정 만들고 첫 저장소(repository) 만들기",
+    "goal": "GitHub에 가입해 빈 저장소 하나를 만들어보며 '코드를 보관하는 인터넷 창고' 개념을 익힌다",
+    "difficulty": 1,
+    "concept": "GitHub 계정, 저장소(repo)",
+    "deliverable": "내 이름의 빈 GitHub 저장소 1개(URL)"
+  },
+  {
+    "id": "167",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "완성한 index.html을 드래그앤드롭으로 GitHub에 올리기",
+    "goal": "이미 만든 정적 페이지 파일들을 GitHub 웹 화면에서 끌어다 올려 '내 코드가 인터넷에 저장됐다'를 눈으로 확인한다",
+    "difficulty": 1,
+    "concept": "파일 업로드, 커밋(commit)",
+    "deliverable": "HTML/CSS 파일이 들어간 GitHub 저장소"
+  },
+  {
+    "id": "168",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "GitHub Pages로 정적 사이트를 무료 주소에 띄우기",
+    "goal": "저장소 설정에서 Pages를 켜 username.github.io 주소로 내 페이지를 세상에 공개하고 첫 배포 URL을 받는다",
+    "difficulty": 1,
+    "concept": "GitHub Pages, 정적 호스팅",
+    "deliverable": "접속 가능한 github.io 라이브 URL"
+  },
+  {
+    "id": "169",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "Vercel에 GitHub 저장소 연결해 자동배포 켜기",
+    "goal": "Vercel에 GitHub로 로그인하고 저장소를 import해 .vercel.app 주소를 받으며 '연결만 하면 배포되는' 흐름을 경험한다",
+    "difficulty": 2,
+    "concept": "Vercel 연동, 첫 배포",
+    "deliverable": "라이브 중인 프로젝트.vercel.app URL"
+  },
+  {
+    "id": "170",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "글자 한 줄 고치고 git push로 자동 재배포 확인하기",
+    "goal": "GitHub에서 제목 문구를 수정·커밋하면 Vercel이 스스로 다시 빌드·배포하는 컨베이어 벨트(파이프라인)를 눈으로 따라간다",
+    "difficulty": 2,
+    "concept": "자동배포 파이프라인, push 트리거",
+    "deliverable": "수정 내용이 반영된 라이브 사이트 + Deployments 기록"
+  },
+  {
+    "id": "171",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "Vercel Deployments 탭에서 배포 성공/실패 읽는 법 익히기",
+    "goal": "Ready(초록)와 Error(빨강) 상태, 커밋 해시, 빌드 로그 위치를 확인해 '반영이 안 될 때 어디를 봐야 하나'를 판단한다",
+    "difficulty": 2,
+    "concept": "배포 상태, 빌드 로그",
+    "deliverable": "배포 상태 확인 체크리스트(스크린샷 메모)"
+  },
+  {
+    "id": "172",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "Claude에게 deploy 스킬 지시해 커밋 메시지까지 자동화하기",
+    "goal": "AI를 디렉팅해 '비밀키 점검 → 의미 단위 커밋(Conventional Commits) → push'를 대신 시키고 결과 URL을 보고받는다",
+    "difficulty": 2,
+    "concept": "AI 디렉팅, 커밋 규칙",
+    "deliverable": "AI가 수행한 커밋 1건 + 배포 보고"
+  },
+  {
+    "id": "173",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "잘못 올린 비밀키 막기 — .gitignore와 .env 분리하기",
+    "goal": "Supabase anon/secret 키를 코드에 박지 않고 .env에 두고 .gitignore로 GitHub 업로드를 차단하는 안전장치를 만든다",
+    "difficulty": 3,
+    "concept": ".gitignore, .env, 비밀키 보호",
+    "deliverable": "키가 빠진 깨끗한 저장소 + .env.example 파일"
+  },
+  {
+    "id": "174",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "Vercel 환경변수(Environment Variables)에 Supabase 키 등록하기",
+    "goal": "코드 대신 Vercel 대시보드에 키를 넣어 배포 시 주입되게 하고, anon 키와 secret 키의 노출 범위 차이를 구분한다",
+    "difficulty": 3,
+    "concept": "환경변수 주입, anon vs secret",
+    "deliverable": "환경변수로 Supabase에 연결되는 배포 사이트"
+  },
+  {
+    "id": "175",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "Production과 Preview 환경변수 칸 나눠 설정하기",
+    "goal": "실서비스용과 미리보기용 Supabase 키를 Vercel의 Production/Preview 칸에 따로 넣어 '진짜 데이터'와 '연습 데이터'를 분리한다",
+    "difficulty": 3,
+    "concept": "환경 분리(dev/preview/prod)",
+    "deliverable": "환경별로 다른 키가 적용된 설정 화면"
+  },
+  {
+    "id": "176",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "브랜치 만들어 미리보기(Preview) 배포 URL 받기",
+    "goal": "main이 아닌 새 브랜치에 변경을 올려 라이브를 건드리지 않고 별도 임시 URL에서 먼저 확인하는 안전한 실험법을 익힌다",
+    "difficulty": 3,
+    "concept": "브랜치, Preview Deployment",
+    "deliverable": "main과 분리된 Preview URL"
+  },
+  {
+    "id": "177",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "Pull Request로 미리보기 검토 후 라이브에 합치기",
+    "goal": "PR을 열어 Preview URL로 검토하고 Merge하면 production에 반영되는 'AI 작업물 안전 검수' 워크플로우를 완성한다",
+    "difficulty": 4,
+    "concept": "Pull Request, Merge 배포",
+    "deliverable": "검토 후 병합된 PR 1건 + 갱신된 라이브"
+  },
+  {
+    "id": "178",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "내 도메인 사서 Vercel에 연결하고 HTTPS 자물쇠 확인하기",
+    "goal": "도메인을 구매해 DNS 레코드를 설정하고 www/루트를 301로 통일하며, 전파 시간 때문에 '안 떠도 정상'임을 이해한다",
+    "difficulty": 4,
+    "concept": "커스텀 도메인, DNS, HTTPS",
+    "deliverable": "자물쇠 걸린 내이름.com 라이브 사이트"
+  },
+  {
+    "id": "179",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "깨진 배포 일부러 만들고 Instant Rollback으로 즉시 되돌리기",
+    "goal": "고장난 변경을 올린 뒤 코드 수정 대신 Vercel Instant Rollback으로 직전 멀쩡한 버전으로 클릭 한 번에 복구한다",
+    "difficulty": 4,
+    "concept": "롤백, 장애 복구",
+    "deliverable": "롤백으로 정상화된 사이트 + 복구 절차 메모"
+  },
+  {
+    "id": "180",
+    "code": "H",
+    "category": "배포·운영·도구",
+    "title": "방문자수 측정 붙이고 n8n으로 일일 트래픽 알림 받기",
+    "goal": "Vercel Analytics(또는 Plausible)로 방문자수를 보고, n8n 워크플로우가 매일 방문 요약을 메일/슬랙으로 보내는 간단 모니터링을 만든다",
+    "difficulty": 5,
+    "concept": "방문자 분석, n8n 자동 모니터링",
+    "deliverable": "Analytics 대시보드 + 매일 트래픽 알림 보내는 n8n 워크플로우"
+  },
+  {
+    "id": "181",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "내 페이지에 title과 meta description 한 줄 달기",
+    "goal": "정적 HTML의 <head>에 고유한 <title>과 meta description을 넣어 구글 검색결과에 보일 '제목·설명'을 직접 만들어 본다",
+    "difficulty": 1,
+    "concept": "title, meta description",
+    "deliverable": "<head>에 title·description이 채워진 HTML 페이지"
+  },
+  {
+    "id": "182",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "lang·charset·viewport 기본 메타 3종 세트 채우기",
+    "goal": "html lang=\"ko\", charset=utf-8, viewport 메타를 넣어 한글 깨짐·모바일 확대 문제를 없애고 '기본기 메타'를 이해한다",
+    "difficulty": 1,
+    "concept": "lang, charset, viewport",
+    "deliverable": "기본 메타가 정리된 HTML 페이지 head"
+  },
+  {
+    "id": "183",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "모든 이미지에 의미 있는 alt 텍스트 붙이기",
+    "goal": "사이트의 모든 <img>에 내용을 설명하는 alt를 달고, 장식용 이미지는 alt=\"\"로 비워 스크린리더와 검색엔진이 이미지를 이해하게 한다",
+    "difficulty": 1,
+    "concept": "alt 텍스트, 대체 텍스트",
+    "deliverable": "alt가 모두 채워진 이미지 목록 HTML"
+  },
+  {
+    "id": "184",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "카톡·SNS 공유 미리보기용 OG 태그 만들기",
+    "goal": "og:title·og:description·og:image·og:url 메타를 넣어 카카오톡·페이스북에 링크를 붙였을 때 예쁜 미리보기 카드가 뜨게 한다",
+    "difficulty": 2,
+    "concept": "Open Graph, 공유 미리보기",
+    "deliverable": "OG 태그가 들어간 HTML과 대표 OG 이미지 1장"
+  },
+  {
+    "id": "185",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "h1~h3 제목 위계로 문서 뼈대 바로잡기",
+    "goal": "페이지에 h1은 하나만 두고 h2·h3로 단계를 맞춰 검색엔진과 스크린리더가 이해하는 올바른 '목차 구조'를 만든다",
+    "difficulty": 2,
+    "concept": "제목 위계, 시맨틱 구조",
+    "deliverable": "제목 위계가 정리된 HTML 본문"
+  },
+  {
+    "id": "186",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "robots.txt 손으로 만들어 올리기",
+    "goal": "public 폴더에 robots.txt를 두고 Allow/Disallow 의미를 익혀, 운영 사이트에 'Disallow: /' 전면 차단이 남지 않게 점검한다",
+    "difficulty": 2,
+    "concept": "robots.txt, 크롤러 허용/차단",
+    "deliverable": "사이트 루트에 배치된 robots.txt 파일"
+  },
+  {
+    "id": "187",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "내 페이지 주소를 적은 sitemap.xml 만들기",
+    "goal": "사이트의 모든 페이지 URL을 담은 sitemap.xml을 만들어 검색엔진이 페이지 목록을 한 번에 알 수 있게 한다",
+    "difficulty": 2,
+    "concept": "sitemap.xml, URL 목록",
+    "deliverable": "사이트 루트에 배치된 sitemap.xml 파일"
+  },
+  {
+    "id": "188",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "canonical 태그로 대표 주소 한 개 지정하기",
+    "goal": "<link rel=\"canonical\">을 넣어 www·끝슬래시 등 중복 주소 때문에 검색 점수가 갈리는 문제를 막는 '대표 주소 지정' 개념을 익힌다",
+    "difficulty": 2,
+    "concept": "canonical, 중복 URL 정리",
+    "deliverable": "canonical 링크가 포함된 HTML head"
+  },
+  {
+    "id": "189",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "Lighthouse 돌려보고 4개 점수 읽기",
+    "goal": "크롬 개발자도구의 Lighthouse로 Performance·Accessibility·Best Practices·SEO 점수를 뽑고, 빨간 항목 목록을 해석하는 법을 익힌다",
+    "difficulty": 3,
+    "concept": "Lighthouse, 진단 점수 읽기",
+    "deliverable": "Lighthouse 리포트 캡처 + 개선항목 정리 메모"
+  },
+  {
+    "id": "190",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "이미지를 WebP로 줄이고 width·height·lazy 넣기",
+    "goal": "큰 사진을 WebP로 변환·압축하고 width/height와 loading=\"lazy\"를 넣어 LCP를 줄이고 레이아웃 밀림(CLS)을 막는다",
+    "difficulty": 3,
+    "concept": "이미지 최적화, WebP, lazy loading",
+    "deliverable": "WebP로 교체되고 크기 속성이 들어간 이미지 섹션"
+  },
+  {
+    "id": "191",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "키보드만으로 사이트 전체 돌아다니기 + focus 표시 살리기",
+    "goal": "마우스 없이 Tab·Enter로 모든 링크·버튼·폼에 닿는지 점검하고, 지워진 포커스 외곽선(:focus-visible)을 되살려 키보드 접근성을 확보한다",
+    "difficulty": 3,
+    "concept": "키보드 접근성, 포커스 표시, tab 순서",
+    "deliverable": "키보드 순회 점검표 + focus-visible CSS가 적용된 페이지"
+  },
+  {
+    "id": "192",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "색 대비 검사로 흐린 텍스트 합격선까지 고치기",
+    "goal": "대비 검사 도구로 본문·버튼 글자의 명도대비를 측정하고 WCAG AA 기준(본문 4.5:1)을 통과하도록 색을 조정한다",
+    "difficulty": 3,
+    "concept": "색 대비, WCAG AA, 가독성",
+    "deliverable": "대비 합격선을 넘긴 색상 팔레트와 수정된 CSS"
+  },
+  {
+    "id": "193",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "구조화 데이터 JSON-LD로 Article·Organization 표시하기",
+    "goal": "JSON-LD 스크립트로 글(Article)과 운영주체(Organization) 정보를 검색엔진이 읽게 넣고, 2026년 폐지된 FAQ 리치결과는 넣지 않는 판단을 익힌다",
+    "difficulty": 4,
+    "concept": "JSON-LD, 구조화 데이터, 리치결과",
+    "deliverable": "Article·Organization JSON-LD가 삽입된 HTML + 리치결과 테스트 통과 캡처"
+  },
+  {
+    "id": "194",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "구글 서치콘솔·네이버 서치어드바이저에 사이트 등록하고 사이트맵 제출",
+    "goal": "두 검색엔진에 소유확인(메타태그/파일)을 마치고 sitemap.xml을 제출해 한국 노출에 필수인 네이버까지 색인 요청을 끝낸다",
+    "difficulty": 4,
+    "concept": "서치콘솔, 네이버 서치어드바이저, 소유확인",
+    "deliverable": "두 콘솔의 소유확인 완료·사이트맵 제출 화면 캡처"
+  },
+  {
+    "id": "195",
+    "code": "I",
+    "category": "SEO·성능·접근성",
+    "title": "AI를 SEO·접근성 감사관으로 세워 자동 점검 워크플로우 만들기",
+    "goal": "seo-check 스킬 기준으로 Claude에게 전 페이지를 점검·수정시키고, n8n으로 주기적 Lighthouse/링크 점검 알림까지 자동화해 '디렉터의 상시 감사 체계'를 세운다",
+    "difficulty": 5,
+    "concept": "AI 감사관, 체크리스트 자동화, n8n 모니터링",
+    "deliverable": "SEO·접근성 점검 프롬프트 템플릿 + n8n 정기점검 워크플로우"
+  },
+  {
+    "id": "196",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "n8n 클라우드 계정 만들고 첫 워크플로우 실행하기",
+    "goal": "n8n 클라우드에 가입해 'Manual Trigger → Edit Fields' 노드 2개짜리 워크플로우를 만들고 실행 버튼으로 결과를 눈으로 확인하면서 노드/연결/실행 개념을 익힌다",
+    "difficulty": 1,
+    "concept": "n8n 가입, 노드와 연결, 수동 실행",
+    "deliverable": "노드 2개짜리 n8n 워크플로우(수동 실행)"
+  },
+  {
+    "id": "197",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "고정 텍스트를 내 이메일로 보내는 워크플로우 만들기",
+    "goal": "Manual Trigger 뒤에 Gmail(또는 Send Email) 노드를 붙여 '안녕하세요, n8n 테스트입니다'라는 고정 메일을 내 주소로 발송하며 자격증명(Credential) 연결과 액션 노드를 배운다",
+    "difficulty": 1,
+    "concept": "이메일 노드, 자격증명 연결, 액션 실행",
+    "deliverable": "수동 실행 시 메일 1통을 보내는 n8n 워크플로우"
+  },
+  {
+    "id": "198",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "노드 사이로 데이터 흘려보내고 표현식으로 꺼내 쓰기",
+    "goal": "Set 노드에서 이름/시간 값을 만들고, 다음 노드에서 {{$json.name}} 같은 표현식으로 그 값을 메일 본문에 끼워 넣으며 노드 간 데이터 전달과 expression 문법을 익힌다",
+    "difficulty": 2,
+    "concept": "Set 노드, 표현식($json), 데이터 매핑",
+    "deliverable": "앞 노드 값을 본문에 삽입해 메일 보내는 워크플로우"
+  },
+  {
+    "id": "199",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "Webhook URL로 외부 요청 받아보기",
+    "goal": "Webhook 노드를 추가해 고유 URL을 발급받고, 브라우저나 테스트로 호출했을 때 들어온 데이터를 n8n이 받아 표시하게 만들며 '웹훅이 뭔지'를 몸으로 이해한다",
+    "difficulty": 2,
+    "concept": "Webhook 트리거, HTTP 요청 수신, 테스트 호출",
+    "deliverable": "호출 시 들어온 값을 보여주는 Webhook 워크플로우"
+  },
+  {
+    "id": "200",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "공개 API를 HTTP Request 노드로 호출해 결과 받기",
+    "goal": "HTTP Request 노드로 공개 날씨(또는 환율) API를 호출하고 응답 JSON에서 원하는 값 하나(예: 오늘 기온)를 꺼내 Set 노드로 정리하며 외부 API 연동의 기본을 배운다",
+    "difficulty": 2,
+    "concept": "HTTP Request 노드, JSON 응답 파싱",
+    "deliverable": "공개 API 호출 후 핵심 값을 추출하는 워크플로우"
+  },
+  {
+    "id": "201",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "크론(Schedule)으로 매일 아침 자동 실행 설정하기",
+    "goal": "Schedule Trigger 노드로 '매일 오전 8시'에 자동 실행되게 설정하고, 활성화(Active) 토글을 켜서 수동 클릭 없이 워크플로우가 정기적으로 도는 것을 확인하며 크론/정기 실행을 익힌다",
+    "difficulty": 2,
+    "concept": "Schedule 트리거, 크론, 워크플로우 활성화",
+    "deliverable": "매일 정해진 시각에 도는 활성 워크플로우"
+  },
+  {
+    "id": "202",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "매일 아침 오늘 날씨를 이메일로 받기",
+    "goal": "Schedule + HTTP Request(날씨 API) + Email 노드를 이어 매일 아침 '오늘 날씨' 메일을 자동 수신하며, 정기 실행과 API와 이메일을 하나의 흐름으로 결합하는 법을 배운다",
+    "difficulty": 3,
+    "concept": "스케줄+API+이메일 결합, 자동 발송",
+    "deliverable": "매일 아침 날씨 메일을 보내는 자동 워크플로우"
+  },
+  {
+    "id": "203",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "Slack 채널로 자동 메시지 보내기",
+    "goal": "Slack 노드 자격증명을 연결하고 지정한 채널에 '서버 점검 알림' 같은 메시지를 보내며, 이메일 외의 알림 채널(Slack)을 연동하는 법을 익힌다",
+    "difficulty": 3,
+    "concept": "Slack 노드 연동, 채널 메시지 발송",
+    "deliverable": "Slack 채널에 메시지를 보내는 워크플로우"
+  },
+  {
+    "id": "204",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "구글 시트에 새 행으로 데이터 기록하기",
+    "goal": "Google Sheets 노드를 연결해 시트에 '시간, 내용' 한 줄을 자동으로 추가(Append Row)하며 외부 데이터 저장소 연동과 행 추가 작업을 배운다",
+    "difficulty": 3,
+    "concept": "Google Sheets 노드, Append Row",
+    "deliverable": "실행 시 구글 시트에 한 행을 추가하는 워크플로우"
+  },
+  {
+    "id": "205",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "내 정적 사이트 문의 폼 제출 → 슬랙/메일 알림 받기",
+    "goal": "Vercel에 올린 HTML 문의 폼에서 fetch로 n8n Webhook에 데이터를 보내고, n8n이 그 내용을 Slack 또는 메일로 알려주게 만들며 '폼 제출 → 알림' 자동화 패턴을 완성한다",
+    "difficulty": 3,
+    "concept": "폼 fetch→Webhook, 제출 알림",
+    "deliverable": "폼 제출 시 알림이 오는 사이트+워크플로우"
+  },
+  {
+    "id": "206",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "폼 제출 내용을 구글 시트에 누적 저장하기",
+    "goal": "앞 단계의 Webhook 워크플로우에 Google Sheets 노드를 추가해 들어온 문의를 시트에 한 줄씩 쌓고, 같은 데이터를 여러 곳(알림+저장)으로 분기해 보내는 멀티 액션을 배운다",
+    "difficulty": 3,
+    "concept": "Webhook 데이터 저장, 다중 출력 분기",
+    "deliverable": "폼 데이터를 시트에 누적+알림하는 워크플로우"
+  },
+  {
+    "id": "207",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "필수값 검증 후 응답(Respond to Webhook) 돌려주기",
+    "goal": "Webhook 입력에서 이메일 칸이 비었는지 검사하고, 결과에 따라 성공/실패 JSON을 Respond to Webhook 노드로 돌려주며 프런트가 응답을 받아 처리하게 만든다",
+    "difficulty": 3,
+    "concept": "입력 검증, Respond to Webhook, 응답 반환",
+    "deliverable": "검증 결과를 응답으로 돌려주는 워크플로우"
+  },
+  {
+    "id": "208",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "IF 노드로 조건 분기 처리하기",
+    "goal": "IF 노드로 '문의 유형이 긴급인가?'를 판단해 긴급이면 Slack, 아니면 메일로 보내도록 길을 나누며 조건 분기(IF/true·false)와 워크플로우 가지치기를 익힌다",
+    "difficulty": 3,
+    "concept": "IF 노드, 조건 분기, true/false 경로",
+    "deliverable": "조건에 따라 알림 경로가 갈리는 워크플로우"
+  },
+  {
+    "id": "209",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "Supabase 신규 가입자에게 환영 메일 자동 발송",
+    "goal": "정기 또는 Webhook로 Supabase의 신규 사용자 데이터를 받아(HTTP Request로 REST API 호출) 환영 메일을 보내며, 이 가이드의 핵심 스택인 Supabase와 n8n을 연결하는 법을 배운다",
+    "difficulty": 4,
+    "concept": "Supabase REST API, 신규가입 트리거, 환영메일",
+    "deliverable": "신규 가입자에게 환영 메일을 보내는 워크플로우"
+  },
+  {
+    "id": "210",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "여러 건을 반복 처리하기(Loop / Split In Batches)",
+    "goal": "API나 시트에서 받은 항목 목록을 Loop Over Items로 하나씩 돌며 처리하고, 마지막에 처리 건수를 합산해 보고하며 다건 데이터 반복 처리 개념을 익힌다",
+    "difficulty": 4,
+    "concept": "Loop/Split In Batches, 항목 반복",
+    "deliverable": "여러 건을 순회 처리하는 워크플로우"
+  },
+  {
+    "id": "211",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "주간 신규 문의 요약 리포트 자동 메일 발송",
+    "goal": "매주 월요일 구글 시트/Supabase에서 지난 주 문의를 모아 건수와 목록을 표로 정리한 HTML 리포트를 만들어 메일로 자동 발송하며 정기 리포트 자동화를 완성한다",
+    "difficulty": 4,
+    "concept": "정기 집계, HTML 리포트, 주간 자동 발송",
+    "deliverable": "매주 자동 발송되는 요약 리포트 메일"
+  },
+  {
+    "id": "212",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "AI 노드로 들어온 문의를 자동 분류·요약하는 간단 봇",
+    "goal": "문의 텍스트를 AI(Claude) 노드에 보내 '카테고리 + 한 줄 요약'을 받아 Slack에 정리해 올리며, AI에게 분류·요약을 지시하는 프롬프트 설계와 AI 노드 연동을 배운다",
+    "difficulty": 4,
+    "concept": "AI(Claude) 노드, 자동 분류·요약, 프롬프트",
+    "deliverable": "문의를 AI로 분류·요약해 알리는 봇 워크플로우"
+  },
+  {
+    "id": "213",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "키워드에 답하는 Slack 슬래시 명령 챗봇 만들기",
+    "goal": "Slack 슬래시 명령을 Webhook으로 받아 사용자의 질문을 AI 노드로 처리하고 답변을 Slack에 되돌려주며, 요청→처리→응답이 도는 대화형 봇의 구조를 익힌다",
+    "difficulty": 4,
+    "concept": "Slack 슬래시 명령, Webhook 봇, AI 응답",
+    "deliverable": "Slack에서 질문에 답하는 챗봇 워크플로우"
+  },
+  {
+    "id": "214",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "노드 실패 시 자동으로 실패 알림 받기(Error Workflow)",
+    "goal": "별도의 Error Trigger 워크플로우를 만들고 메인 워크플로우의 에러 처리로 지정해, 어떤 노드가 실패하면 에러 내용·시각을 Slack/메일로 자동 통지받으며 실패 알림 패턴을 배운다",
+    "difficulty": 5,
+    "concept": "Error Trigger, 실패 알림, 에러 워크플로우 연결",
+    "deliverable": "메인 실패 시 알림을 보내는 에러 워크플로우"
+  },
+  {
+    "id": "215",
+    "code": "J",
+    "category": "자동화(n8n)",
+    "title": "재시도·에러 처리·로그 저장까지 갖춘 안정 자동화 파이프라인",
+    "goal": "API 호출에 재시도(Retry On Fail)와 타임아웃을 걸고, 실패는 에러 워크플로우로 알림, 모든 실행 결과는 구글 시트에 로그로 남기는 견고한 end-to-end 자동화를 설계하며 운영 가능한 워크플로우를 완성한다",
+    "difficulty": 5,
+    "concept": "재시도/에러 처리, 실행 로그, 안정성 설계",
+    "deliverable": "재시도·실패알림·로그를 갖춘 운영용 워크플로우"
+  },
+  {
+    "id": "216",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "나쁜 프롬프트 vs 좋은 프롬프트 3개 짝지어 적어보기",
+    "goal": "'다크모드 토글 만들어줘'를 맥락·목표·제약을 넣어 다시 쓰며 프롬프트 3원칙의 차이를 눈으로 익힌다",
+    "difficulty": 1,
+    "concept": "프롬프트 3원칙(맥락·목표·제약)",
+    "deliverable": "나쁜→좋은 프롬프트 3쌍을 적은 메모(prompts.md)"
+  },
+  {
+    "id": "217",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "AI에게 '실행 전에 무엇을 할지 3줄로 먼저 보고해' 시키기",
+    "goal": "히어로 섹션 한 줄 소개 문구를 바꾸되 AI가 멋대로 시작하지 않고 계획부터 보고하게 만드는 지시를 연습한다",
+    "difficulty": 1,
+    "concept": "선보고 후실행, 디렉터 지시",
+    "deliverable": "AI가 먼저 3줄 계획을 출력한 대화 캡처 + 적용된 HTML"
+  },
+  {
+    "id": "218",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "한 단어/한 화면만 콕 집어 고치라고 지시하기",
+    "goal": "'전부 다 바꿔줘' 대신 '푸터 연락처 이메일만' 식으로 범위를 좁혀 멀쩡한 코드를 지키는 지시법을 익힌다",
+    "difficulty": 1,
+    "concept": "변경 범위 한정, 회귀 방지",
+    "deliverable": "지정 부분만 바뀌고 나머지는 그대로인 before/after 비교"
+  },
+  {
+    "id": "219",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "AI에게 '추정인지 확인된 사실인지 표시해줘' 요구하기",
+    "goal": "오늘 날씨 표시용 공개 API 이름을 물으며 함수·URL이 실제인지 추정인지 신뢰도 표시를 요구해 환각을 거른다",
+    "difficulty": 2,
+    "concept": "환각 검증, 신뢰도 표시",
+    "deliverable": "각 항목에 '공식문서 확인/추정' 라벨이 붙은 답변 캡처"
+  },
+  {
+    "id": "220",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "내 첫 기획서 PLAN.md 만들기 (AI가 나에게 질문하게)",
+    "goal": "포트폴리오 사이트를 만들기 전 AI가 나에게 하나씩 물어보며 PLAN.md(무엇을·누구를·범위)를 정리하게 한다",
+    "difficulty": 2,
+    "concept": "PLAN.md, 역질문 기획",
+    "deliverable": "목표·페이지·범위·제외사항이 담긴 PLAN.md 파일"
+  },
+  {
+    "id": "221",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "AI에게 '내가 안 물어봐도 놓치기 쉬운 위험 5가지' 먼저 말하게 하기",
+    "goal": "이메일 수집 랜딩 기획에서 보안·개인정보·비용 같은 '모르는 줄도 모르는 것'을 AI가 자발적으로 경고하게 만든다",
+    "difficulty": 2,
+    "concept": "Unknown Unknowns, 선제 경고 프롬프트",
+    "deliverable": "AI가 먼저 제시한 숨은 위험 5개 목록 + PLAN.md 반영"
+  },
+  {
+    "id": "222",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "프로젝트 CLAUDE.md 작성하기 (언어·스택·하지 말 것)",
+    "goal": "매 대화마다 설명을 반복하지 않도록 한국어·스택·네이밍·금지사항을 담은 CLAUDE.md를 만들어 새 대화에 적용한다",
+    "difficulty": 2,
+    "concept": "CLAUDE.md, 프로젝트 메모리",
+    "deliverable": "프로젝트 루트 CLAUDE.md 파일 + 새 대화에서 반영 확인"
+  },
+  {
+    "id": "223",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "AGENTS.md 추가하고 CLAUDE.md에서 가리키게 하기",
+    "goal": "도구 공통 지침 AGENTS.md를 만들고 CLAUDE.md에는 'AGENTS.md를 따르라' 한 줄로 한 곳만 관리하는 구조를 익힌다",
+    "difficulty": 2,
+    "concept": "AGENTS.md, 단일 출처 관리",
+    "deliverable": "루트 AGENTS.md + 이를 참조하는 CLAUDE.md"
+  },
+  {
+    "id": "224",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "F12 콘솔 에러 전문을 그대로 붙여넣어 고치기",
+    "goal": "빨간 콘솔 에러 메시지+재현 절차를 통째로 붙여넣고 '원인부터 설명해줘'로 지시해 추측 수정을 막는다",
+    "difficulty": 3,
+    "concept": "에러 붙여넣기 디버깅, 재현 절차",
+    "deliverable": "에러 원문 → 원인 설명 → 수정으로 이어진 고친 코드"
+  },
+  {
+    "id": "225",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "디자인 시안 이미지 한 장 주고 똑같이 만들라고 시키기",
+    "goal": "참고 카드 UI 스크린샷을 첨부해 레이아웃·색·간격을 설명 없이 이미지로 지시하는 멀티모달 프롬프트를 연습한다",
+    "difficulty": 3,
+    "concept": "이미지로 지시(멀티모달)",
+    "deliverable": "참고 이미지 + 그걸 재현한 카드 컴포넌트 HTML/CSS"
+  },
+  {
+    "id": "226",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "깨진 화면 스크린샷 붙여넣어 레이아웃 깨짐 고치기",
+    "goal": "모바일에서 메뉴가 겹친 캡처를 첨부해 '이렇게 깨졌어, 원인 후보 3개부터'로 시각 증거 기반 디버깅을 한다",
+    "difficulty": 3,
+    "concept": "이미지로 디버깅, 반응형 수정",
+    "deliverable": "깨짐 스크린샷 + 원인 후보 + 수정 후 정상 캡처"
+  },
+  {
+    "id": "227",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "AI에게 '까다로운 심사위원'으로 내 PLAN.md 코드리뷰 시키기",
+    "goal": "칭찬을 빼고 약점 3가지와 내가 물었어야 할 질문을 지적하게 해 아첨 답변을 피하는 비판 프롬프트를 익힌다",
+    "difficulty": 3,
+    "concept": "AI 코드리뷰, 아첨 방지 질문",
+    "deliverable": "약점 3가지+개선안이 담긴 리뷰 결과 메모"
+  },
+  {
+    "id": "228",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "나만의 첫 스킬 /qa-check 만들기 (배포 전 점검 자동화)",
+    "goal": "체크리스트(콘솔에러·비밀키·모바일·alt)를 SKILL.md로 만들어 '점검해줘' 한마디로 매번 같은 검수를 돌린다",
+    "difficulty": 3,
+    "concept": "Claude 스킬, SKILL.md frontmatter",
+    "deliverable": ".claude/skills/qa-check/SKILL.md 파일 + 실행 결과 보고"
+  },
+  {
+    "id": "229",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "AI에게 보안 체크리스트로 내 Supabase 코드 심문시키기",
+    "goal": "공개키/비밀키 분리·RLS·명단 조회 차단을 고정 항목으로 검증하게 해 코드리뷰를 보안 관점으로 확장한다",
+    "difficulty": 4,
+    "concept": "보안 코드리뷰, RLS·키 검증",
+    "deliverable": "항목별 ✅/⚠️/❌ 보안 리뷰 리포트 + 고친 정책"
+  },
+  {
+    "id": "230",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "배포 자동화 스킬 /deploy 만들기 (비밀키 점검 단계 포함)",
+    "goal": "git status→빌드 확인→비밀키 점검→커밋(Conventional)→푸시→배포URL 보고를 순서로 박은 다단계 스킬을 만든다",
+    "difficulty": 4,
+    "concept": "다단계 스킬, 배포 파이프라인",
+    "deliverable": ".claude/skills/deploy/SKILL.md + 실제 배포 URL"
+  },
+  {
+    "id": "231",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "Supabase MCP 서버를 Claude에 연결해 내 DB 직접 조회시키기",
+    "goal": "MCP로 Claude에 내 Supabase를 도구로 붙여 '방명록 테이블 최근 5건 보여줘'를 AI가 직접 실행하게 한다",
+    "difficulty": 4,
+    "concept": "MCP 연결, AI 도구 확장",
+    "deliverable": "MCP 설정 파일 + AI가 DB를 직접 조회한 결과 캡처"
+  },
+  {
+    "id": "232",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "GitHub MCP로 AI에게 PR 자동 코드리뷰 시키기",
+    "goal": "GitHub MCP를 연결해 내 변경 PR을 AI가 직접 읽고 버그·보안 위험을 인라인으로 지적하게 만든다",
+    "difficulty": 4,
+    "concept": "MCP+코드리뷰, PR 자동 검토",
+    "deliverable": "AI가 남긴 PR 리뷰 코멘트 + 반영 커밋"
+  },
+  {
+    "id": "233",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "재사용 프롬프트 템플릿 라이브러리(3종) 정리하기",
+    "goal": "검증 요구·비판 리뷰·선제 경고 등 자주 쓰는 지시를 빈칸형 템플릿으로 묶어 상황별로 복붙해 쓰게 만든다",
+    "difficulty": 4,
+    "concept": "프롬프트 템플릿화, 재사용",
+    "deliverable": "상황별 빈칸 프롬프트 3종이 담긴 prompts/ 템플릿 모음"
+  },
+  {
+    "id": "234",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "n8n에서 AI Agent 노드 + MCP로 문의 자동 분류·알림 흐름 만들기",
+    "goal": "새 문의가 오면 AI Agent가 내용을 분류하고 MCP로 Supabase를 조회·기록 후 알림까지 보내는 자동화를 구성한다",
+    "difficulty": 5,
+    "concept": "n8n AI Agent, MCP 도구 연동",
+    "deliverable": "동작하는 n8n 워크플로우(JSON) + 실행 로그 캡처"
+  },
+  {
+    "id": "235",
+    "code": "K",
+    "category": "AI 활용·프롬프트·MCP·스킬",
+    "title": "스킬·CLAUDE.md·MCP·코드리뷰를 묶은 '내 디렉터 작업환경' 완성하기",
+    "goal": "기획→작업→보안리뷰→배포까지 한 흐름으로 AI를 부리도록 CLAUDE.md·스킬·MCP를 통합 점검하고 README로 문서화한다",
+    "difficulty": 5,
+    "concept": "AI 작업환경 통합, 운영 표준화",
+    "deliverable": "통합 설정 일습(CLAUDE.md+skills+MCP) + 사용법 README"
+  },
+  {
+    "id": "236",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "한 장짜리 자기소개 포트폴리오 페이지 만들기",
+    "goal": "이름·한 줄 소개·연락처가 담긴 정적 HTML 한 페이지를 만들어 시맨틱 구조의 기본을 익힌다",
+    "difficulty": 1,
+    "concept": "정적 HTML, 시맨틱 태그",
+    "deliverable": "index.html 단일 HTML 페이지"
+  },
+  {
+    "id": "237",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "포트폴리오에 프로필 사진·기술스택 뱃지·CSS 카드 스타일 입히기",
+    "goal": "이미지·리스트·카드 레이아웃을 CSS로 꾸며 시각적으로 정돈된 한 페이지 포트폴리오로 완성한다",
+    "difficulty": 1,
+    "concept": "CSS 박스모델, 카드 레이아웃",
+    "deliverable": "HTML+CSS 정적 포트폴리오 페이지"
+  },
+  {
+    "id": "238",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "포트폴리오를 GitHub에 올리고 Vercel로 첫 배포해 내 URL 갖기",
+    "goal": "정적 사이트를 GitHub 저장소에 올리고 Vercel에 연결해 누구나 접속 가능한 실제 주소를 만든다",
+    "difficulty": 1,
+    "concept": "Git 커밋·푸시, Vercel 배포",
+    "deliverable": "Vercel에 배포된 라이브 포트폴리오 URL"
+  },
+  {
+    "id": "239",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "블로그 글 목록 페이지를 HTML 카드 리스트로 만들기",
+    "goal": "여러 글의 제목·요약·날짜를 카드 리스트로 나열한 블로그 홈을 만들어 반복 UI 구조를 익힌다",
+    "difficulty": 1,
+    "concept": "리스트 UI, 반복 구조",
+    "deliverable": "블로그 목록 HTML 페이지"
+  },
+  {
+    "id": "240",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "블로그 다크모드 토글 버튼 만들기",
+    "goal": "버튼 클릭으로 라이트/다크 테마를 전환하는 토글을 만들어 JS 이벤트와 클래스 조작을 배운다",
+    "difficulty": 2,
+    "concept": "JS 이벤트, 클래스 토글, CSS 변수",
+    "deliverable": "다크모드 토글이 동작하는 JS 스크립트+CSS"
+  },
+  {
+    "id": "241",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "다크모드 선택을 localStorage에 저장해 새로고침해도 유지하기",
+    "goal": "사용자가 고른 테마를 브라우저에 저장하고 다시 방문해도 기억하게 만들어 클라이언트 저장 개념을 익힌다",
+    "difficulty": 2,
+    "concept": "localStorage, 상태 유지",
+    "deliverable": "테마 설정이 유지되는 JS 스크립트"
+  },
+  {
+    "id": "242",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "블로그 글 상세 페이지와 목록↔상세 링크 연결하기",
+    "goal": "목록에서 글을 클릭하면 상세 페이지로 이동하는 여러 페이지 구조를 만들어 라우팅의 기초를 익힌다",
+    "difficulty": 2,
+    "concept": "다중 페이지, 링크 라우팅",
+    "deliverable": "목록·상세가 연결된 다중 HTML 페이지"
+  },
+  {
+    "id": "243",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "블로그 글에 태그 필터 버튼으로 글 걸러내기",
+    "goal": "태그 버튼을 누르면 해당 태그 글만 보이도록 JS로 필터링해 배열 다루기와 화면 갱신을 배운다",
+    "difficulty": 2,
+    "concept": "배열 필터, DOM 갱신",
+    "deliverable": "태그 필터가 동작하는 JS 스크립트"
+  },
+  {
+    "id": "244",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "제품 소개 랜딩페이지를 히어로·기능·CTA 섹션으로 만들기",
+    "goal": "한눈에 가치를 전달하는 랜딩페이지를 섹션 구조로 만들어 마케팅 페이지 레이아웃을 익힌다",
+    "difficulty": 2,
+    "concept": "랜딩 섹션 구조, CTA",
+    "deliverable": "랜딩페이지 HTML+CSS"
+  },
+  {
+    "id": "245",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "랜딩페이지를 모바일 반응형으로 만들기",
+    "goal": "미디어쿼리와 유연한 레이아웃으로 폰·태블릿·PC에서 깨지지 않는 반응형 랜딩을 완성한다",
+    "difficulty": 2,
+    "concept": "미디어쿼리, 반응형 레이아웃",
+    "deliverable": "반응형 랜딩페이지 CSS"
+  },
+  {
+    "id": "246",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "Supabase 프로젝트 만들고 newsletter 테이블 생성하기",
+    "goal": "Supabase에 회원가입 후 이메일을 담을 테이블을 만들어 클라우드 DB와 테이블·컬럼 개념을 익힌다",
+    "difficulty": 2,
+    "concept": "Supabase, 테이블 스키마",
+    "deliverable": "Supabase에 생성된 newsletter 테이블"
+  },
+  {
+    "id": "247",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "랜딩페이지 뉴스레터 구독 폼으로 이메일을 Supabase에 저장하기",
+    "goal": "입력한 이메일을 Supabase에 INSERT하는 폼을 붙여 프론트에서 DB로 데이터를 쓰는 흐름을 익힌다",
+    "difficulty": 3,
+    "concept": "Supabase 클라이언트, INSERT, anon 키",
+    "deliverable": "DB에 저장되는 구독 폼 JS+Supabase 연동"
+  },
+  {
+    "id": "248",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "n8n으로 새 구독자 발생 시 환영 이메일 자동 발송하기",
+    "goal": "Supabase 신규 행을 트리거로 n8n이 환영 메일을 보내게 만들어 노코드 자동화의 기초를 익힌다",
+    "difficulty": 3,
+    "concept": "n8n 워크플로우, 웹훅 트리거, 이메일 노드",
+    "deliverable": "환영 메일을 보내는 n8n 워크플로우"
+  },
+  {
+    "id": "249",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "상품 목록 쇼핑몰 페이지를 Supabase products 테이블에서 불러오기",
+    "goal": "상품 데이터를 Supabase에서 SELECT해 카드 그리드로 그려 DB 읽기(조회)의 기본을 익힌다",
+    "difficulty": 3,
+    "concept": "Supabase SELECT, 그리드 렌더링",
+    "deliverable": "DB 연동 상품 목록 페이지"
+  },
+  {
+    "id": "250",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "쇼핑몰 장바구니를 localStorage로 담고 빼고 합계 계산하기",
+    "goal": "담기·빼기·수량 변경과 총액 계산을 JS로 구현해 클라이언트 상태 관리와 계산 로직을 익힌다",
+    "difficulty": 3,
+    "concept": "장바구니 상태, 합계 계산, localStorage",
+    "deliverable": "장바구니가 동작하는 JS 스크립트"
+  },
+  {
+    "id": "251",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "쇼핑몰 상품 상세 페이지를 URL 쿼리 파라미터로 동적 표시하기",
+    "goal": "?id=값을 읽어 해당 상품 하나를 Supabase에서 불러와 보여주며 동적 페이지 패턴을 익힌다",
+    "difficulty": 3,
+    "concept": "URL 쿼리, 단일 조회, 동적 표시",
+    "deliverable": "쿼리 기반 상품 상세 페이지"
+  },
+  {
+    "id": "252",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "쇼핑몰 주문 폼으로 주문 내역을 Supabase orders 테이블에 저장하기",
+    "goal": "장바구니 내용을 주문 테이블에 INSERT하고 주문번호를 보여줘 여러 데이터를 묶어 쓰는 흐름을 익힌다",
+    "difficulty": 3,
+    "concept": "관계형 데이터 저장, 주문 처리",
+    "deliverable": "주문 저장 폼 JS+Supabase 연동"
+  },
+  {
+    "id": "253",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "쇼핑몰 주문 시 n8n으로 사장님에게 슬랙·이메일 알림 보내기",
+    "goal": "신규 주문을 트리거로 n8n이 알림을 보내게 해 외부 서비스 연동과 운영 자동화를 익힌다",
+    "difficulty": 3,
+    "concept": "n8n 외부 연동, 주문 알림",
+    "deliverable": "주문 알림 n8n 워크플로우"
+  },
+  {
+    "id": "254",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "예약 시스템: 날짜·시간 선택 UI 만들기",
+    "goal": "달력에서 날짜를 고르고 가능한 시간대를 버튼으로 선택하는 예약 입력 화면을 만든다",
+    "difficulty": 3,
+    "concept": "날짜·시간 입력, 폼 UI",
+    "deliverable": "예약 선택 UI HTML+JS"
+  },
+  {
+    "id": "255",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "예약을 Supabase에 저장하고 이미 찬 시간대는 비활성화하기",
+    "goal": "예약을 저장하고 같은 시간 중복 예약을 막아 데이터 조회로 UI를 제어하는 법을 익힌다",
+    "difficulty": 4,
+    "concept": "예약 저장, 중복 방지, 조건부 UI",
+    "deliverable": "중복 방지 예약 폼 JS+Supabase"
+  },
+  {
+    "id": "256",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "예약 확정 후 n8n으로 고객에게 확인 메일과 하루 전 리마인더 보내기",
+    "goal": "확정 즉시 확인 메일을, 예약 전날 크론으로 리마인더를 보내 즉시·예약 자동화를 모두 익힌다",
+    "difficulty": 4,
+    "concept": "n8n 크론, 리마인더, 조건 분기",
+    "deliverable": "확인·리마인더 n8n 워크플로우"
+  },
+  {
+    "id": "257",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "예약 취소 링크로 고객이 스스로 예약을 DELETE 하게 하기",
+    "goal": "메일 속 취소 링크로 본인 예약을 삭제하게 만들어 토큰 기반 식별과 삭제 처리를 익힌다",
+    "difficulty": 4,
+    "concept": "토큰 식별, DELETE, 취소 흐름",
+    "deliverable": "예약 취소 페이지 JS+Supabase"
+  },
+  {
+    "id": "258",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "커뮤니티 게시판: 글 작성·목록 표시(CRUD의 C·R) 만들기",
+    "goal": "글을 쓰고 목록으로 읽는 게시판 기본형을 만들어 생성·조회 CRUD 절반을 익힌다",
+    "difficulty": 4,
+    "concept": "게시판 CRUD, 글 작성·조회",
+    "deliverable": "글쓰기·목록 게시판 페이지"
+  },
+  {
+    "id": "259",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "Supabase Auth로 게시판 회원가입·로그인 붙이기",
+    "goal": "이메일 로그인을 붙여 로그인한 사용자만 글을 쓰게 만들어 인증(누구냐)의 기초를 익힌다",
+    "difficulty": 4,
+    "concept": "Supabase Auth, 로그인 세션",
+    "deliverable": "로그인 연동 게시판 JS"
+  },
+  {
+    "id": "260",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "RLS 정책으로 '작성자만 자기 글 수정·삭제' 막기",
+    "goal": "행 수준 보안을 켜고 본인 글만 수정·삭제하게 정책을 걸어 인가(뭘 해도 되냐)를 익힌다",
+    "difficulty": 4,
+    "concept": "RLS 정책, 인가, auth.uid()",
+    "deliverable": "RLS 적용된 게시판 수정·삭제 기능"
+  },
+  {
+    "id": "261",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "게시판에 댓글과 좋아요(공감) 기능 추가하기",
+    "goal": "글에 1:N으로 댓글을 달고 좋아요 수를 올려 관계형 데이터와 집계 표시를 익힌다",
+    "difficulty": 4,
+    "concept": "1:N 관계, 외래키, 카운트",
+    "deliverable": "댓글·좋아요 기능 JS+Supabase"
+  },
+  {
+    "id": "262",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "게시판 신고 글을 n8n으로 관리자에게 자동 통보하고 숨김 처리하기",
+    "goal": "신고 임계치 도달 시 n8n이 관리자에게 알리고 글을 자동 숨겨 운영 자동화와 모더레이션을 익힌다",
+    "difficulty": 4,
+    "concept": "n8n 조건 자동화, 모더레이션",
+    "deliverable": "신고 처리 n8n 워크플로우"
+  },
+  {
+    "id": "263",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "SaaS 대시보드: 로그인 후 보이는 보호된 대시보드 페이지 만들기",
+    "goal": "비로그인 시 로그인으로 돌려보내는 게이트를 만들어 보호된 영역과 세션 확인을 익힌다",
+    "difficulty": 4,
+    "concept": "보호 라우트, 세션 가드",
+    "deliverable": "로그인 게이트가 걸린 대시보드 페이지"
+  },
+  {
+    "id": "264",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "대시보드에 KPI 카드와 합계·평균 통계 표시하기",
+    "goal": "DB 데이터를 집계해 가입자 수·매출 합계 같은 핵심 지표 카드를 그려 데이터 요약을 익힌다",
+    "difficulty": 4,
+    "concept": "집계 쿼리, KPI 카드",
+    "deliverable": "통계 카드 대시보드 JS+Supabase"
+  },
+  {
+    "id": "265",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "대시보드에 차트 라이브러리로 추이 그래프 그리기",
+    "goal": "Chart.js 등으로 일자별 추이를 선·막대 그래프로 그려 데이터 시각화 도구 사용법을 익힌다",
+    "difficulty": 4,
+    "concept": "차트 라이브러리, 데이터 시각화",
+    "deliverable": "차트가 있는 대시보드 페이지"
+  },
+  {
+    "id": "266",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "대시보드 데이터를 검색·정렬·페이지네이션하는 표로 만들기",
+    "goal": "큰 목록을 검색·정렬하고 나눠 불러오게 만들어 페이지네이션과 쿼리 파라미터를 익힌다",
+    "difficulty": 4,
+    "concept": "검색·정렬, 페이지네이션",
+    "deliverable": "검색·정렬 테이블 대시보드 JS"
+  },
+  {
+    "id": "267",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "n8n 크론으로 매일 아침 대시보드 요약을 메일로 받기",
+    "goal": "매일 정해진 시간에 핵심 지표를 집계해 자동 리포트 메일을 보내 정기 자동화를 익힌다",
+    "difficulty": 4,
+    "concept": "n8n 크론, 정기 리포트",
+    "deliverable": "일일 요약 리포트 n8n 워크플로우"
+  },
+  {
+    "id": "268",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "웹게임: 숫자 맞히기·반응속도 같은 간단 미니게임 만들기",
+    "goal": "정답 비교와 타이머로 작동하는 미니게임을 만들어 게임 루프와 상태 변화를 익힌다",
+    "difficulty": 3,
+    "concept": "게임 루프, 상태·타이머",
+    "deliverable": "미니게임 HTML+JS"
+  },
+  {
+    "id": "269",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "웹게임 점수를 Supabase 리더보드에 저장하고 순위 표시하기",
+    "goal": "게임 결과를 저장하고 상위 순위를 정렬해 보여줘 랭킹 데이터와 정렬 조회를 익힌다",
+    "difficulty": 4,
+    "concept": "리더보드, 정렬 조회",
+    "deliverable": "리더보드 연동 웹게임"
+  },
+  {
+    "id": "270",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "웹게임 리더보드를 Realtime으로 실시간 갱신하기",
+    "goal": "Supabase Realtime으로 새 점수가 들어오면 새로고침 없이 순위가 갱신되게 만들어 실시간 구독을 익힌다",
+    "difficulty": 5,
+    "concept": "Supabase Realtime, 실시간 구독",
+    "deliverable": "실시간 리더보드 웹게임"
+  },
+  {
+    "id": "271",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "AI 챗봇: 공개 API로 받은 답을 말풍선 UI로 보여주기",
+    "goal": "질문을 보내 받은 응답을 채팅 말풍선으로 그려 비동기 요청과 채팅 UI를 익힌다",
+    "difficulty": 4,
+    "concept": "fetch 비동기, 채팅 UI",
+    "deliverable": "챗봇 채팅 UI HTML+JS"
+  },
+  {
+    "id": "272",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "API 키를 숨기려 Supabase Edge Function으로 챗봇 요청 중계하기",
+    "goal": "비밀 키를 프론트에 노출하지 않게 서버 함수로 AI 호출을 대신해 키 보안과 서버 역할을 익힌다",
+    "difficulty": 5,
+    "concept": "Edge Function, 비밀 키 보호, 서버 중계",
+    "deliverable": "챗봇 중계 Edge Function + 프론트 연동"
+  },
+  {
+    "id": "273",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "챗봇 대화 기록을 Supabase에 저장하고 다시 불러오기",
+    "goal": "대화를 사용자별로 저장·복원하고 이전 맥락을 함께 보내 대화 컨텍스트 유지를 익힌다",
+    "difficulty": 5,
+    "concept": "대화 이력 저장, 컨텍스트 전달",
+    "deliverable": "이력 저장 챗봇 JS+Supabase"
+  },
+  {
+    "id": "274",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "내 문서를 근거로 답하는 RAG 챗봇 만들기",
+    "goal": "내 FAQ·문서를 검색해 그 내용을 근거로 AI가 답하게 만들어 환각을 줄이는 RAG 패턴을 익힌다",
+    "difficulty": 5,
+    "concept": "RAG, 문서 검색, 근거 기반 답변",
+    "deliverable": "문서 기반 RAG 챗봇"
+  },
+  {
+    "id": "275",
+    "code": "L",
+    "category": "아키타입 미니프로젝트",
+    "title": "AI 챗봇 SaaS를 배포·도메인 연결·이력서 포트폴리오로 완성하기",
+    "goal": "로그인·중계·이력·RAG를 갖춘 챗봇을 커스텀 도메인에 배포하고 프로젝트 설명 카드로 정리해 취업 자산으로 만든다",
+    "difficulty": 5,
+    "concept": "통합 배포, 도메인, 포트폴리오화",
+    "deliverable": "도메인 연결된 라이브 AI 챗봇 + 포트폴리오 설명 카드"
+  },
+  {
+    "id": "276",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "닫는 태그 빠진 HTML 고치기 — 화면이 통째로 기울어진 페이지",
+    "goal": "</div>가 빠져 레이아웃이 무너진 정적 페이지를 받아 태그 짝을 맞춰 정상 복구하며, HTML은 여는/닫는 태그가 짝이어야 한다는 것을 배운다",
+    "difficulty": 1,
+    "concept": "HTML 태그 짝, 마크업 구조",
+    "deliverable": "고쳐서 정상 렌더되는 HTML 파일 1개 + 무엇이 빠졌는지 1줄 메모"
+  },
+  {
+    "id": "277",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "오타 난 CSS 속성 살리기 — 색이 하나도 안 먹는 카드",
+    "goal": "colour, bacground, font-weigth 같은 오타 속성 때문에 스타일이 적용 안 되는 카드 컴포넌트를 F12 요소검사로 찾아 고치며 CSS 속성명 정확성을 배운다",
+    "difficulty": 1,
+    "concept": "CSS 속성 오타, 개발자도구 요소검사",
+    "deliverable": "스타일이 정상 적용된 HTML/CSS + 고친 속성 목록"
+  },
+  {
+    "id": "278",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "세미콜론·따옴표 빠진 JS 한 줄 고치기 — 아무 버튼도 안 눌리는 페이지",
+    "goal": "구문 오류(SyntaxError)로 스크립트 전체가 죽어 버튼이 먹통인 페이지를 F12 콘솔의 빨간 줄을 읽고 고치며, JS는 한 곳만 깨져도 전부 멈춘다는 것을 배운다",
+    "difficulty": 1,
+    "concept": "SyntaxError, 콘솔 에러 읽기",
+    "deliverable": "정상 동작하는 HTML/JS + 콘솔 에러 캡처 1장"
+  },
+  {
+    "id": "279",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "오타 클래스명 매칭하기 — 가운데 정렬이 안 되는 박스",
+    "goal": "HTML의 class=\"continer\"와 CSS의 .container가 안 맞아 스타일이 빠진 레이아웃을 고치며, 선택자는 철자가 정확히 일치해야 적용된다는 것을 배운다",
+    "difficulty": 1,
+    "concept": "CSS 선택자 매칭, 클래스명",
+    "deliverable": "정렬이 복구된 HTML/CSS + 어디가 안 맞았는지 메모"
+  },
+  {
+    "id": "280",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "z-index·position 꼬임 풀기 — 헤더에 가려 안 눌리는 버튼",
+    "goal": "고정 헤더가 버튼을 덮어 클릭이 안 되는 레이아웃을 position과 z-index를 조정해 고치며, 요소가 겹칠 때의 쌓임 순서 개념을 배운다",
+    "difficulty": 2,
+    "concept": "z-index, position, 쌓임 맥락",
+    "deliverable": "버튼이 정상 클릭되는 HTML/CSS + 원인 1줄 설명"
+  },
+  {
+    "id": "281",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "모바일에서 가로 스크롤 생기는 페이지 고치기",
+    "goal": "고정 width:1200px와 viewport 메타 누락으로 휴대폰에서 가로로 삐져나오는 페이지를 반응형으로 고치며, 뷰포트 메타와 max-width 개념을 배운다",
+    "difficulty": 2,
+    "concept": "viewport 메타, 반응형, overflow",
+    "deliverable": "모바일에서 가로 스크롤 없는 HTML/CSS + 폰 화면 캡처"
+  },
+  {
+    "id": "282",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "이미지·링크 깨진 경로 고치기 — 안 뜨는 사진과 404 링크",
+    "goal": "절대경로/상대경로 혼동으로 깨진 img와 a 태그를 고치며, 파일 경로가 어디 기준인지(루트 vs 현재 폴더)를 배운다",
+    "difficulty": 2,
+    "concept": "상대/절대 경로, 깨진 링크",
+    "deliverable": "이미지와 링크가 모두 살아난 정적 사이트 + 경로 규칙 메모"
+  },
+  {
+    "id": "283",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "null 참조 에러 잡기 — getElementById가 못 찾는 요소",
+    "goal": "스크립트가 DOM보다 먼저 실행돼 'Cannot read properties of null' 에러로 죽는 코드를, defer나 위치 이동으로 고치며 실행 시점 개념을 배운다",
+    "difficulty": 2,
+    "concept": "TypeError null, DOM 로드 시점, defer",
+    "deliverable": "에러 없이 동작하는 HTML/JS + 콘솔 before/after 캡처"
+  },
+  {
+    "id": "284",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "이벤트가 두 번 실행되는 버그 — 좋아요가 +2씩 오르는 버튼",
+    "goal": "addEventListener가 중복 등록돼 클릭 한 번에 두 번 처리되는 코드를 찾아 고치며, 리스너 중복 등록의 함정을 배운다",
+    "difficulty": 2,
+    "concept": "이벤트 리스너 중복, 멱등성",
+    "deliverable": "한 번에 +1만 오르는 HTML/JS + 원인 설명 1줄"
+  },
+  {
+    "id": "285",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "== 때문에 어긋난 조건문 고치기 — '0개'가 비어있다고 안 뜨는 화면",
+    "goal": "느슨한 비교(==)와 문자열 '0' 처리로 조건이 잘못 갈라지는 코드를, ===와 타입 점검으로 고치며 동등 비교의 함정을 배운다",
+    "difficulty": 3,
+    "concept": "==/=== 비교, 타입 강제변환",
+    "deliverable": "조건이 올바르게 분기되는 JS + 깨진 입력값 예시"
+  },
+  {
+    "id": "286",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "비동기 순서 꼬임 잡기 — 데이터보다 먼저 그려지는 빈 목록",
+    "goal": "fetch 결과를 await 없이 써서 화면이 항상 비어 보이는 코드를, async/await로 고치며 비동기 실행 순서를 배운다",
+    "difficulty": 3,
+    "concept": "async/await, Promise, 실행 순서",
+    "deliverable": "데이터가 정상 표시되는 JS + '왜 비어 보였나' 설명"
+  },
+  {
+    "id": "287",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "CORS 에러로 막힌 외부 API 호출 살리기 — 콘솔의 빨간 CORS 메시지",
+    "goal": "브라우저에서 직접 외부 API를 불러 CORS로 차단된 날씨 위젯을, 공개 CORS 허용 엔드포인트나 프록시로 바꿔 고치며 CORS가 무엇이고 왜 나는지를 배운다",
+    "difficulty": 3,
+    "concept": "CORS, 브라우저 보안, 프록시",
+    "deliverable": "날씨가 정상 표시되는 HTML/JS + CORS 에러 원문과 해결 방법 메모"
+  },
+  {
+    "id": "288",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "JSON 파싱·키 이름 오류 잡기 — 'undefined'만 뜨는 API 결과",
+    "goal": "API 응답의 실제 키 이름과 코드의 키 이름이 달라 undefined가 뜨는 화면을, 응답 구조를 콘솔로 확인해 고치며 응답 JSON 검증 습관을 배운다",
+    "difficulty": 3,
+    "concept": "JSON 구조, 응답 키 매칭, 콘솔 검증",
+    "deliverable": "값이 정상 표시되는 JS + console.log로 확인한 응답 구조"
+  },
+  {
+    "id": "289",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "404 라우팅 고치기 — 새로고침하면 사라지는 페이지와 깨진 내부 링크",
+    "goal": "잘못된 href와 배포 후 깨지는 경로로 404가 나는 다중 페이지 정적 사이트를, 링크와 파일 위치를 맞춰 고치며 URL과 파일 구조의 관계를 배운다",
+    "difficulty": 3,
+    "concept": "404, 라우팅, 파일 경로 구조",
+    "deliverable": "모든 페이지가 정상 열리는 사이트 + 깨졌던 경로 목록"
+  },
+  {
+    "id": "290",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "프론트에 노출된 service_role 키 회수하기 — F12에 그대로 보이는 비밀키",
+    "goal": "Supabase secret 키가 프론트 코드에 박혀 빌드 산출물에 노출된 코드를, publishable 키로 교체하고 비밀키를 제거하며 공개키와 비밀키의 차이를 배운다",
+    "difficulty": 4,
+    "concept": "키 노출, anon/publishable vs service_role",
+    "deliverable": "비밀키가 0건인 프론트 코드 + F12 Sources 검색 결과 캡처"
+  },
+  {
+    "id": "291",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "RLS 누락으로 남의 데이터가 다 보이는 방명록 잠그기",
+    "goal": "RLS가 꺼져 있거나 USING(true)로 사실상 다 열린 정책 탓에 누구나 전체 데이터를 읽고 지우는 방명록을, 올바른 정책으로 고치며 행 수준 보안을 배운다",
+    "difficulty": 4,
+    "concept": "RLS, 접근 제어 정책",
+    "deliverable": "올바른 RLS 정책 SQL + '남의 글 못 지움'을 보여주는 검증 절차"
+  },
+  {
+    "id": "292",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "타임존 어긋남 잡기 — 한국 자정에 올린 글이 '어제'로 찍히는 버그",
+    "goal": "UTC로 저장된 시각을 그대로 표시해 날짜가 하루 어긋나는 댓글 목록을, Asia/Seoul 기준 변환으로 고치며 타임존과 UTC 저장 원칙을 배운다",
+    "difficulty": 4,
+    "concept": "타임존, UTC 저장/현지 표시",
+    "deliverable": "한국 시간으로 올바르게 표시되는 JS + 어긋난 사례 재현 스샷"
+  },
+  {
+    "id": "293",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "부동소수점 오차 잡기 — 합계가 19,999.99원으로 나오는 장바구니",
+    "goal": "0.1+0.2 류의 부동소수점 누적 오차로 금액이 틀어지는 장바구니 합계를, 정수(원 단위) 계산이나 반올림으로 고치며 돈 계산에서 float을 피하는 법을 배운다",
+    "difficulty": 4,
+    "concept": "부동소수점 오차, 금액 계산",
+    "deliverable": "정확한 합계를 내는 JS + 오차가 났던 입력 조합 예시"
+  },
+  {
+    "id": "294",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "무한루프·무한요청 멈추기 — 탭을 멈추게 하는 useEffect/리스너 폭주",
+    "goal": "조건 없이 자기 자신을 다시 부르거나 매 렌더마다 fetch를 날려 브라우저를 먹통으로 만드는 코드를, 종료 조건과 의존성/가드를 넣어 고치며 무한 반복의 신호를 배운다",
+    "difficulty": 5,
+    "concept": "무한루프, 폭주 요청, 종료 조건",
+    "deliverable": "한 번만 실행되는 안정 코드 + 네트워크 탭 요청 폭주 before/after"
+  },
+  {
+    "id": "295",
+    "code": "M",
+    "category": "디버깅 챌린지",
+    "title": "N+1 쿼리 잡기 — 글 50개에 51번 DB를 두드리는 느린 목록",
+    "goal": "목록을 하나씩 돌며 작성자를 매번 따로 조회해 요청이 폭증하는 코드를, join/관계 조회나 in 일괄 조회로 묶어 고치며 N+1 문제와 일괄 조회를 배운다",
+    "difficulty": 5,
+    "concept": "N+1 쿼리, 일괄/관계 조회, 성능",
+    "deliverable": "쿼리 수를 51→2 이하로 줄인 코드 + 요청 횟수 측정 전후 비교"
+  },
+  {
+    "id": "296",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "내 사이트 키 줍기 게임 — F12로 공개키/비밀키 찾아내기",
+    "goal": "배포된 정적 사이트에서 F12 개발자도구로 노출된 문자열을 직접 찾아보며, 화면에 보여도 되는 값(publishable)과 절대 보이면 안 되는 값(secret)을 눈으로 구분하는 감을 익힌다",
+    "difficulty": 1,
+    "concept": "공개키 vs 비밀키, F12 노출 확인",
+    "deliverable": "F12 Network/Sources 스크린샷에 '보여도 OK'와 '절대 안 됨'을 표시한 1장짜리 점검 메모"
+  },
+  {
+    "id": "297",
+    "code": "N",
+    "category": "보안 실습",
+    "title": ".env.local로 키 옮기고 .gitignore 한 줄 추가하기",
+    "goal": "코드에 하드코딩한 Supabase URL/키를 .env.local 파일로 분리하고 .gitignore에 등록해, '키를 깃허브에 안 올린다'는 분리의 핵심을 손으로 만든다",
+    "difficulty": 1,
+    "concept": ".env 분리, .gitignore",
+    "deliverable": "키가 분리된 .env.local + 해당 줄이 추가된 .gitignore가 있는 프로젝트"
+  },
+  {
+    "id": "298",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "공개용 견본 .env.example 만들기 — 값은 비우고 이름만",
+    "goal": "팀원이 봐도 안전하도록 키 이름만 남기고 값은 자리표시자로 비운 .env.example을 만들어, '공개해도 되는 것'과 '비밀'을 파일 단위로 가르는 습관을 들인다",
+    "difficulty": 2,
+    "concept": ".env.example, 자리표시자",
+    "deliverable": "값이 모두 비워진 공개용 .env.example 파일과 사용법 1줄 설명"
+  },
+  {
+    "id": "299",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "내 키 어디서 쓰나 표 만들기 — anon은 프론트, service_role은 절대 금지",
+    "goal": "AI에게 '키가 어디에 쓰이는지 파일·줄 단위로 보고'를 시켜, service_role(secret) 키가 브라우저로 가는 코드에 단 한 군데도 없는지 검증하는 표를 완성한다",
+    "difficulty": 2,
+    "concept": "anon vs service_role, 키 사용처 점검",
+    "deliverable": "키 종류·사용 위치·판정(🟢/🔴)이 적힌 점검 표 1개"
+  },
+  {
+    "id": "300",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "Supabase 테이블에 RLS 켜기 — 끄면 어떻게 새는지 먼저 확인",
+    "goal": "RLS가 꺼진 테이블을 publishable 키로 통째로 읽히는 것을 직접 본 뒤 RLS를 켜서, 공개 키가 안전한 진짜 이유가 '키 숨김'이 아니라 'RLS 차단'임을 체감한다",
+    "difficulty": 3,
+    "concept": "RLS 켜기, 행 수준 보안",
+    "deliverable": "RLS Enable 전후 조회 결과 비교 캡처와 RLS가 켜진 테이블"
+  },
+  {
+    "id": "301",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "'본인 데이터만' RLS 정책 작성하고 남의 행 못 읽는지 검증하기",
+    "goal": "auth.uid() 기준 SELECT/INSERT 정책을 만들고, 다른 계정으로 로그인해 남의 행이 0건으로 막히는지 실제로 시도해 정책이 작동함을 증명한다",
+    "difficulty": 3,
+    "concept": "RLS 정책, 인가 검증",
+    "deliverable": "본인 데이터만 보이는 RLS 정책 SQL + 다른 계정 접근 차단 검증 캡처"
+  },
+  {
+    "id": "302",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "방명록 입력 이스케이프 — <script> 글이 실행되지 않게 막기",
+    "goal": "사용자 입력을 innerHTML 대신 textContent로 출력하도록 고쳐, 악성 스크립트가 글로 들어와도 코드가 아니라 글자로만 표시되는 XSS 방어를 만든다",
+    "difficulty": 3,
+    "concept": "입력 이스케이프, XSS",
+    "deliverable": "textContent로 출력하도록 수정된 방명록 JS와 공격 입력 차단 데모"
+  },
+  {
+    "id": "303",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "개인정보 최소 수집 폼 — 안 쓰는 항목 칼럼째 지우기",
+    "goal": "주민번호·생년월일처럼 실제로 안 쓰는 입력란을 폼과 테이블에서 제거하고 필수만 남겨, '필요 없는 건 처음부터 받지 않는다'는 최소 수집 원칙을 폼으로 구현한다",
+    "difficulty": 4,
+    "concept": "개인정보 최소 수집, 데이터 다이어트",
+    "deliverable": "필수 항목만 남긴 입력 폼과 줄어든 테이블 스키마, 수집 항목 사유표"
+  },
+  {
+    "id": "304",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "npm audit 돌리고 취약 의존성 한 개 고치기",
+    "goal": "프로젝트에서 npm audit를 실행해 알려진 취약점 목록을 뽑고, 심각도 높은 항목 하나를 버전 갱신으로 해결한 뒤 package-lock.json을 커밋해 '내가 안 짠 8할의 코드'를 점검한다",
+    "difficulty": 4,
+    "concept": "npm audit, 의존성·공급망 점검",
+    "deliverable": "audit 결과 요약표 + 취약점 1건 해결 전후 비교 + 커밋된 package-lock.json"
+  },
+  {
+    "id": "305",
+    "code": "N",
+    "category": "보안 실습",
+    "title": "Vercel에 보안 헤더 깔기 — CSP/HSTS 적용하고 점수 확인하기",
+    "goal": "vercel.json(또는 헤더 설정)에 Content-Security-Policy, X-Content-Type-Options, HSTS 등 보안 헤더를 추가하고 외부 점검 도구로 등급 향상을 확인해, 브라우저가 강제하는 마지막 방어선을 친다",
+    "difficulty": 5,
+    "concept": "보안 헤더, CSP·HSTS",
+    "deliverable": "보안 헤더가 설정된 vercel.json과 적용 전후 보안 헤더 점검 등급 캡처"
+  }
+]
