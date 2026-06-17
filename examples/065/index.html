@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>수량 카운터 위젯</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>수량 카운터</h1>
+    <p class="desc">+ 버튼과 - 버튼으로 수량을 조절해 보세요.</p>
+
+    <!-- 카운터 위젯: 마이너스 버튼 / 현재 숫자 / 플러스 버튼 -->
+    <div class="counter">
+      <button id="minus" class="btn" aria-label="1 줄이기">−</button>
+
+      <!-- 현재 숫자를 보여주는 곳. JS가 이 안의 글자를 바꿉니다. -->
+      <span id="count" class="count">0</span>
+
+      <button id="plus" class="btn" aria-label="1 늘리기">+</button>
+    </div>
+
+    <button id="reset" class="reset">0으로 초기화</button>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

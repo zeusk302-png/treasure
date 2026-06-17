@@ -1,0 +1,115 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>flexbox로 박스를 화면 정중앙에 놓기</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /*
+        먼저 페이지 전체의 기본값을 정리합니다.
+        margin: 0  → 브라우저가 기본으로 넣는 바깥 여백을 없앱니다. (안 없애면 화면 끝에 흰 띠가 생겨요)
+        height: 100%, min-height: 100vh → 화면 '세로 중앙'을 맞추려면, 먼저 기준이 되는
+        영역의 '높이'가 화면만큼 있어야 합니다. 100vh는 "화면 세로 높이의 100%"라는 뜻입니다.
+        높이가 없으면 세로 가운데를 잡을 공간 자체가 없어 align-items가 효과를 못 냅니다. (자주 하는 실수!)
+      */
+      html, body {
+        margin: 0;
+        height: 100%;
+      }
+
+      body {
+        font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+        color: #2b2b2b;
+        line-height: 1.6;
+      }
+
+      /*
+        ★★★ 이번 실습의 핵심: 이 .stage 상자가 '부모(무대)'입니다 ★★★
+
+        가운데 정렬은 가운데로 놓고 싶은 박스(자식)가 아니라,
+        그 박스를 감싸는 '부모 상자'에 설정합니다. 여기서는 .stage 가 부모입니다.
+
+        - display: flex;            → "이 상자 안의 자식을 flex 방식으로 정렬해" (이게 있어야 아래 두 줄이 작동합니다)
+        - justify-content: center;  → '주축(가로 →) 방향'으로 가운데 정렬 = 좌우 중앙
+        - align-items: center;      → '교차축(세로 ↓) 방향'으로 가운데 정렬 = 상하 중앙
+        - min-height: 100vh;        → 무대 높이를 화면 세로 전체로 만들어, 세로 가운데를 잡을 공간을 확보합니다.
+
+        외우는 법: justify-content = '가로', align-items = '세로'.
+        둘 다 center 면 → 박스가 화면 정중앙에 딱 놓입니다.
+      */
+      .stage {
+        display: flex;              /* ← 이게 있어야 아래 두 줄이 동작합니다 (핵심!) */
+        justify-content: center;    /* ← 가로(좌우) 가운데 */
+        align-items: center;        /* ← 세로(상하) 가운데 */
+        min-height: 100vh;          /* ← 무대 높이를 화면 전체로 (세로 중앙의 전제 조건) */
+
+        /* 무대 배경. 가운데 박스가 잘 보이도록 은은한 그라데이션을 깔았습니다. (연출용) */
+        background: linear-gradient(135deg, #6366f1, #3b82f6);
+        padding: 20px;              /* 화면이 좁아도 박스가 가장자리에 딱 붙지 않게 */
+        box-sizing: border-box;     /* padding을 줘도 높이가 100vh를 넘지 않게 계산 방식을 맞춥니다 */
+      }
+
+      /*
+        가운데에 놓일 '자식 박스'입니다. 이 박스 자체에는 가운데 정렬 코드가 없습니다.
+        가운데로 가게 만드는 일은 전부 부모(.stage)가 합니다. 자식은 그냥 예쁘게 생기기만 하면 됩니다.
+      */
+      .card {
+        background-color: #ffffff;
+        padding: 32px 40px;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);  /* 살짝 떠 있는 느낌의 그림자 */
+        text-align: center;
+        max-width: 320px;
+      }
+
+      .card h1 {
+        font-size: 22px;
+        margin: 0 0 8px 0;
+        color: #1e293b;
+      }
+
+      .card p {
+        margin: 0;
+        color: #64748b;
+        font-size: 15px;
+      }
+
+      /* 본문 안에서 코드처럼 보여 줄 작은 글자입니다. */
+      .card code {
+        background-color: #eef2ff;
+        color: #3730a3;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 90%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--
+      .stage 가 부모(무대)이고, 그 안의 .card 한 개가 자식입니다.
+      부모에 준 justify-content + align-items 덕분에, 자식 박스가 화면 정중앙에 놓입니다.
+      창 크기를 줄였다 늘렸다 해 보세요. 어떤 크기에서도 항상 한가운데에 머뭅니다.
+    -->
+    <div class="stage">
+      <div class="card">
+        <h1>나는 정중앙에 있어요</h1>
+        <p>
+          부모 상자에 <code>justify-content: center</code>(가로)와
+          <code>align-items: center</code>(세로)를 함께 줬을 뿐인데,
+          이 박스가 화면 한가운데에 놓였습니다.
+        </p>
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>보호된 마이페이지 — 로그인 안 하면 못 들어가는 페이지 실습</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!--
+    ★ 이번 실습의 핵심 ★
+    이 페이지(mypage.html)는 '로그인한 사람만' 볼 수 있는 보호된 페이지입니다.
+    아래 auth-guard.js가 가장 먼저 실행되어 "로그인했나?"를 검사합니다.
+    - 로그인 안 했으면  → 곧바로 login.html로 돌려보냅니다. (아래 내용은 안 보여줌)
+    - 로그인 했으면     → 이 페이지를 그대로 보여줍니다.
+  -->
+
+  <!-- 가드가 검사를 끝내기 전까지 잠깐 보이는 '검사 중' 화면. 깜빡임을 막아줍니다. -->
+  <div id="guardChecking" class="guard-checking">
+    <p>🔒 로그인 여부를 확인하는 중…</p>
+  </div>
+
+  <!-- 가드를 통과(로그인 확인)해야만 보이는 진짜 내용입니다. 처음엔 숨겨둡니다. -->
+  <div id="protectedContent" hidden>
+    <header id="appHeader"></header>
+
+    <main>
+      <h1>마이페이지 (보호된 페이지)</h1>
+      <p class="hint">
+        이 문장이 보인다는 건 <strong>가드(문지기) 검사를 통과</strong>했다는 뜻입니다.<br />
+        로그인하지 않은 사람은 이 글자를 절대 볼 수 없고, 곧바로 로그인 페이지로 쫓겨납니다.
+      </p>
+
+      <section class="secret-box">
+        <h2>📒 나만 볼 수 있는 내용</h2>
+        <p id="secretText">불러오는 중…</p>
+      </section>
+
+      <button id="logoutBtn" class="logout-btn">로그아웃</button>
+    </main>
+  </div>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!--
+    순서가 중요합니다!
+    1) supabase.js   : 클라이언트(db)를 만들어 둠 (공통)
+    2) auth-guard.js : ★ 문지기 ★ — 로그인 안 했으면 여기서 login.html로 보내버림
+    3) app.js        : 가드를 통과한 사람에게 보여줄 내용 처리
+  -->
+  <script src="supabase.js"></script>
+  <script src="auth-guard.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

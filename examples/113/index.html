@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실습 113 — localStorage의 한계 체험하기</title>
+  <style>
+    :root {
+      --main: #2563eb;
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --line: #e2e8f0;
+      --text: #1f2937;
+      --muted: #64748b;
+      --warn-bg: #fff7ed;
+      --warn-line: #fdba74;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px 64px;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 4px; }
+    .sub { color: var(--muted); margin: 0 0 24px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    }
+    .card h2 { font-size: 1.1rem; margin: 0 0 12px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--main);
+      color: #fff;
+    }
+    button.ghost { background: #e2e8f0; color: var(--text); }
+    button:hover { opacity: 0.92; }
+    ul.memo-list { list-style: none; padding: 0; margin: 16px 0 0; }
+    ul.memo-list li {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    .empty { color: var(--muted); font-style: italic; }
+    .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 12px;
+      word-break: break-all;
+    }
+    .warn {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .warn h2 { color: #c2410c; }
+    .warn ol { margin: 8px 0 0; padding-left: 20px; }
+    .warn li { margin-bottom: 8px; }
+    code {
+      background: #eef2ff;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+    .badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="badge">실습 113 · 데이터의 한계 체험</span>
+    <h1>내 브라우저에만 저장되는 "할 일" 메모</h1>
+    <p class="sub">
+      이 페이지는 할 일을 <strong>localStorage</strong>(내 브라우저 안 작은 저장소)에만 저장합니다.
+      일부러 서버에 보내지 않습니다. 그래서 <strong>"다른 곳에서는 안 보이는"</strong> 한계를 직접 눈으로 확인할 수 있어요.
+    </p>
+
+    <!-- 1) 입력 영역 -->
+    <div class="card">
+      <h2>1) 할 일 적기</h2>
+      <label for="todo">할 일을 입력하고 [추가]를 누르세요</label>
+      <input type="text" id="todo" placeholder="예: 우유 사기" />
+      <div class="row">
+        <button id="addBtn">추가</button>
+        <button id="clearBtn" class="ghost">전체 삭제(초기화)</button>
+      </div>
+
+      <ul class="memo-list" id="list"></ul>
+
+      <p class="meta" id="storageInfo"></p>
+    </div>
+
+    <!-- 2) 한계 실험 안내 -->
+    <div class="card warn">
+      <h2>2) 직접 해 보는 한계 실험</h2>
+      <p>아래 순서대로 해 보면 "내 브라우저에만 갇혀 있다"는 걸 몸으로 알게 됩니다.</p>
+      <ol>
+        <li>
+          위에서 할 일을 <strong>2~3개</strong> 추가한다.
+        </li>
+        <li>
+          <strong>시크릿(비공개) 창</strong>을 새로 연다.
+          (크롬: <code>Ctrl</code>+<code>Shift</code>+<code>N</code> / 엣지: <code>Ctrl</code>+<code>Shift</code>+<code>P</code>)
+          → 거기서 이 <code>index.html</code>을 열면 목록이 <strong>텅 비어</strong> 있다.
+        </li>
+        <li>
+          <strong>다른 브라우저</strong>(크롬에서 했다면 엣지/사파리 등)로 같은 파일을 연다.
+          → 역시 <strong>아무것도 없다.</strong>
+        </li>
+        <li>
+          가능하면 <strong>휴대폰</strong>으로 같은 사이트를 본다.
+          → PC에서 적은 할 일이 <strong>전혀 안 보인다.</strong>
+        </li>
+      </ol>
+      <p style="margin-top:12px">
+        왜 이럴까요? localStorage는 <strong>"그 브라우저 안"</strong>에만 저장됩니다.
+        창이 다르거나 기기가 다르면 <strong>서로 다른 저장소</strong>라서 공유가 안 돼요.
+        여러 사람이나 여러 기기가 같은 데이터를 보려면 <strong>중앙 서버 데이터베이스(DB)</strong>가 필요합니다.
+      </p>
+    </div>
+
+    <p class="sub" style="text-align:center">
+      한계를 확인했다면, 같은 폴더의 <code>prompt.md</code>를 열어
+      Claude에게 "왜 서버 DB가 필요한지" 설명받고 1쪽 메모로 정리해 보세요.
+    </p>
+  </div>
+
+  <script>
+    // 이 실습의 핵심: 데이터를 "내 브라우저(localStorage)"에만 저장한다.
+    // 일부러 서버로 보내지 않기 때문에, 다른 브라우저/기기에서는 보이지 않는다.
+    const STORAGE_KEY = "practice113_todos";
+
+    const todoInput = document.getElementById("todo");
+    const addBtn = document.getElementById("addBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const listEl = document.getElementById("list");
+    const infoEl = document.getElementById("storageInfo");
+
+    // 저장된 할 일 목록 읽기 (없으면 빈 배열)
+    function loadTodos() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      try {
+        return JSON.parse(raw); // 글자(JSON) → 배열로 복원
+      } catch (e) {
+        return []; // 혹시 깨졌으면 빈 목록으로
+      }
+    }
+
+    // 할 일 목록 저장하기 (배열 → 글자로 바꿔 저장)
+    function saveTodos(todos) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    }
+
+    // 화면 다시 그리기
+    function render() {
+      const todos = loadTodos();
+      listEl.innerHTML = "";
+
+      if (todos.length === 0) {
+        const li = document.createElement("li");
+        li.className = "empty";
+        li.textContent = "아직 할 일이 없습니다. (다른 창/기기라면 여기가 비어 있는 게 정상!)";
+        listEl.appendChild(li);
+      } else {
+        todos.forEach(function (text) {
+          const li = document.createElement("li");
+          li.textContent = "• " + text;
+          listEl.appendChild(li);
+        });
+      }
+
+      infoEl.textContent =
+        "저장 위치: 이 브라우저의 localStorage (키: " +
+        STORAGE_KEY +
+        ") · 현재 " +
+        todos.length +
+        "개";
+    }
+
+    // [추가] 버튼
+    addBtn.addEventListener("click", function () {
+      const text = todoInput.value.trim();
+      if (text === "") {
+        alert("할 일을 입력해 주세요.");
+        return;
+      }
+      const todos = loadTodos();
+      todos.push(text);
+      saveTodos(todos);
+      todoInput.value = "";
+      render();
+    });
+
+    // 엔터로도 추가
+    todoInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") addBtn.click();
+    });
+
+    // [전체 삭제] 버튼
+    clearBtn.addEventListener("click", function () {
+      if (confirm("이 브라우저에 저장된 할 일을 모두 지울까요?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        render();
+      }
+    });
+
+    // 페이지 열릴 때 한 번 그리기
+    render();
+  </script>
+</body>
+</html>

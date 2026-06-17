@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>좋아요 카운터 — (고친 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #eef1f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 48px 16px;
+    }
+    .count {
+      font-size: 48px;
+      font-weight: bold;
+      color: #6c4ad6;
+    }
+    button {
+      font-size: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #6c4ad6;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:active { transform: scale(0.96); }
+  </style>
+</head>
+<body>
+  <h1>좋아요 카운터</h1>
+  <p class="count" id="count">0</p>
+  <button id="likeBtn">좋아요 +1</button>
+  <button id="resetBtn">리셋</button>
+
+  <script>
+    // 구문 오류를 모두 고친 정답 버전입니다.
+    // 이제 두 버튼이 정상으로 동작합니다.
+
+    let count = 0;
+
+    const countEl = document.getElementById("count");
+    const likeBtn = document.getElementById("likeBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // FIXED ①: "click" 의 닫는 큰따옴표를 채워 따옴표 짝을 맞췄습니다. ("click")
+    likeBtn.addEventListener("click", function () {
+      count = count + 1;
+      countEl.textContent = count;
+    });
+
+    // FIXED ②: 함수 본문을 닫는 '}' 와 addEventListener 를 닫는 ')' 그리고 ';' 를 채웠습니다.
+    resetBtn.addEventListener("click", function () {
+      count = 0;
+      countEl.textContent = count;
+    });
+  </script>
+</body>
+</html>

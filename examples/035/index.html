@@ -1,0 +1,170 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>로고-메뉴-버튼이 양끝 배치된 내비바 만들기</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /* 페이지 전체의 기본 모양입니다. margin:0으로 가장자리 흰 여백을 없애 내비바가 화면 폭에 꽉 차게 합니다. */
+      body {
+        font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+        background-color: #f7f8fa;
+        color: #2b2b2b;
+        margin: 0;             /* ← 이게 없으면 내비바 좌우/위에 흰 틈이 생깁니다. */
+        line-height: 1.6;
+      }
+
+      /*
+        ★★★ 이번 실습의 핵심: 내비게이션 바(navbar) ★★★
+
+        내비바는 "왼쪽 로고 / 가운데 메뉴 / 오른쪽 버튼"이 한 줄에 놓인 상단 띠입니다.
+        세 덩어리를 한 줄에 가로로 놓으려면 부모에게 display:flex 를 줍니다.
+        그리고 align-items:center 로 세 덩어리의 '세로 높이'를 가운데로 맞춥니다.
+        (이게 없으면 로고·메뉴·버튼이 위아래로 들쭉날쭉 정렬됩니다.)
+      */
+      .navbar {
+        display: flex;               /* ← 안의 세 덩어리를 가로 한 줄로 놓습니다. */
+        align-items: center;         /* ← 세 덩어리를 세로 가운데로 맞춥니다. */
+        justify-content: space-between; /* ↓ 아래에서 자세히 설명합니다(핵심!). */
+
+        /*
+          ★ space-between 의 뜻 ★
+          "남는 가로 공간을 '덩어리 사이사이'에 똑같이 나눠 끼운다"는 뜻입니다.
+          그 결과 → 첫 덩어리(로고)는 맨 왼쪽 끝, 마지막 덩어리(버튼)는 맨 오른쪽 끝으로 밀리고,
+                    가운데 덩어리(메뉴)는 그 사이에 놓입니다.
+          이것이 거의 모든 사이트 상단 메뉴가 쓰는 '양끝 배치'의 정체입니다.
+        */
+
+        background-color: #ffffff;   /* 내비바 배경: 흰색 */
+        padding: 0 24px;             /* 안쪽 좌우 여백: 로고/버튼이 화면 끝에 딱 붙지 않게 */
+        height: 64px;                /* 내비바 높이를 고정합니다. */
+        border-bottom: 1px solid #e5e7eb; /* 본문과 구분되는 아래쪽 가는 선 */
+      }
+
+      /* 왼쪽 로고: 글자 로고로 만들었습니다. (이미지 대신 글자라 인터넷 없이도 보입니다.) */
+      .logo {
+        font-size: 20px;
+        font-weight: 700;            /* 굵게 */
+        color: #3b82f6;              /* 파란색 */
+        text-decoration: none;       /* 링크 밑줄 제거 */
+        white-space: nowrap;         /* 로고 글자가 줄바꿈되지 않게 */
+      }
+
+      /*
+        가운데 메뉴: <ul> 목록입니다.
+        ul 은 원래 점(•)이 붙고 세로로 쌓이는 목록인데,
+        list-style:none 으로 점을 없애고, display:flex + gap 으로 메뉴 항목을 가로로 폅니다.
+        (즉, 내비바 안에 작은 flex 가 또 하나 들어있는 구조입니다.)
+      */
+      .menu {
+        list-style: none;            /* 목록 점(•) 제거 */
+        margin: 0;                   /* ul 기본 위아래 여백 제거 */
+        padding: 0;                  /* ul 기본 왼쪽 들여쓰기 제거 */
+        display: flex;               /* 메뉴 항목들을 가로 한 줄로 */
+        gap: 28px;                   /* 메뉴 항목 사이 간격 */
+      }
+
+      .menu a {
+        text-decoration: none;       /* 밑줄 제거 */
+        color: #4b5563;              /* 메뉴 글자색(회색) */
+        font-size: 15px;
+      }
+      /* 마우스를 올리면 색이 진해지게 해서 '눌러지는 메뉴'임을 알립니다. */
+      .menu a:hover {
+        color: #111827;
+      }
+
+      /* 오른쪽 버튼: 로그인 버튼입니다. */
+      .cta {
+        padding: 9px 18px;
+        font-size: 15px;
+        color: #ffffff;
+        background-color: #3b82f6;   /* 파란 버튼 */
+        border: none;
+        border-radius: 8px;          /* 둥근 모서리 */
+        cursor: pointer;             /* 마우스를 올리면 손가락 모양 */
+        white-space: nowrap;
+      }
+      .cta:hover {
+        background-color: #2563eb;   /* 호버 시 살짝 더 진한 파랑 */
+      }
+
+      /* 내비바 아래 본문은 단순 설명용입니다. (이번 실습의 주인공은 위쪽 내비바입니다.) */
+      .page {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 0 0 8px 0;
+      }
+      .lead {
+        color: #6b7280;
+        margin: 0 0 24px 0;
+      }
+      code {
+        background-color: #eef2ff;
+        color: #3730a3;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 90%;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!--
+      ★ 내비바 본체 ★
+      <header> 안에 .navbar 를 두었습니다. .navbar 가 'flex 부모'이고,
+      그 안의 세 덩어리(로고 / 메뉴 / 버튼)가 자식입니다.
+      자식이 정확히 3개라서 space-between 이 깔끔하게 양끝+가운데로 나뉩니다.
+    -->
+    <header class="navbar">
+
+      <!-- (1) 왼쪽 덩어리: 로고 -->
+      <a href="#" class="logo">부산코딩</a>
+
+      <!-- (2) 가운데 덩어리: 메뉴 목록 -->
+      <ul class="menu">
+        <li><a href="#">홈</a></li>
+        <li><a href="#">소개</a></li>
+        <li><a href="#">강의</a></li>
+        <li><a href="#">문의</a></li>
+      </ul>
+
+      <!-- (3) 오른쪽 덩어리: 버튼 -->
+      <button class="cta">로그인</button>
+
+    </header>
+
+    <!-- 아래는 내비바를 설명하는 본문입니다. -->
+    <div class="page">
+      <h1>로고-메뉴-버튼이 양끝 배치된 내비바</h1>
+      <p class="lead">
+        위쪽 띠를 보세요. <strong>로고는 맨 왼쪽</strong>, <strong>버튼은 맨 오른쪽</strong>,
+        <strong>메뉴는 그 사이</strong>에 놓여 있습니다.
+        이 양끝 배치는 부모 상자에 <code>display: flex;</code> 와
+        <code>justify-content: space-between;</code> 두 줄을 준 결과입니다.
+      </p>
+      <p>
+        <code>space-between</code>은 "남는 가로 공간을 덩어리 <strong>사이사이</strong>에 똑같이 나눠 끼운다"는 뜻입니다.
+        그래서 첫 덩어리는 왼쪽 끝, 마지막 덩어리는 오른쪽 끝으로 밀려납니다.
+        브라우저 창 너비를 마우스로 넓혔다 줄였다 해보면, 가운데 빈 공간만 늘고 줄며
+        로고와 버튼은 늘 양끝에 붙어 있는 것을 볼 수 있습니다.
+      </p>
+    </div>
+
+  </body>
+
+</html>

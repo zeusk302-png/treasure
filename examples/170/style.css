@@ -1,0 +1,97 @@
+/*
+  자동 재배포가 잘 됐는지 한눈에 보이도록 만든 간단한 스타일입니다.
+  이 파일도 GitHub 저장소에 함께 올려야 Vercel이 배포할 때 적용됩니다.
+  (index.html 의 <link rel="stylesheet" href="style.css" /> 가 이 파일을 불러옵니다.)
+
+  팁: 색이 안 바뀐다고 당황하지 마세요. CSS 파일을 고친 뒤에도
+  index.html 과 마찬가지로 git push 하면 Vercel이 똑같이 자동 재배포합니다.
+*/
+
+:root {
+  --brand: #0070f3;   /* Vercel 느낌의 파란색 */
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --ok: #16a34a;
+  --bg: #f5f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
+  font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.card {
+  background: #ffffff;
+  max-width: 560px;
+  width: 100%;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border-top: 6px solid var(--brand);
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: 1.5rem;
+}
+
+.lead {
+  margin: 0 0 16px;
+  color: var(--ink);
+}
+
+.version {
+  display: inline-block;
+  margin: 0 0 20px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: var(--brand);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.steps {
+  margin: 0 0 16px;
+  padding-left: 22px;
+  color: var(--ink);
+}
+
+.steps li {
+  padding: 4px 0;
+}
+
+.hint {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  background: #fff7ed;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.foot {
+  color: var(--muted);
+  font-size: 0.85rem;
+}

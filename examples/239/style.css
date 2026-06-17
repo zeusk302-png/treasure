@@ -1,0 +1,125 @@
+/* 이 파일은 index.html의 모양(색·여백·글꼴)을 꾸며 줍니다.
+   index.html과 같은 폴더에 함께 있어야 디자인이 적용됩니다. */
+
+/* 색을 한곳에 모아 두면 나중에 바꾸기 쉽습니다. (CSS 변수) */
+:root {
+  --main: #7c3aed;     /* 보라: 블로그 포인트 색 */
+  --bg: #f5f3ff;       /* 아주 연한 보라 배경 */
+  --card: #ffffff;     /* 카드 배경(흰색) */
+  --text: #1e1b2e;     /* 본문 글자색 */
+  --muted: #6b7280;    /* 날짜 등 흐린 글자색 */
+}
+
+/* 모든 요소의 크기 계산을 테두리·여백 포함 기준으로 (레이아웃이 덜 깨짐) */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  line-height: 1.6;
+}
+
+/* 페이지 맨 위 제목 영역 (가운데 정렬) */
+.site-header {
+  max-width: 960px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.site-header h1 {
+  margin: 0 0 4px;
+  color: var(--main);
+}
+
+.tagline {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* 카드들이 들어가는 영역.
+   grid로 만들면 화면이 넓을 땐 여러 줄, 좁을 땐 한 줄로 자동 정리됩니다.
+   minmax(260px, 1fr): 카드 최소 너비 260px, 공간이 남으면 늘어남.
+   auto-fill: 들어갈 수 있는 만큼 자동으로 칸을 채움. */
+.post-list {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* 글 카드 한 개의 기본 모양 */
+.post-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;   /* 제목→메타→요약→링크 세로로 쌓기 */
+  /* 부드러운 변화 (마우스를 올렸을 때 살짝 떠오르도록) */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* 마우스를 올리면 카드가 살짝 떠오르는 효과 */
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.18);
+}
+
+.post-title {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+/* 날짜와 태그가 한 줄에 나란히 */
+.post-meta {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 태그(알약 모양 라벨) */
+.tag {
+  background: #ede9fe;
+  color: var(--main);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.post-summary {
+  margin: 0 0 16px;
+  color: var(--text);
+  /* 카드 높이를 비슷하게 맞추기 위해 요약이 남는 공간을 차지하게 함 */
+  flex-grow: 1;
+}
+
+/* 더 읽기 링크 */
+.read-more {
+  color: var(--main);
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;   /* 링크가 왼쪽에 딱 붙도록 */
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+/* 페이지 맨 아래 저작권 줄 */
+.site-footer {
+  max-width: 960px;
+  margin: 32px auto 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}

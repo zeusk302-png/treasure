@@ -1,0 +1,41 @@
+# 여러 줄 메시지 입력칸(textarea)과 전송 버튼 폼
+
+문의 페이지에서 자주 보이는 "이름 / 이메일 / 메시지 + 보내기 버튼" 형태의 폼을 직접 만들어 봅니다.
+이번 실습의 핵심은 **여러 줄 입력칸(`textarea`)** 과 **제출 버튼(`submit`)** 을 **`form` 으로 감싸서 하나의 제출 단위로 묶는 것**입니다.
+
+## 목표
+
+- `textarea` 로 여러 줄을 입력하는 칸을 만든다. (`input` 은 한 줄, `textarea` 는 여러 줄)
+- `<button type="submit">` 으로 폼을 제출하는 버튼을 만든다.
+- 입력칸과 버튼을 `form` 태그 안에 넣어, 하나로 제출되는 폼 구조를 완성한다.
+- `label` 과 입력칸을 연결해 누구나 쓰기 쉬운 폼 레이아웃을 익힌다.
+
+## 따라하는 단계
+
+1. `examples/090/` 폴더에 `index.html`, `style.css` 두 파일이 있는지 확인합니다.
+2. `index.html` 을 더블 클릭하거나, 브라우저 창에 끌어다 놓아 화면에 폼이 보이는지 확인합니다.
+3. `index.html` 에서 `<form> ... </form>` 부분을 찾습니다. 모든 입력칸과 버튼이 이 안에 들어 있어야 "하나의 폼"이 됩니다.
+4. 여러 줄 입력칸은 `<textarea>` 입니다. `<input>` 과 달리 **여는 태그와 닫는 태그가 따로 있고, 그 사이에는 비워 둡니다.** (`rows="6"` 은 처음 보이는 줄 수입니다.)
+5. 각 입력칸 위의 `<label for="message">` 와 입력칸의 `id="message"` 가 **같은 이름으로 짝지어져 있는지** 확인합니다. 이렇게 하면 라벨 글씨를 눌러도 입력칸이 선택됩니다.
+6. 맨 아래 `<button type="submit">보내기</button>` 가 폼을 제출하는 버튼입니다. `type="reset"` 인 "지우기" 버튼은 입력을 모두 비웁니다.
+7. 화면에서 메시지 칸 오른쪽 아래 모서리를 마우스로 끌어 세로 크기가 늘어나는지(`resize: vertical`) 확인합니다.
+
+## 검증법
+
+- 브라우저에서 메시지 칸에 **엔터(줄바꿈)를 여러 번** 쳐서 글이 여러 줄로 입력되는지 확인합니다. (한 줄짜리 `input` 과의 차이)
+- 아무 칸이나 클릭했을 때 테두리가 파랗게 강조되면(`:focus`) 정상입니다.
+- "보내기" 버튼을 누르면 폼이 제출되며 주소창 끝에 입력값이 잠시 붙거나 페이지가 새로고침됩니다. (서버가 없으므로 실제 전송은 안 되지만, **제출 동작 자체가 일어나면 성공**입니다. `action="#"` 으로 같은 페이지에 머무릅니다.)
+- "지우기" 버튼을 누르면 모든 칸이 비워지는지 확인합니다.
+- "이름"이라는 라벨 글씨를 클릭했을 때 이름 입력칸에 커서가 들어가면 `label` 과 `id` 연결이 잘 된 것입니다.
+
+## 더 해보기 (다음 단계 예고)
+
+- 빈 칸이면 제출을 막고 싶다면 입력칸에 `required` 를 붙여 보세요. (실습 091)
+- 이메일 형식이나 글자 수를 제한하려면 `type="email"`, `minlength`, `maxlength` 를 써 보세요. (실습 092)
+
+## 관련 가이드 링크
+
+- MDN `<form>`: https://developer.mozilla.org/ko/docs/Web/HTML/Element/form
+- MDN `<textarea>`: https://developer.mozilla.org/ko/docs/Web/HTML/Element/textarea
+- MDN `<button>`: https://developer.mozilla.org/ko/docs/Web/HTML/Element/button
+- MDN `<label>`: https://developer.mozilla.org/ko/docs/Web/HTML/Element/label

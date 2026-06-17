@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 코딩 일기 — 블로그</title>
+  <!-- 같은 폴더에 있는 style.css를 불러옵니다.
+       index.html과 style.css 두 파일이 함께 있어야 디자인이 적용됩니다. -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 페이지 맨 위: 블로그 이름과 한 줄 소개 -->
+  <header class="site-header">
+    <h1>오늘의 코딩 일기</h1>
+    <p class="tagline">비전공자가 하루 한 줄씩 적는 웹 개발 기록</p>
+  </header>
+
+  <!-- 본문: 글 카드들이 들어가는 영역 -->
+  <main class="post-list">
+    <!--
+      아래 <article>가 "글 카드 한 개"입니다.
+      카드는 모두 똑같은 모양(구조)을 반복합니다.
+        제목(h2) → 메타 정보(날짜·태그) → 요약(p) → 더 읽기 링크(a)
+      글을 늘리고 싶으면 <article> ... </article> 한 덩어리를 통째로 복사해
+      내용만 바꾸면 됩니다. 이것이 바로 "반복 UI 구조"입니다.
+    -->
+
+    <!-- 글 카드 1 -->
+    <article class="post-card">
+      <h2 class="post-title">HTML 첫 페이지를 만들었다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-14">2026년 6월 14일</time>
+        <span class="tag">HTML</span>
+      </p>
+      <p class="post-summary">
+        index.html 파일을 만들고 브라우저로 열어 봤다.
+        html, head, body가 무엇인지 처음으로 눈으로 확인한 날.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+
+    <!-- 글 카드 2 -->
+    <article class="post-card">
+      <h2 class="post-title">CSS로 색과 여백을 입혔다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-15">2026년 6월 15일</time>
+        <span class="tag">CSS</span>
+      </p>
+      <p class="post-summary">
+        밋밋하던 페이지에 배경색과 여백(padding)을 줬더니
+        한결 보기 좋아졌다. 디자인은 작은 차이가 크게 보인다.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+
+    <!-- 글 카드 3 -->
+    <article class="post-card">
+      <h2 class="post-title">카드 리스트로 블로그 홈을 만들었다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-16">2026년 6월 16일</time>
+        <span class="tag">레이아웃</span>
+      </p>
+      <p class="post-summary">
+        같은 모양의 카드를 여러 개 나열해 글 목록을 만들었다.
+        구조가 똑같은 덩어리를 반복하면 된다는 걸 깨달았다.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+
+    <!-- 글 카드 4 -->
+    <article class="post-card">
+      <h2 class="post-title">반응형이 무엇인지 맛봤다</h2>
+      <p class="post-meta">
+        <time datetime="2026-06-17">2026년 6월 17일</time>
+        <span class="tag">반응형</span>
+      </p>
+      <p class="post-summary">
+        창 크기를 줄였더니 카드가 한 줄로 정리됐다.
+        화면 크기에 맞춰 모양이 바뀌는 것이 신기했다.
+      </p>
+      <a class="read-more" href="#">더 읽기 →</a>
+    </article>
+  </main>
+
+  <!-- 페이지 맨 아래: 저작권 줄 -->
+  <footer class="site-footer">
+    <p>© 2026 오늘의 코딩 일기 · 직접 만든 첫 블로그 목록 페이지</p>
+  </footer>
+</body>
+</html>

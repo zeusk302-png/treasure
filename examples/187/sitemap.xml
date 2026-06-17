@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ─────────────────────────────────────────────
+  sitemap.xml — 검색엔진에게 주는 "내 사이트 페이지 목록(지도)"
+  이 파일은 "사이트 루트"에 두어야 합니다.
+    예) https://내사이트.com/sitemap.xml 로 열려야 함
+  (Vercel/정적 사이트라면 public 폴더에 두면 루트로 올라갑니다)
+
+  ▶ 아래의 "https://내사이트.com" 부분을 전부 내 실제 도메인으로 바꾸세요.
+  ▶ 페이지가 더 있으면 <url>...</url> 묶음을 복사해 늘리고,
+    없는 페이지는 통째로 지우면 됩니다.
+  ─────────────────────────────────────────────
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- 1) 메인(홈) 페이지 -->
+  <url>
+    <loc>https://내사이트.com/</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 2) 소개 페이지 -->
+  <url>
+    <loc>https://내사이트.com/about</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 3) 글/블로그 목록 페이지 -->
+  <url>
+    <loc>https://내사이트.com/blog</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 4) 문의 페이지 -->
+  <url>
+    <loc>https://내사이트.com/contact</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

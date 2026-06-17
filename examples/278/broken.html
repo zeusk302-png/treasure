@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>좋아요 카운터 — (고장난 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #eef1f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 48px 16px;
+    }
+    .count {
+      font-size: 48px;
+      font-weight: bold;
+      color: #6c4ad6;
+    }
+    button {
+      font-size: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #6c4ad6;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:active { transform: scale(0.96); }
+  </style>
+</head>
+<body>
+  <h1>좋아요 카운터</h1>
+  <p class="count" id="count">0</p>
+  <button id="likeBtn">좋아요 +1</button>
+  <button id="resetBtn">리셋</button>
+
+  <script>
+    // 이 스크립트에는 '구문 오류(SyntaxError)'가 일부러 들어 있습니다.
+    // 구문 오류가 한 곳이라도 있으면 브라우저는 스크립트 '전체'를 실행하지 않습니다.
+    // 그래서 아래 버튼 두 개가 모두 먹통이 됩니다. (한 줄이 깨지면 전부 멈춥니다)
+
+    let count = 0
+
+    const countEl = document.getElementById("count");
+    const likeBtn = document.getElementById("likeBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // BUG ①: 문자열의 따옴표가 짝이 안 맞습니다.
+    //         시작은 큰따옴표("click)인데 닫는 따옴표가 없어서 SyntaxError가 납니다.
+    likeBtn.addEventListener("click, function () {
+      count = count + 1;
+      countEl.textContent = count;
+    });
+
+    // BUG ②: 아래 줄 끝에 문장이 끝났다는 표시(중괄호 닫기 등)가 빠졌습니다.
+    //         resetBtn 의 클릭 함수 본문을 닫는 '}' 와 ')' 가 빠져 있습니다.
+    resetBtn.addEventListener("click", function () {
+      count = 0;
+      countEl.textContent = count;
+
+  </script>
+</body>
+</html>
