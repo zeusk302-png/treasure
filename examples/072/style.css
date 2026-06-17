@@ -1,0 +1,114 @@
+/* 화면 전체 기본 설정: 카드 하나를 가운데에 띄웁니다. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  color: #1f2937;
+}
+
+/* 가운데 흰색 카드 (토스트를 띄우는 버튼이 들어 있는 평소 화면) */
+.card {
+  background: #ffffff;
+  padding: 28px 32px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 360px;
+  text-align: center;
+}
+
+.card h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.desc {
+  margin: 0 0 20px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 버튼 두 개를 가로로 나란히 */
+.btn-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.action-btn {
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.action-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ===== 토스트가 쌓이는 자리(컨테이너) ===== */
+/*
+  position: fixed → 스크롤과 상관없이 화면 기준 위치에 항상 고정됩니다.
+  bottom/right로 화면 오른쪽 아래에 둡니다.
+  flex + column → 알림이 여러 개면 위아래로 차곡차곡 쌓입니다.
+  pointer-events: none → 빈 컨테이너가 뒤 버튼 클릭을 가로막지 않게 합니다.
+  z-index: 1000 → 다른 요소들보다 위에 겹쳐 보이게 합니다.
+*/
+.toast-box {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* ===== 토스트 한 칸 ===== */
+/*
+  처음 만들어질 때는 .toast 상태(아래로 살짝 내려가 있고 투명)로 시작합니다.
+  잠시 뒤 JS가 .show 클래스를 붙이면 제자리로 올라오며 또렷하게 나타납니다(아래 .toast.show).
+  transition 덕분에 이 변화가 '스르륵' 부드럽게 일어납니다.
+*/
+.toast {
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;                 /* 처음엔 투명(안 보임) */
+  transform: translateY(12px);/* 처음엔 살짝 아래에 */
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* show가 붙으면: 또렷하게(opacity 1) + 제자리로(translateY 0) */
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 왼쪽 점/아이콘 자리 (성공=초록) */
+.toast .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}

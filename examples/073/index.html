@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이미지 갤러리 라이트박스</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>이미지 갤러리 라이트박스</h1>
+  <p class="desc">아래 작은 사진(썸네일)을 누르면 큰 화면으로 떠요. 좌우 버튼으로 사진을 넘겨보세요.</p>
+
+  <!--
+    썸네일 갤러리.
+    - 각 사진은 button으로 감쌌습니다. (버튼은 키보드 Tab/Enter로도 누를 수 있어요)
+    - data-index 에 "이 사진이 몇 번째인지"를 적어 둡니다. 자바스크립트가 이 숫자를 읽어 큰 사진을 띄웁니다.
+    - 이미지는 인터넷 연결 없이도 보이도록 색만 채운 그림(SVG)을 src 에 직접 넣었습니다.
+  -->
+  <div class="gallery" id="gallery">
+    <button class="thumb" data-index="0" aria-label="1번 사진 크게 보기">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%23ef4444'/><text x='200' y='160' font-size='48' fill='white' text-anchor='middle' font-family='sans-serif'>1</text></svg>" alt="빨강 그림 1번" />
+    </button>
+    <button class="thumb" data-index="1" aria-label="2번 사진 크게 보기">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%23f59e0b'/><text x='200' y='160' font-size='48' fill='white' text-anchor='middle' font-family='sans-serif'>2</text></svg>" alt="주황 그림 2번" />
+    </button>
+    <button class="thumb" data-index="2" aria-label="3번 사진 크게 보기">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%2310b981'/><text x='200' y='160' font-size='48' fill='white' text-anchor='middle' font-family='sans-serif'>3</text></svg>" alt="초록 그림 3번" />
+    </button>
+    <button class="thumb" data-index="3" aria-label="4번 사진 크게 보기">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%233b82f6'/><text x='200' y='160' font-size='48' fill='white' text-anchor='middle' font-family='sans-serif'>4</text></svg>" alt="파랑 그림 4번" />
+    </button>
+    <button class="thumb" data-index="4" aria-label="5번 사진 크게 보기">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='%238b5cf6'/><text x='200' y='160' font-size='48' fill='white' text-anchor='middle' font-family='sans-serif'>5</text></svg>" alt="보라 그림 5번" />
+    </button>
+  </div>
+
+  <!--
+    라이트박스(큰 사진을 띄우는 모달).
+    - 처음에는 hidden 속성으로 숨겨져 있습니다.
+    - overlay(검은 배경)를 누르거나, X 버튼, 또는 키보드 ESC 로 닫습니다.
+    - ‹ › 버튼으로 이전/다음 사진으로 넘깁니다.
+  -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="close" id="closeBtn" aria-label="닫기">&times;</button>
+    <button class="nav prev" id="prevBtn" aria-label="이전 사진">&#8249;</button>
+
+    <figure class="stage">
+      <!-- 여기 src 가 자바스크립트로 바뀌면서 사진이 교체됩니다 -->
+      <img id="lightboxImg" src="" alt="" />
+      <figcaption id="counter">1 / 5</figcaption>
+    </figure>
+
+    <button class="nav next" id="nextBtn" aria-label="다음 사진">&#8250;</button>
+  </div>
+
+  <!-- 화면(HTML)을 다 만든 뒤에 자바스크립트를 불러옵니다 -->
+  <script src="script.js"></script>
+</body>
+</html>

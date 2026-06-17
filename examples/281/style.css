@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  font-family: "맑은 고딕", sans-serif;
+  background: #fdf6ec;
+  color: #3a2e22;
+}
+
+/*
+  FIX 2: width: 1200px (고정) → max-width: 1200px (최대값)
+  - width: 1200px 는 "무조건 1200px 차지" → 좁은 휴대폰 화면을 뚫고 나감(가로 스크롤).
+  - max-width: 1200px 는 "최대 1200px 까지만, 화면이 더 좁으면 화면에 맞춤" 입니다.
+  - width: 100% 를 함께 주면 좁은 화면에서 가로 여백 없이 꽉 차게 됩니다.
+  - box-sizing: border-box 로 padding 을 포함해 너비를 계산해, padding 때문에
+    너비가 화면을 넘어 삐져나가는 일을 막습니다.
+*/
+.page {
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.hero {
+  background: #ffb703;
+  color: #3a2e22;
+  padding: 48px 32px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+}
+
+.menu {
+  display: flex;
+  /* flex-wrap: wrap 으로 좁은 화면에서 메뉴 카드가 줄바꿈되어 세로로 쌓이게 합니다. */
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.menu .item {
+  /*
+    flex: 1 1 200px → 한 줄에 다 못 들어가면 자동으로 다음 줄로 내려갑니다.
+    (좁은 화면에서 카드들이 가로로 무리하게 늘어서 넘치는 것을 방지)
+  */
+  flex: 1 1 200px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/*
+  FIX 3: width: 1000px (고정) → max-width: 100%
+  - 이미지가 부모(.page)의 폭을 절대 넘지 않게 합니다.
+  - height: auto 로 가로세로 비율을 유지합니다.
+*/
+.photo {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 14px;
+  color: #8a7a66;
+}

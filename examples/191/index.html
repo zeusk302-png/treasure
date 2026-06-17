@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>키보드만으로 돌아다니기 - 접근성 점검 페이지</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!--
+    이 페이지의 목표
+    - 마우스를 치워 두고 Tab / Shift+Tab / Enter / Space 키만으로
+      모든 링크·버튼·입력칸에 "닿을 수 있는지" 점검합니다.
+    - 지금 어디에 포커스(파란 초점)가 있는지 눈으로 보이도록
+      style.css에서 :focus-visible로 외곽선을 되살려 둡니다.
+
+    핵심: 화면 맨 위 '본문 바로가기'는 Tab을 눌렀을 때 가장 먼저
+          잡히는 링크입니다. 누르면 긴 메뉴를 건너뛰고 본문으로 점프합니다.
+  -->
+
+  <!-- 1) 건너뛰기 링크: 평소엔 화면 밖에 숨어 있다가, Tab으로 포커스되면 나타납니다. -->
+  <a href="#main" class="skip-link">본문 바로가기</a>
+
+  <header class="site-header">
+    <nav aria-label="주요 메뉴">
+      <ul class="nav-list">
+        <li><a href="#home">홈</a></li>
+        <li><a href="#about">소개</a></li>
+        <li><a href="#service">서비스</a></li>
+        <li><a href="#contact">문의</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 2) 본문 시작 지점. 건너뛰기 링크가 여기로 점프합니다. -->
+  <main id="main" class="content">
+    <h1>키보드만으로 사이트 돌아다니기</h1>
+
+    <p class="lead">
+      지금부터 <strong>마우스를 손에서 놓고</strong>
+      <kbd>Tab</kbd> 키만으로 아래 요소들을 순서대로 지나가 보세요.
+      파란 외곽선이 "지금 내가 여기 있다"를 알려줍니다.
+    </p>
+
+    <section id="home" aria-labelledby="home-title">
+      <h2 id="home-title">1. 링크 만져보기</h2>
+      <p>
+        문서 안의 링크도 Tab으로 닿아야 합니다.
+        <a href="https://www.w3.org/WAI/" target="_blank" rel="noopener">웹 접근성 안내(W3C WAI)</a>로
+        이동하는 링크와
+        <a href="#contact">아래 문의 영역으로 가는 링크</a>를 지나가 보세요.
+      </p>
+    </section>
+
+    <section id="service" aria-labelledby="service-title">
+      <h2 id="service-title">2. 버튼 만져보기</h2>
+      <p>
+        버튼은 <kbd>Enter</kbd> 또는 <kbd>Space</kbd>로 눌립니다.
+        아래 버튼에 포커스를 옮긴 뒤 직접 눌러 보세요.
+      </p>
+      <div class="button-row">
+        <button type="button" class="btn" id="hello-btn">눌러서 인사하기</button>
+        <button type="button" class="btn btn-secondary" id="count-btn">
+          클릭 수: <span id="count">0</span>
+        </button>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">3. 폼 만져보기</h2>
+      <p>입력칸도 모두 Tab으로 닿아야 하고, 라벨을 클릭/포커스할 수 있어야 합니다.</p>
+
+      <form id="contact-form" class="form" novalidate>
+        <div class="field">
+          <label for="name">이름</label>
+          <input type="text" id="name" name="name" placeholder="홍길동" required>
+        </div>
+
+        <div class="field">
+          <label for="email">이메일</label>
+          <input type="email" id="email" name="email" placeholder="me@example.com" required>
+        </div>
+
+        <div class="field">
+          <label for="message">메시지</label>
+          <textarea id="message" name="message" rows="3" placeholder="하고 싶은 말을 적어 주세요"></textarea>
+        </div>
+
+        <div class="field field-checkbox">
+          <input type="checkbox" id="agree" name="agree">
+          <label for="agree">개인정보 수집에 동의합니다</label>
+        </div>
+
+        <button type="submit" class="btn">보내기</button>
+      </form>
+      <p id="form-result" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="#main">맨 위(본문)로 돌아가기</a>
+      · 키보드 접근성 연습 페이지
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

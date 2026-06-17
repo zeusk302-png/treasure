@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문의하기 — 시트에 저장 + 알림 받기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>문의하기</h1>
+    <p class="lead">
+      아래 폼을 작성해 보내면, 내용이 구글 시트에 한 줄씩 쌓이고
+      동시에 슬랙(또는 메일)으로 알림이 갑니다.
+    </p>
+
+    <!-- 폼 자체는 205 실습과 똑같습니다. 같은 데이터를 보내고,
+         n8n 쪽에서 '받는 곳'을 한 군데(시트) 더 늘린 것이 이번 실습입니다. -->
+    <form id="contactForm" novalidate>
+      <label for="name">이름</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="홍길동"
+        required
+        minlength="2"
+      />
+
+      <label for="email">이메일</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+      />
+
+      <label for="message">문의 내용</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="5"
+        placeholder="궁금한 점이나 하고 싶은 말을 적어 주세요."
+        required
+        minlength="5"
+      ></textarea>
+
+      <button type="submit" id="submitBtn">보내기</button>
+
+      <!-- 제출 결과(성공/실패)를 사용자에게 보여 주는 영역입니다. -->
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

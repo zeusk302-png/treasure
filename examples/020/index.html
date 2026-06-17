@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>style 속성으로 글자 색·크기 바꾸기</title>
+</head>
+<body>
+
+  <!--
+    이 실습의 핵심은 "인라인 스타일"입니다.
+    별도의 CSS 파일이나 <style> 태그를 쓰지 않고,
+    각 태그 안에 style="..." 를 직접 적어서 글자를 꾸밉니다.
+
+    문법: style="속성: 값; 속성: 값;"
+      - color      : 글자 색  (예: red, #2563eb, rgb(37,99,235))
+      - font-size  : 글자 크기 (예: 32px, 1.2em)
+    여러 속성은 세미콜론( ; )으로 구분합니다.
+  -->
+
+  <!-- 1) 제목의 글자 색과 크기를 한 번에 바꾸기 -->
+  <h1 style="color: #2563eb; font-size: 40px;">
+    안녕하세요, 인라인 스타일입니다 👋
+  </h1>
+
+  <!-- 2) 문단 글자 색만 바꾸기 (회색) -->
+  <p style="color: #6b7280;">
+    이 문단은 <strong>color</strong> 속성으로 글자 색만 회색으로 바꿨습니다.
+    크기는 건드리지 않아서 브라우저 기본 크기 그대로입니다.
+  </p>
+
+  <!-- 3) 문단 글자 크기만 키우기 -->
+  <p style="font-size: 24px;">
+    이 문단은 <strong>font-size</strong> 속성으로 글자 크기만 24px로 키웠습니다.
+  </p>
+
+  <!-- 4) 색과 크기를 둘 다 주기 (세미콜론으로 구분) -->
+  <p style="color: #dc2626; font-size: 20px;">
+    이 문단은 빨간색(#dc2626) + 20px 입니다. 속성 두 개를 세미콜론으로 이어 적었어요.
+  </p>
+
+  <!-- 5) 색 이름(영어 단어)으로도 쓸 수 있다 -->
+  <p style="color: green;">
+    색은 이렇게 <strong>green</strong>, <span style="color: orange;">orange</span> 같은
+    영어 단어로도 지정할 수 있습니다.
+  </p>
+
+  <!-- 6) 문장 일부분만 꾸미기 (span 안에 style) -->
+  <p style="font-size: 18px;">
+    문장 전체가 아니라
+    <span style="color: #7c3aed; font-size: 28px;">이 부분만</span>
+    크게·보라색으로 강조할 수도 있습니다.
+  </p>
+
+  <!-- 7) 직접 바꿔보세요: 아래 값을 수정하며 변화를 관찰합니다 -->
+  <p style="color: #111827; font-size: 16px;">
+    👉 직접 실습: 위 태그들의 color 값과 font-size 숫자를 바꿔 저장한 뒤,
+    브라우저에서 새로고침(F5)해 어떻게 달라지는지 확인해 보세요.
+  </p>
+
+</body>
+</html>

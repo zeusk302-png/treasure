@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>토스트 알림</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>토스트 알림 데모</h1>
+    <p class="desc">아래 버튼을 누르면 화면 아래쪽에 작은 알림이 떴다가 3초 뒤 스스로 사라집니다.</p>
+
+    <!--
+      '토스트(toast)'는 화면 모서리에 잠깐 나타났다가 스스로 사라지는 작은 알림입니다.
+      식빵이 토스터에서 '톡' 튀어나오는 모습 같다고 해서 붙은 이름입니다.
+      "저장됨", "복사 완료", "전송했어요" 같은 짧은 안내에 자주 씁니다.
+      핵심은 두 가지입니다.
+        1) 버튼을 누르면 알림을 화면에 보이게 한다.
+        2) setTimeout 으로 '3초 뒤에' 다시 숨기는 동작을 예약한다.
+    -->
+
+    <!-- 1) 토스트를 띄우는 버튼들 -->
+    <div class="btn-row">
+      <button id="saveBtn" class="action-btn">저장하기</button>
+      <button id="copyBtn" class="action-btn">링크 복사</button>
+    </div>
+  </main>
+
+  <!--
+    2) 토스트가 들어갈 자리(컨테이너)
+       처음에는 비어 있습니다. 버튼을 누를 때마다 JS가 이 안에 알림 한 칸을 만들어 넣습니다.
+       role="status" / aria-live="polite": 보조기기(스크린리더)에 '여기 새 안내가 생겼다'고 부드럽게 알립니다.
+  -->
+  <div id="toastBox" class="toast-box" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

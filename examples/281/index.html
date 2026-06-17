@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+
+  <!--
+    FIX 1: viewport 메타 태그를 추가했습니다.
+    width=device-width  → "화면을 기기(휴대폰) 실제 너비에 맞춰 그려라"
+    initial-scale=1.0   → "처음에 확대/축소 없이 100%로 보여라"
+    이 한 줄이 있어야 휴대폰이 페이지를 축소하지 않고 제 폭에 맞게 그립니다.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>우리 동네 빵집 — (고친 정답 버전)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!--
+    FIX 요약:
+    1) viewport 메타 태그를 추가해 휴대폰이 페이지를 실제 화면 너비로 그리게 함.
+    2) .page 의 width: 1200px → max-width: 1200px 로 바꿔, 화면이 좁으면 화면에 맞게 줄어들게 함.
+    3) .photo 이미지의 width: 1000px → max-width: 100% 로 바꿔, 이미지가 화면 폭을 넘지 않게 함.
+    → 이제 휴대폰에서 열어도 가로 스크롤이 생기지 않습니다.
+  -->
+  <div class="page">
+    <section class="hero">
+      <h1>우리 동네 빵집, 보리</h1>
+      <p>매일 아침 직접 굽는 따끈한 빵을 만나보세요.</p>
+    </section>
+
+    <div class="menu">
+      <div class="item"><strong>소금빵</strong><p>겉바속촉 인기 1위</p></div>
+      <div class="item"><strong>크루아상</strong><p>버터 향 가득</p></div>
+      <div class="item"><strong>단팥빵</strong><p>국산 팥 듬뿍</p></div>
+    </div>
+
+    <img
+      class="photo"
+      src="https://placehold.co/1000x400/ffb703/3a2e22?text=Bakery"
+      alt="빵집 내부 사진"
+    />
+
+    <p class="footer">© 2026 보리 베이커리 · 부산광역시</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+/*
+  ============================================================
+  키보드 접근성의 핵심 = "지금 어디에 포커스가 있는지" 보이게 하기
+  ============================================================
+
+  브라우저는 원래 포커스된 요소에 파란/검은 외곽선(focus ring)을
+  자동으로 그려 줍니다. 그런데 "보기 싫다"는 이유로 아래처럼
+  지워 버리는 코드가 인터넷에 정말 많습니다. 절대 따라 하지 마세요!
+
+  --- 절대 하면 안 되는 코드 (예시) ---
+    *:focus { outline: none; }
+  이렇게 하면 마우스 사용자는 모르지만,
+  키보드 사용자는 '내가 지금 어디 있는지' 전혀 알 수 없게 됩니다.
+
+  이 파일은 반대로, 포커스 표시를 "더 잘 보이게" 되살립니다.
+*/
+
+/* ---------- 기본 꾸미기 (접근성과 직접 관련 없는 부분) ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f9fafb;
+}
+
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+h1 {
+  font-size: 1.8rem;
+}
+
+h2 {
+  margin-top: 40px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
+.lead {
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+kbd {
+  background: #111827;
+  color: #fff;
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-size: 0.85em;
+  font-family: monospace;
+}
+
+/* ---------- 헤더 / 메뉴 ---------- */
+.site-header {
+  background: #1f2937;
+}
+
+.nav-list {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 8px 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.nav-list a {
+  display: inline-block;
+  color: #e5e7eb;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.nav-list a:hover {
+  background: #374151;
+}
+
+/* ---------- 버튼 ---------- */
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #6b7280;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+}
+
+/* ---------- 폼 ---------- */
+.form {
+  display: grid;
+  gap: 16px;
+  max-width: 420px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  font-size: 1rem;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.status {
+  min-height: 1.4em;
+  font-weight: 600;
+  color: #15803d;
+}
+
+/* ---------- 푸터 ---------- */
+.site-footer {
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/*
+  ============================================================
+  ★ 여기가 이번 실습의 핵심 ★  포커스 표시 되살리기
+  ============================================================
+
+  :focus-visible 는 "키보드로 포커스했을 때만" 적용되는 선택자입니다.
+  - 마우스로 버튼을 클릭했을 때는 외곽선이 안 떠서 깔끔하고,
+  - Tab 키로 이동했을 때만 또렷한 파란 외곽선이 떠서
+    키보드 사용자가 위치를 알 수 있습니다.
+
+  모든 상호작용 요소(링크/버튼/입력칸)에 한 번에 적용합니다.
+*/
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #f59e0b;   /* 또렷한 주황색 외곽선 */
+  outline-offset: 2px;          /* 요소에서 살짝 떨어뜨려 더 잘 보이게 */
+  border-radius: 6px;
+}
+
+/*
+  참고: :focus-visible 를 모르는 아주 오래된 브라우저를 위해
+  :focus 도 기본값으로 남겨 둡니다. (절대 outline:none 으로 지우지 않기!)
+*/
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #f59e0b;
+}
+
+/*
+  ============================================================
+  건너뛰기 링크(Skip link)
+  ============================================================
+  화면 맨 위에 두지만 평소에는 화면 밖(위쪽)으로 숨겨 둡니다.
+  Tab을 눌러 "포커스"되는 순간에만 화면 안으로 미끄러져 들어옵니다.
+
+  주의: display:none 이나 visibility:hidden 으로 숨기면
+  키보드로도 닿을 수 없게 되므로, 위치(top)로만 밀어 둡니다.
+*/
+.skip-link {
+  position: absolute;
+  top: -48px;            /* 평소엔 화면 위로 숨김 */
+  left: 12px;
+  z-index: 100;
+  background: #f59e0b;
+  color: #111827;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 12px;             /* 포커스되면 화면 안으로 등장 */
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이미지 위에 글자 얹은 히어로 섹션 - position 실습</title>
+  <!-- 같은 폴더에 있는 style.css 파일을 불러옵니다 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== 히어로(hero) 섹션 =====
+       '히어로'는 사이트를 열었을 때 가장 먼저 보이는 큰 대표 배너입니다.
+       구조는 딱 3겹입니다.
+         1) .hero        : 배경 이미지를 깔고, 기준이 되는 '액자' (position: relative)
+         2) .hero-overlay: 사진 위에 덮는 반투명 검은 막 (글자가 잘 보이게)
+         3) .hero-content: 막 위에 얹는 제목/설명/버튼 (position: absolute로 가운데 띄움)
+  -->
+  <section class="hero">
+    <!-- 사진을 살짝 어둡게 덮어 글자 가독성을 높이는 반투명 막 -->
+    <div class="hero-overlay"></div>
+
+    <!-- 사진 위에 '떠 있는' 실제 내용 -->
+    <div class="hero-content">
+      <h1>부산에서 만나는<br />당신의 첫 웹사이트</h1>
+      <p>비전공자도 따라 만드는 한 장짜리 랜딩페이지</p>
+      <a class="hero-button" href="#start">지금 시작하기</a>
+    </div>
+  </section>
+
+  <!-- 히어로 아래에 이어지는 본문(스크롤 비교용) -->
+  <main id="start" class="page-body">
+    <h2>히어로 아래 본문 영역</h2>
+    <p>
+      위쪽 큰 배너가 바로 '히어로 섹션'입니다.
+      사진 한 장 위에 제목과 버튼이 깔끔하게 얹혀 있죠.
+      이 영역은 그 아래에 이어지는 평범한 본문입니다.
+    </p>
+  </main>
+</body>
+</html>

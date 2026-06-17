@@ -1,0 +1,134 @@
+/* ===== 페이지 전체 기본 스타일 ===== */
+* {
+  box-sizing: border-box; /* padding/border가 너비에 더해지지 않게 (계산이 쉬워짐) */
+}
+
+body {
+  font-family: "Pretendard", "맑은 고딕", sans-serif;
+  margin: 0;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* ===== 여기가 이번 실습의 핵심! =====
+   .layout 이 '페이지 전체 격자판'입니다.
+
+   1) display: grid           -> 이 박스를 격자로 만든다.
+   2) grid-template-columns   -> 가로를 어떻게 나눌지: 왼쪽 메뉴 220px 고정, 본문은 남는 공간 전부(1fr)
+   3) grid-template-rows      -> 세로를 어떻게 나눌지: 헤더 자동높이, 본문 1fr(남는만큼), 푸터 자동높이
+   4) grid-template-areas     -> 칸을 '그림 그리듯' 배치한다. 따옴표 한 줄이 한 '행(가로줄)'.
+                                 같은 이름을 옆에 두 번 쓰면 그 칸은 가로로 합쳐진다.
+
+      "header  header"   <- 첫 번째 행: 헤더가 두 칸을 가로로 차지(맨 위 전체)
+      "sidebar main"     <- 두 번째 행: 왼쪽은 sidebar, 오른쪽은 main
+      "footer  footer"   <- 세 번째 행: 푸터가 두 칸을 가로로 차지(맨 아래 전체)
+
+   각 자식 요소는 grid-area 로 자기 '이름표'를 가지고 있어서,
+   위 그림에서 자기 이름이 적힌 칸으로 알아서 들어갑니다. */
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer";
+  gap: 12px;                 /* 칸과 칸 사이 간격 */
+  min-height: 100vh;         /* 화면 높이를 꽉 채워서 푸터가 바닥에 붙게 */
+  padding: 12px;
+}
+
+/* ===== 각 영역에 '이름표(grid-area)'를 붙여 줍니다 =====
+   이 이름이 위 grid-template-areas 그림의 칸 이름과 짝지어집니다. */
+.header {
+  grid-area: header;   /* 그림에서 header 라고 적힌 칸으로 들어감 */
+  background-color: #3949ab;
+  color: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.sidebar {
+  grid-area: sidebar;  /* 그림에서 sidebar 칸으로 들어감 */
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: #3949ab;
+}
+
+.sidebar ul {
+  list-style: none;  /* 점(•) 제거 */
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sidebar li:hover {
+  background-color: #eef2ff;  /* 마우스를 올리면 살짝 강조 */
+}
+
+.main {
+  grid-area: main;     /* 그림에서 main 칸으로 들어감 */
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.main h2 {
+  margin-top: 0;
+}
+
+.main p {
+  line-height: 1.7;
+  color: #555;
+}
+
+.footer {
+  grid-area: footer;   /* 그림에서 footer 칸으로 들어감 */
+  background-color: #263238;
+  color: #cfd8dc;
+  text-align: center;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.footer p {
+  margin: 0;
+}
+
+/* ===== 모바일(좁은 화면)에서는 골격을 세로로 다시 그립니다 =====
+   놀라운 점: 자식 요소의 grid-area(이름표)는 그대로 두고,
+   부모의 grid-template-areas '그림'만 바꾸면 배치가 통째로 바뀝니다.
+
+   좁은 화면(700px 이하)에서는 한 칸짜리(세로 1열)로 만들고
+   헤더 -> 메뉴 -> 본문 -> 푸터 순서로 위에서 아래로 쌓습니다. */
+@media (max-width: 700px) {
+  .layout {
+    grid-template-columns: 1fr;          /* 가로를 한 칸으로 */
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+}

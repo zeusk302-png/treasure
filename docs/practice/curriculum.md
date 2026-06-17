@@ -1,6 +1,6 @@
 # 실습 300선 — 1년 커리큘럼
 
-> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 142 / 305 준비됨)**
+> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 158 / 305 준비됨)**
 
 !!! tip "난이도 읽는 법"
     ★ 입문 · ★★ 기초 · ★★★ 중급 · ★★★★ 응용 · ★★★★★ 종합·프로젝트
@@ -47,8 +47,8 @@
 | 017 | 이번 주 시간표(표) 만들기 | table·tr·th·td로 요일과 시간이 들어간 시간표를 만들며 행·열·머리글로 이루어진 표의 기본 구조를 익힌다 | ★★★☆☆ | 표(table/tr/th/td) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/017) |
 | 018 | 셀 병합으로 가격표 만들기 | colspan·rowspan으로 셀을 가로·세로로 합친 요금제 비교 표를 만들며 표의 셀 병합 기법을 익힌다 | ★★★☆☆ | 셀 병합(colspan/rowspan) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/018) |
 | 019 | 표에 머리·본문·바닥 구역과 캡션 붙이기 | caption·thead·tbody·tfoot로 합계 행이 분리된 정돈된 가계부 표를 만들며 표의 의미적 구역 나누기를 익힌다 | ★★★☆☆ | 표 구역(thead/tbody/tfoot/caption) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/019) |
-| 020 | style 속성으로 글자 색·크기 바꾸기 | 태그의 style 속성에 color·font-size를 직접 써서 제목과 문단의 글자를 꾸미며 인라인 스타일의 기본을 익힌다 | ★★★★☆ | 인라인 스타일, color/font-size | 준비중 |
-| 021 | 배경색·여백·테두리로 알림 박스 만들기 | div에 인라인 style로 background·padding·border를 주어 색 있는 안내 박스를 만들며 박스 꾸미기 속성을 익힌다 | ★★★★☆ | background/padding/border | 준비중 |
+| 020 | style 속성으로 글자 색·크기 바꾸기 | 태그의 style 속성에 color·font-size를 직접 써서 제목과 문단의 글자를 꾸미며 인라인 스타일의 기본을 익힌다 | ★★★★☆ | 인라인 스타일, color/font-size | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/020) |
+| 021 | 배경색·여백·테두리로 알림 박스 만들기 | div에 인라인 style로 background·padding·border를 주어 색 있는 안내 박스를 만들며 박스 꾸미기 속성을 익힌다 | ★★★★☆ | background/padding/border | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/021) |
 | 022 | 인라인 스타일로 상품 소개 카드 디자인하기 | 이미지·제목·설명·가격을 한 박스에 모으고 둥근 모서리·그림자·정렬을 인라인 스타일로 입혀 카드 UI를 만든다 | ★★★★☆ | border-radius/box-shadow/text-align | 준비중 |
 | 023 | 줄무늬 배경과 테두리로 가독성 좋은 표 꾸미기 | 표의 th·td에 인라인 style로 테두리·배경·여백을 주어 한 줄 걸러 색이 다른 읽기 쉬운 표를 만든다 | ★★★★☆ | 표 스타일링(border/background) | 준비중 |
 | 024 | 한 화면 자기소개 페이지(프로필) 종합 완성하기 | header·main·footer, 프로필 이미지, 링크, 소개 문단, 기술 목록, 인라인 스타일을 모두 합쳐 완성형 1페이지 프로필을 만든다 | ★★★★★ | 시맨틱+이미지+링크+목록 종합 | 준비중 |
@@ -74,8 +74,8 @@
 | 039 | grid로 사진 4장 2×2 갤러리 만들기 | display:grid와 grid-template-columns로 2열 격자를 만들어 이미지 갤러리를 배치하며 grid의 기본 행/열 개념을 익힌다 | ★★★☆☆ | display:grid, grid-template-columns | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/039) |
 | 040 | fr 단위로 비율 나눈 대시보드 격자 만들기 | 1fr 2fr 1fr 같은 fr 단위와 gap으로 영역 크기를 비율로 나눠 대시보드형 격자를 만들며 fr과 grid gap을 익힌다 | ★★★☆☆ | fr 단위, grid gap | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/040) |
 | 041 | auto-fit·minmax로 카드 수가 자동 조절되는 그리드 | repeat(auto-fit, minmax(...))로 화면 너비에 따라 카드 열 개수가 자동으로 늘고 주는 반응형 카드 그리드를 만든다 | ★★★★☆ | repeat, auto-fit, minmax | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/041) |
-| 042 | grid-area로 헤더·사이드·본문·푸터 전체 페이지 골격 짜기 | grid-template-areas로 이름 붙인 영역을 배치해 헤더-사이드바-본문-푸터의 전체 페이지 레이아웃 골격을 완성한다 | ★★★★☆ | grid-template-areas, grid-area | 준비중 |
-| 043 | 이미지 위에 글자 얹은 히어로 섹션 만들기 | position:relative/absolute와 배경 이미지·반투명 오버레이로 첫 화면 히어로(대표 배너)에 제목·버튼을 얹는 레이아웃을 익힌다 | ★★★★☆ | position relative/absolute, 히어로 | 준비중 |
+| 042 | grid-area로 헤더·사이드·본문·푸터 전체 페이지 골격 짜기 | grid-template-areas로 이름 붙인 영역을 배치해 헤더-사이드바-본문-푸터의 전체 페이지 레이아웃 골격을 완성한다 | ★★★★☆ | grid-template-areas, grid-area | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/042) |
+| 043 | 이미지 위에 글자 얹은 히어로 섹션 만들기 | position:relative/absolute와 배경 이미지·반투명 오버레이로 첫 화면 히어로(대표 배너)에 제목·버튼을 얹는 레이아웃을 익힌다 | ★★★★☆ | position relative/absolute, 히어로 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/043) |
 | 044 | 스크롤해도 위에 붙어 있는 스티키 내비바 | position:sticky와 top:0으로 스크롤 시 상단에 고정되는 내비게이션 바를 만들며 sticky와 z-index를 익힌다 | ★★★★☆ | position:sticky, z-index | 준비중 |
 | 045 | 오른쪽 아래 떠 있는 플로팅 액션 버튼(FAB) | position:fixed로 화면 모서리에 항상 떠 있는 둥근 버튼을 만들며 fixed 포지셔닝과 위치 지정(right/bottom)을 익힌다 | ★★★★☆ | position:fixed, FAB | 준비중 |
 | 046 | 미디어쿼리로 모바일에서 메뉴 세로로 쌓기 | @media (max-width) 분기로 작은 화면에서 가로 메뉴를 세로로 바꾸며 반응형 분기점(breakpoint) 개념을 익힌다 | ★★★★☆ | 미디어쿼리, breakpoint | 준비중 |
@@ -109,8 +109,8 @@
 | 069 | 탭 메뉴 만들기 (탭 클릭 시 내용 전환) | 탭 버튼을 누르면 해당 패널만 보이고 나머지는 숨겨지게 해 'data 속성으로 짝 맞추기' 패턴을 배운다 | ★★★☆☆ | data-* 속성, 활성 패널 전환 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/069) |
 | 070 | 드롭다운 메뉴 만들기 (바깥 클릭 시 닫힘) | 버튼을 누르면 메뉴가 펼쳐지고 바깥을 클릭하면 닫히게 해 이벤트 버블링과 document 클릭 감지를 배운다 | ★★★☆☆ | 이벤트 버블링, document click | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/070) |
 | 071 | 모달 팝업 창 만들기 (열기/닫기/오버레이) | 버튼으로 팝업을 띄우고 X·오버레이·ESC로 닫히게 해 화면 위에 띄우는 레이어와 키보드 이벤트를 다룬다 | ★★★☆☆ | 모달, keydown(ESC), 오버레이 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/071) |
-| 072 | 토스트 알림 만들기 (3초 후 자동 사라짐) | 버튼을 누르면 '저장됨' 알림이 떴다가 잠시 후 사라지게 해 setTimeout으로 시간차 동작을 만든다 | ★★★☆☆ | setTimeout, 임시 메시지 | 준비중 |
-| 073 | 이미지 갤러리 라이트박스 만들기 | 썸네일을 누르면 큰 이미지가 모달로 뜨고 좌우 버튼으로 넘기게 해 클릭한 요소의 데이터를 읽어 활용한다 | ★★★☆☆ | 이미지 src 교체, 인덱스 이동 | 준비중 |
+| 072 | 토스트 알림 만들기 (3초 후 자동 사라짐) | 버튼을 누르면 '저장됨' 알림이 떴다가 잠시 후 사라지게 해 setTimeout으로 시간차 동작을 만든다 | ★★★☆☆ | setTimeout, 임시 메시지 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/072) |
+| 073 | 이미지 갤러리 라이트박스 만들기 | 썸네일을 누르면 큰 이미지가 모달로 뜨고 좌우 버튼으로 넘기게 해 클릭한 요소의 데이터를 읽어 활용한다 | ★★★☆☆ | 이미지 src 교체, 인덱스 이동 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/073) |
 | 074 | 별점(★) 평점 입력 위젯 만들기 | 별 위에 마우스를 올리면 미리보기, 클릭하면 점수가 고정되게 해 mouseover/mouseout과 클릭을 조합한다 | ★★★☆☆ | mouseover/mouseout, 인덱스 기반 채움 | 준비중 |
 | 075 | 이미지 슬라이더 만들기 (이전/다음 버튼) | 여러 이미지를 좌우 버튼으로 한 장씩 넘기고 끝에서 처음으로 순환되게 해 배열 인덱스로 화면을 제어한다 | ★★★★☆ | 배열, 인덱스 순환, transform | 준비중 |
 | 076 | 자동 재생 캐러셀 만들기 (점 인디케이터 포함) | 슬라이드가 일정 간격으로 자동 넘어가고 하단 점으로 위치를 표시·이동하게 해 타이머와 인덱스 상태를 합친다 | ★★★★☆ | setInterval 자동전환, 인디케이터 동기화 | 준비중 |
@@ -136,7 +136,7 @@
 | 091 | required로 필수 입력 막기 (빈 칸이면 제출 안 됨) | required 속성으로 빈 칸 제출을 브라우저가 막아주는 HTML 기본 검증을 배운다 | ★★☆☆☆ | required, HTML 기본 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/091) |
 | 092 | 이메일 형식·글자 수 제한 검증 (type·minlength·maxlength) | type=email과 minlength/maxlength로 형식과 길이를 코드 없이 검증하는 법을 배운다 | ★★☆☆☆ | type=email, minlength, maxlength | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/092) |
 | 093 | 전화번호 패턴 검증과 안내 메시지 (pattern·title) | pattern 정규식과 title 속성으로 '010-0000-0000' 같은 형식을 강제하고 힌트를 띄운다 | ★★☆☆☆ | pattern, 정규식 기초, title 힌트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/093) |
-| 094 | 에러 안내문에 빨강 테두리·아래 메시지 스타일 입히기 | :invalid, :valid CSS 의사클래스로 잘못된 입력을 시각적으로 표시하는 법을 배운다 | ★★☆☆☆ | :invalid, :valid, focus 스타일 | 준비중 |
+| 094 | 에러 안내문에 빨강 테두리·아래 메시지 스타일 입히기 | :invalid, :valid CSS 의사클래스로 잘못된 입력을 시각적으로 표시하는 법을 배운다 | ★★☆☆☆ | :invalid, :valid, focus 스타일 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/094) |
 | 095 | 입력하는 순간 글자 수 카운터 보여주기 | input 이벤트와 textContent로 타이핑할 때마다 '23/100' 글자 수를 실시간 표시한다 | ★★★☆☆ | input 이벤트, value.length | 준비중 |
 | 096 | 이메일 실시간 검증: 입력 중 형식 맞으면 초록 체크 | JS로 입력값을 정규식 검사해 타이핑 도중 즉시 통과/실패 표시를 띄우는 법을 배운다 | ★★★☆☆ | input 이벤트, 정규식 test(), 실시간 피드백 | 준비중 |
 | 097 | 비밀번호 보기/숨기기 토글 버튼 만들기 | 버튼 클릭으로 input type을 password↔text로 바꿔 눈 아이콘 토글 UX를 구현한다 | ★★★☆☆ | type 속성 변경, click 이벤트, 토글 | 준비중 |
@@ -164,7 +164,7 @@
 | 114 | Supabase 프로젝트 만들고 첫 테이블(memos) 생성하기 | Supabase 가입 후 프로젝트를 만들고 Table Editor로 memos 테이블(id, content, created_at)을 GUI로 만들어 '서버에 표 하나 생기는' 첫 경험하기 | ★★☆☆☆ | Supabase 프로젝트, 테이블 컬럼 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/114) |
 | 115 | Supabase 클라이언트 연결하고 프로젝트 URL·anon key 안전하게 다루기 | CDN으로 supabase-js를 불러와 createClient로 연결하고, anon key가 무엇인지·왜 공개돼도 되는지(RLS 전제)를 이해한 뒤 연결 성공을 콘솔로 확인하기 | ★★★☆☆ | supabase-js, createClient, anon key | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/115) |
 | 116 | 방명록 글 1건 Supabase에 insert 하기 | 이름과 메시지를 입력받아 supabase.from('guestbook').insert()로 서버에 한 줄 저장하고, 대시보드 Table Editor에서 실제로 들어간 것을 눈으로 확인하기 | ★★★☆☆ | insert, from() | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/116) |
-| 117 | 방명록 글 목록 select로 불러와 화면에 그리기 | supabase.from('guestbook').select()로 전체 글을 가져와 forEach로 li를 만들어 목록을 렌더링하고, '서버 데이터를 받아 DOM에 뿌리는' 흐름 완성하기 | ★★★☆☆ | select, 데이터 렌더링 | 준비중 |
+| 117 | 방명록 글 목록 select로 불러와 화면에 그리기 | supabase.from('guestbook').select()로 전체 글을 가져와 forEach로 li를 만들어 목록을 렌더링하고, '서버 데이터를 받아 DOM에 뿌리는' 흐름 완성하기 | ★★★☆☆ | select, 데이터 렌더링 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/117) |
 | 118 | insert 후 목록 자동 새로고침 + async/await로 깔끔하게 만들기 | 글을 등록하면 다시 select 해서 목록이 즉시 갱신되게 하고, 콜백 대신 async/await와 try/catch로 비동기 흐름과 에러 표시를 정리하기 | ★★★☆☆ | async/await, 에러 처리 | 준비중 |
 | 119 | RLS(행 수준 보안) 켜고 읽기/쓰기 정책 추가하기 | 테이블에 RLS를 활성화한 뒤 '누구나 읽기/쓰기 허용' 정책을 추가해, 정책이 없으면 데이터가 안 보이는 이유와 보안의 기본 개념을 체험하기 | ★★★★☆ | RLS, policy | 준비중 |
 | 120 | 할 일 앱을 localStorage에서 Supabase todos 테이블로 이전하기 | 앞서 만든 할 일 배열 구조를 todos 테이블로 옮기고, 추가는 insert·목록은 select로 바꿔 '로컬 앱을 서버 앱으로 마이그레이션'하는 전 과정 경험하기 | ★★★★☆ | 마이그레이션, insert/select | 준비중 |
@@ -194,7 +194,7 @@
 | 139 | 비밀번호 찾기·재설정 메일 흐름 만들기 | resetPasswordForEmail로 재설정 메일을 보내고, 메일 링크로 돌아온 사용자가 updateUser로 새 비밀번호를 저장하는 전체 흐름을 만든다. | ★★★☆☆ | resetPasswordForEmail, 비밀번호 재설정 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/139) |
 | 140 | 구글(소셜) 로그인 버튼 붙이기 | Supabase 대시보드에서 구글 OAuth를 설정하고 signInWithOAuth로 '구글로 계속하기' 버튼을 붙여 소셜 로그인과 리다이렉트 흐름을 이해한다. | ★★★☆☆ | signInWithOAuth, 소셜 로그인, 리다이렉트 URL | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/140) |
 | 141 | 내 메모만 보이는 '비밀 메모장' — RLS로 본인 데이터만 보기 | memos 테이블에 RLS를 켜고 auth.uid() = user_id 정책을 걸어, 로그인한 사람이 자기 메모만 읽고 쓰게 만들며 행 수준 보안을 체험한다. | ★★★★☆ | RLS, auth.uid(), 본인 데이터 격리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/141) |
-| 142 | 다른 사람 데이터가 진짜 안 보이는지 두 계정으로 검증하기 | 계정 A로 만든 메모가 계정 B에서 안 보이는지, URL·콘솔로 직접 시도해도 막히는지 확인하며 'UI 가짜 보안'과 'DB 진짜 보안'의 차이를 검증한다. | ★★★★☆ | RLS 검증, 인가(접근 통제) 테스트 | 준비중 |
+| 142 | 다른 사람 데이터가 진짜 안 보이는지 두 계정으로 검증하기 | 계정 A로 만든 메모가 계정 B에서 안 보이는지, URL·콘솔로 직접 시도해도 막히는지 확인하며 'UI 가짜 보안'과 'DB 진짜 보안'의 차이를 검증한다. | ★★★★☆ | RLS 검증, 인가(접근 통제) 테스트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/142) |
 | 143 | 회원정보 수정 — 닉네임·프로필을 안전하게 바꾸기 | profiles 테이블(또는 user_metadata)을 만들어 updateUser/update로 닉네임을 수정하고, 본인만 자기 프로필을 고치도록 RLS로 막는다. | ★★★★☆ | 회원정보 수정, updateUser, profiles 테이블 | 준비중 |
 | 144 | 역할(role)에 따라 화면 나누기 — 일반회원 vs 관리자 | profiles에 role 컬럼을 두고 admin/user를 구분해, 관리자에게만 '관리 메뉴'를 보여주고 일반회원에겐 숨기는 역할 기반 분기를 만든다. | ★★★★★ | 역할(role), 인가, 역할 기반 UI 분기 | 준비중 |
 | 145 | 관리자만 들어가는 회원 목록 페이지 (역할 + RLS 종합) | RLS 정책에서 역할을 직접 검사해 admin만 전체 회원 목록을 조회하게 하고, 일반회원이 URL로 직접 들어와도 데이터가 막히는 역할 기반 접근 통제를 완성한다. | ★★★★★ | 역할 기반 RLS, 관리자 인가, 접근 통제 종합 | 준비중 |
@@ -214,7 +214,7 @@
 | 154 | 내 위치(Geolocation)로 현재 지역 날씨 자동 표시하기 | 브라우저 위치 권한을 받아 좌표를 얻고 그 좌표로 날씨 API를 호출하며 '권한 요청·거부 처리'와 두 단계(위치→날씨) 연결을 익힌다 | ★★★☆☆ | Geolocation API, 권한 처리, 호출 연쇄 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/154) |
 | 155 | 환율 API로 원↔달러 실시간 환전 계산기 만들기 | 환율 API에서 오늘 환율을 받아 사용자가 입력한 금액을 즉시 환산하며 '받아온 숫자 데이터로 계산 로직 만들기'를 익힌다 | ★★★☆☆ | 환율 API, 숫자 데이터 가공, 양방향 계산 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/155) |
 | 156 | 로딩 스피너와 '실패했어요' 에러 메시지 붙이기 | 요청 시작에 로딩 표시, 성공 시 결과, 실패 시 사용자용 에러 문구를 보여주는 세 가지 화면 상태를 만들며 'AI가 잘 빠뜨리는 실패 경로 처리'를 익힌다 | ★★★☆☆ | 로딩/성공/에러 상태, try-catch | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/156) |
-| 157 | 응답이 늦거나 끊길 때 타임아웃·재시도 처리 넣기 | 요청에 타임아웃을 걸고 실패하면 한 번 재시도하는 흐름을 만들며 '네트워크는 항상 성공한다는 가정'이 왜 위험한지 디렉터 시각으로 검증한다 | ★★★★☆ | AbortController 타임아웃, 재시도 | 준비중 |
+| 157 | 응답이 늦거나 끊길 때 타임아웃·재시도 처리 넣기 | 요청에 타임아웃을 걸고 실패하면 한 번 재시도하는 흐름을 만들며 '네트워크는 항상 성공한다는 가정'이 왜 위험한지 디렉터 시각으로 검증한다 | ★★★★☆ | AbortController 타임아웃, 재시도 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/157) |
 | 158 | 지도 라이브러리로 검색한 장소에 핀 찍기 | Leaflet 같은 공개 지도와 지오코딩 API를 연결해 입력한 주소를 좌표로 바꿔 지도에 마커를 표시하며 '외부 지도 SDK 임베드와 좌표 다루기'를 익힌다 | ★★★★☆ | 지도 임베드, 지오코딩, 마커 | 준비중 |
 | 159 | 도서 검색 결과에 '다음 페이지' 페이지네이션 붙이기 | offset·page 파라미터로 결과를 나눠 받아 이전/다음 버튼으로 페이지를 넘기며 '많은 데이터를 한 번에 다 받지 않고 쪽 단위로 가져오기'를 익힌다 | ★★★★☆ | 페이지네이션, offset/page 파라미터 | 준비중 |
 | 160 | 입력하는 동안만 검색하는 디바운스·중복요청 막기 | 타이핑이 멈춘 뒤에만 검색하도록 디바운스를 걸고 이전 요청을 취소해 '입력할 때마다 API를 두들겨 호출 한도를 태우는 함정'을 막는 법을 익힌다 | ★★★★☆ | 디바운스, 요청 취소, rate limit 의식 | 준비중 |
@@ -236,7 +236,7 @@
 | 171 | Vercel Deployments 탭에서 배포 성공/실패 읽는 법 익히기 | Ready(초록)와 Error(빨강) 상태, 커밋 해시, 빌드 로그 위치를 확인해 '반영이 안 될 때 어디를 봐야 하나'를 판단한다 | ★★☆☆☆ | 배포 상태, 빌드 로그 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/171) |
 | 172 | Claude에게 deploy 스킬 지시해 커밋 메시지까지 자동화하기 | AI를 디렉팅해 '비밀키 점검 → 의미 단위 커밋(Conventional Commits) → push'를 대신 시키고 결과 URL을 보고받는다 | ★★☆☆☆ | AI 디렉팅, 커밋 규칙 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/172) |
 | 173 | 잘못 올린 비밀키 막기 — .gitignore와 .env 분리하기 | Supabase anon/secret 키를 코드에 박지 않고 .env에 두고 .gitignore로 GitHub 업로드를 차단하는 안전장치를 만든다 | ★★★☆☆ | .gitignore, .env, 비밀키 보호 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/173) |
-| 174 | Vercel 환경변수(Environment Variables)에 Supabase 키 등록하기 | 코드 대신 Vercel 대시보드에 키를 넣어 배포 시 주입되게 하고, anon 키와 secret 키의 노출 범위 차이를 구분한다 | ★★★☆☆ | 환경변수 주입, anon vs secret | 준비중 |
+| 174 | Vercel 환경변수(Environment Variables)에 Supabase 키 등록하기 | 코드 대신 Vercel 대시보드에 키를 넣어 배포 시 주입되게 하고, anon 키와 secret 키의 노출 범위 차이를 구분한다 | ★★★☆☆ | 환경변수 주입, anon vs secret | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/174) |
 | 175 | Production과 Preview 환경변수 칸 나눠 설정하기 | 실서비스용과 미리보기용 Supabase 키를 Vercel의 Production/Preview 칸에 따로 넣어 '진짜 데이터'와 '연습 데이터'를 분리한다 | ★★★☆☆ | 환경 분리(dev/preview/prod) | 준비중 |
 | 176 | 브랜치 만들어 미리보기(Preview) 배포 URL 받기 | main이 아닌 새 브랜치에 변경을 올려 라이브를 건드리지 않고 별도 임시 URL에서 먼저 확인하는 안전한 실험법을 익힌다 | ★★★☆☆ | 브랜치, Preview Deployment | 준비중 |
 | 177 | Pull Request로 미리보기 검토 후 라이브에 합치기 | PR을 열어 Preview URL로 검토하고 Merge하면 production에 반영되는 'AI 작업물 안전 검수' 워크플로우를 완성한다 | ★★★★☆ | Pull Request, Merge 배포 | 준비중 |
@@ -258,7 +258,7 @@
 | 188 | canonical 태그로 대표 주소 한 개 지정하기 | <link rel="canonical">을 넣어 www·끝슬래시 등 중복 주소 때문에 검색 점수가 갈리는 문제를 막는 '대표 주소 지정' 개념을 익힌다 | ★★☆☆☆ | canonical, 중복 URL 정리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/188) |
 | 189 | Lighthouse 돌려보고 4개 점수 읽기 | 크롬 개발자도구의 Lighthouse로 Performance·Accessibility·Best Practices·SEO 점수를 뽑고, 빨간 항목 목록을 해석하는 법을 익힌다 | ★★★☆☆ | Lighthouse, 진단 점수 읽기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/189) |
 | 190 | 이미지를 WebP로 줄이고 width·height·lazy 넣기 | 큰 사진을 WebP로 변환·압축하고 width/height와 loading="lazy"를 넣어 LCP를 줄이고 레이아웃 밀림(CLS)을 막는다 | ★★★☆☆ | 이미지 최적화, WebP, lazy loading | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/190) |
-| 191 | 키보드만으로 사이트 전체 돌아다니기 + focus 표시 살리기 | 마우스 없이 Tab·Enter로 모든 링크·버튼·폼에 닿는지 점검하고, 지워진 포커스 외곽선(:focus-visible)을 되살려 키보드 접근성을 확보한다 | ★★★☆☆ | 키보드 접근성, 포커스 표시, tab 순서 | 준비중 |
+| 191 | 키보드만으로 사이트 전체 돌아다니기 + focus 표시 살리기 | 마우스 없이 Tab·Enter로 모든 링크·버튼·폼에 닿는지 점검하고, 지워진 포커스 외곽선(:focus-visible)을 되살려 키보드 접근성을 확보한다 | ★★★☆☆ | 키보드 접근성, 포커스 표시, tab 순서 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/191) |
 | 192 | 색 대비 검사로 흐린 텍스트 합격선까지 고치기 | 대비 검사 도구로 본문·버튼 글자의 명도대비를 측정하고 WCAG AA 기준(본문 4.5:1)을 통과하도록 색을 조정한다 | ★★★☆☆ | 색 대비, WCAG AA, 가독성 | 준비중 |
 | 193 | 구조화 데이터 JSON-LD로 Article·Organization 표시하기 | JSON-LD 스크립트로 글(Article)과 운영주체(Organization) 정보를 검색엔진이 읽게 넣고, 2026년 폐지된 FAQ 리치결과는 넣지 않는 판단을 익힌다 | ★★★★☆ | JSON-LD, 구조화 데이터, 리치결과 | 준비중 |
 | 194 | 구글 서치콘솔·네이버 서치어드바이저에 사이트 등록하고 사이트맵 제출 | 두 검색엔진에 소유확인(메타태그/파일)을 마치고 sitemap.xml을 제출해 한국 노출에 필수인 네이버까지 색인 요청을 끝낸다 | ★★★★☆ | 서치콘솔, 네이버 서치어드바이저, 소유확인 | 준비중 |
@@ -278,7 +278,7 @@
 | 203 | Slack 채널로 자동 메시지 보내기 | Slack 노드 자격증명을 연결하고 지정한 채널에 '서버 점검 알림' 같은 메시지를 보내며, 이메일 외의 알림 채널(Slack)을 연동하는 법을 익힌다 | ★★★☆☆ | Slack 노드 연동, 채널 메시지 발송 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/203) |
 | 204 | 구글 시트에 새 행으로 데이터 기록하기 | Google Sheets 노드를 연결해 시트에 '시간, 내용' 한 줄을 자동으로 추가(Append Row)하며 외부 데이터 저장소 연동과 행 추가 작업을 배운다 | ★★★☆☆ | Google Sheets 노드, Append Row | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/204) |
 | 205 | 내 정적 사이트 문의 폼 제출 → 슬랙/메일 알림 받기 | Vercel에 올린 HTML 문의 폼에서 fetch로 n8n Webhook에 데이터를 보내고, n8n이 그 내용을 Slack 또는 메일로 알려주게 만들며 '폼 제출 → 알림' 자동화 패턴을 완성한다 | ★★★☆☆ | 폼 fetch→Webhook, 제출 알림 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/205) |
-| 206 | 폼 제출 내용을 구글 시트에 누적 저장하기 | 앞 단계의 Webhook 워크플로우에 Google Sheets 노드를 추가해 들어온 문의를 시트에 한 줄씩 쌓고, 같은 데이터를 여러 곳(알림+저장)으로 분기해 보내는 멀티 액션을 배운다 | ★★★☆☆ | Webhook 데이터 저장, 다중 출력 분기 | 준비중 |
+| 206 | 폼 제출 내용을 구글 시트에 누적 저장하기 | 앞 단계의 Webhook 워크플로우에 Google Sheets 노드를 추가해 들어온 문의를 시트에 한 줄씩 쌓고, 같은 데이터를 여러 곳(알림+저장)으로 분기해 보내는 멀티 액션을 배운다 | ★★★☆☆ | Webhook 데이터 저장, 다중 출력 분기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/206) |
 | 207 | 필수값 검증 후 응답(Respond to Webhook) 돌려주기 | Webhook 입력에서 이메일 칸이 비었는지 검사하고, 결과에 따라 성공/실패 JSON을 Respond to Webhook 노드로 돌려주며 프런트가 응답을 받아 처리하게 만든다 | ★★★☆☆ | 입력 검증, Respond to Webhook, 응답 반환 | 준비중 |
 | 208 | IF 노드로 조건 분기 처리하기 | IF 노드로 '문의 유형이 긴급인가?'를 판단해 긴급이면 Slack, 아니면 메일로 보내도록 길을 나누며 조건 분기(IF/true·false)와 워크플로우 가지치기를 익힌다 | ★★★☆☆ | IF 노드, 조건 분기, true/false 경로 | 준비중 |
 | 209 | Supabase 신규 가입자에게 환영 메일 자동 발송 | 정기 또는 Webhook로 Supabase의 신규 사용자 데이터를 받아(HTTP Request로 REST API 호출) 환영 메일을 보내며, 이 가이드의 핵심 스택인 Supabase와 n8n을 연결하는 법을 배운다 | ★★★★☆ | Supabase REST API, 신규가입 트리거, 환영메일 | 준비중 |
@@ -302,7 +302,7 @@
 | 222 | 프로젝트 CLAUDE.md 작성하기 (언어·스택·하지 말 것) | 매 대화마다 설명을 반복하지 않도록 한국어·스택·네이밍·금지사항을 담은 CLAUDE.md를 만들어 새 대화에 적용한다 | ★★☆☆☆ | CLAUDE.md, 프로젝트 메모리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/222) |
 | 223 | AGENTS.md 추가하고 CLAUDE.md에서 가리키게 하기 | 도구 공통 지침 AGENTS.md를 만들고 CLAUDE.md에는 'AGENTS.md를 따르라' 한 줄로 한 곳만 관리하는 구조를 익힌다 | ★★☆☆☆ | AGENTS.md, 단일 출처 관리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/223) |
 | 224 | F12 콘솔 에러 전문을 그대로 붙여넣어 고치기 | 빨간 콘솔 에러 메시지+재현 절차를 통째로 붙여넣고 '원인부터 설명해줘'로 지시해 추측 수정을 막는다 | ★★★☆☆ | 에러 붙여넣기 디버깅, 재현 절차 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/224) |
-| 225 | 디자인 시안 이미지 한 장 주고 똑같이 만들라고 시키기 | 참고 카드 UI 스크린샷을 첨부해 레이아웃·색·간격을 설명 없이 이미지로 지시하는 멀티모달 프롬프트를 연습한다 | ★★★☆☆ | 이미지로 지시(멀티모달) | 준비중 |
+| 225 | 디자인 시안 이미지 한 장 주고 똑같이 만들라고 시키기 | 참고 카드 UI 스크린샷을 첨부해 레이아웃·색·간격을 설명 없이 이미지로 지시하는 멀티모달 프롬프트를 연습한다 | ★★★☆☆ | 이미지로 지시(멀티모달) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/225) |
 | 226 | 깨진 화면 스크린샷 붙여넣어 레이아웃 깨짐 고치기 | 모바일에서 메뉴가 겹친 캡처를 첨부해 '이렇게 깨졌어, 원인 후보 3개부터'로 시각 증거 기반 디버깅을 한다 | ★★★☆☆ | 이미지로 디버깅, 반응형 수정 | 준비중 |
 | 227 | AI에게 '까다로운 심사위원'으로 내 PLAN.md 코드리뷰 시키기 | 칭찬을 빼고 약점 3가지와 내가 물었어야 할 질문을 지적하게 해 아첨 답변을 피하는 비판 프롬프트를 익힌다 | ★★★☆☆ | AI 코드리뷰, 아첨 방지 질문 | 준비중 |
 | 228 | 나만의 첫 스킬 /qa-check 만들기 (배포 전 점검 자동화) | 체크리스트(콘솔에러·비밀키·모바일·alt)를 SKILL.md로 만들어 '점검해줘' 한마디로 매번 같은 검수를 돌린다 | ★★★☆☆ | Claude 스킬, SKILL.md frontmatter | 준비중 |
@@ -368,7 +368,7 @@
 | 278 | 세미콜론·따옴표 빠진 JS 한 줄 고치기 — 아무 버튼도 안 눌리는 페이지 | 구문 오류(SyntaxError)로 스크립트 전체가 죽어 버튼이 먹통인 페이지를 F12 콘솔의 빨간 줄을 읽고 고치며, JS는 한 곳만 깨져도 전부 멈춘다는 것을 배운다 | ★☆☆☆☆ | SyntaxError, 콘솔 에러 읽기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/278) |
 | 279 | 오타 클래스명 매칭하기 — 가운데 정렬이 안 되는 박스 | HTML의 class="continer"와 CSS의 .container가 안 맞아 스타일이 빠진 레이아웃을 고치며, 선택자는 철자가 정확히 일치해야 적용된다는 것을 배운다 | ★☆☆☆☆ | CSS 선택자 매칭, 클래스명 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/279) |
 | 280 | z-index·position 꼬임 풀기 — 헤더에 가려 안 눌리는 버튼 | 고정 헤더가 버튼을 덮어 클릭이 안 되는 레이아웃을 position과 z-index를 조정해 고치며, 요소가 겹칠 때의 쌓임 순서 개념을 배운다 | ★★☆☆☆ | z-index, position, 쌓임 맥락 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/280) |
-| 281 | 모바일에서 가로 스크롤 생기는 페이지 고치기 | 고정 width:1200px와 viewport 메타 누락으로 휴대폰에서 가로로 삐져나오는 페이지를 반응형으로 고치며, 뷰포트 메타와 max-width 개념을 배운다 | ★★☆☆☆ | viewport 메타, 반응형, overflow | 준비중 |
+| 281 | 모바일에서 가로 스크롤 생기는 페이지 고치기 | 고정 width:1200px와 viewport 메타 누락으로 휴대폰에서 가로로 삐져나오는 페이지를 반응형으로 고치며, 뷰포트 메타와 max-width 개념을 배운다 | ★★☆☆☆ | viewport 메타, 반응형, overflow | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/281) |
 | 282 | 이미지·링크 깨진 경로 고치기 — 안 뜨는 사진과 404 링크 | 절대경로/상대경로 혼동으로 깨진 img와 a 태그를 고치며, 파일 경로가 어디 기준인지(루트 vs 현재 폴더)를 배운다 | ★★☆☆☆ | 상대/절대 경로, 깨진 링크 | 준비중 |
 | 283 | null 참조 에러 잡기 — getElementById가 못 찾는 요소 | 스크립트가 DOM보다 먼저 실행돼 'Cannot read properties of null' 에러로 죽는 코드를, defer나 위치 이동으로 고치며 실행 시점 개념을 배운다 | ★★☆☆☆ | TypeError null, DOM 로드 시점, defer | 준비중 |
 | 284 | 이벤트가 두 번 실행되는 버그 — 좋아요가 +2씩 오르는 버튼 | addEventListener가 중복 등록돼 클릭 한 번에 두 번 처리되는 코드를 찾아 고치며, 리스너 중복 등록의 함정을 배운다 | ★★☆☆☆ | 이벤트 리스너 중복, 멱등성 | 준비중 |
@@ -390,7 +390,7 @@
 |---|---|---|---|---|---|
 | 296 | 내 사이트 키 줍기 게임 — F12로 공개키/비밀키 찾아내기 | 배포된 정적 사이트에서 F12 개발자도구로 노출된 문자열을 직접 찾아보며, 화면에 보여도 되는 값(publishable)과 절대 보이면 안 되는 값(secret)을 눈으로 구분하는 감을 익힌다 | ★☆☆☆☆ | 공개키 vs 비밀키, F12 노출 확인 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/296) |
 | 297 | .env.local로 키 옮기고 .gitignore 한 줄 추가하기 | 코드에 하드코딩한 Supabase URL/키를 .env.local 파일로 분리하고 .gitignore에 등록해, '키를 깃허브에 안 올린다'는 분리의 핵심을 손으로 만든다 | ★☆☆☆☆ | .env 분리, .gitignore | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/297) |
-| 298 | 공개용 견본 .env.example 만들기 — 값은 비우고 이름만 | 팀원이 봐도 안전하도록 키 이름만 남기고 값은 자리표시자로 비운 .env.example을 만들어, '공개해도 되는 것'과 '비밀'을 파일 단위로 가르는 습관을 들인다 | ★★☆☆☆ | .env.example, 자리표시자 | 준비중 |
+| 298 | 공개용 견본 .env.example 만들기 — 값은 비우고 이름만 | 팀원이 봐도 안전하도록 키 이름만 남기고 값은 자리표시자로 비운 .env.example을 만들어, '공개해도 되는 것'과 '비밀'을 파일 단위로 가르는 습관을 들인다 | ★★☆☆☆ | .env.example, 자리표시자 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/298) |
 | 299 | 내 키 어디서 쓰나 표 만들기 — anon은 프론트, service_role은 절대 금지 | AI에게 '키가 어디에 쓰이는지 파일·줄 단위로 보고'를 시켜, service_role(secret) 키가 브라우저로 가는 코드에 단 한 군데도 없는지 검증하는 표를 완성한다 | ★★☆☆☆ | anon vs service_role, 키 사용처 점검 | 준비중 |
 | 300 | Supabase 테이블에 RLS 켜기 — 끄면 어떻게 새는지 먼저 확인 | RLS가 꺼진 테이블을 publishable 키로 통째로 읽히는 것을 직접 본 뒤 RLS를 켜서, 공개 키가 안전한 진짜 이유가 '키 숨김'이 아니라 'RLS 차단'임을 체감한다 | ★★★☆☆ | RLS 켜기, 행 수준 보안 | 준비중 |
 | 301 | '본인 데이터만' RLS 정책 작성하고 남의 행 못 읽는지 검증하기 | auth.uid() 기준 SELECT/INSERT 정책을 만들고, 다른 계정으로 로그인해 남의 행이 0건으로 막히는지 실제로 시도해 정책이 작동함을 증명한다 | ★★★☆☆ | RLS 정책, 인가 검증 | 준비중 |

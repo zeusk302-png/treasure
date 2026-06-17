@@ -1,0 +1,232 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #eef2f7;            /* 부드러운 하늘빛 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+/* 위젯이 담기는 큰 카드 */
+.card {
+  background: #ffffff;
+  max-width: 480px;
+  width: 100%;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 22px;
+  color: #2f6fb0;                /* 차분한 파랑 */
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.lead {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.lead strong {
+  color: #2f6fb0;
+}
+
+/* === 상황/설정 + 버튼 영역 === */
+.controls {
+  background: #f5f8fc;
+  border: 1px solid #dce6f1;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.ctrlLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2f6fb0;
+  margin-bottom: 8px;
+}
+
+.ctrlLabel.small {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+#scenario {
+  width: 100%;
+  box-sizing: border-box;        /* padding을 너비 안에 포함 */
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #cdd9e6;
+  border-radius: 10px;
+  background: #ffffff;
+  margin-bottom: 14px;
+}
+
+.ctrlRow {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.field {
+  flex: 1;                       /* 두 입력칸이 가로를 절반씩 나눠 가진다 */
+}
+
+.field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #cdd9e6;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+#loadBtn {
+  width: 100%;
+  background: #2f6fb0;
+  color: #fff;
+  border: none;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#loadBtn:hover {
+  background: #25588c;
+}
+
+#loadBtn:disabled {
+  background: #aac4de;           /* 받아오는 중에는 흐리게 + 클릭 불가 */
+  cursor: default;
+}
+
+/* === 세 가지 상태 박스 공통 === */
+.stateBox {
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+.stateText {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.bigEmoji {
+  font-size: 56px;
+  line-height: 1;
+}
+
+/* ① 로딩 박스 */
+#loadingBox {
+  background: #f5f8fc;
+  border: 1px solid #dce6f1;
+  color: #5b7795;
+}
+
+/* 빙글 도는 스피너 (CSS 애니메이션) */
+.spinner {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border: 4px solid #d6e2f0;
+  border-top-color: #2f6fb0;     /* 한쪽만 진하게 해서 도는 게 보이게 */
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ② 성공(결과) 박스 */
+#resultBox {
+  background: #f3f9f4;
+  border: 1px solid #d6ecd9;
+  color: #2e7d4f;
+}
+
+#resultText {
+  color: #2e7d4f;
+  font-weight: bold;
+}
+
+/* ③ 실패(에러) 박스 — 빨강 계열로 '문제가 났다'를 분명히 */
+#errorBox {
+  background: #fdf3f2;
+  border: 1px solid #f3d2cf;
+  color: #b5392f;
+}
+
+#errorText {
+  color: #b5392f;
+}
+
+.retryBtn {
+  margin-top: 14px;
+  background: #b5392f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.retryBtn:hover {
+  background: #94291f;
+}
+
+/* 시작 안내 문구 */
+.hint {
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+/* === 진행 기록(무대 뒤 흐름) === */
+.logBox {
+  margin-top: 20px;
+  background: #1e2733;            /* 어두운 콘솔 느낌 */
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.logTitle {
+  color: #9fb4cc;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.logList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 180px;
+  overflow-y: auto;              /* 기록이 길어지면 안에서 스크롤 */
+}
+
+.logList li {
+  color: #d6e2f0;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  padding: 2px 0;
+  border-bottom: 1px solid #2c3744;
+}

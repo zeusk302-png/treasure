@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+  index.html — 시안(reference.html) 스크린샷을 보고 "재현"한 정답 예시입니다.
+  ──────────────────────────────────────────────────────────────
+  AI가 멀티모달(이미지) 지시를 잘 따랐다면 대략 이 정도 결과가 나옵니다.
+  여러분이 AI로 만든 결과물을, 이 파일을 브라우저로 열어 "눈으로" 비교해 보세요.
+  (픽셀까지 똑같을 필요는 없고, 레이아웃 구조·색 계열·간격 느낌이 맞으면 성공)
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>프로필 카드 (시안 재현본)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 카드 한 장. 시맨틱하게 figure/figcaption 대신 article로 묶었습니다. -->
+  <article class="card">
+    <!-- 위쪽 보라색 그라데이션 배너 -->
+    <div class="card__banner"></div>
+
+    <!-- 배너 위로 절반쯤 걸친 둥근 아바타 -->
+    <div class="card__avatar" aria-hidden="true">🦊</div>
+
+    <h2 class="card__name">김여우</h2>
+    <p class="card__role">프론트엔드 디자이너</p>
+
+    <!-- 게시물 / 팔로워 / 팔로잉 3칸 숫자 -->
+    <div class="card__stats">
+      <div class="card__stat">
+        <span class="card__stat-num">128</span>
+        <span class="card__stat-label">게시물</span>
+      </div>
+      <div class="card__stat">
+        <span class="card__stat-num">8.2k</span>
+        <span class="card__stat-label">팔로워</span>
+      </div>
+      <div class="card__stat">
+        <span class="card__stat-num">312</span>
+        <span class="card__stat-label">팔로잉</span>
+      </div>
+    </div>
+
+    <button class="card__btn" type="button">팔로우</button>
+  </article>
+</body>
+</html>

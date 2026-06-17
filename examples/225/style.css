@@ -1,0 +1,102 @@
+/*
+  style.css — 시안 재현본의 스타일.
+  색·간격·둥근 정도는 스크린샷을 보고 "눈대중"으로 맞춘 값들입니다.
+  AI에게 시킬 때도 정확한 HEX 값까지 다 적어줄 필요는 없습니다.
+  "보라색 그라데이션", "둥근 카드", "그림자" 정도만 이미지로 보여주면 AI가 비슷하게 채웁니다.
+*/
+
+/* 화면 가운데에 카드 한 장 띄우기 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  font-family: "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+/* 카드 본체: 흰 배경 + 둥근 모서리 + 떠 있는 그림자 */
+.card {
+  width: 320px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  overflow: hidden;       /* 배너 모서리가 카드 곡선을 넘지 않게 */
+  text-align: center;
+  padding-bottom: 24px;
+}
+
+/* 위쪽 보라색 그라데이션 띠 */
+.card__banner {
+  height: 96px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+/* 둥근 아바타. margin-top 음수로 배너 위에 절반쯤 걸치게 */
+.card__avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: 4px solid #ffffff;   /* 흰 테두리로 배너에서 떠 보이게 */
+  margin: -48px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.card__name {
+  margin: 14px 0 2px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card__role {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* 숫자 3칸을 가로로 균등 배치 (flexbox) */
+.card__stats {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 20px;
+}
+
+.card__stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.card__stat-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card__stat-label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* 알약(pill) 모양 보라색 버튼 */
+.card__btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 999px;       /* 충분히 큰 값 → 양끝이 완전히 둥근 알약 */
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.card__btn:hover {
+  background: #4f46e5;
+}

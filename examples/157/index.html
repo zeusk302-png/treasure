@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>타임아웃·재시도 데모 — 응답이 늦거나 끊길 때</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>⏱️ 타임아웃 · 재시도 데모</h1>
+    <p class="lead">
+      앞 실습(156)에서는 받아오기가 <strong>로딩 → 성공 → 실패</strong> 세 갈래로 끝난다는 걸 배웠습니다.
+      이번엔 한 걸음 더 나아갑니다: 서버가 <strong>아주 느리거나(응답 지연)</strong>, <strong>가끔 끊길 때(불안정)</strong>
+      어떻게 버틸지 챙깁니다. 두 가지 안전장치를 직접 넣습니다 —
+      <strong>① 타임아웃</strong>(정해진 시간 안에 안 오면 포기) · <strong>② 재시도</strong>(실패하면 한 번 더 시도).
+    </p>
+
+    <!-- ===== 디렉터가 상황을 골라 실험하는 영역 ===== -->
+    <!-- 진짜 느린 서버를 구하기 어려우니, '느린/불안정한 서버'를 화면에서 흉내 냅니다. -->
+    <section class="controls">
+      <label class="ctrlLabel" for="scenario">상황 고르기 (서버가 어떻게 행동할지)</label>
+      <select id="scenario">
+        <option value="fast">정상 — 0.4초 만에 빠르게 응답</option>
+        <option value="slow">아주 느림 — 6초 걸림 (타임아웃에 걸려야 정상)</option>
+        <option value="flaky">불안정 — 첫 시도는 실패, 재시도는 성공</option>
+        <option value="down">완전 다운 — 매번 실패 (재시도해도 실패)</option>
+      </select>
+
+      <div class="ctrlRow">
+        <div class="field">
+          <label class="ctrlLabel small" for="timeoutSec">타임아웃(초)</label>
+          <input id="timeoutSec" type="number" value="3" min="1" max="20" step="1" />
+        </div>
+        <div class="field">
+          <label class="ctrlLabel small" for="retries">재시도 횟수</label>
+          <input id="retries" type="number" value="1" min="0" max="3" step="1" />
+        </div>
+      </div>
+
+      <button id="loadBtn" type="button">데이터 받기</button>
+    </section>
+
+    <!-- ===== 세 가지 화면 상태 (한 번에 하나만 보임) ===== -->
+
+    <!-- ① 로딩 상태: 스피너 + 안내 + (몇 번째 시도인지) -->
+    <div id="loadingBox" class="stateBox" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <p id="loadingText" class="stateText">데이터를 받아오는 중이에요…</p>
+    </div>
+
+    <!-- ② 성공 상태 -->
+    <div id="resultBox" class="stateBox result" hidden>
+      <div class="bigEmoji">✅</div>
+      <p id="resultText" class="stateText">받아오기 성공!</p>
+    </div>
+
+    <!-- ③ 실패 상태: 사용자용 에러 문구 + 다시 시도 버튼 -->
+    <div id="errorBox" class="stateBox error" hidden>
+      <div class="bigEmoji">😟</div>
+      <p id="errorText" class="stateText">데이터를 받아오지 못했어요.</p>
+      <button id="retryBtn" type="button" class="retryBtn">다시 시도</button>
+    </div>
+
+    <!-- 시작 안내 -->
+    <p id="hint" class="hint">
+      위에서 상황을 고르고 <strong>[데이터 받기]</strong>를 눌러 보세요.
+      <br />특히 <strong>'아주 느림'</strong>과 <strong>'불안정'</strong>을 꼭 눌러 보세요.
+    </p>
+
+    <!-- 무대 뒤 진행 기록(디렉터가 흐름을 눈으로 보게) -->
+    <section class="logBox">
+      <div class="logTitle">진행 기록 (무대 뒤에서 무슨 일이 있었나)</div>
+      <ul id="logList" class="logList"></ul>
+    </section>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

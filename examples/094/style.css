@@ -1,0 +1,114 @@
+/* ============================================================
+   에러 안내문에 빨강 테두리 + 아래 메시지 스타일 입히기
+   핵심: :invalid(틀린 입력), :valid(맞는 입력), :focus(선택됨)
+   ============================================================ */
+
+/* 기본 화면 꾸미기 (이 부분은 학습 핵심이 아니라 '예쁘게'용입니다) */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #1f2937;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* 입력 한 묶음(라벨 + 입력칸 + 메시지) */
+.field {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 2px solid #d1d5db;   /* 평소(회색) 테두리 */
+  border-radius: 8px;
+  outline: none;               /* 브라우저 기본 파란 테두리 제거 (직접 꾸밀 것이므로) */
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* ============================================================
+   여기서부터가 이번 실습의 핵심입니다.
+   ============================================================ */
+
+/* (1) :focus — 지금 클릭/선택된 입력칸을 강조 (파란 테두리 + 옅은 그림자) */
+input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* (2) :invalid — 형식이 '틀린' 입력칸: 빨간 테두리
+   주의: 빈 칸도 required 때문에 '틀림'으로 잡힙니다.
+   그래서 아래 :placeholder-shown 트릭으로 '아직 안 쓴 칸'은 빨갛게 만들지 않습니다. */
+input:invalid:not(:placeholder-shown) {
+  border-color: #dc2626;          /* 빨강 테두리 */
+  background-color: #fef2f2;      /* 아주 옅은 빨강 배경 */
+}
+
+/* 틀린 칸을 선택했을 때(focus)도 빨강 유지 + 빨강 그림자 */
+input:invalid:not(:placeholder-shown):focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* (3) :valid — 형식이 '맞는' 입력칸: 초록 테두리
+   :placeholder-shown 으로 '아직 안 쓴 빈 칸'은 제외 */
+input:valid:not(:placeholder-shown) {
+  border-color: #16a34a;          /* 초록 테두리 */
+}
+
+input:valid:not(:placeholder-shown):focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+/* ============================================================
+   입력칸 아래 빨간 안내 메시지
+   평소엔 숨기고, 형식이 틀렸을 때만 보여줍니다.
+   ============================================================ */
+.error-message {
+  margin: 6px 2px 0;
+  font-size: 13px;
+  color: #dc2626;
+  display: none;       /* 평소엔 숨김 */
+}
+
+/* 바로 앞 input이 '틀렸고 + 무언가 입력된 상태'일 때만 메시지 표시.
+   ~ 는 '같은 부모 안의 뒤쪽 형제'를 고르는 선택자입니다. */
+input:invalid:not(:placeholder-shown) ~ .error-message {
+  display: block;
+}

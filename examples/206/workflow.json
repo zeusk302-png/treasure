@@ -1,0 +1,233 @@
+{
+  "name": "206 - 폼 제출 내용을 구글 시트에 누적 저장하기",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "contact-form",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "문의 받기 (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        320,
+        300
+      ],
+      "webhookId": "contact-form"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1a1a1a1-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "이름",
+              "value": "={{ $json.body.name || '이름 없음' }}",
+              "type": "string"
+            },
+            {
+              "id": "b2b2b2b2-2222-4222-8222-bbbbbbbbbbbb",
+              "name": "이메일",
+              "value": "={{ $json.body.email || '이메일 없음' }}",
+              "type": "string"
+            },
+            {
+              "id": "c3c3c3c3-3333-4333-8333-cccccccccccc",
+              "name": "메시지",
+              "value": "={{ $json.body.message || '내용 없음' }}",
+              "type": "string"
+            },
+            {
+              "id": "d4d4d4d4-4444-4444-8444-dddddddddddd",
+              "name": "받은시각",
+              "value": "={{ $now.format('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            },
+            {
+              "id": "e5e5e5e5-5555-4555-8555-eeeeeeeeeeee",
+              "name": "슬랙알림문구",
+              "value": "=:email: *새 문의가 도착했습니다*\n\n*이름:* {{ $json.body.name || '이름 없음' }}\n*이메일:* {{ $json.body.email || '이메일 없음' }}\n*내용:* {{ $json.body.message || '내용 없음' }}\n\n받은 시각: {{ $now.format('yyyy-MM-dd HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "문의 내용 정리하기 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0000000000",
+          "mode": "id"
+        },
+        "text": "={{ $json.슬랙알림문구 }}",
+        "otherOptions": {}
+      },
+      "id": "33333333-3333-4333-8333-333333333333",
+      "name": "슬랙으로 알림 보내기 (Slack)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        160
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "REPLACE_WITH_YOUR_SLACK_CREDENTIAL_ID",
+          "name": "내 Slack 봇 (Slack API)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SHEET_DOCUMENT_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "시트1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "받은시각": "={{ $json.받은시각 }}",
+            "이름": "={{ $json.이름 }}",
+            "이메일": "={{ $json.이메일 }}",
+            "메시지": "={{ $json.메시지 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "받은시각",
+              "displayName": "받은시각",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "이름",
+              "displayName": "이름",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "이메일",
+              "displayName": "이메일",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "메시지",
+              "displayName": "메시지",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "55555555-5555-4555-8555-555555555555",
+      "name": "구글 시트에 저장 (Google Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_WITH_YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "내 구글 계정 (Google Sheets OAuth2)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, message: '문의가 정상적으로 접수되었습니다.' }) }}",
+        "options": {}
+      },
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "폼에 응답 돌려주기 (Respond to Webhook)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        800,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "문의 받기 (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "문의 내용 정리하기 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "문의 내용 정리하기 (Set)": {
+      "main": [
+        [
+          {
+            "node": "슬랙으로 알림 보내기 (Slack)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "구글 시트에 저장 (Google Sheets)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "폼에 응답 돌려주기 (Respond to Webhook)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
