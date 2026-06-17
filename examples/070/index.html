@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>드롭다운 메뉴 위젯</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>드롭다운 메뉴</h1>
+    <p class="desc">버튼을 누르면 메뉴가 펼쳐지고, 메뉴 바깥 아무 곳이나 누르면 닫힙니다.</p>
+
+    <!--
+      드롭다운은 '버튼' 과 '펼쳐지는 메뉴' 두 부분으로 이루어집니다.
+      이 둘을 .dropdown 이라는 한 박스로 감싸 두는 것이 핵심입니다.
+      "버튼을 눌렀나? → 열기/닫기", "바깥을 눌렀나? → 닫기" 를 구분하려면
+      클릭한 지점이 이 .dropdown 박스 '안'인지 '바깥'인지 알아야 하기 때문입니다.
+    -->
+
+    <!-- 드롭다운 한 덩어리: 버튼 + 메뉴를 함께 감쌉니다 -->
+    <div class="dropdown" id="dropdown">
+      <!--
+        aria-haspopup: 이 버튼이 '펼쳐지는 메뉴'를 가졌음을 보조기기에 알립니다.
+        aria-expanded: 지금 메뉴가 열렸는지(true)/닫혔는지(false)를 표시합니다.
+      -->
+      <button class="dropdown-button" id="dropdownButton"
+              aria-haspopup="true" aria-expanded="false">
+        메뉴 열기
+        <span class="arrow" aria-hidden="true">▾</span>
+      </button>
+
+      <!-- 펼쳐지는 메뉴. 평소엔 CSS로 숨겨 두고, JS가 is-open을 붙이면 보입니다. -->
+      <ul class="dropdown-menu" id="dropdownMenu" role="menu">
+        <li role="menuitem"><a href="#">내 프로필</a></li>
+        <li role="menuitem"><a href="#">설정</a></li>
+        <li role="menuitem"><a href="#">알림</a></li>
+        <li role="menuitem"><a href="#">로그아웃</a></li>
+      </ul>
+    </div>
+
+    <!-- 바깥 클릭 테스트용 안내: 이 글자 위를 눌러도 메뉴가 닫힙니다. -->
+    <p class="hint">↑ 메뉴를 연 다음, 이 회색 영역(바깥)을 눌러 닫히는지 확인해 보세요.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

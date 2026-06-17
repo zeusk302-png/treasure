@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>전화번호 패턴 검증과 안내 메시지 (pattern·title)</title>
+  <style>
+    /* 비전공자용: 보기 좋게 만드는 기본 스타일입니다. 검증과는 직접 관련 없습니다. */
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 24px;
+      color: #222;
+    }
+    .card {
+      max-width: 440px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+    .desc {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 20px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 16px 0 6px;
+    }
+    /* 별표(*)는 필수 항목임을 사람 눈에 알려주는 표시입니다. */
+    .star { color: #e03131; }
+    /* 입력칸 아래 작은 안내 글씨(어떤 형식으로 적어야 하는지)를 보여주는 도움말입니다. */
+    .hint {
+      font-size: 12px;
+      color: #888;
+      margin: 4px 0 0;
+    }
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+
+    /* 사용자가 한 번이라도 입력한 칸에서만 색을 표시합니다(:placeholder-shown 으로 첫 화면은 막음).
+       pattern(정규식)과 형식이 맞지 않으면 :invalid 가 되어 빨갛게,
+       맞으면 :valid 가 되어 초록색이 됩니다.
+       이 색은 보너스 표시일 뿐이고, 진짜 검증은 input 의 pattern 속성이 합니다. */
+    input:invalid:not(:placeholder-shown) {
+      border-color: #e03131;
+      background: #fff5f5;
+    }
+    input:valid:not(:placeholder-shown) {
+      border-color: #2f9e44;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #4263eb;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { background: #3b5bdb; }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #888;
+      line-height: 1.6;
+    }
+    .success {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #ebfbee;
+      color: #2b8a3e;
+      font-size: 14px;
+      text-align: center;
+    }
+    .success.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>전화번호 입력</h1>
+    <p class="desc"><span class="star">*</span> 표시는 꼭 입력해야 하는 항목입니다.</p>
+
+    <!-- 핵심: JavaScript 한 줄 없이, input 태그의 '속성'만으로 입력 형식을 검사합니다.
+         - pattern : 입력값이 따라야 할 '형식 규칙'(정규식)을 적습니다.
+                     아래 [0-9]{3}-[0-9]{4}-[0-9]{4} 는
+                     "숫자 3개 - 숫자 4개 - 숫자 4개" 형태(예: 010-1234-5678)를 뜻합니다.
+         - title   : 형식이 틀렸을 때 브라우저가 보여줄 '안내 메시지(힌트)'를 적습니다.
+         빈 칸 방지를 위해 required 도 함께 붙였습니다(091 실습 복습). -->
+    <form id="phoneForm">
+      <label for="phone">휴대폰 번호 <span class="star">*</span></label>
+      <!-- pattern 의 규칙을 뜯어 읽으면:
+           [0-9]    → 0부터 9까지 숫자 한 글자
+           {3}      → 바로 앞 규칙([0-9])을 정확히 3번 반복
+           -        → 하이픈(-) 글자 그대로 한 개
+           즉 [0-9]{3}-[0-9]{4}-[0-9]{4} = 숫자3개-숫자4개-숫자4개 -->
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="010-1234-5678"
+        pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+        title="010-1234-5678 형식으로, 숫자와 하이픈(-)만 사용해 입력하세요."
+        required
+      />
+      <p class="hint">010-1234-5678 형식으로 입력하세요. (숫자와 하이픈 - 만 사용)</p>
+
+      <button type="submit">제출하기</button>
+    </form>
+
+    <div class="success" id="successMsg">제출 완료! 전화번호 형식 검증을 통과했습니다.</div>
+
+    <p class="note">
+      [실험 1] <strong>01012345678</strong>(하이픈 없음)을 넣고 제출하기를 눌러보세요.<br />
+      [실험 2] <strong>010-123-5678</strong>(가운데가 3자리)를 넣고 눌러보세요.<br />
+      [실험 3] 형식이 틀린 채로 제출하면, title 에 적은 안내 문장이 풍선으로 뜹니다.
+    </p>
+  </div>
+
+  <script>
+    // 이 페이지의 형식 검증은 100% HTML 속성(pattern)이 담당합니다.
+    // 아래 스크립트는 "검증을 통과하면 어떻게 되는지"를 보여주기 위한 것일 뿐입니다.
+    // (검증 실패 시에는 submit 이벤트 자체가 발생하지 않으므로 이 코드는 실행되지 않습니다.)
+    const form = document.getElementById("phoneForm");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function (event) {
+      // 실제 서버가 없으므로 진짜 전송은 막고, 성공 메시지만 보여줍니다.
+      event.preventDefault();
+      successMsg.classList.add("show");
+    });
+  </script>
+</body>
+</html>

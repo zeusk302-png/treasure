@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ 이 파일은 "일부러 고장 낸" 코드입니다. (실습용)
+
+  [무엇이 보이나]
+  - 이름을 입력하고 "인사하기" 버튼을 눌러도 화면에 아무 인사말이 안 뜹니다.
+  - 대신 F12 > Console(콘솔) 탭에 빨간 에러가 한 줄 찍힙니다.
+
+  [재현 절차 — 이 순서를 그대로 AI에게 알려주세요]
+  1) 이 broken.html 파일을 브라우저로 엽니다.
+  2) F12를 눌러 개발자 도구를 열고 "Console(콘솔)" 탭을 켭니다.
+  3) 입력칸에 "철수"라고 적고 "인사하기" 버튼을 누릅니다.
+  4) 그러면 콘솔에 아래 빨간 에러가 나옵니다(원문 그대로 복사 대상):
+       Uncaught TypeError: Cannot set properties of null (setting 'textContent')
+           at greet (broken.html:??)
+           at HTMLButtonElement.onclick (broken.html:??)
+
+  ※ 줄 번호(??)는 환경마다 다를 수 있습니다. 메시지 전문을 통째로 복사하세요.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인사 페이지 (고장난 버전)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    input, button { font-size: 16px; padding: 8px 12px; }
+    #greeting { margin-top: 16px; font-size: 20px; color: #2563eb; }
+  </style>
+</head>
+<body>
+  <h1>이름을 입력하면 인사해 드려요</h1>
+
+  <input id="nameInput" type="text" placeholder="이름을 적어 주세요" />
+  <button onclick="greet()">인사하기</button>
+
+  <!--
+    버그의 핵심: 인사말을 보여줄 자리(요소)의 id가 "result"인데,
+    아래 자바스크립트는 id가 "greeting"인 요소를 찾고 있습니다.
+    id가 안 맞아서 getElementById가 null을 돌려주고,
+    null에 textContent를 넣으려다 빨간 에러가 납니다.
+  -->
+  <p id="result"></p>
+
+  <script>
+    function greet() {
+      const name = document.getElementById("nameInput").value;
+      // ↓ 여기서 "greeting"을 찾지만 위 HTML에는 id="greeting"이 없습니다 → null 반환
+      const output = document.getElementById("greeting");
+      output.textContent = name + "님, 안녕하세요!"; // null.textContent = ... → TypeError
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 블로그 - 글 상세</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">📖 내 블로그</h1>
+  </header>
+
+  <main class="container">
+    <!-- 목록으로 돌아가는 링크 (라우팅의 반대 방향) -->
+    <a href="index.html" class="back-link">← 목록으로 돌아가기</a>
+
+    <!--
+      이 자리에 글 내용이 채워집니다.
+      어떤 글을 채울지는 주소 뒤의 ?id=숫자 값을 보고 script.js가 결정합니다.
+    -->
+    <article class="post-detail">
+      <h2 id="post-title">불러오는 중...</h2>
+      <p class="post-date" id="post-date"></p>
+      <div class="post-body" id="post-body"></div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>비전공 청년 웹개발 가이드 · 실습 242</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

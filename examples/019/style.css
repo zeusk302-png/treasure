@@ -1,0 +1,54 @@
+/* 페이지 기본 글꼴과 여백 */
+body {
+  font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+  padding: 24px;
+  color: #222;
+  background: #fafafa;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+/* 표 전체: 칸과 칸 사이 선을 하나로 합쳐 깔끔하게 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 520px;
+  background: #fff;
+}
+
+/* 표 제목(caption): 표 위에 진하게 */
+caption {
+  caption-side: top;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  padding: 8px 0;
+}
+
+/* 모든 칸에 테두리와 안쪽 여백 */
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+/* 머리 구역(thead): 회색 배경으로 강조 */
+thead th {
+  background: #4a6da7;
+  color: #fff;
+}
+
+/* 본문 구역(tbody): 한 줄 걸러 옅은 색(가독성) */
+tbody tr:nth-child(even) {
+  background: #f2f5fa;
+}
+
+/* 바닥 구역(tfoot): 합계 행을 진하게 구분 */
+tfoot th,
+tfoot td {
+  background: #e8edf6;
+  font-weight: bold;
+}

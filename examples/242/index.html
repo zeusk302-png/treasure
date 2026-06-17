@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 블로그 - 글 목록</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 모든 페이지가 공유하는 상단 영역 -->
+  <header class="site-header">
+    <h1 class="site-title">📖 내 블로그</h1>
+    <p class="site-desc">목록에서 글 제목을 누르면 상세 페이지로 이동합니다.</p>
+  </header>
+
+  <main class="container">
+    <h2>글 목록</h2>
+
+    <!--
+      핵심: 각 글로 가는 링크.
+      같은 detail.html 페이지로 가되, 주소 뒤에 ?id=숫자 를 붙여
+      "어떤 글을 보여줄지"를 알려줍니다. 이것이 가장 기초적인 라우팅입니다.
+    -->
+    <ul class="post-list">
+      <li class="post-item">
+        <a href="detail.html?id=1">HTML이 처음인 사람에게</a>
+        <span class="post-date">2026-06-01</span>
+      </li>
+      <li class="post-item">
+        <a href="detail.html?id=2">CSS로 색과 여백 다루기</a>
+        <span class="post-date">2026-06-08</span>
+      </li>
+      <li class="post-item">
+        <a href="detail.html?id=3">자바스크립트로 페이지에 생명 불어넣기</a>
+        <span class="post-date">2026-06-15</span>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <p>비전공 청년 웹개발 가이드 · 실습 242</p>
+  </footer>
+</body>
+</html>

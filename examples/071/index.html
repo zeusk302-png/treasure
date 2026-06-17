@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모달 팝업 창</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>이벤트 안내</h1>
+    <p class="desc">아래 버튼을 누르면 화면 위에 팝업(모달)이 떠오릅니다.</p>
+
+    <!--
+      '모달'은 화면 위에 겹쳐 띄우는 작은 창입니다.
+      쇼핑몰의 '쿠폰 받기', 회원가입 '약관 보기' 같은 팝업이 모두 모달입니다.
+      구성은 크게 두 겹입니다.
+        1) 오버레이(overlay): 뒤 배경을 덮는 반투명 검은 막
+        2) 모달 박스: 그 위에 떠 있는 흰색 내용 창
+      모달을 닫는 방법은 세 가지를 준비합니다: X 버튼 / 어두운 배경 클릭 / 키보드 ESC
+    -->
+
+    <!-- 1) 모달을 여는 버튼 -->
+    <button id="openBtn" class="open-btn">이벤트 자세히 보기</button>
+  </main>
+
+  <!--
+    2) 모달 전체 (오버레이 + 박스)
+       처음에는 hidden 속성으로 숨겨 둡니다. JS가 hidden을 떼면 화면에 나타납니다.
+       data-close 속성: '여기를 누르면 닫힌다'는 표시입니다. (오버레이와 X 버튼에 붙여 둠)
+  -->
+  <div id="overlay" class="overlay" hidden data-close>
+    <!--
+      role="dialog" / aria-modal="true": 보조기기에 '지금 떠 있는 대화상자'임을 알립니다.
+      aria-labelledby: 이 모달의 제목이 어느 요소인지 알려줍니다.
+    -->
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <!-- X(닫기) 버튼 -->
+      <button class="close-btn" data-close aria-label="닫기">&times;</button>
+
+      <h2 id="modalTitle">여름맞이 특별 할인</h2>
+      <p>지금 가입하시면 첫 주문 <strong>20% 할인 쿠폰</strong>을 드립니다.</p>
+      <p>이벤트 기간: 6월 18일 ~ 6월 30일</p>
+
+      <!-- 모달 안의 닫기 버튼도 data-close 로 표시 -->
+      <button class="confirm-btn" data-close>확인했어요</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

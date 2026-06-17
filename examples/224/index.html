@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+  ✅ 이 파일은 broken.html을 고친 "정상 작동" 버전입니다.
+
+  무엇을 고쳤나 (한 줄): 자바스크립트가 찾는 id와 HTML 요소의 id를 똑같이 맞췄습니다.
+  - 고장난 코드: 자바스크립트는 "greeting"을 찾는데, HTML에는 id="result"만 있었음 → null → TypeError
+  - 고친 방법: 자바스크립트가 찾는 id를 화면에 실제 있는 "result"로 일치시킴.
+  자세한 원인/수정 해설은 같은 폴더의 README.md를 보세요.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인사 페이지 (고친 버전)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    input, button { font-size: 16px; padding: 8px 12px; }
+    #result { margin-top: 16px; font-size: 20px; color: #2563eb; }
+  </style>
+</head>
+<body>
+  <h1>이름을 입력하면 인사해 드려요</h1>
+
+  <input id="nameInput" type="text" placeholder="이름을 적어 주세요" />
+  <button onclick="greet()">인사하기</button>
+
+  <p id="result"></p>
+
+  <script>
+    function greet() {
+      const name = document.getElementById("nameInput").value;
+      // ↓ HTML의 <p id="result">와 정확히 같은 id를 찾습니다 → 요소를 제대로 가져옴
+      const output = document.getElementById("result");
+      output.textContent = name + "님, 안녕하세요!";
+    }
+  </script>
+</body>
+</html>

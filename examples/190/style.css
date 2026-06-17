@@ -1,0 +1,94 @@
+/* =========================================================================
+   190 실습 — 이미지 최적화 완성본 스타일
+   디자인보다 "이미지가 자리를 미리 잡는다(CLS 방지)"를 눈으로 보는 게 목적입니다.
+   ========================================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+  margin: 0;
+  color: #222; /* 189번에서 흐렸던 글자색을 진하게 고쳤습니다 (대비 확보) */
+  line-height: 1.6;
+  background: #fafafa;
+}
+
+.site-header,
+.site-footer {
+  text-align: center;
+  padding: 32px 16px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.site-footer {
+  border-top: 1px solid #eee;
+  border-bottom: none;
+  color: #555;
+  margin-top: 48px;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+section {
+  margin-bottom: 48px;
+}
+
+h1 {
+  margin: 0 0 8px;
+}
+
+/* 핵심 포인트:
+   이미지에 width="800" height="500" (HTML 속성)이 들어 있어도,
+   반응형으로 줄이려면 CSS에서 max-width:100% / height:auto 를 줍니다.
+   이렇게 하면 화면이 좁아도 비율을 유지하며, 미리 계산된 자리 덕분에
+   사진이 늦게 와도 글자가 위아래로 튀지 않습니다(CLS=0에 가깝게). */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  background: #ececec; /* 사진이 도착하기 전 자리(회색 박스)를 보여 줘 밀림이 없음을 확인 */
+}
+
+.hero-img {
+  width: 100%;
+  margin: 16px 0;
+}
+
+/* 갤러리: auto-fit + minmax로 화면 너비에 따라 열 개수가 자동 조절 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  margin: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.card img {
+  border-radius: 0;
+}
+
+.card figcaption {
+  padding-top: 8px;
+  font-weight: 600;
+}
+
+.picture-demo picture {
+  display: block;
+  margin: 16px 0;
+}

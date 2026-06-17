@@ -1,0 +1,47 @@
+# 071 · 모달 팝업 창 만들기 (열기/닫기/오버레이)
+
+쇼핑몰의 "쿠폰 받기", 회원가입의 "약관 보기"처럼 화면 위에 겹쳐 떠오르는 작은 창을 **모달(modal) 팝업**이라고 합니다. 이번 실습에서는 버튼을 누르면 팝업이 떠오르고, **X 버튼 / 어두운 배경 / 키보드 ESC** 세 가지 방법으로 닫을 수 있는 모달을 직접 만듭니다. 핵심은 두 겹 구조입니다. 뒤 화면을 어둑하게 덮는 **오버레이(반투명 검은 막)** 위에 흰색 **모달 박스**를 띄우고, 평소에는 `hidden` 속성으로 숨겨 두었다가 JS로 보였다 숨겼다 합니다.
+
+## 목표
+
+- 버튼을 누르면 화면 정중앙에 모달이 떠오르고, 뒤 배경은 반투명하게 어두워지게 만든다.
+- 모달을 닫는 방법을 세 가지로 만든다: (1) X 버튼 클릭, (2) 어두운 배경(오버레이) 클릭, (3) 키보드 ESC 키.
+- 핵심 개념: `position: fixed`로 화면 전체를 덮는 오버레이, `hidden` 속성으로 보였다 숨기기, 키보드 입력을 잡는 `keydown` 이벤트와 `event.key === "Escape"`, 그리고 닫기 버튼 여러 개를 `data-close` 이름표 하나로 한 번에 처리하기.
+
+## 따라하는 단계
+
+1. 폴더 `071` 안에 `index.html`, `style.css`, `script.js` 세 파일이 있는지 확인합니다. (이미 준비되어 있습니다.)
+2. `index.html`을 더블클릭해 브라우저로 엽니다. "이벤트 자세히 보기" 버튼이 있는 흰 카드가 보입니다.
+3. 그 버튼을 눌러 봅니다. 뒤 화면이 어둑해지면서 가운데에 할인 안내 팝업이 떠오릅니다.
+4. **닫는 세 가지 방법**을 차례로 시험해 봅니다.
+   - 팝업 오른쪽 위의 **X**를 누른다 → 닫힘
+   - 팝업 바깥의 **어두운 배경**을 누른다 → 닫힘 (단, 팝업 안 글자를 누르면 안 닫힘)
+   - 키보드 **ESC** 키를 누른다 → 닫힘
+5. `index.html`을 열어 **두 겹 구조**를 확인합니다.
+   - `<div id="overlay" class="overlay" hidden data-close>` — 화면을 덮는 오버레이. `hidden`이 붙어 있어 처음엔 숨겨져 있습니다.
+   - 그 안의 `<div class="modal" ...>` — 실제로 보이는 흰색 팝업 박스입니다.
+   - X 버튼, 오버레이, "확인했어요" 버튼에 모두 `data-close`라는 같은 이름표가 붙어 있는 것을 확인합니다. (이게 6단계의 비밀입니다.)
+6. `style.css`에서 보이고 숨기는 규칙을 봅니다.
+   - `.overlay { position: fixed; top:0; left:0; right:0; bottom:0; }` — 화면 전체를 꽉 덮습니다.
+   - `background: rgba(0, 0, 0, 0.5);` — 마지막 숫자 `0.5`가 '반투명'이라 뒤 화면이 비쳐 보입니다.
+   - `.overlay[hidden] { display: none; }` — `hidden`이 붙은 동안에는 화면에서 완전히 사라집니다.
+7. `script.js`를 위에서부터 읽어 봅니다.
+   - `openModal()` / `closeModal()` — `overlay.hidden`을 `false`/`true`로 바꿔 보였다 숨깁니다.
+   - 오버레이 클릭 처리: `event.target.hasAttribute("data-close")` — 마우스가 닿은 곳에 `data-close` 표시가 있으면 닫습니다. 그래서 X·배경·확인 버튼이 모두 한 줄로 처리됩니다. (팝업 글자엔 이름표가 없어 안 닫힘)
+   - ESC 처리: `document.addEventListener("keydown", ...)`로 키 입력을 받고, `event.key === "Escape"`이면서 모달이 열려 있을 때만 닫습니다.
+8. 직접 바꿔 보기: `style.css`에서 오버레이 배경의 `0.5`를 `0.8`로 바꿔 저장하고 새로고침해 봅니다. 뒤 배경이 훨씬 더 어두워집니다. 또 `index.html`의 팝업 안 문구(`<h2>`, `<p>`)를 원하는 안내문으로 바꿔도 좋습니다. JS는 한 줄도 고치지 않아도 됩니다.
+
+## 검증법
+
+- "이벤트 자세히 보기" 버튼을 누르면 팝업이 화면 **정중앙**에 뜨고, 뒤 배경이 반투명하게 어두워지는지 확인합니다.
+- X 버튼, 어두운 배경, ESC 키 **세 가지 모두**로 닫히는지 하나씩 확인합니다. 셋 다 닫혀야 성공입니다.
+- 팝업 **안쪽의 글자(제목·문장)를 클릭했을 때는 닫히지 않아야** 합니다. (배경을 눌렀을 때만 닫혀야 자연스럽습니다.) 만약 글자를 눌러도 닫힌다면 `data-close` 이름표를 엉뚱한 곳에 붙인 것입니다.
+- 모달이 닫혀 있는 상태에서 ESC를 눌러도 아무 일도 일어나지 않아야 합니다. (열려 있을 때만 ESC가 동작)
+- (보조기기 확인) 개발자 도구로 보면, 모달이 열렸을 때 `<div class="modal" role="dialog" aria-modal="true">`로 표시되어 보조기기에 '대화상자'임을 알려 줍니다.
+
+## 관련 가이드 링크
+
+- 이전: [070 · 드롭다운 메뉴 만들기](../070/) — 버튼으로 펼치고 바깥을 클릭하면 닫히는 메뉴, 이벤트 버블링
+- 다음: [072 · 토스트 알림 만들기](../072/) — 떴다가 `setTimeout`으로 잠시 후 스스로 사라지는 알림
+- 묶음(C · 자바스크립트 인터랙션): [059 다크모드 토글](../059/) · [060 더보기/접기 토글](../060/) · [068 FAQ 아코디언](../068/) — 클래스·속성으로 상태를 켜고 끄는 패턴 모음
+- 참고 문서(MDN): [keydown 이벤트](https://developer.mozilla.org/ko/docs/Web/API/Element/keydown_event) · [KeyboardEvent.key](https://developer.mozilla.org/ko/docs/Web/API/KeyboardEvent/key) · [hidden 속성](https://developer.mozilla.org/ko/docs/Web/HTML/Global_attributes/hidden) · [position: fixed](https://developer.mozilla.org/ko/docs/Web/CSS/position) · [ARIA: dialog 역할](https://developer.mozilla.org/ko/docs/Web/Accessibility/ARIA/Roles/dialog_role)

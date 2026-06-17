@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자동 반응형 카드 그리드 - auto-fit·minmax 실습</title>
+  <!-- 같은 폴더에 있는 style.css 파일을 불러옵니다 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <h1>우리 동네 맛집 카드</h1>
+    <p>
+      브라우저 창 너비를 줄였다 늘렸다 해보세요.
+      카드 한 줄에 들어가는 개수가 <strong>자동으로</strong> 늘고 줍니다.
+    </p>
+  </header>
+
+  <main>
+    <!-- 이 div가 '격자판' 역할을 합니다. 여기에 핵심 grid 설정이 들어갑니다.
+         미디어쿼리(@media) 없이도 화면 너비에 따라 열 개수가 알아서 바뀝니다. -->
+    <section class="card-grid">
+      <!-- 카드 6장. 인터넷 연결 없이도 그림이 보이도록
+           placehold.co 같은 외부 주소 대신 직접 그린 SVG 색 블록을 사용했습니다. -->
+      <article class="card">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23ff7f50'/><text x='50%25' y='50%25' fill='white' font-size='36' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>국밥집</text></svg>"
+          alt="국밥집 대표 사진" />
+        <div class="card-body">
+          <h2>할매 국밥</h2>
+          <p>새벽까지 펄펄 끓는 돼지국밥. 깍두기가 일품입니다.</p>
+          <span class="card-tag">한식</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%234caf50'/><text x='50%25' y='50%25' fill='white' font-size='36' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>분식</text></svg>"
+          alt="분식집 대표 사진" />
+        <div class="card-body">
+          <h2>학교앞 떡볶이</h2>
+          <p>매콤달콤 즉석떡볶이와 바삭한 튀김 세트.</p>
+          <span class="card-tag">분식</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%232196f3'/><text x='50%25' y='50%25' fill='white' font-size='36' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>카페</text></svg>"
+          alt="카페 대표 사진" />
+        <div class="card-body">
+          <h2>골목 커피</h2>
+          <p>직접 볶은 원두로 내리는 핸드드립 한 잔의 여유.</p>
+          <span class="card-tag">카페</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%239c27b0'/><text x='50%25' y='50%25' fill='white' font-size='36' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>일식</text></svg>"
+          alt="일식집 대표 사진" />
+        <div class="card-body">
+          <h2>스시 한입</h2>
+          <p>매일 들어오는 신선한 회로 만든 생활 초밥.</p>
+          <span class="card-tag">일식</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23e91e63'/><text x='50%25' y='50%25' fill='white' font-size='36' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>치킨</text></svg>"
+          alt="치킨집 대표 사진" />
+        <div class="card-body">
+          <h2>동네 치킨</h2>
+          <p>주문 즉시 튀기는 후라이드와 양념 반반.</p>
+          <span class="card-tag">야식</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23607d8b'/><text x='50%25' y='50%25' fill='white' font-size='36' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'>베이커리</text></svg>"
+          alt="베이커리 대표 사진" />
+        <div class="card-body">
+          <h2>새벽 빵집</h2>
+          <p>매일 아침 갓 구운 소금빵과 통밀 식빵.</p>
+          <span class="card-tag">베이커리</span>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

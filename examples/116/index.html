@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 글 남기기 — 실습 116</title>
+  <style>
+    body {
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      max-width: 520px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.5rem; }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+    label { display: block; font-weight: 700; margin: 12px 0 4px; }
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #3ecf8e;
+      color: #03311f;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:disabled { background: #cfcfcf; color: #777; cursor: not-allowed; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 저장 결과를 보여 주는 박스. JS가 색과 글자를 바꿔 줍니다. */
+    #result {
+      margin-top: 16px;
+      font-weight: 700;
+      padding: 14px 16px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;        /* 처음엔 숨겨 두고, 결과가 나오면 보여 줍니다 */
+    }
+    #result.ok   { display: block; background: #e6f7ee; color: #137a4a; } /* 성공(초록) */
+    #result.fail { display: block; background: #fdecea; color: #b3261e; } /* 실패(빨강) */
+    .hint { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>방명록 글 남기기</h1>
+
+  <p>
+    이름과 메시지를 적고 <strong>[남기기]</strong> 버튼을 누르면,
+    그 한 줄이 <strong>내 컴퓨터가 아니라 Supabase 서버의 표(guestbook 테이블)</strong>에 저장됩니다.
+  </p>
+
+  <div class="card">
+    <!-- form 태그로 감싸면 Enter 키로도 제출할 수 있습니다. -->
+    <!-- 단, 새로고침되어 화면이 깜빡이지 않도록 JS에서 기본 동작을 막습니다. -->
+    <form id="guestbook-form">
+      <label for="name">이름</label>
+      <input id="name" type="text" placeholder="홍길동" maxlength="20" required />
+
+      <label for="message">메시지</label>
+      <textarea id="message" placeholder="여기 다녀갑니다!" maxlength="200" required></textarea>
+
+      <button id="submit-btn" type="submit">남기기</button>
+    </form>
+
+    <!-- 저장 성공/실패 메시지가 여기에 표시됩니다. -->
+    <div id="result"></div>
+  </div>
+
+  <p class="hint">
+    먼저 <code>script.js</code> 안의 <code>SUPABASE_URL</code>과
+    <code>SUPABASE_ANON_KEY</code>를 내 프로젝트 값으로 바꾸고,
+    <code>schema.sql</code>로 <code>guestbook</code> 표를 만들어 두어야 합니다.
+    방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 저장 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

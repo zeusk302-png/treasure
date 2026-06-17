@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 동네 빵집 — 이미지 최적화 완성본</title>
+  <meta name="description" content="WebP 변환과 width/height, lazy loading으로 빠르게 뜨고 화면이 흔들리지 않는 빵집 갤러리 페이지입니다." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<!--
+  ===========================================================================
+  190 실습 — 이미지를 WebP로 줄이고 width·height·lazy 넣기 (완성본)
+  ===========================================================================
+  이 페이지는 189번에서 "성능 점수를 깎았던 너무 큰 이미지" 문제를
+  실제로 고친 결과물입니다. 핵심은 세 가지입니다.
+
+   (1) WebP 형식 사용  : 같은 사진을 더 가볍게 만들어 빨리 뜨게 함 (LCP 개선)
+   (2) width / height : 사진이 차지할 공간을 미리 알려줘 화면 밀림을 막음 (CLS 개선)
+   (3) loading="lazy" : 화면 밖 사진은 스크롤해서 가까워질 때 불러옴 (낭비 줄이기)
+
+  ※ 아래 이미지들은 학습용 placeholder(연습용 자리표시 이미지) 주소를 씁니다.
+    실제 프로젝트에서는 내 사진을 WebP로 변환해 같은 폴더에 넣고
+    src를 "hero.webp" 처럼 바꾸면 됩니다. (방법은 README.md 참고)
+  ===========================================================================
+-->
+<body>
+  <header class="site-header">
+    <h1>우리 동네 빵집</h1>
+    <p>갓 구운 빵을 매일 아침 만나보세요.</p>
+  </header>
+
+  <main>
+    <!--
+      대표 이미지(히어로).
+      - 화면을 열자마자 가장 먼저 보이는 가장 큰 이미지이므로 LCP의 주인공입니다.
+      - 가장 먼저 보여야 하므로 일부러 loading="lazy"를 "넣지 않습니다".
+        (첫 화면 이미지를 lazy로 미루면 오히려 늦게 떠서 LCP가 나빠집니다.)
+      - WebP로 변환해 용량을 줄이고, width/height로 자리를 미리 잡아 줍니다.
+    -->
+    <section class="hero">
+      <h2>오늘의 대표 빵</h2>
+      <img
+        class="hero-img"
+        src="https://placehold.co/800x500/webp?text=Croissant"
+        alt="버터 향이 가득한 갓 구운 크루아상"
+        width="800"
+        height="500"
+      />
+      <p>매일 아침 6시, 버터를 켜켜이 넣어 구운 크루아상이 나옵니다.</p>
+    </section>
+
+    <!--
+      아래 갤러리 이미지들은 스크롤을 내려야 보이는, '화면 밖' 이미지입니다.
+      그래서 loading="lazy"를 넣어 두면 처음 페이지를 열 때는 안 불러오고,
+      스크롤해서 가까워질 때 비로소 내려받습니다. → 처음 로딩이 가벼워집니다.
+      모든 이미지에는 width/height를 넣어 자리를 미리 잡아 화면 밀림을 막습니다.
+    -->
+    <section class="gallery">
+      <h2>다른 메뉴 둘러보기</h2>
+      <div class="grid">
+        <figure class="card">
+          <img
+            src="https://placehold.co/400x300/webp?text=Bread"
+            alt="겉은 바삭하고 속은 촉촉한 식빵"
+            width="400"
+            height="300"
+            loading="lazy"
+          />
+          <figcaption>우리밀 식빵</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img
+            src="https://placehold.co/400x300/webp?text=Bagel"
+            alt="쫄깃한 플레인 베이글"
+            width="400"
+            height="300"
+            loading="lazy"
+          />
+          <figcaption>플레인 베이글</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img
+            src="https://placehold.co/400x300/webp?text=Tart"
+            alt="제철 과일을 올린 과일 타르트"
+            width="400"
+            height="300"
+            loading="lazy"
+          />
+          <figcaption>과일 타르트</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img
+            src="https://placehold.co/400x300/webp?text=Scone"
+            alt="버터 풍미가 진한 플레인 스콘"
+            width="400"
+            height="300"
+            loading="lazy"
+          />
+          <figcaption>플레인 스콘</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img
+            src="https://placehold.co/400x300/webp?text=Cookie"
+            alt="겉바속촉 초코칩 쿠키"
+            width="400"
+            height="300"
+            loading="lazy"
+          />
+          <figcaption>초코칩 쿠키</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img
+            src="https://placehold.co/400x300/webp?text=Muffin"
+            alt="블루베리가 가득한 머핀"
+            width="400"
+            height="300"
+            loading="lazy"
+          />
+          <figcaption>블루베리 머핀</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!--
+      한 단계 더: <picture>로 'WebP 우선, 안 되면 JPG' 안전망 만들기.
+      아주 오래된 브라우저는 WebP를 못 읽을 수 있습니다.
+      <picture> 안에 WebP를 먼저 제시하고, 그래도 안 되면 <img>의 JPG로
+      자동으로 대체(폴백)됩니다. width/height/lazy는 <img>에 그대로 둡니다.
+    -->
+    <section class="picture-demo">
+      <h2>한 단계 더 — WebP가 안 되는 브라우저 대비</h2>
+      <picture>
+        <source
+          srcset="https://placehold.co/600x400/webp?text=WebP+First"
+          type="image/webp"
+        />
+        <img
+          src="https://placehold.co/600x400/jpeg?text=JPG+Fallback"
+          alt="WebP를 못 읽는 브라우저를 위한 JPG 대체 이미지 예시"
+          width="600"
+          height="400"
+          loading="lazy"
+        />
+      </picture>
+      <p>최신 브라우저는 위쪽 WebP를, 아주 오래된 브라우저는 아래쪽 JPG를 보여 줍니다.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 우리 동네 빵집</p>
+  </footer>
+</body>
+</html>

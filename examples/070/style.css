@@ -1,0 +1,124 @@
+/* 화면 전체 기본 설정: 카드 하나를 가운데에 띄웁니다. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  color: #1f2937;
+}
+
+/* 가운데 흰색 카드 */
+.card {
+  background: #ffffff;
+  padding: 28px 32px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 360px;
+}
+
+.card h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.desc {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== 드롭다운 한 덩어리 ===== */
+/* position: relative 가 중요합니다.
+   펼쳐지는 메뉴(아래의 .dropdown-menu)가 이 박스를 기준으로
+   바로 아래에 딱 붙어 뜨도록 해주는 '기준점' 역할을 합니다. */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 메뉴를 여는 버튼 */
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: #1f2937;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dropdown-button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* 버튼 안의 화살표(▾). 메뉴가 열리면 위(▴)를 보도록 뒤집습니다. */
+.arrow {
+  font-size: 12px;
+  transition: transform 0.15s ease;
+}
+
+/* 드롭다운이 열린 상태일 때 화살표를 180도 돌려 ▴ 처럼 보이게 함 */
+.dropdown.is-open .arrow {
+  transform: rotate(180deg);
+}
+
+/* ===== 펼쳐지는 메뉴 ===== */
+/* 평소엔 화면에서 완전히 숨겨 둡니다. */
+.dropdown-menu {
+  display: none;          /* 기본: 보이지 않음 */
+  position: absolute;     /* .dropdown 을 기준으로 떠 있음 */
+  top: calc(100% + 6px);  /* 버튼 바로 아래 6px 띄워서 배치 */
+  left: 0;
+  min-width: 180px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;       /* 목록의 점(•) 제거 */
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  z-index: 10;            /* 다른 요소 위로 올라오게 함 */
+}
+
+/* JS가 .dropdown 에 is-open 을 붙이면, 그 안의 메뉴가 나타납니다. */
+.dropdown.is-open .dropdown-menu {
+  display: block;
+}
+
+/* 메뉴 안의 각 항목 링크 */
+.dropdown-menu li a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu li a:hover {
+  background: #eef2ff;
+  color: #2563eb;
+}
+
+/* 바깥 클릭 테스트 안내 문구 */
+.hint {
+  margin: 28px 0 0;
+  padding: 16px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+}

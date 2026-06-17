@@ -1,0 +1,193 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #eef2f7;            /* 부드러운 하늘빛 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+  /* 카드를 가로 가운데에 두고, 위쪽부터 시작하게 한다. */
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+/* 위젯이 담기는 큰 카드 */
+.card {
+  background: #ffffff;
+  max-width: 480px;
+  width: 100%;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 22px;
+  color: #2f6fb0;                /* 차분한 파랑 (날씨/하늘 느낌) */
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.lead {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.lead strong {
+  color: #2f6fb0;
+}
+
+/* === 도시 선택 + 버튼 영역 === */
+.controls {
+  background: #f5f8fc;
+  border: 1px solid #dce6f1;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.ctrlLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2f6fb0;
+  margin-bottom: 8px;
+}
+
+.ctrlRow {
+  display: flex;
+  gap: 10px;
+}
+
+#citySelect {
+  flex: 1;                       /* 남은 가로 공간을 드롭다운이 채운다 */
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #cdd9e6;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+#loadBtn {
+  background: #2f6fb0;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#loadBtn:hover {
+  background: #25588c;           /* 마우스를 올리면 살짝 진하게 */
+}
+
+#loadBtn:disabled {
+  background: #aac4de;           /* 받아오는 중에는 흐리게 + 클릭 불가 */
+  cursor: default;
+}
+
+/* === 세 가지 상태 박스 공통 === */
+.stateBox {
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+.stateText {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ① 로딩 박스 */
+#loadingBox {
+  background: #f5f8fc;
+  border: 1px solid #dce6f1;
+  color: #5b7795;
+}
+
+/* 빙글 도는 스피너 (CSS 애니메이션) */
+.spinner {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border: 4px solid #d6e2f0;
+  border-top-color: #2f6fb0;     /* 한쪽만 진하게 해서 도는 게 보이게 */
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ② 성공(결과) 박스 */
+#resultBox {
+  background: #f3f9f4;
+  border: 1px solid #d6ecd9;
+}
+
+.bigEmoji {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.cityName {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #2f6fb0;
+}
+
+.temp {
+  margin-top: 4px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #2b2b2b;
+}
+
+.desc {
+  margin-top: 4px;
+  font-size: 15px;
+  color: #777;
+}
+
+/* ③ 실패(에러) 박스 — 빨강 계열로 '문제가 났다'를 분명히 */
+#errorBox {
+  background: #fdf3f2;
+  border: 1px solid #f3d2cf;
+  color: #b5392f;
+}
+
+#errorText {
+  color: #b5392f;
+}
+
+.retryBtn {
+  margin-top: 14px;
+  background: #b5392f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.retryBtn:hover {
+  background: #94291f;
+}
+
+/* 시작 안내 문구 */
+.hint {
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>날씨 위젯 — 로딩·성공·실패 세 가지 화면 상태</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>🌤️ 날씨 위젯 (로딩 · 성공 · 실패)</h1>
+    <p class="lead">
+      버튼을 누르면 <strong>무료 공개 날씨 API</strong>에서 그 도시의 날씨를 받아옵니다.
+      이번 실습의 핵심은 화면이 가질 수 있는 <strong>세 가지 상태</strong>를 모두 만드는 것입니다:
+      <strong>① 받아오는 중(로딩)</strong> · <strong>② 성공(결과 표시)</strong> · <strong>③ 실패(친절한 에러 문구)</strong>.
+      특히 <strong>AI가 코드를 짜 줄 때 자주 빠뜨리는 "실패했을 때의 화면"</strong>을 직접 챙기는 연습입니다.
+    </p>
+
+    <!-- 도시를 고르고 [날씨 받기]를 누르는 영역 -->
+    <section class="controls">
+      <label class="ctrlLabel" for="citySelect">도시 선택</label>
+      <div class="ctrlRow">
+        <select id="citySelect">
+          <option value="seoul">서울</option>
+          <option value="busan">부산</option>
+          <option value="jeju">제주</option>
+          <!-- ★일부러 고장 낸 항목★ 실패 화면을 눈으로 보기 위한 '없는 도시'입니다. -->
+          <option value="broken">⚠️ (없는 도시) 실패 화면 보기</option>
+        </select>
+        <button id="loadBtn" type="button">날씨 받기</button>
+      </div>
+    </section>
+
+    <!-- ===== 세 가지 화면 상태가 들어갈 자리 ===== -->
+    <!-- 한 번에 '하나만' 보이고 나머지는 hidden 속성으로 숨깁니다. -->
+
+    <!-- ① 로딩 상태: 빙글 도는 스피너 + 안내 문구 -->
+    <div id="loadingBox" class="stateBox" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <p class="stateText">날씨를 받아오는 중이에요…</p>
+    </div>
+
+    <!-- ② 성공 상태: 받아온 결과를 보여줌 -->
+    <div id="resultBox" class="stateBox result" hidden>
+      <div id="emoji" class="bigEmoji">🌤️</div>
+      <div id="cityName" class="cityName">—</div>
+      <div id="temp" class="temp">—</div>
+      <div id="desc" class="desc">—</div>
+    </div>
+
+    <!-- ③ 실패 상태: 사용자용 에러 문구 + 다시 시도 버튼 -->
+    <div id="errorBox" class="stateBox error" hidden>
+      <div class="bigEmoji">😟</div>
+      <p id="errorText" class="stateText">날씨를 받아오지 못했어요.</p>
+      <button id="retryBtn" type="button" class="retryBtn">다시 시도</button>
+    </div>
+
+    <!-- 시작 안내(아직 아무것도 안 받아온 상태) -->
+    <p id="hint" class="hint">위에서 도시를 고르고 <strong>[날씨 받기]</strong>를 눌러 보세요.</p>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

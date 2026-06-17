@@ -1,0 +1,87 @@
+/* ===== 페이지 전체 기본 스타일 ===== */
+body {
+  font-family: "Pretendard", "맑은 고딕", sans-serif;
+  margin: 0;
+  padding: 24px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ===== 여기가 이번 실습의 핵심! =====
+   딱 한 줄(grid-template-columns)이 반응형의 비밀입니다.
+
+   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+   - repeat(...)        : 같은 규칙의 열을 여러 개 반복해서 만든다
+   - auto-fit           : 화면 너비를 보고 "들어갈 수 있는 만큼" 열 개수를
+                          자동으로 정한다 (내가 숫자를 안 정해도 됨)
+   - minmax(220px, 1fr) : 한 칸의 최소 너비는 220px, 최대는 1fr(남는 공간 균등 분배)
+                          -> 즉 "220px보다 작아지진 마, 대신 남으면 늘어나도 돼"
+
+   결과: 창이 넓으면 한 줄에 카드가 여러 개,
+         창이 좁으면 한 줄에 적게(좁으면 1개)  —— @media 없이 자동! */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;            /* 카드 사이 간격 */
+  max-width: 960px;     /* 너무 넓게 퍼지지 않게 최대 너비 제한 */
+  margin: 0 auto;       /* 가운데 정렬 */
+}
+
+/* ===== 카드 한 장 ===== */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden; /* 둥근 모서리 밖으로 이미지가 삐져나오지 않게 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;       /* 카드 너비에 꽉 차게 */
+  height: 160px;     /* 모든 카드의 사진 높이를 맞춰 격자를 깔끔하게 */
+  object-fit: cover; /* 비율 유지하며 칸을 꽉 채움(찌그러짐 방지) */
+  display: block;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-body h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.card-body p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 음식 종류를 보여주는 작은 라벨 */
+.card-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #eef2ff;
+  color: #3949ab;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
