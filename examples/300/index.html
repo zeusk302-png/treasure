@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실습 300 — RLS 켜기 전후 비교</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { font-size: 1.4rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    .danger { background: #fff5f5; border-color: #f3b4b4; }
+    .safe { background: #f3fbf5; border-color: #b4e3c0; }
+    button { font-size: 1rem; padding: 8px 14px; border-radius: 8px; border: 1px solid #888; background: #fff; cursor: pointer; }
+    button:hover { background: #f2f2f2; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+    .count { font-weight: bold; }
+    .leak { color: #c0392b; }
+    .blocked { color: #1e7e34; }
+    small { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>실습 300 — Supabase RLS, 켜기 전과 후 비교</h1>
+  <p>
+    아래 <strong>공개(publishable/anon) 키</strong>로 같은 테이블을 조회합니다.
+    SQL Editor에서 <code>schema.sql</code>의 단계를 실행할 때마다 여기서 버튼을 눌러
+    <strong>결과가 어떻게 달라지는지(=몇 줄이 보이는지)</strong>를 캡처하세요.
+  </p>
+
+  <div class="card">
+    <p><strong>① 내 Supabase 값 넣기</strong> — Settings → API 에서 복사한 값으로 아래 두 줄을 바꾸세요.</p>
+    <small>여기 넣는 건 <strong>publishable(anon) 키</strong>입니다. service_role(secret) 키는 절대 넣지 마세요.</small>
+  </div>
+
+  <div class="card danger">
+    <p><strong>② secret_notes 조회</strong> (원래 새면 안 되는 개인 데이터)</p>
+    <button id="btnSecret">secret_notes 조회</button>
+    <p>읽힌 줄 수: <span id="secretCount" class="count">-</span></p>
+    <pre id="secretOut">아직 조회하지 않음</pre>
+    <small>
+      1단계(RLS 끔) 상태에서는 전화번호 3줄이 다 보입니다 = <span class="leak">새는 증거</span>.<br />
+      2단계(RLS 켬) 실행 후 다시 누르면 0줄 = <span class="blocked">막힌 증거</span>. 키는 그대로인데 결과가 달라집니다.
+    </small>
+  </div>
+
+  <div class="card safe">
+    <p><strong>③ public_posts 조회</strong> (원래 누구나 읽어도 되는 공개 데이터)</p>
+    <button id="btnPublic">public_posts 조회</button>
+    <p>읽힌 줄 수: <span id="publicCount" class="count">-</span></p>
+    <pre id="publicOut">아직 조회하지 않음</pre>
+    <small>3단계 실행 후, "읽기 허용 정책"이 있어서 RLS를 켜도 2줄이 보입니다. RLS는 "전부 막기"가 아니라 "필요한 행만 열기"입니다.</small>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // ===== 여기 두 줄만 내 값으로 바꾸세요 (publishable/anon 키) =====
+    const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+    const SUPABASE_ANON_KEY = "여기에-publishable(anon)-키-붙여넣기";
+    // =================================================================
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function query(table, countEl, outEl) {
+      countEl.textContent = "...";
+      outEl.textContent = "조회 중...";
+      const { data, error } = await supabase.from(table).select("*");
+      if (error) {
+        countEl.textContent = "오류";
+        outEl.textContent = "에러: " + error.message;
+        return;
+      }
+      countEl.textContent = data.length + "줄";
+      outEl.textContent = data.length === 0
+        ? "(빈 목록 — RLS가 막았거나 데이터가 없음)"
+        : JSON.stringify(data, null, 2);
+    }
+
+    document.getElementById("btnSecret").addEventListener("click", () =>
+      query("secret_notes", document.getElementById("secretCount"), document.getElementById("secretOut"))
+    );
+    document.getElementById("btnPublic").addEventListener("click", () =>
+      query("public_posts", document.getElementById("publicCount"), document.getElementById("publicOut"))
+    );
+  </script>
+</body>
+</html>

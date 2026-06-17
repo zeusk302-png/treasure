@@ -1,0 +1,6 @@
+# 진짜 값이 든 파일은 절대 GitHub에 올리지 않습니다.
+# 견본(.env.example)만 올라가고, 아래 진짜 값 파일은 무시됩니다.
+.env
+.env.local
+.env.*.local
+env-config.js

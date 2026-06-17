@@ -1,0 +1,194 @@
+/* ============================================================
+   모카하우스 반응형 랜딩페이지 CSS
+   설계 방식: "모바일 퍼스트"
+   - 아무 미디어쿼리에도 들어가지 않은 기본 규칙 = 폰(작은 화면)용
+   - 화면이 넓어질 때만 @media (min-width: ...) 로 규칙을 덧칠합니다
+   ============================================================ */
+
+/* box-sizing: 패딩/테두리를 너비 안쪽에 포함시켜 레이아웃이 안 깨지게 함 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Apple SD Gothic Neo", "맑은 고딕", sans-serif;
+  line-height: 1.6;
+  color: #2b2b2b;
+}
+
+/* 가운데 정렬 + 좌우 여백을 책임지는 공통 래퍼.
+   max-width로 큰 화면에서 글이 너무 옆으로 퍼지지 않게 막습니다. */
+.container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+img {
+  max-width: 100%; /* 이미지가 부모보다 커져서 가로 스크롤이 생기는 것을 방지 */
+  height: auto;
+}
+
+/* ---------- 상단 바 ---------- */
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+  color: #6f4e37;
+  text-decoration: none;
+}
+.nav a {
+  margin-left: 16px;
+  color: #555;
+  text-decoration: none;
+  font-size: 15px;
+}
+.nav a:hover {
+  color: #6f4e37;
+}
+
+/* ---------- 버튼 ---------- */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-primary {
+  background: #6f4e37;
+  color: #fff;
+}
+.btn-light {
+  background: #fff;
+  color: #6f4e37;
+}
+
+/* ---------- 히어로 ---------- */
+.hero {
+  background: linear-gradient(135deg, #f6efe7, #efe1d2);
+  text-align: center;
+}
+.hero-inner {
+  padding: 56px 20px; /* 폰 기준: 위아래 여백을 적당히 */
+}
+/* clamp(최소, 화면비례, 최대): 글자가 화면 크기에 따라 부드럽게 커지고 작아짐.
+   폰에서는 28px 아래로 안 내려가고, PC에서도 48px 위로 안 커집니다. */
+.hero-title {
+  font-size: clamp(28px, 6vw, 48px);
+  margin-bottom: 16px;
+}
+.hero-desc {
+  font-size: clamp(15px, 2.5vw, 19px);
+  color: #6b5b4d;
+  margin-bottom: 28px;
+}
+
+/* ---------- 특징 섹션 ---------- */
+.features {
+  padding: 56px 0;
+}
+.section-title {
+  text-align: center;
+  font-size: clamp(22px, 4vw, 32px);
+  margin-bottom: 32px;
+}
+/* 핵심! flexbox + flex-wrap = 유연한 레이아웃.
+   폰에서는 카드가 한 줄에 다 못 들어가 자동으로 줄바꿈(아래로 쌓임)됩니다. */
+.feature-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.feature-card {
+  /* flex: 1 1 100% = "기본은 한 줄 전체 너비" → 폰에서 1열로 세로 배치 */
+  flex: 1 1 100%;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-align: center;
+}
+.feature-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+.feature-card h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+.feature-card p {
+  color: #666;
+  font-size: 15px;
+}
+
+/* ---------- CTA ---------- */
+.cta {
+  background: #6f4e37;
+  color: #fff;
+  text-align: center;
+}
+.cta-inner {
+  padding: 56px 20px;
+}
+.cta h2 {
+  font-size: clamp(20px, 4vw, 30px);
+  margin-bottom: 8px;
+}
+.cta p {
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+/* ---------- 푸터 ---------- */
+.site-footer {
+  background: #2b2b2b;
+  color: #bbb;
+  text-align: center;
+  padding: 24px 0;
+  font-size: 14px;
+}
+
+/* ============================================================
+   미디어쿼리 1단계 — 태블릿 (가로 640px 이상)
+   특징 카드 3개를 가로 2개씩 배치합니다.
+   ============================================================ */
+@media (min-width: 640px) {
+  .feature-card {
+    /* flex: 1 1 calc(50% - 10px) = 한 줄에 2개.
+       gap(20px)을 두 칸이 나눠 가지므로 10px씩 빼줍니다. */
+    flex: 1 1 calc(50% - 10px);
+  }
+  .hero-inner,
+  .cta-inner {
+    padding: 80px 20px;
+  }
+}
+
+/* ============================================================
+   미디어쿼리 2단계 — 데스크톱 (가로 960px 이상)
+   특징 카드 3개를 가로 한 줄(3열)에 나란히 배치합니다.
+   ============================================================ */
+@media (min-width: 960px) {
+  .feature-card {
+    /* flex: 1 = 남은 공간을 3개 카드가 똑같이 나눠 가짐 → 3열 */
+    flex: 1;
+  }
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200">
+  <rect width="320" height="200" rx="16" fill="#fbbc04"/>
+  <circle cx="160" cy="92" r="56" fill="#fff3cd" stroke="#e8a400" stroke-width="6"/>
+  <text x="160" y="100" font-family="sans-serif" font-size="38" text-anchor="middle">🍜</text>
+  <text x="160" y="172" font-family="sans-serif" font-size="15" fill="#664d00" text-anchor="middle" font-weight="bold">대표 메뉴 사진 (images/food.svg)</text>
+</svg>

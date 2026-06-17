@@ -1,0 +1,137 @@
+/* ===== 색·간격을 변수로 모아두면 나중에 바꾸기 쉽습니다 ===== */
+:root {
+  --brand: #4f46e5;       /* 메인 보라색 */
+  --brand-dark: #4338ca;
+  --text: #1f2937;        /* 본문 글자색 */
+  --muted: #6b7280;       /* 보조 글자색 */
+  --bg-soft: #f3f4f6;     /* 연한 회색 배경 */
+  --max-width: 1080px;    /* 콘텐츠 최대 너비 */
+}
+
+/* 모든 요소의 기본 여백 제거 + 박스 크기 계산 방식 통일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* 버튼 공통 모양 */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--brand); color: #fff; }
+.btn-primary:hover { background: var(--brand-dark); }
+
+.btn-light { background: #fff; color: var(--brand); }
+
+/* ===== 1) 히어로 섹션 ===== */
+.hero {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+  padding-bottom: 80px;
+}
+
+.nav {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between; /* 로고는 왼쪽, 버튼은 오른쪽 */
+  align-items: center;
+}
+.logo { font-size: 1.4rem; font-weight: 800; }
+.nav-cta {
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+.nav-cta:hover { background: rgba(255, 255, 255, 0.15); }
+
+.hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 24px 0;
+  text-align: center;
+}
+.hero-title {
+  font-size: 2.6rem;
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
+}
+.hero-note {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== 2) 기능 섹션 ===== */
+.features {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 80px 24px;
+  text-align: center;
+}
+.section-title { font-size: 2rem; margin-bottom: 12px; }
+.section-sub { color: var(--muted); margin-bottom: 48px; }
+
+/* 카드 3개를 가로로 균등 배치, 좁아지면 자동 줄바꿈 */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: var(--bg-soft);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+}
+.feature-icon { font-size: 2.4rem; margin-bottom: 16px; }
+.feature-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+.feature-card p { color: var(--muted); }
+
+/* ===== 3) CTA 섹션 ===== */
+.cta {
+  background: var(--brand-dark);
+  color: #fff;
+  text-align: center;
+  padding: 80px 24px;
+}
+.cta-title { font-size: 2rem; margin-bottom: 12px; }
+.cta-sub { color: rgba(255, 255, 255, 0.9); margin-bottom: 32px; }
+
+/* ===== 푸터 ===== */
+.footer {
+  text-align: center;
+  padding: 28px 24px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ===== 모바일에서 글자 크기 살짝 줄이기 ===== */
+@media (max-width: 600px) {
+  .hero-title { font-size: 2rem; }
+  .section-title, .cta-title { font-size: 1.6rem; }
+}

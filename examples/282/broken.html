@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 동네 분식집 (고장난 버전)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; line-height: 1.7; color: #202124; }
+    header { display: flex; align-items: center; gap: 16px; }
+    h1 { color: #1a73e8; margin: 0; }
+    nav a { margin-right: 16px; color: #1a73e8; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-top: 24px; }
+    img { max-width: 100%; border-radius: 12px; display: block; }
+  </style>
+</head>
+<body>
+  <!-- ❌ 버그 1: 맨 앞에 슬래시(/)로 시작하는 "절대경로".
+       더블클릭으로 파일을 열면 / 는 컴퓨터의 최상위 폴더(C:\)를 가리켜서 사진이 안 뜬다. -->
+  <header>
+    <img src="/images/logo.svg" alt="가게 로고" width="160" />
+    <h1>우리 동네 분식집</h1>
+  </header>
+
+  <nav>
+    <!-- ❌ 버그 2: about.html 은 같은 폴더에 있는데, 앞에 슬래시를 붙여 절대경로로 만들어서 404(없음)가 난다. -->
+    <a href="/about.html">가게 소개</a>
+    <!-- ❌ 버그 3: 폴더 이름 대소문자/철자가 실제와 다르다. 실제 폴더는 "images" 인데 "Images" 라고 적었다.
+         (웹 서버에서는 대소문자를 구분하므로 사진이 안 뜬다.) -->
+    <a href="Images/food.svg">대표 메뉴 보기</a>
+    <!-- ❌ 버그 4: 외부 사이트 링크인데 https:// 를 빼먹어서 "현재 폴더의 naver.com" 파일을 찾는다. -->
+    <a href="www.naver.com">네이버 바로가기</a>
+  </nav>
+
+  <div class="card">
+    <h2>오늘의 추천 메뉴</h2>
+    <!-- ❌ 버그 5: 내 컴퓨터에서만 통하는 전체 경로(C:\...). 다른 사람 컴퓨터·인터넷에 올리면 깨진다. -->
+    <img src="C:\Users\me\Desktop\food.svg" alt="대표 메뉴 사진" />
+    <p>매콤달콤 떡볶이와 바삭한 김말이를 만나보세요.</p>
+  </div>
+</body>
+</html>

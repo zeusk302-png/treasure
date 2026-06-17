@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>블로그 태그 필터</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>나의 블로그</h1>
+      <p class="lead">태그 버튼을 누르면 그 태그가 달린 글만 보여요.</p>
+
+      <!-- 태그 필터 버튼들 -->
+      <!-- data-tag 값이 "필터 기준"입니다. "all"은 전체 보기를 뜻합니다. -->
+      <div class="filter" id="filter">
+        <button class="tag-btn is-active" data-tag="all">전체</button>
+        <button class="tag-btn" data-tag="여행">여행</button>
+        <button class="tag-btn" data-tag="요리">요리</button>
+        <button class="tag-btn" data-tag="개발">개발</button>
+      </div>
+
+      <!-- 글 목록 -->
+      <!-- 각 글 카드의 data-tag 값이 그 글이 가진 태그입니다. -->
+      <ul class="post-list" id="postList">
+        <li class="post" data-tag="여행">
+          <h2>제주도 3박 4일 여행기</h2>
+          <p>렌터카로 돌아본 제주 동쪽 코스를 정리했어요.</p>
+          <span class="badge">여행</span>
+        </li>
+        <li class="post" data-tag="요리">
+          <h2>15분 만에 끝내는 김치볶음밥</h2>
+          <p>냉장고 재료만으로 만드는 간단 레시피입니다.</p>
+          <span class="badge">요리</span>
+        </li>
+        <li class="post" data-tag="개발">
+          <h2>HTML 처음 배우기</h2>
+          <p>태그가 무엇인지부터 차근차근 적어봤습니다.</p>
+          <span class="badge">개발</span>
+        </li>
+        <li class="post" data-tag="여행">
+          <h2>부산 해운대 당일치기</h2>
+          <p>기차 타고 다녀온 부산 바다 산책 코스.</p>
+          <span class="badge">여행</span>
+        </li>
+        <li class="post" data-tag="요리">
+          <h2>실패 없는 계란말이</h2>
+          <p>불 세기와 타이밍만 알면 누구나 성공해요.</p>
+          <span class="badge">요리</span>
+        </li>
+        <li class="post" data-tag="개발">
+          <h2>CSS로 가운데 정렬하기</h2>
+          <p>flexbox로 박스를 화면 정중앙에 두는 방법.</p>
+          <span class="badge">개발</span>
+        </li>
+      </ul>
+
+      <!-- 결과가 없을 때 보여줄 안내문 (평소엔 숨겨둠) -->
+      <p class="empty" id="empty" hidden>해당 태그의 글이 아직 없어요.</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

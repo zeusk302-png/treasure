@@ -1,0 +1,110 @@
+/* ===== 페이지 전체 기본 스타일 ===== */
+body {
+  font-family: "Pretendard", "맑은 고딕", sans-serif;
+  margin: 0;          /* 내비바가 화면 좌우 끝까지 닿도록 기본 여백 제거 */
+  color: #333;
+  background-color: #f8fafc;
+}
+
+/* ============================================================
+   여기가 이번 실습의 핵심! 내비바를 화면 위에 '딱' 붙입니다.
+   ============================================================ */
+
+/* 내비게이션 바 = 스크롤하면 화면 맨 위에 달라붙는 막대
+   - position: sticky 와 top: 0 두 줄이 핵심입니다.
+       sticky : "평소엔 자기 자리에 있다가, 스크롤하다 닿으면 붙어라"
+       top:0  : "어디에 붙을까? → 화면 맨 위(0px)에"
+     이 둘은 반드시 '짝'으로 함께 써야 합니다. top 값이 없으면 안 붙습니다.
+   - z-index : "층 번호"입니다. 숫자가 클수록 위 층(앞)에 옵니다.
+       내비바를 본문(기본 0층)보다 위 층에 둬야,
+       스크롤할 때 본문 글자가 내비바를 뚫고 위로 비치지 않습니다. */
+.navbar {
+  position: sticky;   /* ★ 스크롤하다 닿으면 붙는다 */
+  top: 0;             /* ★ 화면 맨 위(0px)에 붙는다 (sticky와 짝꿍) */
+  z-index: 10;        /* ★ 본문(0층)보다 위 층 → 항상 본문을 덮으며 보인다 */
+
+  display: flex;                 /* 로고와 메뉴를 가로로 나란히 */
+  align-items: center;           /* 세로 가운데 정렬 */
+  justify-content: space-between;/* 로고는 왼쪽, 메뉴는 오른쪽 끝으로 */
+  padding: 0 24px;
+  height: 60px;
+  background-color: #1e293b;     /* 어두운 남색 배경 */
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* 아래로 옅은 그림자 → 떠 있는 느낌 */
+}
+
+/* 왼쪽 로고 글자 */
+.navbar .logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 오른쪽 메뉴 목록 (ul) — 점·여백 제거하고 가로로 배치 */
+.navbar .menu {
+  list-style: none;   /* 목록 앞 점(•) 제거 */
+  display: flex;      /* 메뉴 항목들을 가로로 */
+  gap: 20px;          /* 항목 사이 간격 */
+  margin: 0;
+  padding: 0;
+}
+
+/* 메뉴 링크 */
+.navbar .menu a {
+  color: #e2e8f0;
+  text-decoration: none; /* 밑줄 제거 */
+  font-size: 15px;
+}
+
+.navbar .menu a:hover {
+  color: #fde047;        /* 마우스를 올리면 노랗게 */
+}
+
+/* ===== 본문 섹션 =====
+   스티키 효과는 '스크롤할 거리'가 있어야 보입니다.
+   그래서 각 섹션을 화면 높이만큼 크게(min-height) 만들어
+   스크롤이 길어지도록 했습니다. */
+.section {
+  min-height: 90vh;   /* 화면 높이의 90% → 스크롤이 충분히 길어짐 */
+  max-width: 720px;
+  margin: 0 auto;     /* 가운데 정렬 */
+  padding: 40px 20px;
+  line-height: 1.7;
+}
+
+.section h1,
+.section h2 {
+  margin-top: 0;
+}
+
+/* 본문 속 인라인 코드 강조 */
+.section code {
+  background-color: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* ===== 푸터 ===== */
+.footer {
+  background-color: #1e293b;
+  color: #cbd5e1;
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 14px;
+}
+
+/* ===== 작은 화면(모바일) 대응 ===== */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 14px;
+  }
+  .navbar .logo {
+    font-size: 17px;
+  }
+  .navbar .menu {
+    gap: 12px;
+  }
+  .navbar .menu a {
+    font-size: 13px;
+  }
+}

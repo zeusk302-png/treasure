@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이페이지 — 닉네임 안전하게 바꾸기 (143)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!--
+    ★ 이번 실습의 핵심 ★
+    profiles 테이블에 닉네임/한 줄 소개를 저장하고, '본인만 자기 프로필을 고치도록'
+    RLS로 막습니다. 그 비밀은 이 HTML이 아니라 데이터베이스에 켜 둔 RLS 정책에 있습니다.
+    (schema.sql 의 auth.uid() = id)
+
+    여기 코드는 그냥 "내 프로필 줘 / 내 프로필 고쳐줘"라고만 요청합니다.
+    '내 것만'을 보장하는 일은 Supabase가 RLS로 알아서 해줍니다.
+    (참고) 이메일 자체를 바꾸려면 db.auth.updateUser({ email }) 를 씁니다.
+           이번 실습은 'auth가 보관하는 로그인 정보'와 별개인,
+           우리가 만든 profiles 테이블의 닉네임/소개를 다룹니다.
+  -->
+
+  <header id="appHeader">
+    <span class="logo">👤 마이페이지</span>
+    <nav id="userArea" hidden>
+      <span class="user" id="userEmail"></span>
+      <button id="logoutBtn" class="logout-btn">로그아웃</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- (가) 로그인 전 화면 — 로그인/회원가입 -->
+    <section id="loginView">
+      <h1>로그인하고 내 프로필 관리하기</h1>
+      <p class="hint">
+        마이페이지는 <strong>로그인한 본인만</strong> 쓸 수 있습니다.
+        처음이라면 같은 폼에서 <strong>회원가입</strong>부터 하세요.
+        (이메일 인증을 꺼두었다면 가입 즉시 로그인됩니다.)
+      </p>
+
+      <form id="authForm" class="login-form">
+        <input id="email" type="email" placeholder="이메일" required />
+        <input id="password" type="password" placeholder="비밀번호(6자 이상)" minlength="6" required />
+        <button type="submit" id="loginSubmit">로그인</button>
+        <button type="button" id="signupBtn" class="ghost-btn">회원가입</button>
+      </form>
+      <div id="authMsg"></div>
+    </section>
+
+    <!-- (나) 로그인 후 화면 — 마이페이지 (처음엔 숨김) -->
+    <section id="profileView" hidden>
+      <h1>내 프로필</h1>
+      <p class="hint">
+        아래 닉네임/소개는 <strong>지금 로그인한 사람의 프로필만</strong> 보여주고,
+        <strong>본인만</strong> 고칠 수 있습니다. (다른 사람 프로필은 손댈 길이 없습니다.)
+      </p>
+
+      <!-- 미리보기 카드: 저장된 닉네임/소개를 보여줍니다. -->
+      <div class="profile-card">
+        <div class="avatar" id="avatar">?</div>
+        <div class="profile-text">
+          <div class="profile-name" id="viewNickname">(닉네임 없음)</div>
+          <div class="profile-bio" id="viewBio">(소개 없음)</div>
+          <div class="profile-email" id="viewEmail"></div>
+        </div>
+      </div>
+
+      <!-- 수정 폼: 본인 프로필만 update 됩니다(서버에서 RLS가 보장). -->
+      <form id="profileForm" class="profile-form">
+        <label for="nickname">닉네임</label>
+        <input id="nickname" type="text" maxlength="20"
+               placeholder="화면에 보일 이름 (최대 20자)" required />
+
+        <label for="bio">한 줄 소개</label>
+        <textarea id="bio" rows="3" maxlength="100"
+                  placeholder="나를 소개하는 한 줄 (최대 100자)"></textarea>
+
+        <button type="submit">저장</button>
+      </form>
+
+      <div id="profileMsg"></div>
+    </section>
+
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 1) 공통 설정: 클라이언트(db)를 만들어 둠 -->
+  <script src="supabase.js"></script>
+  <!-- 2) 화면 로직 -->
+  <script>
+    // ---- 화면 요소 모으기 ----
+    const loginView   = document.getElementById("loginView");
+    const profileView = document.getElementById("profileView");
+    const userArea    = document.getElementById("userArea");
+    const userEmailEl = document.getElementById("userEmail");
+
+    const authForm  = document.getElementById("authForm");
+    const emailEl   = document.getElementById("email");
+    const passwordEl= document.getElementById("password");
+    const signupBtn = document.getElementById("signupBtn");
+    const authMsg   = document.getElementById("authMsg");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const profileForm = document.getElementById("profileForm");
+    const nicknameEl  = document.getElementById("nickname");
+    const bioEl       = document.getElementById("bio");
+    const profileMsg  = document.getElementById("profileMsg");
+
+    const avatarEl      = document.getElementById("avatar");
+    const viewNickname  = document.getElementById("viewNickname");
+    const viewBio       = document.getElementById("viewBio");
+    const viewEmail     = document.getElementById("viewEmail");
+
+    let currentUser = null; // 지금 로그인한 사용자(없으면 null)
+
+    // ============================================================
+    // 로그인 상태에 따라 어떤 화면을 보일지 결정
+    // ============================================================
+    async function refreshView() {
+      const { data } = await db.auth.getUser();
+      currentUser = data.user;
+
+      if (currentUser) {
+        // 로그인됨 → 마이페이지 보이기
+        loginView.hidden   = true;
+        profileView.hidden = false;
+        userArea.hidden    = false;
+        userEmailEl.textContent = currentUser.email;
+        viewEmail.textContent   = currentUser.email;
+        loadProfile();
+      } else {
+        // 로그아웃 상태 → 로그인 화면 보이기
+        loginView.hidden   = false;
+        profileView.hidden = true;
+        userArea.hidden    = true;
+      }
+    }
+
+    // ============================================================
+    // 회원가입 / 로그인
+    // ============================================================
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();              // 폼 기본 제출(새로고침) 막기
+      showAuthMsg("로그인 중…", "info");
+      const { error } = await db.auth.signInWithPassword({
+        email: emailEl.value.trim(),
+        password: passwordEl.value,
+      });
+      if (error) { showAuthMsg("로그인 실패: " + error.message, "error"); return; }
+      clearAuthMsg();
+      refreshView();
+    });
+
+    signupBtn.addEventListener("click", async () => {
+      if (!emailEl.value || passwordEl.value.length < 6) {
+        showAuthMsg("이메일과 6자 이상 비밀번호를 입력하세요.", "error");
+        return;
+      }
+      showAuthMsg("가입 중…", "info");
+      const { data, error } = await db.auth.signUp({
+        email: emailEl.value.trim(),
+        password: passwordEl.value,
+      });
+      if (error) { showAuthMsg("가입 실패: " + error.message, "error"); return; }
+
+      // 이메일 인증이 켜져 있으면 session이 아직 없습니다(메일 확인 필요).
+      if (!data.session) {
+        showAuthMsg("가입 완료! 메일함의 인증 링크를 누른 뒤 로그인하세요.", "info");
+        return;
+      }
+      clearAuthMsg();
+      refreshView();
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      refreshView();
+    });
+
+    // ============================================================
+    // 프로필 불러오기 — "내 프로필 줘"라고만 요청한다.
+    //   where id = ... 같은 필터를 우리가 쓰지 않습니다.
+    //   RLS가 '내 것만' 자동으로 걸러주기 때문입니다. (← 이번 실습의 핵심)
+    //   maybeSingle(): 0줄이면 null, 1줄이면 그 줄을 돌려줍니다(에러 없이).
+    // ============================================================
+    async function loadProfile() {
+      showProfileMsg("불러오는 중…", "info");
+      const { data, error } = await db
+        .from("profiles")
+        .select("nickname, bio")
+        .maybeSingle();
+
+      if (error) { showProfileMsg("불러오기 실패: " + error.message, "error"); return; }
+      clearProfileMsg();
+
+      // 트리거가 빈 프로필을 만들어 두었어도, 닉네임은 아직 빈 문자열일 수 있습니다.
+      const nickname = (data && data.nickname) || "";
+      const bio      = (data && data.bio) || "";
+
+      // 수정 폼에 현재 값 채우기
+      nicknameEl.value = nickname;
+      bioEl.value      = bio;
+
+      // 미리보기 카드 갱신
+      renderPreview(nickname, bio);
+    }
+
+    // ============================================================
+    // 프로필 저장 — id를 직접 안 넣습니다.
+    //   upsert: 내 프로필 줄이 있으면 update, 없으면 insert 합니다.
+    //   테이블의 default auth.uid() + RLS(auth.uid() = id) 덕분에
+    //   '지금 로그인한 사람의 줄'만 만들어지거나 고쳐집니다.
+    //   (남의 id를 억지로 끼워 넣어도 with check 가 막아줍니다.)
+    // ============================================================
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nickname = nicknameEl.value.trim();
+      const bio      = bioEl.value.trim();
+      if (!nickname) { showProfileMsg("닉네임을 입력하세요.", "error"); return; }
+
+      showProfileMsg("저장 중…", "info");
+
+      // id 를 명시해 upsert (없으면 만들고, 있으면 내 줄을 고침).
+      // id 는 '지금 로그인한 사람'의 id 여야만 RLS를 통과합니다.
+      const { error } = await db.from("profiles").upsert({
+        id: currentUser.id,
+        nickname: nickname,
+        bio: bio,
+        updated_at: new Date().toISOString(),
+      });
+
+      if (error) { showProfileMsg("저장 실패: " + error.message, "error"); return; }
+
+      showProfileMsg("저장됐어요! ✓", "ok");
+      renderPreview(nickname, bio);
+    });
+
+    // ---- 미리보기 카드 그리기 ----
+    function renderPreview(nickname, bio) {
+      viewNickname.textContent = nickname || "(닉네임 없음)";
+      viewBio.textContent      = bio || "(소개 없음)";
+      // 아바타에는 닉네임 첫 글자(없으면 ?)를 표시
+      avatarEl.textContent = nickname ? nickname.trim().charAt(0) : "?";
+    }
+
+    // ---- 작은 도우미들 ----
+    function showAuthMsg(text, type) {
+      authMsg.textContent = text;
+      authMsg.className = "show " + (type || "info");
+    }
+    function clearAuthMsg() { authMsg.textContent = ""; authMsg.className = ""; }
+
+    function showProfileMsg(text, type) {
+      profileMsg.textContent = text;
+      profileMsg.className = "show " + (type || "info");
+    }
+    function clearProfileMsg() { profileMsg.textContent = ""; profileMsg.className = ""; }
+
+    // 페이지가 열리면 현재 로그인 상태부터 확인
+    refreshView();
+  </script>
+</body>
+</html>

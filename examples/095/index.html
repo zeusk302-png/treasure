@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실시간 글자 수 카운터</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>한 줄 소개 작성</h1>
+    <p class="hint">최대 100자까지 입력할 수 있어요. 입력하는 순간 글자 수가 바로 바뀝니다.</p>
+
+    <!-- label과 textarea를 for/id로 연결해 둡니다 -->
+    <label for="intro">소개 글</label>
+    <textarea
+      id="intro"
+      maxlength="100"
+      placeholder="여기에 자기소개를 적어보세요..."
+    ></textarea>
+
+    <!-- 글자 수가 실시간으로 표시되는 영역 -->
+    <!-- 예: 23/100 형태로 표시됩니다 -->
+    <p class="counter">
+      <span id="count">0</span>/<span id="max">100</span>
+    </p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

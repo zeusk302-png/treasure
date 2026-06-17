@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 동네 분식집 (고친 버전)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; line-height: 1.7; color: #202124; }
+    header { display: flex; align-items: center; gap: 16px; }
+    h1 { color: #1a73e8; margin: 0; }
+    nav a { margin-right: 16px; color: #1a73e8; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-top: 24px; }
+    img { max-width: 100%; border-radius: 12px; display: block; }
+  </style>
+</head>
+<body>
+  <!-- ✅ 고침 1: 맨 앞 슬래시(/)를 빼서 "상대경로"로.
+       index.html 과 같은 위치에 있는 images 폴더 안의 logo.svg 를 가리킨다. -->
+  <header>
+    <img src="images/logo.svg" alt="가게 로고" width="160" />
+    <h1>우리 동네 분식집</h1>
+  </header>
+
+  <nav>
+    <!-- ✅ 고침 2: 같은 폴더의 파일이므로 슬래시 없이 파일 이름만 적는다. -->
+    <a href="about.html">가게 소개</a>
+    <!-- ✅ 고침 3: 폴더 이름을 실제와 똑같은 소문자 "images" 로 맞춘다. -->
+    <a href="images/food.svg">대표 메뉴 보기</a>
+    <!-- ✅ 고침 4: 외부 사이트는 https:// 를 꼭 붙인다. 새 탭에서 열도록 target 도 추가. -->
+    <a href="https://www.naver.com" target="_blank" rel="noopener">네이버 바로가기</a>
+  </nav>
+
+  <div class="card">
+    <h2>오늘의 추천 메뉴</h2>
+    <!-- ✅ 고침 5: 내 컴퓨터 전용 전체경로(C:\...) 대신 프로젝트 안의 상대경로로. -->
+    <img src="images/food.svg" alt="대표 메뉴 사진" />
+    <p>매콤달콤 떡볶이와 바삭한 김말이를 만나보세요.</p>
+  </div>
+</body>
+</html>

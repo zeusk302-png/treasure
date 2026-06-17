@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자/지도 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주소 입력 → 지도에 핀 찍기 (Leaflet + 지오코딩)</title>
+
+  <!--
+    [외부 지도 SDK 임베드 ①] Leaflet의 '스타일(CSS)'을 먼저 불러옵니다.
+    이 줄이 없으면 지도가 회색 깨진 모양으로 보입니다. 반드시 우리 style.css '앞'에 둡니다.
+  -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>📍 주소 입력 → 지도에 핀 찍기</h1>
+    <p class="lead">
+      주소나 장소 이름을 입력하면, <strong>지오코딩 API</strong>가 그 글자를
+      <strong>위도·경도(좌표)</strong>로 바꿔 줍니다. 그 좌표 자리에
+      <strong>Leaflet 지도</strong>가 핀(마커)을 꽂아 보여 줍니다.
+    </p>
+
+    <!-- ===== 입력 영역 ===== -->
+    <section class="controls">
+      <label class="ctrlLabel" for="addressInput">장소/주소 입력</label>
+      <div class="ctrlRow">
+        <input
+          id="addressInput"
+          type="text"
+          placeholder="예: 부산광역시청, 광안리해수욕장, 서울역"
+          autocomplete="off"
+        />
+        <button id="searchBtn" type="button">핀 찍기</button>
+      </div>
+      <p class="examples">
+        눌러서 바로 시도:
+        <button type="button" class="chip" data-q="부산광역시청">부산광역시청</button>
+        <button type="button" class="chip" data-q="광안리해수욕장">광안리해수욕장</button>
+        <button type="button" class="chip" data-q="해운대해수욕장">해운대해수욕장</button>
+      </p>
+    </section>
+
+    <!-- ===== 상태 안내 줄 (검색 중 / 결과 / 실패) ===== -->
+    <p id="status" class="status" role="status">
+      위에 장소를 입력하고 <strong>[핀 찍기]</strong>를 눌러 보세요.
+    </p>
+
+    <!-- ===== 지도가 그려질 자리 ===== -->
+    <!--
+      [중요] 지도를 담을 박스에는 반드시 '높이(height)'가 있어야 합니다.
+      높이가 0이면 지도가 안 보입니다. 높이는 style.css의 #map 에서 줍니다.
+    -->
+    <div id="map"></div>
+
+    <!-- 찾은 좌표를 사람이 읽을 수 있게 표시 -->
+    <p id="coords" class="coords" hidden></p>
+  </main>
+
+  <!--
+    [외부 지도 SDK 임베드 ②] Leaflet의 '동작(JS)'을 불러옵니다.
+    이 줄이 우리 script.js '앞'에 와야, 우리 코드에서 L.map(...) 을 쓸 수 있습니다.
+  -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- 화면(HTML)과 지도 SDK를 다 불러온 뒤에 우리 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

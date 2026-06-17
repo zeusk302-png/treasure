@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스크롤해도 위에 붙어 있는 스티키 내비바 - position:sticky 실습</title>
+  <!-- 같은 폴더에 있는 style.css 파일을 불러옵니다 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== 스티키(sticky) 내비게이션 바 =====
+       '스티키'는 '끈끈한, 달라붙는'이라는 뜻입니다.
+       평소에는 평범하게 페이지 맨 위에 있지만,
+       스크롤을 내려 자기 위치에 닿는 순간 화면 꼭대기에 '딱' 붙어
+       따라 내려옵니다.
+       핵심은 style.css 의 .navbar 에 준 딱 두 줄입니다.
+         position: sticky;  → "스크롤하다 닿으면 붙어라"
+         top: 0;            → "화면 맨 위(0px)에 붙어라"
+       그리고 z-index 로 "내비바가 본문보다 위 층"이라고 정해야
+       스크롤할 때 본문 글자가 내비바를 뚫고 위로 올라오지 않습니다.
+  -->
+  <nav class="navbar">
+    <div class="logo">부산코딩스쿨</div>
+    <ul class="menu">
+      <li><a href="#home">홈</a></li>
+      <li><a href="#about">소개</a></li>
+      <li><a href="#course">강의</a></li>
+      <li><a href="#contact">문의</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== 본문 =====
+       스티키 효과는 '스크롤할 거리'가 있어야 눈으로 보입니다.
+       그래서 일부러 화면보다 긴 본문을 여러 섹션으로 넣었습니다.
+       스크롤을 내려보면 위 내비바가 화면 꼭대기에 붙어 따라옵니다. -->
+  <main>
+    <section id="home" class="section">
+      <h1>홈</h1>
+      <p>
+        지금 위쪽 검은 막대(내비바)를 보세요. 페이지를 아래로
+        스크롤하면 이 내비바가 화면 맨 위에 <strong>딱 붙어서</strong>
+        계속 따라 내려옵니다. 이것이 <strong>스티키(sticky)</strong> 내비바입니다.
+      </p>
+      <p>아래로 천천히 스크롤하면서 내비바가 어떻게 움직이는지 관찰해 보세요.</p>
+    </section>
+
+    <section id="about" class="section">
+      <h2>소개</h2>
+      <p>
+        내비바가 항상 화면 위에 보이면, 사용자는 페이지 어디를 보고 있든
+        언제든 다른 메뉴로 이동할 수 있어 편리합니다.
+        그래서 거의 모든 웹사이트가 이 스티키 내비바 방식을 씁니다.
+      </p>
+      <p>아직 스크롤할 공간이 많이 남았습니다. 계속 내려보세요.</p>
+    </section>
+
+    <section id="course" class="section">
+      <h2>강의</h2>
+      <p>
+        스티키는 <code>position: fixed</code>(항상 떠 있음)와 다릅니다.
+        fixed는 처음부터 화면에 둥둥 떠 있지만,
+        sticky는 <strong>평소엔 평범하게 자기 자리에 있다가</strong>
+        스크롤이 정해진 위치(여기서는 top:0, 즉 화면 맨 위)에 닿는
+        순간에만 붙습니다.
+      </p>
+      <p>거의 다 왔습니다. 마지막 섹션까지 내려보세요.</p>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>문의</h2>
+      <p>
+        이제 위로 다시 스크롤해서 올라가 보세요.
+        내비바가 원래 자리로 돌아가는 것까지 확인하면 실습 끝입니다.
+      </p>
+      <p>수고하셨습니다!</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 부산코딩스쿨 — position:sticky 실습</p>
+  </footer>
+</body>
+</html>

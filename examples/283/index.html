@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인사말 출력기 (고친 버전)</title>
+
+  <!-- ✅ 고친 핵심 1: defer 를 붙였다.
+       defer = "HTML(=DOM)을 다 읽은 다음에 이 스크립트를 실행해 줘"
+       라는 뜻이다. 그래서 script.js 안에서 getElementById 를 불러도
+       그 시점엔 body 속 요소들이 이미 다 만들어져 있어 null 이 아니다. -->
+  <script src="script.js" defer></script>
+
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    input { padding: 8px; font-size: 16px; width: 60%; }
+    button { padding: 8px 14px; font-size: 16px; cursor: pointer; }
+    #result { margin-top: 16px; font-size: 18px; color: #1d4ed8; min-height: 24px; }
+  </style>
+</head>
+<body>
+  <h1>이름을 넣으면 인사해 주는 페이지</h1>
+
+  <p>
+    <input id="nameInput" type="text" placeholder="이름을 입력하세요" />
+    <button id="greetBtn">인사하기</button>
+  </p>
+
+  <p id="result"></p>
+
+  <p style="color:#888; font-size:13px;">
+    이 페이지는 정상 동작합니다. 이름을 적고 "인사하기"를 눌러 보세요.
+  </p>
+</body>
+</html>

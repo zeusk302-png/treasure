@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>줄무늬 배경과 테두리로 가독성 좋은 표 꾸미기</title>
+</head>
+<body style="font-family: 'Segoe UI', sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.6;">
+
+  <h1 style="font-size: 24px;">반 학생 명단</h1>
+  <p>표의 <strong>th</strong>(머리글 칸)와 <strong>td</strong>(내용 칸)에 인라인 <code>style</code>로 테두리(border)·배경(background)·여백(padding)을 직접 주면, 한 줄 걸러 색이 다른 읽기 쉬운 "줄무늬 표"를 만들 수 있어요.</p>
+
+  <!-- border-collapse: collapse 를 표에 주면 칸과 칸 사이의 테두리가 하나로 합쳐져 깔끔해집니다. -->
+  <table style="border-collapse: collapse; width: 100%;">
+
+    <!-- 머리글 줄: th 에 진한 배경색·흰 글자·여백·테두리를 줍니다. -->
+    <tr>
+      <th style="border: 1px solid #1a73e8; background: #1a73e8; color: #ffffff; padding: 12px; text-align: left;">번호</th>
+      <th style="border: 1px solid #1a73e8; background: #1a73e8; color: #ffffff; padding: 12px; text-align: left;">이름</th>
+      <th style="border: 1px solid #1a73e8; background: #1a73e8; color: #ffffff; padding: 12px; text-align: left;">좋아하는 과목</th>
+    </tr>
+
+    <!-- 1번째 내용 줄 (홀수): 흰 배경 -->
+    <tr>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">1</td>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">김하늘</td>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">국어</td>
+    </tr>
+
+    <!-- 2번째 내용 줄 (짝수): 연한 회색 배경 → 줄무늬 효과 -->
+    <tr>
+      <td style="border: 1px solid #dddddd; background: #f2f6fc; padding: 12px;">2</td>
+      <td style="border: 1px solid #dddddd; background: #f2f6fc; padding: 12px;">이바다</td>
+      <td style="border: 1px solid #dddddd; background: #f2f6fc; padding: 12px;">수학</td>
+    </tr>
+
+    <!-- 3번째 내용 줄 (홀수): 흰 배경 -->
+    <tr>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">3</td>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">박소율</td>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">영어</td>
+    </tr>
+
+    <!-- 4번째 내용 줄 (짝수): 연한 회색 배경 -->
+    <tr>
+      <td style="border: 1px solid #dddddd; background: #f2f6fc; padding: 12px;">4</td>
+      <td style="border: 1px solid #dddddd; background: #f2f6fc; padding: 12px;">최도윤</td>
+      <td style="border: 1px solid #dddddd; background: #f2f6fc; padding: 12px;">과학</td>
+    </tr>
+
+    <!-- 5번째 내용 줄 (홀수): 흰 배경 -->
+    <tr>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">5</td>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">정유진</td>
+      <td style="border: 1px solid #dddddd; background: #ffffff; padding: 12px;">사회</td>
+    </tr>
+
+  </table>
+
+  <p style="margin-top: 16px; color: #666; font-size: 14px;">팁: 짝수 줄 <code>td</code>의 <code>background</code> 색만 바꾸면 표 전체의 줄무늬 색이 한 번에 달라집니다.</p>
+
+</body>
+</html>

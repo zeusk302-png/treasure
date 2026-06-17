@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>별점(★) 평점 입력 위젯</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>별점(★) 평점 입력 위젯</h1>
+  <p class="desc">별 위에 마우스를 올리면 미리보기로 채워지고, 클릭하면 그 점수로 고정돼요.</p>
+
+  <!--
+    별점 위젯.
+    - 별 5개를 button 으로 만들었습니다. (버튼이라 키보드 Tab/Enter 로도 누를 수 있어요)
+    - data-value 에 "이 별이 몇 점짜리인지"(1~5)를 적어 둡니다. 자바스크립트가 이 숫자를 읽습니다.
+    - 별 모양 글자는 ★(채운 별)이 아니라 ☆(빈 별)을 기본으로 둡니다. 채움은 CSS 색으로 표현합니다.
+    - role="radiogroup" / aria-label 은 화면 낭독기(시각장애인용)에게 "별점 고르는 곳"이라고 알려줍니다.
+  -->
+  <div class="rating" id="rating" role="radiogroup" aria-label="별점 선택">
+    <button type="button" class="star" data-value="1" aria-label="별 1개">★</button>
+    <button type="button" class="star" data-value="2" aria-label="별 2개">★</button>
+    <button type="button" class="star" data-value="3" aria-label="별 3개">★</button>
+    <button type="button" class="star" data-value="4" aria-label="별 4개">★</button>
+    <button type="button" class="star" data-value="5" aria-label="별 5개">★</button>
+  </div>
+
+  <!-- 지금 고른 점수를 글자로도 보여 줍니다. (처음에는 아직 안 고른 상태) -->
+  <p class="result" id="result">아직 선택하지 않았어요</p>
+
+  <!-- 화면(HTML)을 다 만든 뒤에 자바스크립트를 불러옵니다 -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인사말 출력기 (버그 버전)</title>
+
+  <!-- ❌ 문제의 핵심: 스크립트를 <head> 안에서, 그것도 일반 <script>로 불러온다.
+       브라우저는 위에서 아래로 읽기 때문에, 이 시점에는 아래의 <body> 속
+       버튼·입력칸·결과칸이 아직 "태어나지" 않았다.
+       그래서 getElementById가 요소를 못 찾고 null 을 돌려준다.
+       null 에 .addEventListener / .value 를 쓰는 순간
+       "Cannot read properties of null" 에러가 나며 코드가 멈춘다. -->
+  <script>
+    // 이 코드는 <body>가 만들어지기 전에 실행된다.
+    const button = document.getElementById("greetBtn");   // 아직 없음 → null
+    const nameInput = document.getElementById("nameInput"); // 아직 없음 → null
+    const result = document.getElementById("result");       // 아직 없음 → null
+
+    // 💥 button 이 null 이라서 바로 여기서 에러가 터진다.
+    // Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    button.addEventListener("click", function () {
+      const name = nameInput.value;
+      result.textContent = name + "님, 안녕하세요!";
+    });
+  </script>
+
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    input { padding: 8px; font-size: 16px; width: 60%; }
+    button { padding: 8px 14px; font-size: 16px; cursor: pointer; }
+    #result { margin-top: 16px; font-size: 18px; color: #1d4ed8; min-height: 24px; }
+  </style>
+</head>
+<body>
+  <h1>이름을 넣으면 인사해 주는 페이지</h1>
+
+  <p>
+    <input id="nameInput" type="text" placeholder="이름을 입력하세요" />
+    <button id="greetBtn">인사하기</button>
+  </p>
+
+  <p id="result"></p>
+
+  <p style="color:#888; font-size:13px;">
+    이 페이지는 일부러 고장 나 있습니다. 버튼을 눌러도 아무 일도 일어나지 않아요.<br />
+    F12(개발자 도구) → Console 탭을 열어 빨간 에러 메시지를 확인해 보세요.
+  </p>
+</body>
+</html>

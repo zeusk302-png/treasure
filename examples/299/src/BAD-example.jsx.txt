@@ -1,0 +1,25 @@
+// ⚠️ 이 파일은 "나쁜 예시"입니다 (일부러 위험하게 만든 견본).
+//
+// 확장자를 .jsx.txt 로 둔 이유: 실수로 빌드에 포함되지 않게 하려고요.
+// 점검 표에서 이런 코드를 만나면 어떻게 🔴로 잡아내는지 연습용입니다.
+//
+// 무엇이 잘못됐나?
+//  1) 브라우저로 가는 src/ 파일에서 service_role(secret) 키를 import 했다.
+//  2) 비밀 키에 VITE_ 접두를 붙여 브라우저로 노출되게 만들었다.  ← 치명적
+//  3) 키 값을 코드에 직접 박았다(하드코딩).                      ← 치명적
+//
+// 아래 세 줄은 전부 🔴 입니다. 실제 코드에 이렇게 쓰면 키가 통째로 유출됩니다.
+
+import { createClient } from '@supabase/supabase-js'
+
+// 🔴 위험 1+2: 브라우저 코드에서 service_role 키를, 그것도 VITE_ 접두로 노출
+const badKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY
+
+// 🔴 위험 3: 진짜 키를 코드에 직접 박음 (자리표시자가 아니라 실값이면 즉시 유출)
+const hardcoded = 'eyJhbGciOi...PLACEHOLDER_DO_NOT_PUT_REAL_KEY...'
+
+// 🔴 RLS를 우회하는 마스터키가 브라우저로 내려가면, 누구나 모든 데이터를 보고 지움
+export const adminInBrowser = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  badKey || hardcoded
+)

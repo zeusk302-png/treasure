@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 반응형의 첫 단추: 이 한 줄이 없으면 폰에서 화면이 축소되어 글자가 깨알같이 작아집니다 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모카하우스 — 반응형 랜딩페이지</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 상단 바: 로고 + 메뉴 -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo">모카하우스</a>
+      <nav class="nav">
+        <a href="#features">특징</a>
+        <a href="#cta">시작하기</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 히어로: 대표 문구 + 버튼 -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1 class="hero-title">집에서 즐기는<br />로스터리 커피 한 잔</h1>
+      <p class="hero-desc">갓 볶은 원두를 문 앞까지. 첫 구독 30% 할인.</p>
+      <a href="#cta" class="btn btn-primary">무료로 시작하기</a>
+    </div>
+  </section>
+
+  <!-- 특징 3가지: PC에서는 가로 3열, 폰에서는 세로 1열로 바뀝니다 -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">왜 모카하우스인가요?</h2>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">☕</div>
+          <h3>신선한 원두</h3>
+          <p>주문 후 볶아 48시간 안에 배송합니다.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">🚚</div>
+          <h3>무료 정기배송</h3>
+          <p>원하는 주기로 알아서 도착, 배송비는 0원.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">↩️</div>
+          <h3>언제든 해지</h3>
+          <p>약정 없이 한 번의 클릭으로 멈출 수 있어요.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 마지막 행동 유도(CTA) 영역 -->
+  <section id="cta" class="cta">
+    <div class="container cta-inner">
+      <h2>오늘 시작하면 첫 달 30% 할인</h2>
+      <p>1분이면 구독 신청 완료.</p>
+      <a href="#" class="btn btn-light">구독 신청하기</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 모카하우스 · 실습용 예제 페이지</p>
+    </div>
+  </footer>
+
+</body>
+</html>
