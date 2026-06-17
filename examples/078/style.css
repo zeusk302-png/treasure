@@ -1,0 +1,88 @@
+/* 기본 초기화: 브라우저마다 다른 기본 여백을 0으로 맞춥니다. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+  line-height: 1.7;
+  color: #222;
+  background: #f7f8fa;
+}
+
+/* ---------- 1) 읽기 진행률 바 ---------- */
+/* 화면 맨 위에 항상 붙어 있도록 fixed로 고정합니다. */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 0%;            /* 처음엔 0%, 자바스크립트가 이 값을 늘립니다 */
+  background: #2563eb;  /* 파란색 막대 */
+  z-index: 1000;        /* 다른 요소보다 위에 보이도록 */
+  transition: width 0.05s linear; /* 막대가 부드럽게 차오르게 */
+}
+
+/* ---------- 2) 헤더 ---------- */
+/* 헤더도 스크롤해도 위에 붙어 있도록 sticky로 고정합니다. */
+#site-header {
+  position: sticky;
+  top: 6px;             /* 진행률 바(6px) 바로 아래에 붙도록 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #ffffff;          /* 스크롤 전 기본 배경 (밝은 흰색) */
+  color: #222;
+  z-index: 900;
+  /* 색과 그림자가 부드럽게 바뀌도록 전환 효과를 줍니다 */
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 자바스크립트가 스크롤을 감지하면 이 클래스를 헤더에 붙입니다.
+   그러면 배경이 진한 파란색으로 바뀌고 그림자가 생깁니다. */
+#site-header.scrolled {
+  background: #1e3a8a;          /* 진한 남색 */
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#percent-label {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums; /* 숫자가 흔들리지 않게 */
+}
+
+/* ---------- 본문 ---------- */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.lead {
+  color: #555;
+  margin-bottom: 28px;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 32px 0 12px;
+}
+
+p {
+  margin-bottom: 14px;
+}
+
+footer {
+  text-align: center;
+  padding: 24px;
+  color: #888;
+  font-size: 14px;
+}

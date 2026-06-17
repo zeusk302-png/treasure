@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>할 일 앱 (Supabase 서버 저장) — 실습 120</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      max-width: 480px;
+      margin: 50px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.4rem; }
+    .row { display: flex; gap: 8px; margin: 16px 0; }
+    #todoInput {
+      flex: 1;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    #addBtn {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border: 0;
+      border-radius: 8px;
+      background: #3ecf8e;
+      color: #03311f;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #addBtn:disabled { background: #cfcfcf; color: #777; cursor: not-allowed; }
+    /* 서버에서 받아온 할 일이 쌓이는 목록 */
+    #todoList {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+    #todoList li {
+      padding: 12px 14px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background: #fafafa;
+    }
+    #todoList li .when { color: #888; font-size: 0.8rem; margin-left: 6px; }
+    .empty { color: #888; }
+    .hint { color: #888; font-size: 0.9rem; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 상태 안내 박스 (저장 중 · 불러오는 중 · 성공 · 에러) */
+    #status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      display: none;                 /* 평소엔 숨김. 필요할 때 JS가 보여 줍니다. */
+    }
+    #status.info { display: block; background: #eef4ff; color: #2b5fd9; }
+    #status.ok   { display: block; background: #e6f7ee; color: #137a4a; }
+    #status.fail { display: block; background: #fdecea; color: #b3261e; }
+    /* localStorage → 서버 이전의 핵심을 강조하는 안내 박스 */
+    .note {
+      background: #fff8e1;
+      border: 1px solid #ffe08a;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+    }
+    .note strong { color: #8a6d00; }
+  </style>
+</head>
+<body>
+  <h1>할 일 앱 — 이제 서버(Supabase)에 저장됩니다</h1>
+
+  <div class="note">
+    <strong>무엇이 달라졌나요?</strong> 화면은 110번 할 일 앱과 똑같아 보이지만,
+    저장 위치가 <strong>내 브라우저(localStorage) → Supabase 서버의 <code>todos</code> 표</strong>로 바뀌었습니다.
+    그래서 <strong>다른 기기·다른 브라우저에서 열어도 같은 할 일</strong>이 보입니다.
+    추가는 <code>insert</code>, 목록은 <code>select</code>로 동작합니다.
+  </div>
+
+  <div class="row">
+    <!-- 사용자가 할 일을 입력하는 칸 -->
+    <input id="todoInput" type="text" placeholder="할 일을 입력하세요 (예: 우유 사기)" maxlength="100" />
+    <!-- 추가 버튼 -->
+    <button id="addBtn">추가</button>
+  </div>
+
+  <div id="status"></div>
+
+  <!-- 서버에서 받아온 할 일들이 표시되는 곳 -->
+  <ul id="todoList"></ul>
+
+  <p class="hint">
+    먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+    내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고(절대 service_role 아님),
+    <code>schema.sql</code>로 <code>todos</code> 표와 RLS·정책을 먼저 만드세요. 자세한 방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

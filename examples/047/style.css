@@ -1,0 +1,122 @@
+/* ============================================================
+   모바일 퍼스트(Mobile First) 반응형 카드
+   ------------------------------------------------------------
+   핵심 아이디어:
+   1) 기본 스타일은 "가장 좁은 화면(휴대폰)" 기준으로 먼저 작성한다.
+      -> 그래서 grid 열 개수가 기본 1열입니다.
+   2) 그 다음 @media (min-width: ...) 로 "화면이 넓어지면" 규칙을 더한다.
+      -> 600px 이상이면 2열, 900px 이상이면 3열.
+   min-width를 쓰는 게 모바일 퍼스트의 표시입니다.
+   (반대로 max-width로 줄여나가는 방식은 '데스크톱 퍼스트'입니다.)
+   ============================================================ */
+
+/* 모든 요소의 크기 계산을 padding 포함 기준으로 통일 (레이아웃이 안 깨지게) */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "맑은 고딕", "Malgun Gothic", system-ui, sans-serif;
+  background-color: #f4f5f7;
+  color: #222;
+  line-height: 1.5;
+}
+
+/* ---- 머리말 / 안내 영역 ---- */
+.page-header {
+  text-align: center;
+  padding: 24px 16px 8px;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.hint {
+  margin: 0 auto;
+  max-width: 600px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* ============================================================
+   [기본 = 모바일] 카드 그리드: 1열
+   화면이 좁을 때 모든 카드를 위에서 아래로 한 줄씩 쌓습니다.
+   ============================================================ */
+.card-grid {
+  display: grid;
+  /* 1fr 하나 = 열이 1개 = 1열 */
+  grid-template-columns: 1fr;
+  gap: 16px;                 /* 카드 사이 간격 */
+  max-width: 1000px;         /* 너무 넓은 화면에서 과하게 퍼지지 않게 */
+  margin: 16px auto;         /* 가운데 정렬 */
+  padding: 0 16px;
+}
+
+/* ---- 카드 한 장의 모양 ---- */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-thumb {
+  font-size: 48px;
+  text-align: center;
+  background-color: #eef1f6;
+  border-radius: 8px;
+  padding: 16px 0;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.card-desc {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #555;
+  flex-grow: 1; /* 설명이 짧아도 가격이 항상 카드 맨 아래에 정렬되도록 */
+}
+
+.card-price {
+  font-weight: bold;
+  color: #2b6cb0;
+}
+
+/* ---- 꼬리말 ---- */
+.page-footer {
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 13px;
+  color: #888;
+}
+
+/* ============================================================
+   [태블릿] 가로 폭 600px 이상이면 2열
+   화면이 이만큼 넓어지면 이 규칙이 추가로 적용됩니다.
+   ============================================================ */
+@media (min-width: 600px) {
+  .card-grid {
+    /* 1fr 1fr = 같은 너비 열 2개 = 2열 */
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ============================================================
+   [데스크톱] 가로 폭 900px 이상이면 3열
+   600px 규칙 위에 다시 한 단계 덮어씌웁니다 (다단계 미디어쿼리).
+   ============================================================ */
+@media (min-width: 900px) {
+  .card-grid {
+    /* repeat(3, 1fr) = 1fr 1fr 1fr = 같은 너비 열 3개 = 3열 */
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

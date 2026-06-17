@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서 화면 너비에 맞게 보이도록 하는 필수 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>햄버거 슬라이드 메뉴</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 상단 바: 왼쪽 로고 + 오른쪽 햄버거 버튼 -->
+  <header class="topbar">
+    <div class="logo">부산코딩스쿨</div>
+
+    <!-- 햄버거 버튼 (작대기 3개) -->
+    <!-- aria-* 속성은 화면 낭독기 사용자를 위한 설명입니다 -->
+    <button id="menuBtn" class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </header>
+
+  <!-- 화면을 덮는 어두운 막 (메뉴가 열렸을 때만 보임) -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- 옆에서 미끄러져 나오는 슬라이드 메뉴 -->
+  <nav id="sideMenu" class="side-menu" aria-label="모바일 메뉴">
+    <button id="closeBtn" class="close-btn" aria-label="메뉴 닫기">&times;</button>
+    <ul>
+      <li><a href="#">홈</a></li>
+      <li><a href="#">소개</a></li>
+      <li><a href="#">강의</a></li>
+      <li><a href="#">후기</a></li>
+      <li><a href="#">문의</a></li>
+    </ul>
+  </nav>
+
+  <!-- 본문 (메뉴와 상관없이 채워 두는 예시 내용) -->
+  <main class="content">
+    <h1>모바일 슬라이드 메뉴 예제</h1>
+    <p>
+      화면 오른쪽 위의 <strong>줄 세 개(햄버거) 버튼</strong>을 눌러 보세요.
+      오른쪽에서 메뉴가 스르륵 미끄러져 나옵니다.
+    </p>
+    <p>
+      메뉴를 닫으려면 메뉴 안의 <strong>&times; 버튼</strong>을 누르거나,
+      <strong>화면의 어두운 부분</strong>을 누르거나, 키보드의 <strong>ESC 키</strong>를 누르면 됩니다.
+    </p>
+    <p>
+      이 예제는 휴대폰처럼 좁은 화면을 기준으로 만들어졌습니다.
+      컴퓨터 브라우저에서 본다면 창 너비를 좁게 줄여서 모바일 화면처럼 보면서 확인해 보세요.
+    </p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

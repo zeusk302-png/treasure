@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비밀번호 보기/숨기기 토글</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>비밀번호 보기/숨기기</h1>
+    <p class="desc">비밀번호를 입력한 뒤, 오른쪽 눈 버튼을 눌러 보세요. 가려진 점(••••)이 실제 글자로 바뀌었다가 다시 숨겨집니다.</p>
+
+    <form id="loginForm" novalidate>
+      <label for="password">비밀번호</label>
+
+      <!-- 입력칸과 눈 버튼을 한 줄에 두기 위해 감싸는 박스 -->
+      <div class="field">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="비밀번호를 입력하세요"
+          autocomplete="off"
+        />
+        <!-- 보기/숨기기 토글 버튼 -->
+        <!-- type="button" 으로 두면 누를 때 폼이 제출(새로고침)되지 않는다 -->
+        <!-- aria-label: 화면 낭독기가 "비밀번호 보기"라고 읽어줌 -->
+        <button
+          type="button"
+          id="toggleBtn"
+          class="toggle"
+          aria-label="비밀번호 보기"
+          aria-pressed="false"
+        >👁</button>
+      </div>
+
+      <button type="submit" class="submit">로그인</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

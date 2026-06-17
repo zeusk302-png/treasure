@@ -1,0 +1,244 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --line: #e3e6ea;
+  --prod: #2563eb;     /* 파랑 = Production */
+  --preview: #ea7c0c;  /* 주황 = Preview */
+  --ok: #16a34a;       /* 초록 = 성공/Merge/Ready */
+  --purple: #8957e5;   /* 보라 = Merged 상태(GitHub 색감) */
+  --del-bg: #ffeef0;
+  --del-ink: #b91c1c;
+  --add-bg: #e6ffed;
+  --add-ink: #15803d;
+  --term-bg: #1e2430;
+  --term-ink: #d7e2ef;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.page-header {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 36px 20px 8px;
+}
+.page-header h1 { font-size: 1.6rem; margin: 0 0 8px; }
+.subtitle { color: var(--muted); margin: 0; }
+
+main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.card h2 { margin: 0 0 6px; font-size: 1.15rem; }
+.card .sub { margin: 20px 0 4px; font-size: 1rem; }
+
+.hint { color: var(--muted); font-size: 0.92rem; margin: 4px 0 16px; }
+
+code {
+  font-family: ui-monospace, "Consolas", monospace;
+  background: #eef1f4;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 0.85em;
+}
+
+/* 배포 보드 */
+.deploy-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+.deploy {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  background: #fbfcfd;
+}
+.deploy .branch { margin: 4px 0; font-size: 0.9rem; }
+.deploy .url {
+  font-family: ui-monospace, "Consolas", monospace;
+  font-size: 0.82rem;
+  word-break: break-all;
+  margin: 6px 0;
+}
+.deploy .desc { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+.deploy.prod { border-top: 4px solid var(--prod); }
+.deploy.preview { border-top: 4px solid var(--preview); }
+.deploy.prod.updated { border-top-color: var(--ok); }
+
+.badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #fff;
+}
+.badge-prod { background: var(--prod); }
+.badge-preview { background: var(--preview); }
+
+/* Pull Request 카드 */
+.pr {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+  background: #fbfcfd;
+}
+.pr-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.pr-state {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #fff;
+}
+.pr-state.open { background: var(--ok); }
+.pr-state.merged { background: var(--purple); }
+.pr-num { color: var(--muted); font-size: 0.9rem; }
+.pr-title { margin: 4px 0 6px; font-size: 1.05rem; }
+.pr-meta { margin: 0 0 10px; font-size: 0.88rem; }
+.pr-meta .arrow { color: var(--muted); margin: 0 4px; }
+.pr-body { margin: 0 0 12px; font-size: 0.9rem; color: var(--ink); }
+
+.pr-bot {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ink);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.86rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.bot-name { font-weight: 700; }
+.bot-text { color: var(--muted); }
+.bot-link {
+  font-family: ui-monospace, "Consolas", monospace;
+  font-size: 0.8rem;
+  color: var(--prod);
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--prod);
+}
+.bot-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: #fff;
+}
+.bot-tag.ready { background: var(--ok); }
+
+/* diff 보기 */
+.diff {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: ui-monospace, "Consolas", monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  margin: 0;
+}
+.diff .file { display: block; color: var(--muted); margin-bottom: 6px; font-weight: 700; }
+.diff .del { display: block; background: var(--del-bg); color: var(--del-ink); }
+.diff .add { display: block; background: var(--add-bg); color: var(--add-ink); }
+
+/* 체크리스트 */
+.checklist { list-style: none; padding: 0; margin: 0 0 16px; }
+.checklist li {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: #fbfcfd;
+}
+.checklist label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.checklist input { margin-top: 4px; width: 16px; height: 16px; }
+
+/* Merge */
+.merge-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.merge { background: var(--ok); color: #fff; }
+.merge:disabled { background: #c7cdd6; color: #fff; cursor: not-allowed; }
+.merge.done { background: var(--purple); }
+.merge-hint { color: var(--muted); font-size: 0.85rem; }
+.reset { background: #fff; border: 1px solid var(--line); color: var(--muted); font-weight: 600; }
+
+/* 터미널 */
+.terminal {
+  background: var(--term-bg);
+  color: var(--term-ink);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: ui-monospace, "Consolas", monospace;
+  font-size: 0.82rem;
+  min-height: 120px;
+  margin-bottom: 14px;
+}
+.term-line { margin: 2px 0; white-space: pre-wrap; word-break: break-all; }
+.term-line.dim { color: #7c8aa0; }
+.term-line.ok { color: #5fe08a; }
+.term-line.url { color: #ffb454; }
+
+/* 결과 */
+.result { border-top: 4px solid var(--ok); }
+.result-label { font-size: 0.8rem; color: var(--ok); font-weight: 700; margin: 0 0 8px; }
+.result-checks { margin: 0 0 12px; padding-left: 18px; }
+.result-checks li { font-size: 0.92rem; margin: 6px 0; }
+.pill {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  color: #fff;
+}
+.pill.merged { background: var(--purple); }
+
+.page-footer {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}

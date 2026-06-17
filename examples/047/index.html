@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일 퍼스트의 첫걸음: 이 viewport 태그가 있어야 휴대폰이 화면을 축소하지 않고 실제 폭으로 보여줍니다 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모바일 우선 반응형 카드 (1열 → 2열 → 3열)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <h1>이번 주 추천 메뉴</h1>
+    <p class="hint">
+      브라우저 창의 가로 폭을 좁혔다 넓혔다 해보세요.
+      좁으면 1열, 중간이면 2열, 넓으면 3열로 카드가 자동 정렬됩니다.
+    </p>
+  </header>
+
+  <!-- 카드들을 담는 그리드 컨테이너. 열 개수는 전부 CSS가 결정합니다 -->
+  <main class="card-grid">
+    <article class="card">
+      <div class="card-thumb">🍜</div>
+      <h2 class="card-title">든든 라면</h2>
+      <p class="card-desc">차가운 날 생각나는 따끈한 한 그릇. 5분이면 완성됩니다.</p>
+      <span class="card-price">3,500원</span>
+    </article>
+
+    <article class="card">
+      <div class="card-thumb">🍙</div>
+      <h2 class="card-title">참치 삼각김밥</h2>
+      <p class="card-desc">간단하게 한 끼 때우기 좋은 든든한 삼각김밥입니다.</p>
+      <span class="card-price">1,200원</span>
+    </article>
+
+    <article class="card">
+      <div class="card-thumb">🥪</div>
+      <h2 class="card-title">햄치즈 샌드위치</h2>
+      <p class="card-desc">바쁜 아침에 딱 맞는 가벼운 샌드위치입니다.</p>
+      <span class="card-price">2,800원</span>
+    </article>
+
+    <article class="card">
+      <div class="card-thumb">☕</div>
+      <h2 class="card-title">아메리카노</h2>
+      <p class="card-desc">진하게 내린 커피 한 잔으로 하루를 시작하세요.</p>
+      <span class="card-price">1,500원</span>
+    </article>
+
+    <article class="card">
+      <div class="card-thumb">🍪</div>
+      <h2 class="card-title">초코칩 쿠키</h2>
+      <p class="card-desc">달콤한 디저트가 필요할 때. 커피와 잘 어울립니다.</p>
+      <span class="card-price">2,000원</span>
+    </article>
+
+    <article class="card">
+      <div class="card-thumb">🥗</div>
+      <h2 class="card-title">닭가슴살 샐러드</h2>
+      <p class="card-desc">가볍고 건강하게. 다이어트 중에도 부담 없습니다.</p>
+      <span class="card-price">4,500원</span>
+    </article>
+  </main>
+
+  <footer class="page-footer">
+    <p>부산코딩스쿨 · 모바일 퍼스트 반응형 카드 실습 (047)</p>
+  </footer>
+</body>
+</html>

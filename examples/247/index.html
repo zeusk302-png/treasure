@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>뉴스레터 구독 — 이메일을 Supabase에 저장 (실습 247)</title>
+  <style>
+    /* 한 화면짜리 미니 랜딩페이지 + 구독 폼 */
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1b1b2f, #16213e);
+      color: #222;
+      padding: 24px;
+    }
+    .hero {
+      background: #ffffff;
+      width: 100%;
+      max-width: 460px;
+      border-radius: 18px;
+      padding: 36px 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+    h1 {
+      color: #3ecf8e;       /* Supabase 색 */
+      font-size: 1.6rem;
+      margin: 0 0 8px;
+    }
+    .sub {
+      color: #555;
+      margin: 0 0 24px;
+      line-height: 1.6;
+    }
+    form { text-align: left; }
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    input[type="email"]:focus {
+      outline: none;
+      border-color: #3ecf8e;
+      box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.25);
+    }
+    button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 10px;
+      background: #3ecf8e;
+      color: #03311f;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #cfcfcf;
+      color: #777;
+      cursor: not-allowed;
+    }
+    /* 상태 안내 박스 (저장 중 · 성공 · 실패). 평소엔 숨겨 둡니다. */
+    #status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: none;
+    }
+    #status.info { display: block; background: #eef4ff; color: #2b5fd9; }
+    #status.ok   { display: block; background: #e6f7ee; color: #137a4a; }
+    #status.fail { display: block; background: #fdecea; color: #b3261e; }
+    .hint {
+      margin-top: 22px;
+      color: #888;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 1px 5px;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <h1>주간 코딩레터 받아보기</h1>
+    <p class="sub">
+      매주 비전공자 눈높이의 웹개발 꿀팁을 한 통으로 보내드려요.<br />
+      이메일만 남기면 끝!
+    </p>
+
+    <form id="subscribe-form">
+      <label for="email">이메일 주소</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+      />
+      <button id="submit-btn" type="submit">무료로 구독하기</button>
+    </form>
+
+    <!-- JS가 저장 중/성공/실패 메시지를 여기에 보여 줍니다. -->
+    <div id="status"></div>
+
+    <p class="hint">
+      먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>), <code>schema.sql</code>로 표와 보안(RLS) 정책을
+      만들어 두세요. 자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </main>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

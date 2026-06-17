@@ -1,0 +1,115 @@
+/* ===== 기본 색·폰트 정리 ===== */
+:root {
+  --main: #4f46e5;    /* 버튼 강조색 (보라) */
+  --gray: #d1d5db;    /* 기본 테두리 회색 */
+  --text: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: var(--text);
+}
+
+/* ===== 카드 ===== */
+.card {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px;
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.desc {
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ===== 입력칸 + 눈 버튼 묶음 ===== */
+.field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 48px 12px 14px; /* 오른쪽은 눈 버튼 자리 확보 */
+  font-size: 16px;
+  border: 2px solid var(--gray);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus {
+  border-color: var(--main);
+}
+
+/* ===== 보기/숨기기 토글 버튼 ===== */
+.toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background: #f3f4f6; /* 마우스를 올리면 옅은 배경 */
+}
+
+/* 비밀번호가 "보이는 중"일 때 눈 버튼을 강조색으로 표시 */
+.toggle.on {
+  color: var(--main);
+}
+
+/* ===== 로그인 버튼 ===== */
+.submit {
+  width: 100%;
+  padding: 13px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: var(--main);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.submit:hover {
+  opacity: 0.9;
+}

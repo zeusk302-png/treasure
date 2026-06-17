@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pull Request로 검토 후 라이브에 합치기 (연습판)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <h1>Pull Request로 미리보기 검토 후 라이브에 합치기</h1>
+    <p class="subtitle">
+      새 브랜치를 라이브에 바로 합치지 않고, <strong>Pull Request(PR)</strong>를 열어
+      <strong>Preview URL로 먼저 검토</strong>한 뒤, 마음에 들 때만 <strong>Merge</strong>해서
+      Production(라이브)에 반영하는 <strong>AI 작업물 안전 검수</strong> 흐름의 연습판입니다.
+      실제 GitHub/Vercel 화면을 흉내 낸 것이라 설치 없이 더블클릭으로 동작합니다.
+    </p>
+  </header>
+
+  <main>
+    <!-- 0) 지금 어떤 주소가 살아 있나 -->
+    <section class="card">
+      <h2>0) 지금 상태 — 브랜치는 만들었고, Preview까지 떠 있습니다</h2>
+      <p class="hint">
+        앞 실습(176)에서 새 브랜치를 push해 <strong>Preview URL</strong>이 이미 생긴 상태입니다.
+        이번 실습은 "그 Preview를 검토하고 → 라이브에 합치는" 마지막 한 걸음입니다.
+      </p>
+      <div class="deploy-board">
+        <article class="deploy prod">
+          <div class="badge badge-prod">Production (라이브)</div>
+          <p class="branch">브랜치: <code>main</code></p>
+          <p class="url" id="prod-url">https://my-site.vercel.app</p>
+          <p class="desc" id="prod-desc">진짜 손님이 보는 화면. <strong>아직 옛날 버튼 색(파랑)</strong> 그대로입니다.</p>
+        </article>
+        <article class="deploy preview">
+          <div class="badge badge-preview">Preview (PR 미리보기)</div>
+          <p class="branch">브랜치: <code>feature/new-hero</code></p>
+          <p class="url">https://my-site-git-feature-new-hero-myname.vercel.app</p>
+          <p class="desc">PR에 자동으로 붙는 임시 주소. 바뀔 화면(초록 버튼)을 여기서 미리 봅니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 1) Pull Request 카드 -->
+    <section class="card">
+      <h2>1) Pull Request 열기 — "이 변경을 main에 합쳐 주세요"</h2>
+      <p class="hint">
+        PR은 <strong>"내 브랜치의 변경을 main에 합쳐도 될까요?"라는 공식 요청서</strong>입니다.
+        합치기 전에 무엇이 어떻게 바뀌는지 모두가 함께 검토할 수 있습니다.
+      </p>
+
+      <article class="pr" id="pr-box">
+        <div class="pr-top">
+          <span class="pr-state open" id="pr-state">● Open</span>
+          <span class="pr-num">#42</span>
+        </div>
+        <h3 class="pr-title">버튼 색을 파랑에서 초록으로 변경</h3>
+        <p class="pr-meta">
+          <code>feature/new-hero</code> <span class="arrow">→</span> <code>main</code>
+        </p>
+        <p class="pr-body">
+          신청 버튼이 눈에 잘 안 띈다는 피드백을 반영해 버튼 색을 초록으로 바꿨습니다.
+          <br />Preview URL에서 확인 부탁드립니다.
+        </p>
+
+        <!-- Preview 링크 (PR에 자동으로 붙는 봇 코멘트 흉내) -->
+        <div class="pr-bot">
+          <span class="bot-name">▲ Vercel</span>
+          <span class="bot-text">이 PR의 미리보기가 준비됐어요:</span>
+          <a class="bot-link" id="preview-link" href="#" onclick="return false;">
+            https://my-site-git-feature-new-hero-myname.vercel.app
+          </a>
+          <span class="bot-tag ready">Ready</span>
+        </div>
+      </article>
+
+      <!-- 변경된 파일(diff) 보기 -->
+      <h3 class="sub">Files changed (이 PR이 바꾸는 코드)</h3>
+      <p class="hint">초록은 새로 들어온 줄(+), 빨강은 지워지는 줄(-)입니다. 딱 한 줄만 바뀝니다.</p>
+      <pre class="diff" aria-label="코드 변경 내용">
+<span class="file">style.css</span>
+  .signup-btn {
+<span class="del">-   background: #2563eb; /* 파랑 */</span>
+<span class="add">+   background: #16a34a; /* 초록 */</span>
+    color: #fff;
+  }</pre>
+    </section>
+
+    <!-- 2) 검토 체크리스트 + Merge -->
+    <section class="card">
+      <h2>2) 검토(Review) → 모두 확인해야 Merge가 열립니다</h2>
+      <p class="hint">
+        Merge는 되돌리기 번거로우니, <strong>합치기 전에</strong> 꼭 점검합니다.
+        아래 4가지를 모두 체크하면 Merge 버튼이 활성화됩니다.
+      </p>
+
+      <ul class="checklist" id="checklist">
+        <li><label><input type="checkbox" class="chk" /> Preview URL을 실제로 열어 <strong>바뀐 화면(초록 버튼)</strong>을 눈으로 확인했다</label></li>
+        <li><label><input type="checkbox" class="chk" /> Files changed의 <strong>diff를 읽어</strong> 의도한 변경만 들어있는지 확인했다</label></li>
+        <li><label><input type="checkbox" class="chk" /> 코드/diff에 <strong>비밀키(service_role 등)가 섞여 들어가지 않았다</strong></label></li>
+        <li><label><input type="checkbox" class="chk" /> Vercel <strong>Preview 빌드가 Ready(초록)</strong> 상태다 (Error 아님)</label></li>
+      </ul>
+
+      <div class="merge-row">
+        <button id="merge-btn" class="merge" disabled>Merge pull request</button>
+        <span class="merge-hint" id="merge-hint">위 4가지를 모두 체크하면 열립니다</span>
+      </div>
+
+      <div class="terminal" id="terminal" aria-live="polite">
+        <p class="term-line dim"># Merge하면 GitHub와 Vercel에서 일어나는 일이 여기에 표시됩니다</p>
+      </div>
+
+      <button id="reset" class="reset">처음부터 다시</button>
+    </section>
+
+    <!-- 3) 결과물 -->
+    <section class="card result" id="result" hidden>
+      <h2>3) 결과물 — 병합된 PR 1건 + 갱신된 라이브</h2>
+      <p class="result-label">이번 실습의 결과물(Deliverable)</p>
+      <ul class="result-checks">
+        <li><strong>PR #42:</strong> 상태가 <span class="pill merged">Merged</span> 로 바뀜 (검토 후 병합 완료)</li>
+        <li><strong>라이브(Production):</strong> <code>https://my-site.vercel.app</code> 의 버튼이 이제 <strong>초록</strong></li>
+        <li><strong>Preview:</strong> 역할을 다했으니 정리되어도 됩니다 (브랜치 삭제 시 함께 사라짐)</li>
+      </ul>
+      <p class="hint">
+        핵심: <strong>라이브를 직접 손대지 않았는데도</strong> 검토를 거쳐 안전하게 반영됐습니다.
+        AI가 만든 코드도 이렇게 PR로 받아 Preview에서 확인하고 합치면, 사고를 크게 줄일 수 있습니다.
+      </p>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>비전공 청년용 웹개발 가이드 · 실습 177 · 스택: HTML/CSS/JS · Vercel · GitHub</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

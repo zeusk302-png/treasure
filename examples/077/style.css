@@ -1,0 +1,77 @@
+/* ===== 페이지 공통 ===== */
+* { box-sizing: border-box; }
+
+/* scroll-behavior: smooth 는 '부드러운 스크롤'을 브라우저에 맡기는 한 줄입니다.
+   JS의 scrollTo 와 함께 쓰면 맨 위로 갈 때 화면이 미끄러지듯 올라갑니다. */
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  background: #f5f6fa;
+  color: #2d3436;
+}
+
+main {
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+h1 { font-size: 24px; margin-bottom: 8px; }
+.desc { color: #636e72; line-height: 1.7; margin-bottom: 24px; }
+
+/* 스크롤을 만들기 위한 더미 구역. 각 구역을 큼직하게 만들어
+   페이지 전체 높이를 충분히 늘립니다. */
+.block {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  min-height: 320px;
+}
+.block h2 { margin-top: 0; color: #0984e3; }
+.block p { line-height: 1.7; color: #444; }
+
+/* ===== 맨 위로 가기 버튼 =====
+   position: fixed 로 화면 오른쪽 아래 모서리에 '고정'시킵니다.
+   스크롤을 해도 항상 같은 자리에 떠 있습니다. */
+.top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #0984e3;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(9, 132, 227, 0.4);
+
+  /* === 숨김 상태(기본값) ===
+     처음에는 안 보이게 투명하게 만들고, 살짝 아래로 내려둡니다.
+     클릭이 안 먹도록 pointer-events 도 꺼 둡니다. */
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+
+  /* opacity 와 transform 이 바뀔 때 부드럽게 전환되도록 합니다.
+     덕분에 버튼이 '뿅' 하고 튀어나오지 않고 스르륵 나타납니다. */
+  transition: opacity 0.3s, transform 0.3s, background 0.2s;
+}
+
+/* === 보임 상태 ===
+   자바스크립트가 .show 클래스를 붙이면 버튼이 또렷하게 나타나고
+   원래 자리로 올라오며 클릭도 가능해집니다. */
+.top-btn.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 마우스를 올리면 색을 진하게 해서 누를 수 있다는 느낌을 줍니다. */
+.top-btn:hover { background: #0763a8; }

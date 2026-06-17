@@ -1,0 +1,13 @@
+# 비밀값이 든 환경변수 파일은 절대 커밋/PR하지 않습니다 (자리표시자 견본 .env.example만 올립니다)
+.env
+.env.local
+.env.*.local
+
+# 의존성/빌드 산출물
+node_modules/
+dist/
+.vercel/
+
+# OS/에디터 부스러기
+.DS_Store
+Thumbs.db

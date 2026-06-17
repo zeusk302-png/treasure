@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  broken.html — 일부러 'XSS에 뚫리게' 만든 방명록 (고치기 전 버전)
+  ============================================================
+  이 파일은 "고장 난 버전"입니다. 정상 동작하는 것처럼 보이지만,
+  사용자가 적은 글을 innerHTML 로 화면에 꽂기 때문에
+  <script> 같은 코드를 글로 넣으면 그게 '글자'가 아니라 '코드'로 실행됩니다.
+  이것이 바로 XSS(크로스 사이트 스크립팅) 취약점입니다.
+
+  [재현 절차 — 직접 공격해 보세요]
+  1. 이 파일을 브라우저로 엽니다(더블클릭).
+  2. 이름칸에 아무 이름(예: 공격자)을 적습니다.
+  3. 내용칸에 아래 한 줄을 그대로 붙여넣습니다.
+        <img src=x onerror="alert('해킹됨!')">
+  4. [남기기] 버튼을 누릅니다.
+  5. 글이 등록되는 순간 'alert(해킹됨!)' 경고창이 뜹니다.
+     → 우리가 만든 적 없는 코드가, 남이 적은 글 때문에 실행된 것입니다.
+  6. (더 무서운 예) 내용칸에 아래를 넣어도 같은 일이 납니다.
+        <script>alert(document.cookie)</script>
+     실제 공격자는 alert 대신 '쿠키(로그인 정보)를 자기 서버로 전송'하는 코드를 넣습니다.
+
+  ※ 이 파일은 교육용 '나쁜 예시'입니다. 실제 서비스에 절대 이렇게 쓰지 마세요.
+     고친 정상 버전은 같은 폴더의 index.html 입니다.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 (고치기 전 — XSS에 뚫림)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; color: #1f2937; }
+    h1 { font-size: 20px; }
+    .warn { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px 12px; border-radius: 8px; font-size: 14px; }
+    form { display: grid; gap: 8px; margin: 16px 0; }
+    input, textarea { padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; }
+    button { padding: 8px 14px; border: 0; border-radius: 6px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
+    .entry { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+    .entry .name { font-weight: 700; }
+    .entry .body { margin-top: 4px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>방명록 (고치기 전 버전)</h1>
+  <p class="warn">⚠️ 이 버전은 일부러 취약하게 만든 예시입니다. 내용칸에 <code>&lt;img src=x onerror="alert('해킹됨!')"&gt;</code> 를 넣고 등록해 보세요.</p>
+
+  <form id="guestbook-form">
+    <input id="name-input" type="text" placeholder="이름" required />
+    <textarea id="body-input" rows="3" placeholder="방명록 내용을 적어주세요" required></textarea>
+    <button type="submit">남기기</button>
+  </form>
+
+  <div id="entries"></div>
+
+  <script>
+    // 방명록 글을 메모리에 저장 (이번 실습은 Supabase 없이 XSS 원리만 봅니다)
+    const entries = [];
+
+    const form = document.getElementById("guestbook-form");
+    const nameInput = document.getElementById("name-input");
+    const bodyInput = document.getElementById("body-input");
+    const entriesBox = document.getElementById("entries");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      // 사용자가 적은 값을 그대로 저장
+      entries.unshift({ name: nameInput.value, body: bodyInput.value });
+      nameInput.value = "";
+      bodyInput.value = "";
+      render();
+    });
+
+    function render() {
+      // ❌ 문제의 코드: 사용자 입력을 innerHTML 로 통째로 꽂는다.
+      //    그래서 입력 안의 <img onerror=...> / <script> 가 '코드'로 실행된다(= XSS).
+      entriesBox.innerHTML = entries
+        .map(function (item) {
+          return (
+            '<div class="entry">' +
+              '<div class="name">' + item.name + '</div>' +
+              '<div class="body">' + item.body + '</div>' +
+            '</div>'
+          );
+        })
+        .join("");
+    }
+  </script>
+</body>
+</html>

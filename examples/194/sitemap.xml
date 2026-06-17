@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sitemap.xml = "우리 사이트에 있는 페이지 목록표"입니다.
+  검색엔진은 이 목록을 보고 어떤 주소들을 방문해 색인할지 판단합니다.
+
+  ※ 아래 https://YOUR_DOMAIN.com 은 모두 자리표시자입니다.
+    내 실제 도메인 주소로 전부 바꾸세요. (예: https://busan-coding.com)
+  ※ 이 파일은 배포된 사이트의 최상위 주소에서
+    https://내도메인/sitemap.xml 로 열려야 합니다.
+  ※ lastmod(마지막 수정일)는 YYYY-MM-DD 형식입니다. 페이지를 고치면 갱신하세요.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- 홈(첫 화면): 보통 가장 중요하므로 priority를 높게 둡니다 -->
+  <url>
+    <loc>https://YOUR_DOMAIN.com/</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 소개 페이지 -->
+  <url>
+    <loc>https://YOUR_DOMAIN.com/about</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 블로그 글 목록 페이지 -->
+  <url>
+    <loc>https://YOUR_DOMAIN.com/blog</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 블로그 글(예시 1) — 실제 글이 늘어날 때마다 이런 <url> 블록을 추가합니다 -->
+  <url>
+    <loc>https://YOUR_DOMAIN.com/blog/first-post</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

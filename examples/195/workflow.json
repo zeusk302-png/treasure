@@ -1,0 +1,281 @@
+{
+  "name": "195 - 매주 월요일 SEO·접근성 정기점검 알림",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "매주 월요일 9시 (Schedule Trigger)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://YOUR-SITE.vercel.app",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "사이트 열어보기 (HTTP Request)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aaaa0001-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "상태코드",
+              "value": "={{ $json.statusCode }}",
+              "type": "number"
+            },
+            {
+              "id": "aaaa0002-2222-4222-8222-aaaaaaaaaaaa",
+              "name": "응답살아있음",
+              "value": "={{ $json.statusCode >= 200 && $json.statusCode < 400 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "aaaa0003-3333-4333-8333-aaaaaaaaaaaa",
+              "name": "title있음",
+              "value": "={{ /<title[^>]*>[^<]+<\\/title>/i.test($json.body) }}",
+              "type": "boolean"
+            },
+            {
+              "id": "aaaa0004-4444-4444-8444-aaaaaaaaaaaa",
+              "name": "description있음",
+              "value": "={{ /<meta[^>]+name=[\"']description[\"'][^>]*>/i.test($json.body) }}",
+              "type": "boolean"
+            },
+            {
+              "id": "aaaa0005-5555-4555-8555-aaaaaaaaaaaa",
+              "name": "lang있음",
+              "value": "={{ /<html[^>]+lang=/i.test($json.body) }}",
+              "type": "boolean"
+            },
+            {
+              "id": "aaaa0006-6666-4666-8666-aaaaaaaaaaaa",
+              "name": "alt없는이미지수",
+              "value": "={{ ($json.body.match(/<img(?![^>]*\\balt=)[^>]*>/gi) || []).length }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "33333333-3333-4333-8333-333333333333",
+      "name": "점검 항목 계산 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cccc0001-1111-4111-8111-cccccccccccc",
+              "leftValue": "={{ $json.응답살아있음 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cccc0002-2222-4222-8222-cccccccccccc",
+              "leftValue": "={{ $json.title있음 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cccc0003-3333-4333-8333-cccccccccccc",
+              "leftValue": "={{ $json.description있음 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cccc0004-4444-4444-8444-cccccccccccc",
+              "leftValue": "={{ $json.lang있음 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cccc0005-5555-4555-8555-cccccccccccc",
+              "leftValue": "={{ $json.alt없는이미지수 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "모두 통과인가? (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1020,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "YOUR_SENDER_EMAIL@example.com",
+        "toEmail": "YOUR_RECEIVER_EMAIL@example.com",
+        "subject": "=[점검 통과] 사이트 SEO·접근성 정상 ({{ $now.format('yyyy-MM-dd') }})",
+        "emailFormat": "text",
+        "text": "=이번 주 정기점검 결과: 모두 통과했습니다.\n\n- 응답 상태코드: {{ $json.상태코드 }}\n- <title> 태그: 있음\n- <meta description>: 있음\n- <html lang>: 있음\n- alt 없는 이미지: {{ $json.alt없는이미지수 }}개\n\n특별히 손볼 곳은 없습니다. 좋은 한 주 되세요!",
+        "options": {}
+      },
+      "id": "55555555-5555-4555-8555-555555555555",
+      "name": "통과 메일 (Send Email)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1280,
+        180
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 계정 (SMTP)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "YOUR_SENDER_EMAIL@example.com",
+        "toEmail": "YOUR_RECEIVER_EMAIL@example.com",
+        "subject": "=[점검 경고] 사이트에서 고칠 곳 발견 ({{ $now.format('yyyy-MM-dd') }})",
+        "emailFormat": "text",
+        "text": "=이번 주 정기점검에서 아래 항목에 문제가 보입니다. AI 감사관(prompt.md)으로 자세히 점검해 보세요.\n\n- 응답 상태코드: {{ $json.상태코드 }} ({{ $json.응답살아있음 ? '정상' : '응답 이상 — 사이트가 멈췄을 수 있음' }})\n- <title> 태그: {{ $json.title있음 ? '있음' : '없음 (검색 제목이 비어 있음!)' }}\n- <meta description>: {{ $json.description있음 ? '있음' : '없음 (검색 미리보기 글이 없음)' }}\n- <html lang>: {{ $json.lang있음 ? '있음' : '없음 (언어 미지정 — 접근성 감점)' }}\n- alt 없는 이미지: {{ $json.alt없는이미지수 }}개 {{ $json.alt없는이미지수 > 0 ? '(스크린리더가 못 읽음 — alt 추가 필요)' : '' }}\n\n다음 행동: prompt.md 의 1단계 감사 프롬프트에 해당 페이지 코드를 붙여 채점 → 우선순위 높음부터 수정.",
+        "options": {}
+      },
+      "id": "66666666-6666-4666-8666-666666666666",
+      "name": "경고 메일 (Send Email)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1280,
+        420
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 계정 (SMTP)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "매주 월요일 9시 (Schedule Trigger)": {
+      "main": [
+        [
+          {
+            "node": "사이트 열어보기 (HTTP Request)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "사이트 열어보기 (HTTP Request)": {
+      "main": [
+        [
+          {
+            "node": "점검 항목 계산 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "점검 항목 계산 (Set)": {
+      "main": [
+        [
+          {
+            "node": "모두 통과인가? (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "모두 통과인가? (IF)": {
+      "main": [
+        [
+          {
+            "node": "통과 메일 (Send Email)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "경고 메일 (Send Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

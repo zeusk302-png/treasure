@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  index.html — broken.html 을 고친 '정상(안전한)' 방명록 버전
+  ============================================================
+  딱 한 군데를 고쳤습니다.
+    - 고치기 전: entriesBox.innerHTML = ...사용자 입력...  → 입력이 '코드'로 실행됨(XSS)
+    - 고친 후 : createElement + textContent 로 출력          → 입력은 항상 '글자'로만 표시됨
+
+  [고침을 확인하는 공격 테스트]
+  1. 이 파일을 브라우저로 엽니다.
+  2. 내용칸에 아래를 그대로 붙여넣고 [남기기] 를 누릅니다.
+        <img src=x onerror="alert('해킹됨!')">
+  3. 이번엔 경고창이 뜨지 않고, 입력한 글자 그대로
+        <img src=x onerror="alert('해킹됨!')">
+     가 화면에 '글'로 보이면 성공입니다.
+  4. <script>alert(1)</script> 를 넣어도 코드가 실행되지 않고 글자로만 보여야 합니다.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 (XSS 방어 적용)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; color: #1f2937; }
+    h1 { font-size: 20px; }
+    .ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 10px 12px; border-radius: 8px; font-size: 14px; }
+    form { display: grid; gap: 8px; margin: 16px 0; }
+    input, textarea { padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; }
+    button { padding: 8px 14px; border: 0; border-radius: 6px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
+    .entry { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+    .entry .name { font-weight: 700; }
+    .entry .body { margin-top: 4px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>방명록 (안전한 버전)</h1>
+  <p class="ok">✅ 이 버전은 입력을 글자로만 출력합니다. 내용칸에 <code>&lt;img src=x onerror="alert('해킹됨!')"&gt;</code> 를 넣어도 경고창이 뜨지 않고 그대로 글자로 보입니다.</p>
+
+  <form id="guestbook-form">
+    <input id="name-input" type="text" placeholder="이름" required />
+    <textarea id="body-input" rows="3" placeholder="방명록 내용을 적어주세요" required></textarea>
+    <button type="submit">남기기</button>
+  </form>
+
+  <div id="entries"></div>
+
+  <script>
+    // 방명록 글을 메모리에 저장 (이번 실습은 Supabase 없이 XSS 원리만 봅니다)
+    const entries = [];
+
+    const form = document.getElementById("guestbook-form");
+    const nameInput = document.getElementById("name-input");
+    const bodyInput = document.getElementById("body-input");
+    const entriesBox = document.getElementById("entries");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      entries.unshift({ name: nameInput.value, body: bodyInput.value });
+      nameInput.value = "";
+      bodyInput.value = "";
+      render();
+    });
+
+    function render() {
+      // ✅ 고친 코드: HTML 문자열을 만들지 않고, 요소를 만들어 textContent 로 값을 넣는다.
+      //    textContent 는 무엇을 넣든 '글자'로만 취급하므로 <script>·onerror 가 실행되지 않는다.
+      entriesBox.replaceChildren(); // 기존 목록 비우기
+
+      entries.forEach(function (item) {
+        const card = document.createElement("div");
+        card.className = "entry";
+
+        const name = document.createElement("div");
+        name.className = "name";
+        name.textContent = item.name; // ← 핵심: innerHTML 이 아니라 textContent
+
+        const body = document.createElement("div");
+        body.className = "body";
+        body.textContent = item.body; // ← 핵심: innerHTML 이 아니라 textContent
+
+        card.appendChild(name);
+        card.appendChild(body);
+        entriesBox.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
