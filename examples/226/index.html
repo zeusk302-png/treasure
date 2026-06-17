@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+  이 파일은 broken.html을 고친 "정상 작동" 버전입니다.
+
+  무엇을 고쳤나 (세 줄 요약):
+  1) .navbar 의 고정 height(56px)를 없앴습니다 → 메뉴가 늘어나면 바도 같이 늘어남.
+  2) 메뉴를 position: absolute(절대 위치 띄우기)에서 flexbox 흐름으로 되돌렸습니다 → 겹치지 않고 자연스럽게 배치.
+  3) @media (모바일 폭)에서 로고와 메뉴를 "세로로 쌓고(flex-direction: column)" 메뉴는 가로로 줄바꿈(flex-wrap)되게 했습니다.
+
+  결과: 데스크톱에서는 로고-메뉴가 양 끝 한 줄, 모바일에서는 로고 아래로 메뉴가 깔끔히 내려가 겹치지 않습니다.
+  자세한 원인/수정 해설은 같은 폴더의 README.md를 보세요.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 가게 (레이아웃 고친 버전)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; }
+
+    /* 고친 내비게이션 바 */
+    .navbar {
+      background: #2563eb;
+      color: #ffffff;
+      /* (고침 1) height 고정 삭제 → 내용만큼 늘어남. 대신 위아래 여백을 padding으로 */
+      padding: 10px 20px;
+      /* (고침 2) absolute 대신 flex로 로고와 메뉴를 한 흐름에 두고 양 끝 정렬 */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;       /* 좁아지면 자연스럽게 줄바꿈 */
+      gap: 8px;
+    }
+    .logo { font-size: 20px; font-weight: bold; }
+    .menu {
+      list-style: none;
+      display: flex;         /* (고침 3) 메뉴 항목들을 flex로 가로 배치 */
+      flex-wrap: wrap;       /* 공간이 부족하면 다음 줄로 접힘 → 겹치지 않음 */
+      gap: 4px 14px;
+    }
+    .menu a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 4px 0;
+      display: inline-block;
+    }
+
+    /* (고침 4) 모바일에서는 로고 아래로 메뉴를 세로로 쌓아 더 시원하게 */
+    @media (max-width: 480px) {
+      .navbar { flex-direction: column; align-items: flex-start; }
+      .menu { width: 100%; }
+    }
+
+    .hero { padding: 40px 20px; text-align: center; }
+    .hero h1 { font-size: 28px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">맛있는 분식집</span>
+    <ul class="menu">
+      <li><a href="#">메뉴</a></li>
+      <li><a href="#">오시는 길</a></li>
+      <li><a href="#">리뷰</a></li>
+      <li><a href="#">예약하기</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>분식의 정석, 그대로</h1>
+    <p>떡볶이 · 김밥 · 튀김 · 순대 — 매일 아침 직접 만듭니다.</p>
+  </section>
+</body>
+</html>

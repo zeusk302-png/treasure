@@ -1,0 +1,181 @@
+/* 실습 145 — 관리자 회원 목록(역할 + RLS) 스타일 */
+body {
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  margin: 0;
+  line-height: 1.6;
+  color: #2b2b2b;
+  background: #f6f8fb;
+}
+
+/* 헤더: 왼쪽 로고 / 오른쪽 사용자영역 (flex space-between) */
+#appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #3a4a5e;
+  color: #fff;
+}
+
+#appHeader .logo {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+#appHeader nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#appHeader .user {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* 본문 */
+main {
+  max-width: 720px;
+  margin: 36px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  color: #3a4a5e;
+  font-size: 1.4rem;
+}
+
+.hint {
+  color: #777;
+  font-size: 0.92rem;
+}
+
+.hint code,
+code {
+  background: #eef3f8;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+/* 로그인 폼 */
+.login-form { margin-top: 20px; max-width: 360px; }
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.login-form button {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  background: #3a4a5e;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* 보조(회원가입) 버튼 — 테두리만 있는 버튼 */
+.ghost-btn {
+  background: #fff !important;
+  color: #3a4a5e !important;
+  border: 1px solid #3a4a5e !important;
+}
+.ghost-btn:hover { background: #eef3f8 !important; }
+
+/* 로그아웃 버튼 */
+.logout-btn {
+  padding: 8px 14px;
+  background: #fff;
+  color: #c62828;
+  border: 1px solid #e0b4b1;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.logout-btn:hover { background: #fdecea; }
+
+/* 역할 배지 (관리자 / 일반회원) */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.badge.admin { background: #e3f0ff; color: #1565c0; }
+.badge.user  { background: #eef0f3; color: #6b7785; }
+/* 헤더 안의 배지는 어두운 배경 위라 살짝 밝게 */
+#appHeader .badge.admin { background: #cfe5ff; }
+#appHeader .badge.user  { background: #d8dde3; }
+
+/* 권한 없음 박스 */
+.deny-box {
+  margin-top: 24px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e0b4b1;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.06);
+}
+.deny-box h1 { color: #c62828; }
+
+/* 회원 목록 표 */
+.member-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(58, 74, 94, 0.06);
+}
+
+.member-table th,
+.member-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #eef0f3;
+  font-size: 0.93rem;
+}
+
+.member-table thead th {
+  background: #eef3f8;
+  color: #3a4a5e;
+  font-weight: 700;
+}
+
+.member-table tbody tr:nth-child(even) td {
+  background: #fafcfe;
+}
+
+.member-table .empty {
+  text-align: center;
+  color: #9aa6b4;
+  padding: 24px 0;
+}
+
+/* 안내/에러 메시지 (공통) */
+#authMsg,
+#adminMsg {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+}
+#authMsg.show,
+#adminMsg.show { display: block; }
+
+#authMsg.info,
+#adminMsg.info { background: #eef3f8; color: #3a4a5e; }
+
+#authMsg.error,
+#adminMsg.error { background: #fdecea; color: #c62828; }

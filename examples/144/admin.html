@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 전용 페이지 — 역할 확인 (144)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!--
+    ★ 관리자 전용 페이지 ★
+    이 페이지는 '관리자(admin)만' 보게 하려는 페이지입니다.
+    하지만 일반회원이 주소창에 admin.html 을 직접 쳐서 들어올 수 있으므로,
+    페이지가 열리면 다시 한 번 내 역할(role)을 읽어 admin이 아니면 쫓아냅니다.
+
+    ※ 솔직한 한 줄: 이렇게 '화면에서 막는 것(클라이언트 가드)'만으로는
+       완벽하지 않습니다. 코드를 잘 아는 사람은 검사 코드를 우회할 수 있어요.
+       진짜 방어는 '데이터 자체를 서버(RLS)에서 막는 것'이고, 그건 실습 145에서
+       완성합니다. 이 실습에서는 "역할로 화면을 가르는" 기본기까지가 목표입니다.
+  -->
+
+  <header id="appHeader">
+    <span class="logo">🔧 관리자 페이지</span>
+    <nav id="navArea" hidden>
+      <a href="index.html" class="admin-link">← 홈으로</a>
+      <span class="user" id="userEmail"></span>
+      <span class="role-badge" id="roleBadge"></span>
+      <button id="logoutBtn" class="logout-btn">로그아웃</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 자격 검사 중/실패 시 보여줄 안내 -->
+    <section id="gateView">
+      <h1 id="gateTitle">자격 확인 중…</h1>
+      <p class="hint" id="gateMsg">잠시만 기다려 주세요.</p>
+      <p id="gateBack" hidden><a href="index.html">← 홈으로 돌아가기</a></p>
+    </section>
+
+    <!-- 관리자만 보게 될 진짜 관리자 콘텐츠 (기본 숨김) -->
+    <section id="adminContent" hidden>
+      <h1>관리자 대시보드</h1>
+      <p class="hint">당신은 <strong>관리자(admin)</strong>로 확인되었습니다. 아래는 관리자 전용 영역입니다.</p>
+
+      <div class="role-card admin-card">
+        <div class="role-icon">🛡️</div>
+        <div>
+          <div class="role-title">관리자 전용 메뉴 (예시)</div>
+          <ul class="admin-menu">
+            <li>회원 목록 관리 (실습 145에서 RLS로 진짜 안전하게 만듭니다)</li>
+            <li>게시글 신고 처리</li>
+            <li>공지사항 작성</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="hint" style="margin-top:18px">
+        ⚠️ 지금 이 페이지의 '관리자만' 보호는 화면 검사(클라이언트 가드)일 뿐입니다.
+        실제 회원 데이터를 안전하게 다루려면 <strong>실습 145의 역할 기반 RLS</strong>가 필요합니다.
+      </p>
+    </section>
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    const navArea       = document.getElementById("navArea");
+    const userEmailEl   = document.getElementById("userEmail");
+    const roleBadge     = document.getElementById("roleBadge");
+    const logoutBtn     = document.getElementById("logoutBtn");
+
+    const gateView      = document.getElementById("gateView");
+    const gateTitle     = document.getElementById("gateTitle");
+    const gateMsg       = document.getElementById("gateMsg");
+    const gateBack      = document.getElementById("gateBack");
+    const adminContent  = document.getElementById("adminContent");
+
+    logoutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      location.href = "index.html";
+    });
+
+    // ============================================================
+    // ★ 관리자 자격 검사(클라이언트 가드) ★
+    //   1) 로그인했는지 확인 → 안 했으면 홈으로 안내
+    //   2) 내 role을 읽어 'admin'이 아니면 관리자 콘텐츠를 숨기고 막는다.
+    //   (역할 값은 RLS 덕분에 '내 줄'만 읽힙니다 — where 필터를 안 써도 됩니다.)
+    // ============================================================
+    async function guard() {
+      const { data } = await db.auth.getUser();
+      const user = data.user;
+
+      // 1) 비로그인 차단
+      if (!user) {
+        gateTitle.textContent = "로그인이 필요합니다";
+        gateMsg.textContent = "이 페이지는 로그인한 관리자만 볼 수 있습니다.";
+        gateBack.hidden = false;
+        return;
+      }
+
+      navArea.hidden = false;
+      userEmailEl.textContent = user.email;
+
+      // 2) 역할 읽기
+      const { data: profile, error } = await db
+        .from("profiles")
+        .select("role")
+        .maybeSingle();
+
+      if (error) {
+        gateTitle.textContent = "역할을 확인할 수 없습니다";
+        gateMsg.textContent = "오류: " + error.message;
+        gateBack.hidden = false;
+        return;
+      }
+
+      const role = (profile && profile.role) || "user";
+      const isAdmin = role === "admin";
+
+      roleBadge.textContent = isAdmin ? "관리자" : "일반회원";
+      roleBadge.className = "role-badge " + (isAdmin ? "is-admin" : "is-user");
+
+      if (!isAdmin) {
+        // 3) 관리자가 아니면 차단
+        gateTitle.textContent = "접근 권한이 없습니다 🚫";
+        gateMsg.textContent =
+          "이 페이지는 관리자(admin)만 들어올 수 있습니다. 당신의 역할은 일반회원(user)입니다.";
+        gateBack.hidden = false;
+        adminContent.hidden = true;
+        return;
+      }
+
+      // 4) 관리자 통과 → 진짜 콘텐츠 보이기
+      gateView.hidden = true;
+      adminContent.hidden = false;
+    }
+
+    guard();
+  </script>
+</body>
+</html>

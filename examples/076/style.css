@@ -1,0 +1,101 @@
+/* ===== 페이지 공통 ===== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  background: #f5f6fa;
+  color: #2d3436;
+}
+
+main {
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+h1 { font-size: 24px; margin-bottom: 8px; }
+.desc { color: #636e72; line-height: 1.6; margin-bottom: 24px; }
+
+/* ===== 캐러셀 바깥 박스 =====
+   overflow:hidden 이 핵심입니다.
+   슬라이드 띠는 화면 밖까지 길게 늘어서 있는데,
+   이 박스 밖으로 삐져나온 부분을 잘라서 한 장만 보이게 합니다. */
+.carousel {
+  position: relative;     /* 좌우 버튼·점을 이 박스 기준으로 배치하기 위함 */
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== 슬라이드 띠(track) =====
+   display:flex 로 슬라이드를 가로 한 줄에 늘어놓습니다.
+   transform: translateX(...) 로 이 띠를 왼쪽으로 밀어 슬라이드를 바꿉니다.
+   transition 덕분에 '뚝' 끊기지 않고 부드럽게 미끄러집니다. */
+.track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+/* 슬라이드 한 장 = 박스 너비의 100% (한 화면에 딱 한 장) */
+.slide {
+  flex: 0 0 100%;      /* 늘어나지도 줄어들지도 않고 정확히 100% 너비 */
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  user-select: none;
+}
+
+/* ===== 좌/우 이동 버튼 ===== */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.nav:hover { background: rgba(0, 0, 0, 0.7); }
+.prev { left: 12px; }
+.next { right: 12px; }
+
+/* ===== 하단 점 인디케이터 ===== */
+.dots {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 점 하나 */
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+/* 지금 보고 있는 슬라이드의 점은 '활성' 상태로 강조됩니다.
+   JS가 .active 클래스를 현재 점에만 붙였다 뗐다 합니다. */
+.dot.active {
+  background: #fff;
+  transform: scale(1.3);
+}

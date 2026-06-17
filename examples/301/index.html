@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실습 301 — 본인 데이터만 보이는 RLS 검증</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { font-size: 1.4rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    .auth { background: #f5f8ff; border-color: #b9cdf3; }
+    .note { background: #fffdf3; border-color: #ece2a8; }
+    .check { background: #f3fbf5; border-color: #b4e3c0; }
+    input { font-size: 1rem; padding: 8px; border-radius: 8px; border: 1px solid #aaa; width: 100%; box-sizing: border-box; margin: 4px 0; }
+    button { font-size: 1rem; padding: 8px 14px; border-radius: 8px; border: 1px solid #888; background: #fff; cursor: pointer; margin: 4px 4px 4px 0; }
+    button:hover { background: #f2f2f2; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+    .count { font-weight: bold; }
+    .blocked { color: #1e7e34; }
+    .who { font-weight: bold; color: #1d4ed8; }
+    small { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>실습 301 — "본인 데이터만" RLS 검증</h1>
+  <p>
+    같은 <strong>공개(publishable/anon) 키</strong>를 쓰지만, <strong>누구로 로그인했느냐</strong>에 따라
+    보이는 메모가 달라지는 것을 확인합니다. A로 로그인하면 A 메모만, B로 로그인하면 B 메모만 보이고,
+    <strong>남의 메모는 0건으로 막혀야</strong> 성공입니다.
+  </p>
+
+  <div class="card auth">
+    <p><strong>① 로그인 / 가입</strong> — 검증을 위해 서로 다른 두 이메일로 계정 2개를 만드세요.</p>
+    <p>현재 로그인: <span id="whoami" class="who">로그아웃 상태</span></p>
+    <input id="email" type="email" placeholder="이메일 (예: a@test.com)" />
+    <input id="password" type="password" placeholder="비밀번호 (자리표시자 — 실제 쓰는 비번 넣지 마세요)" />
+    <div>
+      <button id="btnSignup">가입</button>
+      <button id="btnLogin">로그인</button>
+      <button id="btnLogout">로그아웃</button>
+    </div>
+    <small>가입 시 Supabase 설정에 따라 이메일 인증이 필요할 수 있습니다. 실습용이면 대시보드 Authentication → Providers → Email 에서 "Confirm email"을 잠시 꺼두면 편합니다.</small>
+  </div>
+
+  <div class="card note">
+    <p><strong>② 메모 추가</strong> — 지금 로그인한 사람 이름으로 한 줄 저장됩니다(user_id 자동 입력).</p>
+    <input id="content" type="text" placeholder="메모 내용 (예: A의 비밀 메모)" />
+    <button id="btnAdd">메모 추가</button>
+    <pre id="addOut">아직 추가하지 않음</pre>
+  </div>
+
+  <div class="card check">
+    <p><strong>③ 내 메모 조회</strong> — RLS가 "내 줄만" 돌려줍니다.</p>
+    <button id="btnList">내 메모 조회</button>
+    <p>읽힌 줄 수: <span id="count" class="count">-</span></p>
+    <pre id="listOut">아직 조회하지 않음</pre>
+    <small>
+      A로 로그인 → 추가 → 조회하면 A 메모만 보입니다.<br />
+      로그아웃 후 B로 로그인 → 조회하면 A 메모는 안 보이고 <span class="blocked">0건(또는 B 것만)</span>이 나와야 합니다 = 남의 행 차단 증거.
+    </small>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // ===== 여기 두 줄만 내 값으로 바꾸세요 (publishable/anon 키) =====
+    const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+    const SUPABASE_ANON_KEY = "여기에-publishable(anon)-키-붙여넣기";
+    // service_role(secret) 키는 절대 넣지 마세요. RLS를 통째로 우회해 검증 자체가 무의미해집니다.
+    // =================================================================
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const $ = (id) => document.getElementById(id);
+
+    async function refreshWho() {
+      const { data } = await supabase.auth.getUser();
+      $("whoami").textContent = data.user ? data.user.email : "로그아웃 상태";
+    }
+    refreshWho();
+    supabase.auth.onAuthStateChange(() => refreshWho());
+
+    $("btnSignup").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signUp({
+        email: $("email").value, password: $("password").value,
+      });
+      $("addOut").textContent = error ? "가입 오류: " + error.message
+        : "가입 요청 완료. (이메일 인증이 필요하면 메일함을 확인하세요.) 이제 [로그인]을 누르세요.";
+    });
+
+    $("btnLogin").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: $("email").value, password: $("password").value,
+      });
+      $("addOut").textContent = error ? "로그인 오류: " + error.message : "로그인 성공!";
+      refreshWho();
+    });
+
+    $("btnLogout").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      $("addOut").textContent = "로그아웃했습니다. 이제 다른 계정으로 로그인해 검증하세요.";
+      refreshWho();
+    });
+
+    $("btnAdd").addEventListener("click", async () => {
+      // user_id 는 보내지 않습니다. 테이블 default auth.uid() 가 "지금 로그인한 사람"으로 자동 채웁니다.
+      const { data, error } = await supabase
+        .from("my_notes")
+        .insert({ content: $("content").value })
+        .select();
+      $("addOut").textContent = error
+        ? "추가 오류: " + error.message + "\n(로그인 안 했거나, INSERT 정책에 막혔을 수 있어요.)"
+        : "추가됨:\n" + JSON.stringify(data, null, 2);
+    });
+
+    $("btnList").addEventListener("click", async () => {
+      $("count").textContent = "...";
+      $("listOut").textContent = "조회 중...";
+      const { data, error } = await supabase.from("my_notes").select("*").order("id");
+      if (error) {
+        $("count").textContent = "오류";
+        $("listOut").textContent = "에러: " + error.message;
+        return;
+      }
+      $("count").textContent = data.length + "건";
+      $("listOut").textContent = data.length === 0
+        ? "(0건 — RLS가 남의 줄을 막았거나, 이 계정엔 메모가 없음)"
+        : JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>

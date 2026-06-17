@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+  이 파일은 "일부러 레이아웃을 깨뜨린" 코드입니다. (실습용)
+
+  [무엇이 보이나 — 이게 바로 "스크린샷으로 찍을 깨진 화면"입니다]
+  - 데스크톱(넓은 화면)에서는 멀쩡해 보입니다: 왼쪽에 로고, 오른쪽에 메뉴 4개가 한 줄로 나옵니다.
+  - 그런데 모바일(좁은 화면)로 줄이면 상단 메뉴가 로고/제목 위로 삐져나와 글자끼리 "겹쳐서" 읽을 수 없게 됩니다.
+
+  [재현 절차 — 이 순서를 그대로 AI에게 알려주세요]
+  1) 이 broken.html 파일을 브라우저로 엽니다.
+  2) F12를 눌러 개발자 도구를 열고, 왼쪽 위의 "기기 툴바(휴대폰 모양 아이콘)"를 켭니다.
+     (단축키: Windows는 Ctrl+Shift+M, Mac은 Cmd+Shift+M)
+  3) 화면 폭을 375px(아이폰 정도)로 줄입니다.
+  4) 그러면 상단 파란 바 안에서 메뉴 글자들이 로고/제목과 겹쳐서 뭉개집니다.
+     이 "겹친 화면"을 캡처(스크린샷)해서 AI에게 붙여넣는 것이 이번 실습의 핵심입니다.
+
+  [왜 깨지나 — 정답은 README.md에 자세히, 여기선 한 줄만]
+  - .navbar 에 height를 56px로 "고정"해 놓고, position: absolute 로 메뉴를 띄워서
+    화면이 좁아져도 메뉴가 아래로 내려가지 못하고 제자리에서 로고 위로 겹칩니다.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 가게 (레이아웃 깨진 버전)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; }
+
+    /* 문제의 내비게이션 바 */
+    .navbar {
+      background: #2563eb;
+      color: #ffffff;
+      height: 56px;            /* (문제 1) 높이를 56px로 고정 → 메뉴가 넘쳐도 못 늘어남 */
+      position: relative;
+      padding: 0 20px;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 56px;       /* 56px 바 안에서 세로 가운데 맞춤 */
+    }
+    .menu {
+      list-style: none;
+      position: absolute;      /* (문제 2) 메뉴를 바 위에 "절대 위치"로 띄움 */
+      top: 0;
+      right: 20px;
+    }
+    .menu li {
+      display: inline-block;   /* (문제 3) 항상 가로 한 줄 → 좁아져도 안 접힘 */
+      padding: 0 14px;
+      line-height: 56px;
+    }
+    .menu a { color: #ffffff; text-decoration: none; }
+
+    .hero { padding: 40px 20px; text-align: center; }
+    .hero h1 { font-size: 28px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">맛있는 분식집</span>
+    <ul class="menu">
+      <li><a href="#">메뉴</a></li>
+      <li><a href="#">오시는 길</a></li>
+      <li><a href="#">리뷰</a></li>
+      <li><a href="#">예약하기</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>분식의 정석, 그대로</h1>
+    <p>떡볶이 · 김밥 · 튀김 · 순대 — 매일 아침 직접 만듭니다.</p>
+  </section>
+</body>
+</html>

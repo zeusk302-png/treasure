@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자동 재생 캐러셀 (점 인디케이터)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <h1>자동 재생 캐러셀</h1>
+    <p class="desc">3초마다 자동으로 넘어가고, 아래 점을 누르면 그 슬라이드로 이동합니다. 마우스를 올리면 잠시 멈춥니다.</p>
+
+    <!-- 캐러셀 전체를 감싸는 박스 -->
+    <div class="carousel" id="carousel">
+
+      <!-- 슬라이드들이 가로로 일렬로 붙어 있는 띠(track).
+           이 띠를 왼쪽으로 밀어서(translateX) 다른 슬라이드를 보여줍니다. -->
+      <div class="track" id="track">
+        <div class="slide" style="background:#ff7675;">슬라이드 1</div>
+        <div class="slide" style="background:#74b9ff;">슬라이드 2</div>
+        <div class="slide" style="background:#55efc4;">슬라이드 3</div>
+        <div class="slide" style="background:#ffeaa7;">슬라이드 4</div>
+      </div>
+
+      <!-- 좌/우 이동 버튼 -->
+      <button class="nav prev" id="prevBtn" aria-label="이전 슬라이드">&#10094;</button>
+      <button class="nav next" id="nextBtn" aria-label="다음 슬라이드">&#10095;</button>
+
+      <!-- 하단 점 인디케이터: JS가 슬라이드 개수만큼 자동으로 채워 넣습니다. -->
+      <div class="dots" id="dots"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

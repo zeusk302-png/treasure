@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이미지 슬라이더 (이전/다음 버튼)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <h1>이미지 슬라이더</h1>
+    <p class="desc">왼쪽/오른쪽 버튼으로 사진을 한 장씩 넘겨보세요. 끝에서 처음으로 자동 순환됩니다.</p>
+
+    <!-- 슬라이더 본체 -->
+    <div class="slider">
+      <!-- 보이는 창(viewport): 이 안에서만 이미지가 보입니다 -->
+      <div class="viewport">
+        <!-- track: 이미지 5장을 가로로 한 줄에 늘어놓고, 통째로 좌우로 밀어 보여줍니다 -->
+        <div class="track" id="track">
+          <!-- 인터넷 연결 없이도 보이도록 SVG를 data URI로 직접 넣은 예시 이미지입니다 -->
+          <img class="slide" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='360'><rect width='600' height='360' fill='%23ff6b6b'/><text x='300' y='195' font-size='64' fill='white' text-anchor='middle' font-family='sans-serif'>1</text></svg>" alt="슬라이드 1 (빨강)" />
+          <img class="slide" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='360'><rect width='600' height='360' fill='%234dabf7'/><text x='300' y='195' font-size='64' fill='white' text-anchor='middle' font-family='sans-serif'>2</text></svg>" alt="슬라이드 2 (파랑)" />
+          <img class="slide" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='360'><rect width='600' height='360' fill='%2351cf66'/><text x='300' y='195' font-size='64' fill='white' text-anchor='middle' font-family='sans-serif'>3</text></svg>" alt="슬라이드 3 (초록)" />
+          <img class="slide" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='360'><rect width='600' height='360' fill='%23ffd43b'/><text x='300' y='195' font-size='64' fill='%23333' text-anchor='middle' font-family='sans-serif'>4</text></svg>" alt="슬라이드 4 (노랑)" />
+          <img class="slide" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='360'><rect width='600' height='360' fill='%23cc5de8'/><text x='300' y='195' font-size='64' fill='white' text-anchor='middle' font-family='sans-serif'>5</text></svg>" alt="슬라이드 5 (보라)" />
+        </div>
+      </div>
+
+      <!-- 이전/다음 버튼 -->
+      <button class="nav prev" id="prevBtn" aria-label="이전 사진">&#10094;</button>
+      <button class="nav next" id="nextBtn" aria-label="다음 사진">&#10095;</button>
+    </div>
+
+    <!-- 지금 몇 번째인지 보여주는 표시 (예: 1 / 5) -->
+    <p class="counter"><span id="current">1</span> / <span id="total">5</span></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이메일 실시간 검증</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>이메일 실시간 검증</h1>
+    <p class="desc">이메일을 입력해 보세요. 형식이 맞으면 초록 체크, 틀리면 빨강 안내가 즉시 표시됩니다.</p>
+
+    <!-- 폼: 입력칸 + 상태 표시 영역 -->
+    <form id="emailForm" novalidate>
+      <label for="email">이메일 주소</label>
+
+      <!-- 입력칸과 상태 아이콘을 한 줄에 두기 위해 감싸는 박스 -->
+      <div class="field">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="예) hong@example.com"
+          autocomplete="off"
+        />
+        <!-- 입력 중 형식에 따라 ✓ 또는 ✕ 가 나타나는 자리 -->
+        <span id="icon" class="icon" aria-hidden="true"></span>
+      </div>
+
+      <!-- 통과/실패 안내 문구가 나타나는 자리 -->
+      <!-- aria-live: 화면 낭독기가 변경된 안내문을 읽어주도록 함 -->
+      <p id="message" class="message" aria-live="polite"></p>
+
+      <button type="submit" id="submitBtn" disabled>가입하기</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

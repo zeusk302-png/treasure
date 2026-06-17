@@ -1,0 +1,106 @@
+/* ===== 기본 정리 ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Pretendard", "Apple SD Gothic Neo", "맑은 고딕", sans-serif;
+  line-height: 1.7;
+  color: #1f2933;
+  background-color: #f5f7fa;
+}
+
+/* ===== 페이지 본문 ===== */
+.page-header {
+  background-color: #4f46e5;
+  color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.content {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 20px 120px; /* 아래쪽 여백을 넉넉히 줘서 FAB가 본문 마지막 줄을 가리지 않게 합니다 */
+}
+
+.content section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+code {
+  background-color: #eef2ff;
+  color: #4338ca;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+/* ===== 핵심: 플로팅 액션 버튼(FAB) ===== */
+.fab {
+  /* (1) position: fixed
+     화면(브라우저 창)을 기준으로 고정합니다.
+     본문을 스크롤해도 버튼은 화면의 같은 자리에 머뭅니다. */
+  position: fixed;
+
+  /* (2) right / bottom
+     화면 오른쪽 끝에서 24px, 아래 끝에서 24px 떨어진 곳에 둡니다.
+     이 두 숫자를 바꾸면 버튼이 다른 모서리로 이동합니다.
+     (예: left: 24px; 로 바꾸면 왼쪽 아래로 갑니다) */
+  right: 24px;
+  bottom: 24px;
+
+  /* (3) 둥근 모양
+     width와 height를 같게 주고 border-radius: 50% 로 정원(완전한 원)을 만듭니다. */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  /* (4) 보기 좋게 꾸미기 */
+  border: none;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-size: 30px;
+  line-height: 1; /* + 기호를 세로 가운데로 맞추는 데 도움 */
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.45);
+
+  /* (5) z-index
+     다른 요소들보다 위에 그려지도록 큰 값을 줍니다.
+     (본문 카드 그림자 등과 겹쳐도 항상 버튼이 맨 위에 보입니다) */
+  z-index: 1000;
+
+  /* (6) 마우스 올렸을 때 부드럽게 변하도록 */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.55);
+}
+
+.fab:active {
+  transform: scale(0.96);
+}
+
+/* ===== 작은 화면(모바일) 대응 =====
+   모바일에서는 모서리 여백을 살짝 줄여 화면을 알차게 씁니다. */
+@media (max-width: 480px) {
+  .fab {
+    right: 16px;
+    bottom: 16px;
+    width: 54px;
+    height: 54px;
+    font-size: 26px;
+  }
+}

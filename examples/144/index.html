@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>역할에 따라 메뉴 나누기 — 일반회원 vs 관리자 (144)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!--
+    ★ 이번 실습의 핵심 ★
+    profiles 테이블의 role 컬럼('user' 또는 'admin')을 읽어서,
+    관리자(admin)에게만 헤더의 '관리 메뉴' 버튼을 보여주고
+    일반회원(user)에게는 숨깁니다. = '역할 기반 UI 분기'
+
+    중요: 화면에서 버튼을 숨기는 건 'UI 친절'일 뿐, 진짜 보안이 아닙니다.
+    일반회원이 주소창에 admin.html을 직접 쳐서 들어올 수도 있으니까요.
+    진짜 방어(데이터를 서버에서 막기)는 다음 실습 145의 '역할 기반 RLS'에서 합니다.
+    이 실습은 "역할 값을 읽어 화면을 가르는" 기본기를 익히는 단계입니다.
+  -->
+
+  <header id="appHeader">
+    <span class="logo">🗂️ 우리 서비스</span>
+    <nav id="navArea" hidden>
+      <!-- 관리 메뉴: 관리자일 때만 보입니다(기본은 숨김) -->
+      <a id="adminLink" href="admin.html" class="admin-link" hidden>🔧 관리 메뉴</a>
+      <span class="user" id="userEmail"></span>
+      <span class="role-badge" id="roleBadge"></span>
+      <button id="logoutBtn" class="logout-btn">로그아웃</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- (가) 로그인 전 화면 — 로그인/회원가입 -->
+    <section id="loginView">
+      <h1>로그인하고 내 역할 확인하기</h1>
+      <p class="hint">
+        먼저 <strong>회원가입</strong> 후 로그인하세요.
+        (이메일 인증을 꺼두었다면 가입 즉시 로그인됩니다.)
+        새로 가입하면 누구나 <strong>일반회원(user)</strong>으로 시작합니다.
+        관리자(admin)는 <code>schema.sql</code>의 마지막 줄로만 임명할 수 있습니다.
+      </p>
+
+      <form id="authForm" class="login-form">
+        <input id="email" type="email" placeholder="이메일" required />
+        <input id="password" type="password" placeholder="비밀번호(6자 이상)" minlength="6" required />
+        <button type="submit" id="loginSubmit">로그인</button>
+        <button type="button" id="signupBtn" class="ghost-btn">회원가입</button>
+      </form>
+      <div id="authMsg"></div>
+    </section>
+
+    <!-- (나) 로그인 후 화면 — 역할에 따라 안내가 달라짐 (처음엔 숨김) -->
+    <section id="homeView" hidden>
+      <h1>환영합니다 👋</h1>
+
+      <!-- 일반회원에게 보이는 카드 -->
+      <div class="role-card user-card" id="userCard" hidden>
+        <div class="role-icon">🙂</div>
+        <div>
+          <div class="role-title">일반회원 화면</div>
+          <p>당신의 역할은 <strong>일반회원(user)</strong>입니다. 상단에 '관리 메뉴'는 보이지 않습니다.</p>
+        </div>
+      </div>
+
+      <!-- 관리자에게만 보이는 카드 -->
+      <div class="role-card admin-card" id="adminCard" hidden>
+        <div class="role-icon">🛡️</div>
+        <div>
+          <div class="role-title">관리자 화면</div>
+          <p>당신의 역할은 <strong>관리자(admin)</strong>입니다. 상단의
+            <a href="admin.html">🔧 관리 메뉴</a>로 관리자 전용 페이지에 들어갈 수 있습니다.</p>
+        </div>
+      </div>
+
+      <div id="homeMsg"></div>
+    </section>
+
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 1) 공통 설정: 클라이언트(db)를 만들어 둠 -->
+  <script src="supabase.js"></script>
+  <!-- 2) 화면 로직 -->
+  <script>
+    // ---- 화면 요소 모으기 ----
+    const loginView = document.getElementById("loginView");
+    const homeView  = document.getElementById("homeView");
+    const navArea   = document.getElementById("navArea");
+
+    const adminLink   = document.getElementById("adminLink");
+    const userEmailEl = document.getElementById("userEmail");
+    const roleBadge   = document.getElementById("roleBadge");
+    const logoutBtn   = document.getElementById("logoutBtn");
+
+    const authForm  = document.getElementById("authForm");
+    const emailEl   = document.getElementById("email");
+    const passwordEl= document.getElementById("password");
+    const signupBtn = document.getElementById("signupBtn");
+    const authMsg   = document.getElementById("authMsg");
+
+    const userCard  = document.getElementById("userCard");
+    const adminCard = document.getElementById("adminCard");
+    const homeMsg   = document.getElementById("homeMsg");
+
+    let currentUser = null; // 지금 로그인한 사용자(없으면 null)
+
+    // ============================================================
+    // 로그인 상태에 따라 어떤 화면을 보일지 결정
+    // ============================================================
+    async function refreshView() {
+      const { data } = await db.auth.getUser();
+      currentUser = data.user;
+
+      if (currentUser) {
+        loginView.hidden = true;
+        homeView.hidden  = false;
+        navArea.hidden   = false;
+        userEmailEl.textContent = currentUser.email;
+        loadRole();                 // ★ 역할을 읽어 화면을 분기
+      } else {
+        loginView.hidden = false;
+        homeView.hidden  = true;
+        navArea.hidden   = true;
+      }
+    }
+
+    // ============================================================
+    // ★ 핵심: 내 역할(role) 읽어서 화면 분기 ★
+    //   "내 프로필 줘"라고만 요청합니다. where id = 나 같은 필터는 안 씁니다.
+    //   RLS(auth.uid() = id)가 '내 줄'만 자동으로 돌려주기 때문입니다.
+    //   받은 role 값이 'admin'이면 관리 메뉴/관리자 카드를 보여주고,
+    //   아니면 숨긴 채 일반회원 카드를 보여줍니다.
+    // ============================================================
+    async function loadRole() {
+      showHomeMsg("역할 확인 중…", "info");
+      const { data, error } = await db
+        .from("profiles")
+        .select("role")
+        .maybeSingle();
+
+      if (error) { showHomeMsg("역할 확인 실패: " + error.message, "error"); return; }
+      clearHomeMsg();
+
+      // 프로필이 아직 없거나 role이 비면 기본은 'user'로 취급
+      const role = (data && data.role) || "user";
+      const isAdmin = role === "admin";
+
+      // 상단 배지/관리 메뉴 분기
+      roleBadge.textContent = isAdmin ? "관리자" : "일반회원";
+      roleBadge.className = "role-badge " + (isAdmin ? "is-admin" : "is-user");
+      adminLink.hidden = !isAdmin;   // 관리자일 때만 관리 메뉴 보임
+
+      // 본문 카드 분기
+      adminCard.hidden = !isAdmin;
+      userCard.hidden  = isAdmin;
+    }
+
+    // ============================================================
+    // 회원가입 / 로그인 / 로그아웃
+    // ============================================================
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      showAuthMsg("로그인 중…", "info");
+      const { error } = await db.auth.signInWithPassword({
+        email: emailEl.value.trim(),
+        password: passwordEl.value,
+      });
+      if (error) { showAuthMsg("로그인 실패: " + error.message, "error"); return; }
+      clearAuthMsg();
+      refreshView();
+    });
+
+    signupBtn.addEventListener("click", async () => {
+      if (!emailEl.value || passwordEl.value.length < 6) {
+        showAuthMsg("이메일과 6자 이상 비밀번호를 입력하세요.", "error");
+        return;
+      }
+      showAuthMsg("가입 중…", "info");
+      const { data, error } = await db.auth.signUp({
+        email: emailEl.value.trim(),
+        password: passwordEl.value,
+      });
+      if (error) { showAuthMsg("가입 실패: " + error.message, "error"); return; }
+
+      if (!data.session) {
+        showAuthMsg("가입 완료! 메일함의 인증 링크를 누른 뒤 로그인하세요.", "info");
+        return;
+      }
+      clearAuthMsg();
+      refreshView();
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      refreshView();
+    });
+
+    // ---- 작은 도우미들 ----
+    function showAuthMsg(text, type) {
+      authMsg.textContent = text;
+      authMsg.className = "show " + (type || "info");
+    }
+    function clearAuthMsg() { authMsg.textContent = ""; authMsg.className = ""; }
+
+    function showHomeMsg(text, type) {
+      homeMsg.textContent = text;
+      homeMsg.className = "show " + (type || "info");
+    }
+    function clearHomeMsg() { homeMsg.textContent = ""; homeMsg.className = ""; }
+
+    // 페이지가 열리면 현재 로그인 상태부터 확인
+    refreshView();
+  </script>
+</body>
+</html>

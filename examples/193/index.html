@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 검색결과에 보이는 제목과 설명 -->
+  <title>비전공자를 위한 JSON-LD 입문 | 부산코딩스쿨 블로그</title>
+  <meta name="description" content="구조화 데이터(JSON-LD)가 무엇인지, 왜 검색엔진에 좋은지 비전공자 눈높이로 설명합니다." />
+
+  <!-- ============================================================
+       [구조화 데이터 1] Article — 이 페이지가 '블로그 글'임을 알려준다
+       검색엔진이 글 제목, 작성자, 발행일, 대표 이미지를 정확히 읽게 해준다.
+       ※ 실제 배포 시 자리표시자(YOUR_...)를 진짜 값으로 바꾸세요.
+       ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "비전공자를 위한 JSON-LD 입문",
+    "description": "구조화 데이터(JSON-LD)가 무엇인지, 왜 검색엔진에 좋은지 비전공자 눈높이로 설명합니다.",
+    "image": "https://YOUR_DOMAIN.com/images/json-ld-cover.jpg",
+    "datePublished": "2026-06-18T09:00:00+09:00",
+    "dateModified": "2026-06-18T09:00:00+09:00",
+    "author": {
+      "@type": "Person",
+      "name": "김세영"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "부산코딩스쿨",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://YOUR_DOMAIN.com/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://YOUR_DOMAIN.com/blog/json-ld-intro"
+    }
+  }
+  </script>
+
+  <!-- ============================================================
+       [구조화 데이터 2] Organization — 사이트 '운영주체(회사/단체)'를 알려준다
+       보통 사이트 전체에서 동일하므로 모든 페이지에 같은 내용으로 넣어도 된다.
+       sameAs에는 공식 SNS/지식백과 링크를 넣어 신뢰도를 높인다.
+       ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "부산코딩스쿨",
+    "url": "https://YOUR_DOMAIN.com",
+    "logo": "https://YOUR_DOMAIN.com/images/logo.png",
+    "sameAs": [
+      "https://www.instagram.com/YOUR_ACCOUNT",
+      "https://www.youtube.com/@YOUR_CHANNEL"
+    ]
+  }
+  </script>
+
+  <!--
+    [중요 판단] FAQ 리치결과는 일부러 넣지 않았습니다.
+    구글은 2026년 기준 FAQPage 리치결과를 일반 사이트에 더 이상 노출하지 않으므로,
+    FAQPage JSON-LD를 넣어도 검색결과에 Q&A가 펼쳐지지 않습니다.
+    "넣을 수 있다"와 "넣는 게 효과가 있다"는 다릅니다. 여기서는 넣지 않는 판단을 합니다.
+  -->
+
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; line-height: 1.7; max-width: 720px; margin: 0 auto; padding: 24px; color: #222; }
+    header { border-bottom: 2px solid #eee; padding-bottom: 16px; margin-bottom: 24px; }
+    h1 { font-size: 1.8rem; margin: 0 0 8px; }
+    .meta { color: #777; font-size: 0.9rem; }
+    .note { background: #f5f7ff; border-left: 4px solid #4a6cff; padding: 12px 16px; border-radius: 6px; margin: 24px 0; }
+    footer { margin-top: 40px; border-top: 1px solid #eee; padding-top: 16px; color: #777; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>비전공자를 위한 JSON-LD 입문</h1>
+    <p class="meta">작성자: 김세영 · 발행일: 2026-06-18 · 부산코딩스쿨</p>
+  </header>
+
+  <main>
+    <article>
+      <p>
+        검색엔진은 사람이 아니라 기계입니다. 우리가 쓴 글이 "누가 쓴 무슨 글인지"를
+        기계가 한눈에 알 수 있게 정리해 주는 것이 바로 <strong>구조화 데이터(JSON-LD)</strong>입니다.
+      </p>
+      <p>
+        이 페이지의 <code>&lt;head&gt;</code> 안에는 사람 눈에는 안 보이지만 검색엔진이 읽는
+        두 개의 JSON-LD가 들어 있습니다. 하나는 이 글이 <strong>Article(글)</strong>이라는 정보,
+        다른 하나는 사이트 운영주체가 <strong>Organization(단체)</strong>이라는 정보입니다.
+      </p>
+
+      <div class="note">
+        FAQ 정보도 구조화 데이터로 넣을 수 있지만, 2026년 기준 구글은 일반 사이트의
+        FAQ를 검색결과에 더 이상 펼쳐 보여주지 않습니다. 그래서 이 실습에서는
+        효과가 없는 FAQ는 일부러 넣지 않았습니다.
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>부산코딩스쿨 · 비전공 청년 웹개발 가이드</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* 페이지 기본 꾸밈 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: #f4f5f7;
+  color: #222;
+}
+
+.page {
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 16px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.desc {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+/* 슬라이더 전체를 감싸는 박스. 버튼을 모서리에 띄우려고 relative를 줍니다 */
+.slider {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 보이는 창: 한 장 크기만큼만 보이고 나머지는 잘라서 숨깁니다 */
+.viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* track: 이미지들을 한 줄(가로)로 늘어놓는 띠.
+   이 띠를 통째로 좌우로 밀어서 원하는 이미지를 보여줍니다.
+   transition으로 밀릴 때 부드럽게 움직입니다 */
+.track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+
+/* 각 슬라이드는 창 너비(100%)를 꽉 채웁니다. flex-shrink:0 으로 줄어들지 않게 합니다 */
+.slide {
+  width: 100%;
+  flex-shrink: 0;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 5 / 3;
+}
+
+/* 이전/다음 버튼: 슬라이더 좌우 중앙에 둥근 버튼으로 띄웁니다 */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.nav:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+  left: 12px;
+}
+
+.next {
+  right: 12px;
+}
+
+/* 현재 위치 표시 (1 / 5) */
+.counter {
+  margin-top: 16px;
+  font-size: 18px;
+  color: #555;
+  font-weight: bold;
+}

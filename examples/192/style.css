@@ -1,0 +1,191 @@
+/* =========================================================================
+   192 실습 — 색 대비 검사로 흐린 텍스트를 WCAG AA 합격선까지 고치기
+
+   핵심: 글자 크기·구조는 그대로 두고 "색"만 바꿔서 명도대비를 올립니다.
+   - WCAG AA 기준: 일반 본문 글자 4.5:1 이상, 큰 글자(약 24px 이상 또는
+     18.66px 굵은 글씨) 3:1 이상.
+   - 아래 :root 변수들이 이번 실습의 "합격선을 넘긴 색상 팔레트"입니다.
+   ========================================================================= */
+
+:root {
+  /* ✅ 합격(AA 통과) 팔레트 — 모두 흰 배경(또는 흰 글자) 기준 측정값 */
+  --text-strong: #1a1a1a; /* 제목  : 흰 배경 대비 17.4:1 */
+  --text-body: #595959; /* 본문  : 흰 배경 대비 7.0:1 (AA 본문 4.5:1 통과) */
+  --accent: #b91c1c; /* 강조  : 흰 배경 대비 6.5:1 */
+  --btn-bg: #1d4ed8; /* 버튼 배경: 흰 글자 대비 6.7:1 */
+  --btn-text: #ffffff;
+  --page-bg: #ffffff;
+
+  /* ❌ 불합격 팔레트 — "고치기 전"을 보여 주려고만 남겨 둔 색입니다.
+     실제 사이트에서는 절대 본문에 쓰지 마세요. */
+  --bad-text: #999999; /* 흰 배경 대비 2.85:1 (불합격) */
+  --bad-btn-bg: #9ec5f7; /* 흰 글자 대비 1.78:1 (불합격) */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-body);
+  background: #fafafa;
+}
+
+.site-header,
+.site-footer {
+  text-align: center;
+  padding: 28px 16px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.site-header h1 {
+  margin: 0;
+  color: var(--text-strong);
+}
+
+.tagline {
+  margin: 6px 0 0;
+  color: var(--text-body); /* 부제목도 합격 색으로 */
+}
+
+.site-footer {
+  border-top: 1px solid #eee;
+  border-bottom: none;
+  margin-top: 40px;
+  color: var(--text-body);
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+h2 {
+  color: var(--text-strong);
+  margin: 8px 0 12px;
+}
+
+/* ---- 비교용 블록(고치기 전 / 고친 후) ---- */
+.demo-block {
+  background: var(--page-bg);
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+/* 배지 자체도 대비를 지킵니다(진한 배경 + 흰 글자) */
+.badge-fail {
+  background: #b91c1c;
+  color: #fff;
+}
+
+.badge-pass {
+  background: #15803d;
+  color: #fff;
+}
+
+.body-text {
+  font-size: 16px;
+}
+
+/* 고치기 전: 흐린 색을 일부러 적용 (불합격 상태를 눈으로 보기 위함) */
+.before .body-text {
+  color: var(--bad-text);
+}
+
+.before .btn {
+  background: var(--bad-btn-bg);
+  color: #fff; /* 연한 파랑 위 흰 글자 → 1.9:1, 거의 안 보임 */
+}
+
+/* 고친 후: 합격 색을 적용 */
+.after .body-text {
+  color: var(--text-body);
+}
+
+/* ---- 버튼 ---- */
+.btn {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+/* 키보드 접근성: 포커스 외곽선을 진하게 남겨 둠(대비와 함께 가는 짝꿍) */
+.btn:focus-visible {
+  outline: 3px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+/* ---- 합격 팔레트 목록 ---- */
+.palette {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+
+.palette-note {
+  color: var(--text-body);
+  font-size: 15px;
+}
+
+.swatches {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.swatches li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex: 0 0 auto;
+}
+
+.swatches strong {
+  color: var(--text-strong);
+  min-width: 130px;
+}
+
+.swatches code {
+  background: #f1f1f1;
+  color: var(--text-strong);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.ratio {
+  color: var(--text-body);
+  font-size: 14px;
+}

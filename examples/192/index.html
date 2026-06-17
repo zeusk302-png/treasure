@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>색 대비 합격선까지 고치기 — 동네빵집</title>
+    <meta
+      name="description"
+      content="흐려서 안 보이던 본문·버튼 글자색을 WCAG AA(본문 4.5:1) 기준에 맞게 고친 색상 팔레트 예제입니다."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>동네빵집</h1>
+      <p class="tagline">매일 아침 갓 구운 빵</p>
+    </header>
+
+    <main>
+      <!-- ===================================================================
+           1) 고치기 전(BEFORE): 일부러 흐리게 만든 "불합격" 색
+           - 회색 본문 글자(#999)가 흰 배경 위에서 너무 흐림 → 대비 2.85:1 (불합격)
+           - 연한 하늘색 버튼에 흰 글자 → 대비 1.78:1 (불합격)
+           이 영역은 "왜 안 보이는지" 직접 눈으로 보라고 남겨 둔 비교용입니다.
+      ==================================================================== -->
+      <section class="demo-block before">
+        <span class="badge badge-fail">고치기 전 · 불합격</span>
+        <h2>오늘의 빵</h2>
+        <p class="body-text">
+          버터 향이 가득한 크루아상과 통밀 식빵을 매일 아침 새로 굽습니다. 이
+          문장이 흐려서 잘 안 보인다면, 그게 바로 "대비 불합격" 상태입니다.
+        </p>
+        <a class="btn" href="#">주문하기</a>
+      </section>
+
+      <!-- ===================================================================
+           2) 고친 후(AFTER): WCAG AA를 통과하도록 색만 진하게 바꾼 "합격" 색
+           - 본문 글자색을 #595959로 → 흰 배경 대비 7.0:1 (합격, AA 본문 4.5:1 통과)
+           - 버튼 배경을 진한 파랑(#1d4ed8) + 흰 글자 → 대비 6.7:1 (합격)
+           HTML 구조와 글자 크기는 위와 똑같습니다. 바뀐 건 오직 "색"뿐입니다.
+      ==================================================================== -->
+      <section class="demo-block after">
+        <span class="badge badge-pass">고친 후 · 합격</span>
+        <h2>오늘의 빵</h2>
+        <p class="body-text">
+          버터 향이 가득한 크루아상과 통밀 식빵을 매일 아침 새로 굽습니다. 같은
+          글자, 같은 크기인데 색만 진하게 바꿨더니 또렷하게 읽힙니다.
+        </p>
+        <a class="btn" href="#">주문하기</a>
+      </section>
+
+      <!-- ===================================================================
+           3) 합격선을 넘긴 최종 색상 팔레트(이 폴더의 결과물)
+           실제 사이트에서는 .after에 쓴 색을 그대로 쓰면 됩니다.
+      ==================================================================== -->
+      <section class="palette">
+        <h2>합격선을 넘긴 색상 팔레트</h2>
+        <p class="palette-note">
+          아래 색들이 이번 실습의 결과물입니다. 모두 흰 배경(또는 흰 글자)을
+          기준으로 WCAG AA를 통과합니다.
+        </p>
+        <ul class="swatches">
+          <li>
+            <span class="swatch" style="background: #1a1a1a"></span>
+            <strong>제목 글자</strong>
+            <code>#1a1a1a</code>
+            <span class="ratio">흰 배경 대비 17.4:1</span>
+          </li>
+          <li>
+            <span class="swatch" style="background: #595959"></span>
+            <strong>본문 글자</strong>
+            <code>#595959</code>
+            <span class="ratio">흰 배경 대비 7.0:1</span>
+          </li>
+          <li>
+            <span class="swatch" style="background: #1d4ed8"></span>
+            <strong>버튼 배경(글자 흰색)</strong>
+            <code>#1d4ed8</code>
+            <span class="ratio">흰 글자 대비 6.7:1</span>
+          </li>
+          <li>
+            <span class="swatch" style="background: #b91c1c"></span>
+            <strong>강조/링크</strong>
+            <code>#b91c1c</code>
+            <span class="ratio">흰 배경 대비 6.5:1</span>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; 2026 동네빵집 · 색 대비 실습</p>
+    </footer>
+  </body>
+</html>

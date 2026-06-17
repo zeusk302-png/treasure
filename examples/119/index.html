@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 (RLS 보안 켜짐) — 실습 119</title>
+  <style>
+    body {
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      max-width: 560px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; margin-top: 28px; }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+    label { display: block; font-weight: 700; margin: 12px 0 4px; }
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #3ecf8e;
+      color: #03311f;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:disabled { background: #cfcfcf; color: #777; cursor: not-allowed; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 안내/상태 문구 (저장 중 · 불러오는 중 · 성공 · 에러) */
+    #status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      display: none;          /* 평소엔 숨겨 두고, 필요할 때 JS가 보여 줍니다 */
+    }
+    #status.info { display: block; background: #eef4ff; color: #2b5fd9; }
+    #status.ok   { display: block; background: #e6f7ee; color: #137a4a; }
+    #status.fail { display: block; background: #fdecea; color: #b3261e; }
+    /* 글 목록을 담는 ul. 점(•) 표시를 없애고 카드 모양으로 꾸밉니다. */
+    #list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+    #list li {
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    #list li .who { font-weight: 700; }
+    #list li .when { color: #888; font-size: 0.85rem; margin-left: 6px; }
+    #list li .msg { margin-top: 4px; white-space: pre-wrap; }
+    .hint { color: #666; font-size: 0.9rem; }
+    /* RLS 개념을 강조하는 안내 박스 */
+    .note {
+      background: #fff8e1;
+      border: 1px solid #ffe08a;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+    }
+    .note strong { color: #8a6d00; }
+  </style>
+</head>
+<body>
+  <h1>방명록 — RLS(보안)를 켜고 정책으로 다시 열기</h1>
+
+  <p>
+    이 화면 자체는 실습 118과 똑같이 동작합니다(글 남기면 목록 즉시 갱신).
+    달라진 건 <strong>서버 쪽 보안</strong>입니다. 표에 <strong>RLS(행 수준 보안)</strong>를 켜면
+    정책이 없을 땐 글이 안 보이고(빈 목록), 글쓰기도 막힙니다.
+    <code>schema.sql</code>로 <strong>읽기 정책 + 쓰기 정책</strong>을 추가해야 다시 정상 동작합니다.
+  </p>
+
+  <div class="note">
+    <strong>실험해 보세요:</strong> <code>schema.sql</code>의 <strong>1단계(RLS 켜기)만</strong> 실행하면
+    아래 목록이 <strong>텅 비고</strong> 글쓰기가 <strong>에러</strong>가 납니다.
+    이어서 <strong>2~3단계(정책 추가)</strong>까지 실행하면 다시 멀쩡해집니다.
+    "정책이 없으면 데이터가 안 보인다"를 직접 눈으로 확인하는 것이 이번 실습의 핵심입니다.
+  </div>
+
+  <div class="card">
+    <h2>글 남기기</h2>
+
+    <form id="guestbook-form">
+      <label for="name">이름</label>
+      <input id="name" type="text" placeholder="홍길동" maxlength="20" required />
+
+      <label for="message">메시지</label>
+      <textarea id="message" placeholder="여기 다녀갑니다!" maxlength="200" required></textarea>
+
+      <button id="submit-btn" type="submit">남기기</button>
+    </form>
+
+    <div id="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>방명록 목록</h2>
+    <ul id="list"></ul>
+  </div>
+
+  <p class="hint">
+    먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+    내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고(절대 service_role 아님),
+    <code>schema.sql</code>로 RLS와 정책을 설정하세요. 자세한 방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

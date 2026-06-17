@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 회원 목록 — 역할 + RLS 종합 (145)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!--
+    ★ 이번 실습의 핵심 ★
+    이 페이지는 "관리자만 들어가는 회원 목록"입니다.
+
+    보안은 두 겹입니다. 둘의 역할이 다릅니다.
+      (1) 화면 가드 = '친절한 안내'.  관리자가 아니면 목록 대신 "권한 없음"을 보여줌.
+          → 이건 '편의'이지 진짜 보안이 아닙니다. 코드를 뜯으면 우회할 수 있습니다.
+      (2) DB의 RLS(역할 검사) = '진짜 보안'.  일반회원이 이 페이지를 억지로 열거나
+          콘솔에서 직접 'profiles 다 줘'라고 해도, DB가 자기 한 줄만 돌려줍니다.
+
+    즉, 화면을 아무리 뚫어도 데이터는 DB(RLS)가 끝까지 지킵니다.
+    (그 규칙은 schema.sql 의 "본인 또는 관리자 읽기" 정책에 있습니다.)
+  -->
+
+  <header id="appHeader">
+    <span class="logo">🛡️ 관리자 콘솔</span>
+    <nav id="userArea" hidden>
+      <span class="badge" id="roleBadge"></span>
+      <span class="user" id="userEmail"></span>
+      <button id="logoutBtn" class="logout-btn">로그아웃</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- (가) 로그인 전 화면 -->
+    <section id="loginView">
+      <h1>관리자 로그인</h1>
+      <p class="hint">
+        이 페이지는 <strong>관리자(admin)만</strong> 회원 목록을 볼 수 있습니다.
+        처음이라면 같은 폼에서 <strong>회원가입</strong>부터 하세요.
+        (관리자로 만드는 방법은 <code>schema.sql</code> 8번을 보세요.)
+      </p>
+
+      <form id="authForm" class="login-form">
+        <input id="email" type="email" placeholder="이메일" required />
+        <input id="password" type="password" placeholder="비밀번호(6자 이상)" minlength="6" required />
+        <button type="submit" id="loginSubmit">로그인</button>
+        <button type="button" id="signupBtn" class="ghost-btn">회원가입</button>
+      </form>
+      <div id="authMsg"></div>
+    </section>
+
+    <!-- (나) 로그인했지만 관리자가 아닐 때 — '화면 가드'가 막는 화면 -->
+    <section id="denyView" hidden>
+      <div class="deny-box">
+        <h1>🚫 접근 권한이 없습니다</h1>
+        <p class="hint">
+          이 페이지는 <strong>관리자 전용</strong>입니다. 지금 계정은 일반회원이에요.
+        </p>
+        <p class="hint">
+          참고: 지금 "권한 없음"이라고 막은 건 <strong>화면(편의 안내)</strong>일 뿐입니다.
+          설령 이 안내를 건너뛰고 목록을 강제로 불러와도, <strong>데이터베이스의 RLS</strong>가
+          당신의 한 줄 말고는 한 줄도 내주지 않습니다. (진짜 자물쇠는 DB에 있습니다.)
+        </p>
+      </div>
+    </section>
+
+    <!-- (다) 관리자일 때 — 전체 회원 목록 -->
+    <section id="adminView" hidden>
+      <h1>전체 회원 목록</h1>
+      <p class="hint">
+        아래는 <strong>모든 회원</strong>입니다. 이 목록이 보인다는 건
+        DB의 RLS가 "당신은 admin이군요, 그럼 전부 보여드릴게요"라고 허락했다는 뜻입니다.
+      </p>
+      <div id="adminMsg"></div>
+      <table class="member-table">
+        <thead>
+          <tr>
+            <th>이메일</th>
+            <th>닉네임</th>
+            <th>역할</th>
+            <th>가입일</th>
+          </tr>
+        </thead>
+        <tbody id="memberRows">
+          <tr><td colspan="4" class="empty">불러오는 중…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 1) 공통 설정: 클라이언트(db)를 만들어 둠 -->
+  <script src="supabase.js"></script>
+  <!-- 2) 화면 로직 -->
+  <script>
+    // ---- 화면 요소 모으기 ----
+    const loginView   = document.getElementById("loginView");
+    const denyView    = document.getElementById("denyView");
+    const adminView   = document.getElementById("adminView");
+
+    const userArea    = document.getElementById("userArea");
+    const userEmailEl = document.getElementById("userEmail");
+    const roleBadge   = document.getElementById("roleBadge");
+
+    const authForm  = document.getElementById("authForm");
+    const emailEl   = document.getElementById("email");
+    const passwordEl= document.getElementById("password");
+    const signupBtn = document.getElementById("signupBtn");
+    const authMsg   = document.getElementById("authMsg");
+
+    const logoutBtn   = document.getElementById("logoutBtn");
+    const memberRows  = document.getElementById("memberRows");
+    const adminMsg    = document.getElementById("adminMsg");
+
+    // ============================================================
+    // 로그인 상태 + 역할(role)에 따라 어떤 화면을 보일지 결정
+    // ============================================================
+    async function refreshView() {
+      const { data } = await db.auth.getUser();
+      const user = data.user;
+
+      if (!user) {
+        // 로그인 안 함 → 로그인 화면
+        showOnly(loginView);
+        userArea.hidden = true;
+        return;
+      }
+
+      // 로그인됨 → 내 역할(role)을 profiles 에서 읽어온다.
+      //   RLS 덕분에 '내 한 줄'은 일반회원도 읽을 수 있습니다.
+      const { data: me, error } = await db
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      const myRole = (me && me.role) || "user";
+
+      // 헤더에 이메일과 역할 배지 표시
+      userArea.hidden = false;
+      userEmailEl.textContent = user.email;
+      roleBadge.textContent = (myRole === "admin") ? "관리자" : "일반회원";
+      roleBadge.className = "badge " + myRole;
+
+      if (myRole === "admin") {
+        // ★ 화면 가드: 관리자에게만 목록 화면을 보여줌 (편의)
+        showOnly(adminView);
+        loadMembers();   // 실제 데이터 보호는 RLS가 함 (진짜 보안)
+      } else {
+        // 관리자가 아니면 '권한 없음' 화면
+        showOnly(denyView);
+      }
+    }
+
+    // 세 화면 중 하나만 보이게 하는 도우미
+    function showOnly(viewToShow) {
+      loginView.hidden = (viewToShow !== loginView);
+      denyView.hidden  = (viewToShow !== denyView);
+      adminView.hidden = (viewToShow !== adminView);
+    }
+
+    // ============================================================
+    // 회원가입 / 로그인
+    // ============================================================
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();              // 폼 기본 제출(새로고침) 막기
+      showAuthMsg("로그인 중…", "info");
+      const { error } = await db.auth.signInWithPassword({
+        email: emailEl.value.trim(),
+        password: passwordEl.value,
+      });
+      if (error) { showAuthMsg("로그인 실패: " + error.message, "error"); return; }
+      clearAuthMsg();
+      refreshView();
+    });
+
+    signupBtn.addEventListener("click", async () => {
+      if (!emailEl.value || passwordEl.value.length < 6) {
+        showAuthMsg("이메일과 6자 이상 비밀번호를 입력하세요.", "error");
+        return;
+      }
+      showAuthMsg("가입 중…", "info");
+      const { data, error } = await db.auth.signUp({
+        email: emailEl.value.trim(),
+        password: passwordEl.value,
+      });
+      if (error) { showAuthMsg("가입 실패: " + error.message, "error"); return; }
+
+      // 이메일 인증이 켜져 있으면 session이 아직 없습니다(메일 확인 필요).
+      if (!data.session) {
+        showAuthMsg("가입 완료! 메일함의 인증 링크를 누른 뒤 로그인하세요.", "info");
+        return;
+      }
+      showAuthMsg("가입 완료! 기본 역할은 '일반회원'입니다. 관리자로 만들려면 schema.sql 8번을 보세요.", "info");
+      refreshView();
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      memberRows.innerHTML = "";
+      refreshView();
+    });
+
+    // ============================================================
+    // 회원 목록 불러오기 — "회원 다 줘"라고만 요청한다.
+    //   where role=... 같은 권한 필터를 우리가 쓰지 않습니다.
+    //   '누가 무엇을 볼 수 있는지'는 RLS가 자동으로 판단합니다.
+    //     - 관리자  → 모든 줄이 옴
+    //     - 일반회원 → (가드를 뚫고 여기 와도) 자기 한 줄만 옴
+    // ============================================================
+    async function loadMembers() {
+      memberRows.innerHTML = '<tr><td colspan="4" class="empty">불러오는 중…</td></tr>';
+      const { data, error } = await db
+        .from("profiles")
+        .select("email, nickname, role, created_at")
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        memberRows.innerHTML =
+          '<tr><td colspan="4" class="empty">에러: ' + escapeHtml(error.message) + '</td></tr>';
+        return;
+      }
+
+      if (!data.length) {
+        memberRows.innerHTML = '<tr><td colspan="4" class="empty">회원이 없습니다.</td></tr>';
+        return;
+      }
+
+      memberRows.innerHTML = data.map((row) =>
+        '<tr>' +
+          '<td>' + escapeHtml(row.email || "-") + '</td>' +
+          '<td>' + escapeHtml(row.nickname || "-") + '</td>' +
+          '<td><span class="badge ' + (row.role === "admin" ? "admin" : "user") + '">' +
+            (row.role === "admin" ? "관리자" : "일반회원") + '</span></td>' +
+          '<td>' + new Date(row.created_at).toLocaleDateString("ko-KR") + '</td>' +
+        '</tr>'
+      ).join("");
+
+      showAdminMsg("총 " + data.length + "명 — 이 목록이 보인다는 건 RLS가 당신을 관리자로 인가했다는 뜻!", "info");
+    }
+
+    // ---- 작은 도우미들 ----
+    function showAuthMsg(text, type) {
+      authMsg.textContent = text;
+      authMsg.className = "show " + (type || "info");
+    }
+    function clearAuthMsg() { authMsg.textContent = ""; authMsg.className = ""; }
+
+    function showAdminMsg(text, type) {
+      adminMsg.textContent = text;
+      adminMsg.className = "show " + (type || "info");
+    }
+
+    // 사용자가 넣은 글에 태그가 끼어들지 않도록 최소한의 안전 처리
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+      );
+    }
+
+    // 페이지가 열리면 현재 로그인 상태 + 역할부터 확인
+    refreshView();
+  </script>
+</body>
+</html>

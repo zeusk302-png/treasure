@@ -1,0 +1,111 @@
+/* ============================================================
+   반응형 메뉴 스타일
+   핵심: @media (max-width: 768px) 안의 규칙은
+        "화면 가로폭이 768px 이하일 때만" 적용됩니다.
+   ============================================================ */
+
+/* 공통 초기화 (브라우저 기본 여백 제거) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+  color: #222;
+}
+
+/* ---------- 내비게이션 바 (넓은 화면 기준 = 기본값) ---------- */
+.navbar {
+  display: flex;                 /* 로고와 메뉴를 가로로 배치 */
+  justify-content: space-between;/* 로고는 왼쪽, 메뉴는 오른쪽 */
+  align-items: center;           /* 세로 가운데 정렬 */
+  background-color: #1e3a8a;     /* 진한 파랑 */
+  padding: 16px 24px;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 메뉴 목록: 기본(넓은 화면)에서는 가로로 나란히 */
+.menu {
+  display: flex;        /* li들을 가로로 배치 */
+  gap: 24px;            /* 메뉴 사이 간격 */
+  list-style: none;     /* 목록 점(•) 제거 */
+}
+
+.menu a {
+  color: #ffffff;
+  text-decoration: none;  /* 밑줄 제거 */
+  font-size: 16px;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- 본문 ---------- */
+.content {
+  padding: 32px 24px;
+  line-height: 1.7;
+}
+
+.content h1 {
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.hint {
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #eef2ff;
+}
+
+/* 기본(넓은 화면)에서는 '데스크톱 안내'만 보이고 '모바일 안내'는 숨김 */
+.mobile-hint {
+  display: none;
+}
+
+/* ============================================================
+   미디어쿼리: 화면 가로폭이 768px 이하일 때만 아래 규칙 적용
+   → 이 안의 내용만 모바일에서 바뀌고, 위쪽은 그대로 유지됩니다.
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* 내비바를 세로 방향으로 쌓기 */
+  .navbar {
+    flex-direction: column;  /* 가로(row) → 세로(column) */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    gap: 12px;
+  }
+
+  /* 메뉴도 가로 → 세로로 쌓기 */
+  .menu {
+    flex-direction: column;  /* 핵심: 메뉴 항목을 세로로! */
+    gap: 12px;
+    width: 100%;             /* 가로 전체 사용 */
+  }
+
+  .menu li {
+    width: 100%;
+  }
+
+  .menu a {
+    display: block;           /* 항목 전체가 클릭 영역이 되도록 */
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* 구분선 */
+  }
+
+  /* 안내 문구 전환: 좁은 화면에서는 '모바일 안내'만 보이기 */
+  .desktop-hint {
+    display: none;
+  }
+  .mobile-hint {
+    display: block;
+  }
+}

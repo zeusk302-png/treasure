@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 이 한 줄이 없으면 모바일에서 미디어쿼리가 제대로 안 먹습니다. 꼭 넣으세요! -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>반응형 메뉴 (미디어쿼리 실습)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 내비게이션 바 -->
+  <header class="navbar">
+    <!-- 로고 영역 -->
+    <div class="logo">부산코딩스쿨</div>
+
+    <!-- 메뉴 영역: 넓은 화면에서는 가로로, 좁은 화면에서는 세로로 쌓입니다 -->
+    <nav>
+      <ul class="menu">
+        <li><a href="#home">홈</a></li>
+        <li><a href="#about">소개</a></li>
+        <li><a href="#course">강의</a></li>
+        <li><a href="#contact">문의</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 본문: 지금 화면이 어떤 상태인지 설명해 주는 안내 -->
+  <main class="content">
+    <h1>화면 크기를 바꿔 보세요</h1>
+    <p class="hint desktop-hint">
+      지금은 <strong>넓은 화면(데스크톱)</strong>입니다. 메뉴가 가로로 나란히 놓여 있어요.
+    </p>
+    <p class="hint mobile-hint">
+      지금은 <strong>좁은 화면(모바일)</strong>입니다. 메뉴가 세로로 쌓여 있어요.
+    </p>
+    <p>
+      브라우저 창의 가로 너비를 <strong>768px</strong>보다 좁게 줄이면 메뉴가 가로에서
+      세로로 바뀝니다. 이 768px이 바로 <strong>분기점(breakpoint)</strong>입니다.
+    </p>
+  </main>
+</body>
+</html>
