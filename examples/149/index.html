@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>랜덤 강아지/고양이 사진 갤러리</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>오늘의 랜덤 동물 사진</h1>
+
+    <!-- 동물 종류를 고르는 버튼 두 개. 누르면 그 동물 사진을 새로 받아온다. -->
+    <div class="picker">
+      <!-- data-animal 값으로 '어떤 동물인지'를 표시해 둔다. -->
+      <button class="animalBtn is-active" data-animal="dog">🐶 강아지</button>
+      <button class="animalBtn" data-animal="cat">🐱 고양이</button>
+    </div>
+
+    <!-- 사진이 들어갈 자리.
+         처음에는 빈 칸이고, 버튼을 누르면 JSON 응답 속 주소(URL)가 이 img의 src로 들어간다. -->
+    <div class="photo">
+      <img id="animalImg" alt="랜덤 동물 사진" />
+      <!-- 사진을 받아오는 동안 잠깐 보여줄 안내 문구 -->
+      <p id="status" class="status">아래 "새 사진" 버튼을 눌러 첫 사진을 받아보세요.</p>
+    </div>
+
+    <!-- 이 버튼을 누를 때마다 사진을 새로 받아온다. -->
+    <button id="newBtn">새 사진</button>
+
+    <!-- 지금까지 몇 장 받았는지 보여주는 안내 -->
+    <p id="count" class="count">아직 받지 않았어요.</p>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>

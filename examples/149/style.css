@@ -1,0 +1,120 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;                 /* 카드를 화면 가운데로 보내기 위한 설정 */
+  align-items: center;           /* 세로 가운데 */
+  justify-content: center;       /* 가로 가운데 */
+  background: #f4f1ea;           /* 부드러운 베이지 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+}
+
+/* 사진이 담기는 카드 */
+.card {
+  background: #ffffff;
+  max-width: 420px;
+  width: 90%;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+h1 {
+  font-size: 20px;
+  color: #8a6d3b;               /* 차분한 갈색 */
+  margin: 0 0 20px;
+}
+
+/* 강아지/고양이 선택 버튼 묶음 */
+.picker {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+/* 동물 선택 버튼 (강아지/고양이) */
+.animalBtn {
+  background: #efe9dd;
+  color: #6f562d;
+  border: 2px solid transparent;
+  padding: 8px 16px;
+  border-radius: 999px;          /* 알약 모양 */
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* 지금 고른 동물 버튼은 테두리로 표시 */
+.animalBtn.is-active {
+  border-color: #8a6d3b;
+  background: #fff;
+  font-weight: bold;
+}
+
+/* 사진이 들어가는 영역 */
+.photo {
+  background: #f7f4ee;
+  border-radius: 12px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;             /* 사진이 모서리를 넘지 않게 */
+  margin-bottom: 20px;
+}
+
+/* 받아온 동물 사진 */
+.photo img {
+  max-width: 100%;
+  max-height: 320px;
+  display: block;
+  /* 사진이 바뀔 때 부드럽게 보이도록 0.3초 동안 서서히 또렷해지게 한다 */
+  transition: opacity 0.3s ease;
+}
+
+/* '사진이 빈 칸일 때'는 액자를 숨겨 안내 문구만 보이게 한다 */
+.photo img:not([src]) {
+  display: none;
+}
+
+/* 받아오는 중일 때 살짝 흐리게 */
+.photo img.loading {
+  opacity: 0.3;
+}
+
+/* 받아오는 중/실패 안내 문구 */
+.status {
+  color: #999;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* '새 사진' 버튼 */
+#newBtn {
+  background: #8a6d3b;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 999px;          /* 알약 모양 */
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#newBtn:hover {
+  background: #6f562d;           /* 마우스를 올리면 살짝 진하게 */
+}
+
+/* 요청 중이라 버튼이 잠긴 상태 */
+#newBtn:disabled {
+  background: #c9bfa8;
+  cursor: not-allowed;
+}
+
+/* 몇 장 받았는지 보여주는 작은 안내문 */
+.count {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: #999;
+}

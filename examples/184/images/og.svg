@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  대표 OG 이미지 견본 (1200 x 630 — SNS 미리보기 카드의 표준 크기).
+  SVG는 "글자로 된 그림" 파일이라 메모장으로 열어 문구·색을 바꿀 수 있어요.
+  ⚠️ 실제 카톡/페이스북 미리보기에는 PNG/JPG를 쓰는 것이 가장 안전합니다.
+     브라우저로 이 og.svg를 연 뒤 화면을 캡처하거나, 디자인 도구(Canva 등)에서
+     1200x630 으로 만들어 og.png 로 저장한 다음, index.html 의
+     og:image 주소를 그 파일로 바꿔 주세요.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf6ec" />
+      <stop offset="1" stop-color="#f1dcbf" />
+    </linearGradient>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="40" y="40" width="1120" height="550" rx="32" fill="#ffffff" opacity="0.7" />
+
+  <!-- 빵 아이콘 (단순 도형) -->
+  <g transform="translate(600 230)">
+    <ellipse cx="0" cy="0" rx="150" ry="95" fill="#d9a55b" />
+    <ellipse cx="0" cy="-10" rx="150" ry="95" fill="#e8b970" />
+    <path d="M -90 -20 Q -60 -55 -30 -20" stroke="#b9803a" stroke-width="6" fill="none" stroke-linecap="round" />
+    <path d="M -30 -25 Q 0 -60 30 -25" stroke="#b9803a" stroke-width="6" fill="none" stroke-linecap="round" />
+    <path d="M 30 -20 Q 60 -55 90 -20" stroke="#b9803a" stroke-width="6" fill="none" stroke-linecap="round" />
+  </g>
+
+  <!-- 브랜드명 -->
+  <text x="600" y="430" text-anchor="middle"
+        font-family="system-ui, sans-serif" font-size="84" font-weight="700" fill="#5a3a1a">
+    우리 빵집
+  </text>
+
+  <!-- 한 줄 소개 -->
+  <text x="600" y="500" text-anchor="middle"
+        font-family="system-ui, sans-serif" font-size="38" fill="#8a6a45">
+    갓 구운 빵을 매일 아침에
+  </text>
+</svg>

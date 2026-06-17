@@ -1,0 +1,146 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 가장 바깥 상자입니다. lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <!-- <head>는 "화면에 안 보이는 정보(설정)" 칸입니다. -->
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. -->
+    <meta charset="UTF-8" />
+
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. (특히 이번 실습은 폰에서 보면 더 재밌어요) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 브라우저 탭에 표시되는 제목입니다. -->
+    <title>입력 종류 6종 모아보기</title>
+
+    <!-- 이 실습은 한 파일로 끝내기 위해 간단한 스타일만 head 안에 넣었습니다. (핵심은 type 속성이에요) -->
+    <style>
+      /* 글자체와 여백을 살짝 줘서 보기 편하게만 합니다. */
+      body {
+        font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+        max-width: 480px;
+        margin: 40px auto;
+        padding: 0 16px;
+        color: #222;
+      }
+
+      /* 입력칸 하나하나를 카드처럼 묶어 구분이 잘 되게 합니다. */
+      .field {
+        margin-bottom: 18px;
+        padding: 14px 16px;
+        border: 1px solid #e2e2e2;
+        border-radius: 10px;
+        background: #fafafa;
+      }
+
+      /* label은 한 줄을 차지하게 해서 입력칸 위에 오도록 합니다. */
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+      }
+
+      /* 글자/숫자/날짜 등 "줄 모양" 입력칸을 폭 넓고 누르기 편하게 만듭니다. */
+      input[type="email"],
+      input[type="tel"],
+      input[type="number"],
+      input[type="date"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        box-sizing: border-box; /* padding을 포함해 너비를 계산해서 칸이 삐져나가지 않게 합니다 */
+      }
+
+      /* range(범위 슬라이더)도 폭 넓게 펼칩니다. */
+      input[type="range"] {
+        width: 100%;
+      }
+
+      /* 어떤 type인지 작게 표시해 주는 꼬리표입니다. */
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: normal;
+        color: #fff;
+        background: #4b7bec;
+        border-radius: 999px;
+        padding: 2px 8px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .hint {
+        font-size: 13px;
+        color: #666;
+        margin: 6px 0 0;
+      }
+    </style>
+  </head>
+
+  <!-- <body>는 "화면에 실제로 보이는 내용"이 들어가는 칸입니다. -->
+  <body>
+    <h1>입력 종류 6종 모아보기</h1>
+    <p>
+      입력칸(<code>input</code>)은 <strong>type 속성</strong> 한 글자만 바꿔도
+      완전히 다른 모습으로 변합니다. 이메일 칸, 전화 칸, 숫자 칸, 달력, 색상 선택기, 슬라이더까지요.
+      <br />
+      <strong>특히 휴대폰에서 열면</strong> 칸마다 올라오는 키패드(자판) 모양이 달라지는 걸 확인할 수 있어요!
+    </p>
+
+    <!--
+      포인트: 아래 6개 입력칸의 차이는 오직 type="..." 한 곳뿐입니다.
+      label의 for="..." 와 input의 id="..." 를 같은 이름으로 맞추면, 이름표 글자를 눌러도 입력칸이 활성화됩니다.
+    -->
+
+    <!-- 1) 이메일: 모바일에서 @ 기호가 있는 키패드가 올라옵니다. -->
+    <div class="field">
+      <label for="email">이메일<span class="tag">type="email"</span></label>
+      <input type="email" id="email" placeholder="예: hong@example.com" />
+      <p class="hint">휴대폰에서 누르면 자판에 <strong>@ 기호</strong>가 보입니다.</p>
+    </div>
+
+    <!-- 2) 전화: 모바일에서 숫자 전화 키패드가 올라옵니다. -->
+    <div class="field">
+      <label for="phone">전화번호<span class="tag">type="tel"</span></label>
+      <input type="tel" id="phone" placeholder="예: 010-1234-5678" />
+      <p class="hint">휴대폰에서 누르면 <strong>전화 거는 숫자 키패드</strong>가 뜹니다.</p>
+    </div>
+
+    <!-- 3) 숫자: 위/아래 화살표(스피너)가 생기고, 모바일은 숫자 키패드가 올라옵니다. -->
+    <div class="field">
+      <label for="age">나이<span class="tag">type="number"</span></label>
+      <input type="number" id="age" placeholder="예: 27" min="0" max="120" />
+      <p class="hint">칸 오른쪽의 <strong>위·아래 화살표</strong>로 숫자를 올리고 내릴 수 있어요.</p>
+    </div>
+
+    <!-- 4) 날짜: 클릭하면 달력 선택기가 나타납니다. -->
+    <div class="field">
+      <label for="birth">생년월일<span class="tag">type="date"</span></label>
+      <input type="date" id="birth" />
+      <p class="hint">칸을 누르면 <strong>달력</strong>이 펼쳐져 날짜를 고를 수 있어요.</p>
+    </div>
+
+    <!-- 5) 색상: 클릭하면 색상 선택기(팔레트)가 나타납니다. -->
+    <div class="field">
+      <label for="favColor">좋아하는 색<span class="tag">type="color"</span></label>
+      <input type="color" id="favColor" value="#4b7bec" />
+      <p class="hint">색 네모를 누르면 <strong>색상 팔레트</strong>가 떠서 원하는 색을 고를 수 있어요.</p>
+    </div>
+
+    <!-- 6) 범위: 좌우로 끄는 슬라이더(손잡이)가 나타납니다. -->
+    <div class="field">
+      <label for="volume">소리 크기<span class="tag">type="range"</span></label>
+      <input type="range" id="volume" min="0" max="100" value="50" />
+      <p class="hint">손잡이를 <strong>좌우로 끌어서</strong> 0~100 사이 값을 정합니다.</p>
+    </div>
+
+    <p class="hint">
+      위 6개 입력칸은 글씨·여백만 다를 뿐, <strong>진짜 차이는 type="..." 한 곳뿐</strong>이라는 점을 기억하세요.
+    </p>
+  </body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 상태에 따라 헤더 바뀌기 — 실시간 감지 실습</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ★ 공통 헤더가 들어갈 자리. 내용은 header.js가 로그인 여부에 맞춰 채웁니다. -->
+  <header id="appHeader"></header>
+
+  <main>
+    <h1>로그인 상태에 따라 헤더 바뀌기</h1>
+    <p class="hint">
+      위쪽 헤더를 보세요. 지금은 로그아웃 상태라 <strong>'로그인' 버튼</strong>만 보입니다.<br />
+      아래에서 로그인하면, 새로고침 없이 헤더가 <strong>'내 계정 + 로그아웃'</strong>으로 즉시 바뀝니다.
+    </p>
+
+    <!-- 헤더 변화를 한 페이지에서 바로 체험하라고 넣은 미니 로그인 박스입니다. -->
+    <!-- 실제 서비스라면 로그인은 login.html(실습 132)에서 하고, 헤더만 공통으로 씁니다. -->
+    <div class="demo-login">
+      <p><strong>여기서 로그인해 헤더 변화를 확인해 보세요</strong></p>
+      <form id="loginForm">
+        <input id="email" type="email" placeholder="이메일" required />
+        <input id="password" type="password" placeholder="비밀번호" required />
+        <button type="submit">로그인</button>
+      </form>
+      <div id="msg"></div>
+    </div>
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 이번 실습의 결과물: 공통 헤더 스크립트. db 클라이언트도 여기서 만듭니다. -->
+  <script src="header.js"></script>
+  <!-- 아래는 '헤더 변화를 바로 보여주기 위한' 데모용 로그인 처리입니다. -->
+  <script>
+    const msgEl = document.getElementById("msg");
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msgEl.classList.remove("show");
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      // 로그인에 성공하면 onAuthStateChange가 'SIGNED_IN'으로 호출되어
+      // header.js가 헤더를 '내 계정' 버전으로 자동으로 바꿔줍니다.
+      const { error } = await db.auth.signInWithPassword({ email, password });
+      if (error) {
+        msgEl.textContent = "로그인 실패: " + error.message;
+        msgEl.classList.add("show");
+      }
+    });
+  </script>
+</body>
+</html>

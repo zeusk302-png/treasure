@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- 이 한 페이지만으로 동작합니다. 더블클릭해서 브라우저로 여세요. -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한 줄 메모장 (localStorage 저장·삭제 실습)</title>
+  <style>
+    /* 꾸밈은 핵심이 아니라 보기 편하라고 넣은 최소한의 스타일입니다. */
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { font-size: 1.4rem; }
+    .hint { color: #888; font-size: 0.9rem; }
+    /* 메모를 적는 입력칸 */
+    #memo {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 90px;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+    }
+    /* 버튼 두 개를 가로로 나란히 */
+    .buttons {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    button {
+      flex: 1;
+      padding: 10px 16px;
+      font-size: 1rem;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    /* 저장 버튼은 파랑, 지우기 버튼은 회색으로 구분 */
+    #saveBtn { background: #4a6cf7; color: #fff; }
+    #clearBtn { background: #eee; color: #333; }
+    /* 저장 완료 / 삭제 완료 같은 안내 문구 자리 */
+    #status {
+      min-height: 1.4em;
+      font-size: 0.95rem;
+      color: #2e7d32; /* 초록색: 잘 됐다는 느낌 */
+    }
+  </style>
+</head>
+<body>
+  <h1>한 줄 메모장</h1>
+  <p class="hint">메모를 적고 <b>[저장]</b>을 누르면 브라우저에 기억됩니다. 새로고침하거나 창을 닫았다 다시 열어도 그대로 남아요.</p>
+
+  <!-- 메모를 입력하는 칸 -->
+  <textarea id="memo" placeholder="여기에 메모를 한 줄 적어 보세요"></textarea>
+
+  <div class="buttons">
+    <!-- 입력칸의 내용을 localStorage에 넣는 버튼 -->
+    <button id="saveBtn">저장</button>
+    <!-- localStorage에서 메모를 지우는 버튼 -->
+    <button id="clearBtn">지우기</button>
+  </div>
+
+  <!-- "저장했어요" / "지웠어요" 같은 안내가 잠깐 나타나는 자리 -->
+  <p id="status"></p>
+
+  <script>
+    // 1) 화면 요소들을 미리 찾아 둡니다.
+    const memoEl = document.getElementById("memo");
+    const saveBtn = document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const statusEl = document.getElementById("status");
+
+    // localStorage에 저장할 때 쓸 "이름표(키)"입니다.
+    // 저장할 때와 꺼낼 때 항상 같은 글자를 써야 다시 찾을 수 있습니다.
+    const STORAGE_KEY = "myMemo";
+
+    // 2) 페이지가 열리면, 먼저 저장돼 있던 메모가 있는지 꺼내서 입력칸에 채워 줍니다.
+    //    저장된 적이 없으면 getItem은 null(아무것도 없음)을 돌려줍니다.
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved !== null) {
+      memoEl.value = saved; // 지난번에 저장한 메모를 다시 보여 주기
+    }
+
+    // 3) ★ 핵심 1: [저장] 버튼 → setItem 으로 입력칸 내용을 저장한다.
+    saveBtn.addEventListener("click", function () {
+      const text = memoEl.value; // 입력칸에 적힌 글자를 꺼낸다
+      localStorage.setItem(STORAGE_KEY, text); // "이름표(키)"에 글자를 저장
+      statusEl.textContent = "저장했어요. 새로고침해도 남아 있어요.";
+    });
+
+    // 4) ★ 핵심 2: [지우기] 버튼 → removeItem 으로 저장된 메모를 삭제한다.
+    //    저장(setItem)과 삭제(removeItem)는 짝꿍입니다.
+    clearBtn.addEventListener("click", function () {
+      localStorage.removeItem(STORAGE_KEY); // 저장소에서 메모를 통째로 지운다
+      memoEl.value = ""; // 화면 입력칸도 비워 준다
+      statusEl.textContent = "지웠어요. 이제 새로고침하면 빈 칸으로 시작합니다.";
+    });
+  </script>
+</body>
+</html>

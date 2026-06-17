@@ -1,0 +1,92 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 가장 바깥 상자입니다. lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <!-- <head>는 "화면에 안 보이는 정보"를 담는 칸입니다. 글자 인코딩, 탭 제목 같은 설정이 들어갑니다. -->
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- <title>은 브라우저 "탭"에 표시되는 이름입니다. 화면 본문이 아니라 탭 제목입니다. -->
+    <title>홍길동 — 자기소개</title>
+
+    <!-- 보통 디자인(CSS)은 별도 파일에 두지만, 이번 실습은 "한 장짜리"라서 페이지 안에 간단히 넣었습니다. -->
+    <style>
+      /* 페이지 전체의 기본 글꼴과 여백을 정합니다. 가운데로 모으고 너무 넓지 않게 폭을 제한합니다. */
+      body {
+        font-family: system-ui, "맑은 고딕", sans-serif;
+        line-height: 1.7;
+        max-width: 640px;
+        margin: 40px auto;     /* 위아래 40px, 좌우는 auto로 화면 가운데 정렬 */
+        padding: 0 16px;
+        color: #222;
+      }
+      /* 맨 위 헤더 영역(이름·한 줄 소개)에 아래쪽 구분선을 줍니다. */
+      header {
+        border-bottom: 2px solid #eee;
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+      }
+      h1 { margin-bottom: 4px; }
+      /* 이름 바로 아래 "한 줄 소개"는 회색으로 살짝 작게. */
+      .tagline { color: #666; margin-top: 0; }
+      /* 연락처 목록의 기본 점(•)을 없애고 들여쓰기를 정리합니다. */
+      ul { list-style: none; padding-left: 0; }
+      li { margin-bottom: 6px; }
+      footer { margin-top: 32px; color: #999; font-size: 14px; }
+    </style>
+  </head>
+
+  <!-- <body>는 "화면에 실제로 보이는 내용"이 들어가는 칸입니다. -->
+  <body>
+
+    <!-- <header>: 페이지 맨 위, 나를 대표하는 영역입니다. (시맨틱 태그 = 의미가 정해진 칸) -->
+    <header>
+      <!-- <h1>은 페이지에서 가장 중요한 제목. 한 페이지에 하나만 두는 것이 좋습니다. 여기엔 내 이름. -->
+      <h1>홍길동</h1>
+      <!-- 이름 아래 "나를 한 줄로 표현하는 문장". -->
+      <p class="tagline">사람을 돕는 서비스를 만들고 싶은 예비 웹개발자</p>
+    </header>
+
+    <!-- <main>: 이 페이지의 핵심 본문입니다. 한 페이지에 하나만 둡니다. -->
+    <main>
+
+      <!-- <section>: 의미가 비슷한 내용끼리 묶는 칸. 여기는 "소개" 묶음. -->
+      <section>
+        <!-- 각 섹션의 소제목은 h1보다 한 단계 작은 <h2>를 씁니다. (제목은 위계 순서대로!) -->
+        <h2>소개</h2>
+        <p>
+          안녕하세요. 비전공으로 웹개발 공부를 시작한 홍길동입니다.
+          작은 것부터 직접 만들어 보며 배우는 과정을 즐기고 있습니다.
+          이 페이지는 제가 처음으로 손수 만든 HTML 한 페이지입니다.
+        </p>
+      </section>
+
+      <!-- 두 번째 섹션: "연락처" 묶음. -->
+      <section>
+        <h2>연락처</h2>
+        <!-- 항목을 나열할 때는 목록(ul/li)을 씁니다. 줄글보다 한눈에 들어옵니다. -->
+        <ul>
+          <!-- mailto: 링크를 누르면 메일 작성 창이 열립니다. -->
+          <li>이메일: <a href="mailto:hong@example.com">hong@example.com</a></li>
+          <!-- 외부 사이트로 가는 링크. 실제 내 주소로 바꾸면 됩니다. -->
+          <li>GitHub: <a href="https://github.com/hong-gildong">github.com/hong-gildong</a></li>
+          <li>사는 곳: 부산</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <!-- <footer>: 페이지 맨 아래 영역. 보통 저작권·작은 안내가 들어갑니다. -->
+    <footer>
+      <p>© 2026 홍길동. 직접 만든 자기소개 페이지입니다.</p>
+    </footer>
+
+  </body>
+
+</html>

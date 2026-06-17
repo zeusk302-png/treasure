@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>박스 색깔 바꾸기 버튼 3개</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>박스 색깔 바꾸기</h1>
+    <p class="hint">아래 버튼을 누르면 박스 색이 바뀌어요.</p>
+
+    <!-- 색이 바뀔 박스: id로 JS가 이 박스를 찾아냅니다 -->
+    <div id="colorBox" class="box"></div>
+
+    <!-- 버튼 3개: 각각 누르면 어떤 색으로 바꿀지 data-color에 적어둡니다 -->
+    <div class="buttons">
+      <button type="button" class="btn btn-red" data-color="#e53935">빨강</button>
+      <button type="button" class="btn btn-green" data-color="#43a047">초록</button>
+      <button type="button" class="btn btn-blue" data-color="#1e88e5">파랑</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

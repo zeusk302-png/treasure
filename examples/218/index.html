@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>동네 책방 '한 페이지' — 218 실습 (한 곳만 콕 집어 고치기)</title>
+  <style>
+    /* 비전공자도 읽기 쉽게: 색은 CSS 변수로 관리합니다 */
+    :root {
+      --bg: #f7f5ef;       /* 종이 같은 배경 */
+      --text: #2f2a24;     /* 차분한 먹색 글자 */
+      --accent: #4a6b54;   /* 책방 느낌의 짙은 초록 */
+      --muted: #6b665e;    /* 흐린 글자 */
+      --line: #e2ded3;     /* 옅은 구분선 */
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    header h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    header p  { margin: 0; opacity: 0.9; }
+
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    main h2 { font-size: 1.25rem; margin-top: 0; }
+
+    .hours li { margin-bottom: 4px; }
+
+    /* 푸터 — 이번 실습에서 '이메일 한 군데'만 바꾼 곳 */
+    footer {
+      border-top: 1px solid var(--line);
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px 24px 40px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>동네 책방 '한 페이지'</h1>
+    <p>천천히 골라 가는 작은 책방입니다</p>
+  </header>
+
+  <main>
+    <h2>이번 주 추천 책</h2>
+    <ul>
+      <li>『아주 작은 습관의 힘』 — 제임스 클리어</li>
+      <li>『여행의 이유』 — 김영하</li>
+      <li>『코스모스』 — 칼 세이건</li>
+    </ul>
+
+    <h2>운영 시간</h2>
+    <ul class="hours">
+      <li>평일: 11:00 - 20:00</li>
+      <li>토요일: 11:00 - 18:00</li>
+      <li>일요일·공휴일: 휴무</li>
+    </ul>
+  </main>
+
+  <!--
+    [218 실습 핵심] AI에게 "푸터 연락처 이메일 한 군데만" 바꾸게 했습니다.
+    제목·추천 책·운영 시간·전화번호 등 나머지는 한 글자도 건드리지 않았습니다(회귀 방지).
+
+    변경 전(before): <a href="mailto:contact@onepage.com">contact@onepage.com</a>
+    변경 후(after) : 아래 footer의 이메일 한 줄
+  -->
+  <footer>
+    <p>연락처: 02-123-4567 ·
+      <a href="mailto:hello@onepage-books.kr">hello@onepage-books.kr</a>
+    </p>
+    <p>서울특별시 어딘가 책방길 1 · © 2026 한 페이지</p>
+  </footer>
+
+</body>
+</html>

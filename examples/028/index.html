@@ -1,0 +1,101 @@
+<!-- 이 한 줄은 "이 파일은 최신 HTML 문서입니다"라고 브라우저에게 알려주는 선언입니다. 항상 맨 위에 둡니다. -->
+<!DOCTYPE html>
+
+<!-- <html>은 문서 전체를 감싸는 바깥 상자, lang="ko"는 "이 페이지는 한국어"라는 뜻입니다. -->
+<html lang="ko">
+
+  <head>
+    <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 지정합니다. (없으면 한글이 ???로 보일 수 있어요) -->
+    <meta charset="UTF-8" />
+    <!-- 휴대폰에서도 글자 크기가 적절히 보이게 하는 설정입니다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>은 브라우저 탭에 표시되는 이름입니다. -->
+    <title>명함 박스 만들기 (테두리 · 둥근 모서리)</title>
+
+    <!-- CSS는 보통 별도 파일로 빼지만, 이번엔 한 파일에서 한눈에 보려고 <style> 안에 모았습니다. -->
+    <style>
+      /* 페이지 전체의 기본 글꼴과 배경입니다. 본문이 아니라 '꾸미기'라 따로 신경 쓰지 않아도 됩니다. */
+      body {
+        font-family: "맑은 고딕", sans-serif;
+        background-color: #f4f5f7;
+        padding: 24px;          /* 페이지 가장자리와 내용 사이를 살짝 띄웁니다. */
+        line-height: 1.6;
+        color: #222;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      /* 설명 문단입니다. */
+      .desc {
+        max-width: 560px;
+        color: #555;
+      }
+
+      /*
+        ★ 이번 실습의 주인공 — 명함 박스입니다. ★
+        실제 종이 명함처럼 보이도록 네 가지 '외형 속성'을 줍니다.
+          - width / height : 박스의 가로/세로 크기. (종이 명함은 보통 가로로 긴 직사각형이라 가로를 더 크게)
+          - border         : 박스의 테두리. '굵기  종류  색' 순서로 적습니다. (예: 2px solid #...)
+          - border-radius  : 모서리를 둥글게 깎습니다. 숫자가 클수록 더 동그래집니다.
+          - padding        : 안쪽 여백. 글자가 테두리에 딱 붙지 않도록 살짝 띄웁니다.
+      */
+      .card {
+        width: 340px;            /* 가로 길이 (명함처럼 가로로 길게) */
+        height: 200px;           /* 세로 길이 */
+        border: 2px solid #1f5fd1;   /* 테두리: 2px 굵기, 실선(solid), 파란색 */
+        border-radius: 16px;     /* 네 모서리를 16px만큼 둥글게 깎음 */
+        background-color: #ffffff;   /* 명함 바탕은 흰색 */
+        padding: 24px;           /* 안쪽 여백 → 글자가 테두리에 닿지 않게 함 */
+        box-sizing: border-box;  /* 테두리·여백을 포함해 위에서 정한 340x200 안에 딱 맞춤 */
+      }
+
+      /* 명함 속 이름입니다. 가장 크고 진하게. */
+      .card .name {
+        margin: 0;
+        font-size: 26px;
+        font-weight: bold;
+        color: #1f5fd1;
+      }
+
+      /* 명함 속 직함(역할)입니다. 이름보다 작게. */
+      .card .title {
+        margin: 4px 0 16px 0;
+        font-size: 15px;
+        color: #555;
+      }
+
+      /* 연락처 줄입니다. */
+      .card .contact {
+        margin: 2px 0;
+        font-size: 14px;
+        color: #333;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>테두리와 둥근 모서리로 명함 박스 만들기</h1>
+
+    <p class="desc">
+      아래 흰 박스가 종이 명함처럼 보이는 이유는 네 가지 <strong>외형 속성</strong> 덕분입니다.
+      <strong>width/height</strong>로 크기를 정하고, <strong>border</strong>로 테두리를 두르고,
+      <strong>border-radius</strong>로 모서리를 둥글게 깎았습니다.
+    </p>
+
+    <!-- 명함 박스 하나. div 안에 이름·직함·연락처를 담았습니다. -->
+    <div class="card">
+      <p class="name">김부산</p>
+      <p class="title">웹 개발 입문 / 프론트엔드</p>
+      <p class="contact">이메일: busan.coder@example.com</p>
+      <p class="contact">전화: 010-0000-0000</p>
+    </div>
+
+    <p class="desc">
+      핵심 한 줄: <strong>border</strong>는 "굵기 · 종류 · 색" 순서로 적고,
+      <strong>border-radius</strong>의 숫자가 클수록 모서리가 더 동그래집니다.
+    </p>
+  </body>
+
+</html>

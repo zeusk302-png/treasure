@@ -1,0 +1,79 @@
+/* 페이지 전체 기본값 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;                 /* 카드를 화면 가운데로 보내기 위한 설정 */
+  align-items: center;           /* 세로 가운데 */
+  justify-content: center;       /* 가로 가운데 */
+  background: #eef2f7;           /* 부드러운 회색-파랑 배경 */
+  font-family: system-ui, "Apple SD Gothic Neo", sans-serif;
+  color: #2b2b2b;
+}
+
+/* 글귀와 작가가 함께 담기는 카드 */
+.card {
+  position: relative;            /* 따옴표 장식을 카드 기준으로 배치하기 위함 */
+  background: #ffffff;
+  max-width: 440px;
+  width: 90%;
+  padding: 40px 32px 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(30, 50, 90, 0.12);
+  text-align: center;
+}
+
+/* 큰 따옴표 장식 (보기 좋으라고 넣은 꾸밈 요소) */
+.mark {
+  position: absolute;
+  top: 8px;
+  left: 20px;
+  font-size: 64px;
+  line-height: 1;
+  color: #c7d4e8;
+  font-family: Georgia, serif;
+}
+
+/* 명언 글귀 = JSON의 content 값이 들어가는 자리 */
+blockquote {
+  margin: 12px 0 16px;
+  font-size: 19px;
+  line-height: 1.7;
+  font-weight: 600;
+  /* 내용이 갈아끼워질 때 부드럽게 나타나도록 0.3초 동안 서서히 보이게 한다 */
+  transition: opacity 0.3s ease;
+}
+
+/* 작가 이름 = JSON의 author 값이 들어가는 자리 */
+.author {
+  margin: 0 0 24px;
+  color: #5b6b86;
+  font-style: italic;
+  font-size: 15px;
+  transition: opacity 0.3s ease;
+}
+
+/* '새 데이터로 바뀌는 중'임을 눈으로 보이게: 잠깐 투명하게 만들었다가 다시 채운다 */
+.fading {
+  opacity: 0.2;
+}
+
+/* 버튼 */
+button {
+  background: #3a5a9c;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 999px;          /* 알약 모양 */
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2c4880;           /* 마우스를 올리면 살짝 진하게 */
+}
+
+/* 요청 중이라 버튼이 잠긴 상태 */
+button:disabled {
+  background: #aab7cf;
+  cursor: not-allowed;
+}

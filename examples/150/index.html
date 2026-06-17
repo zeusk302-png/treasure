@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자 크기가 정상으로 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 명언 카드</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!--
+    이 실습의 핵심:
+    서버가 보내준 JSON 한 덩어리 안에는 값이 '여러 개' 들어 있다.
+    예: { "content": "글귀 내용", "author": "말한 사람" }
+    이 중에서 우리는 content(글귀)와 author(작가) '두 개'를 동시에 꺼내
+    한 카드 안의 서로 다른 자리에 나란히 채워 넣는다.
+  -->
+  <main class="card">
+    <!-- 큰 따옴표 장식 -->
+    <div class="mark">&ldquo;</div>
+
+    <!-- JSON의 content 키 값이 들어갈 자리 (글귀) -->
+    <blockquote id="quote">아래 버튼을 눌러 오늘의 명언을 받아보세요.</blockquote>
+
+    <!-- JSON의 author 키 값이 들어갈 자리 (작가 이름) -->
+    <p id="author" class="author"></p>
+
+    <!-- 누르면 새 명언 한 덩어리(글귀+작가)를 받아온다 -->
+    <button id="newBtn">명언 받기</button>
+  </main>
+
+  <!-- 화면(HTML)을 다 그린 뒤에 동작(JS)을 불러온다 -->
+  <script src="script.js"></script>
+</body>
+</html>
