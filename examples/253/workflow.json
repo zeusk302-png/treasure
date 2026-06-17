@@ -1,0 +1,192 @@
+{
+  "name": "253 - 새 주문 들어오면 사장님에게 슬랙·이메일 알림",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-order",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "새 주문 신호 받기 (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        320
+      ],
+      "webhookId": "new-order-253",
+      "notes": "쇼핑몰(또는 Supabase Database Webhook)이 새 주문이 생기면 이 주소(Production URL)로 주문 내용을 POST 합니다. 보내는 쪽 코드/설정에 적는 주소는 이 노드의 'Production URL' 입니다. 예: { \"order_id\": \"A-1024\", \"customer\": \"홍길동\", \"item\": \"수제 비누 3개\", \"amount\": 18000 } 이 노드 자체에는 비밀값이 없습니다. (트리거 설명: 7권 02 웹훅)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aaaa0001-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "주문번호",
+              "value": "={{ $json.body.order_id || '번호없음' }}",
+              "type": "string"
+            },
+            {
+              "id": "aaaa0002-2222-4222-8222-aaaaaaaaaaaa",
+              "name": "고객명",
+              "value": "={{ $json.body.customer || '이름미입력' }}",
+              "type": "string"
+            },
+            {
+              "id": "aaaa0003-3333-4333-8333-aaaaaaaaaaaa",
+              "name": "상품",
+              "value": "={{ $json.body.item || '상품미상' }}",
+              "type": "string"
+            },
+            {
+              "id": "aaaa0004-4444-4444-8444-aaaaaaaaaaaa",
+              "name": "금액",
+              "value": "={{ Number($json.body.amount || 0) }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "주문 내용 정리 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        520,
+        320
+      ],
+      "notes": "들어온 주문 데이터에서 필요한 값(주문번호·고객명·상품·금액)만 깔끔하게 골라 둡니다. 보내는 쪽이 값을 빠뜨려도 자동화가 멈추지 않게 기본값을 넣어 둡니다."
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SLACK_CHANNEL_ID",
+          "mode": "id"
+        },
+        "text": "=:bell: *새 주문이 들어왔어요!*\n• 주문번호: {{ $json.주문번호 }}\n• 고객: {{ $json.고객명 }}\n• 상품: {{ $json.상품 }}\n• 금액: {{ $json.금액.toLocaleString() }}원\n• 들어온 시각: {{ $now.format('yyyy-MM-dd HH:mm') }}",
+        "otherOptions": {}
+      },
+      "id": "33333333-3333-4333-8333-333333333333",
+      "name": "사장님 슬랙 알림 (Slack)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        820,
+        200
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "REPLACE_WITH_YOUR_SLACK_CREDENTIAL_ID",
+          "name": "내 워크스페이스 슬랙 (비밀 토큰)"
+        }
+      },
+      "notes": "슬랙 토큰(xoxb-... 형태의 비밀값)은 이 노드에 직접 적지 않습니다. n8n > Credentials 에서 'Slack' 자격증명을 하나 만들어 토큰을 거기에 저장하고, 이 노드에 '연결'만 합니다. channelId 는 알림 받을 채널 ID(예: #주문알림 채널)로 바꾸세요. (외부 연동: 7권 04, 비밀값 보관: 4권 03)"
+    },
+    {
+      "parameters": {
+        "fromEmail": "YOUR_SENDER_EMAIL@example.com",
+        "toEmail": "YOUR_OWNER_EMAIL@example.com",
+        "subject": "=[새 주문] {{ $json.주문번호 }} - {{ $json.고객명 }}님",
+        "emailFormat": "text",
+        "text": "=새 주문이 접수되었습니다.\n\n- 주문번호: {{ $json.주문번호 }}\n- 고객: {{ $json.고객명 }}\n- 상품: {{ $json.상품 }}\n- 금액: {{ $json.금액.toLocaleString() }}원\n- 접수 시각: {{ $now.format('yyyy-MM-dd HH:mm') }}\n\n관리자 페이지에서 주문을 확인하고 발송 준비를 시작하세요.",
+        "options": {}
+      },
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "사장님 이메일 알림 (Send Email)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        820,
+        440
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 계정 (SMTP)"
+        }
+      },
+      "notes": "메일 계정 비밀번호(앱 비밀번호 등)는 이 노드에 적지 않습니다. n8n > Credentials 에서 'SMTP' 자격증명을 만들어 거기에만 저장하고, 이 노드에 연결합니다. fromEmail/toEmail 은 보내는 주소(내 메일)와 받는 주소(사장님 메일)로 바꾸세요."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"received_order\": \"{{ $('주문 내용 정리 (Set)').item.json.주문번호 }}\"\n}",
+        "options": {}
+      },
+      "id": "55555555-5555-4555-8555-555555555555",
+      "name": "잘 받았다고 응답 (Respond)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        320
+      ],
+      "notes": "주문을 보낸 쪽(쇼핑몰)에게 '잘 받았다'고 짧게 답합니다. 비밀값은 응답에 담지 않습니다."
+    }
+  ],
+  "connections": {
+    "새 주문 신호 받기 (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "주문 내용 정리 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "주문 내용 정리 (Set)": {
+      "main": [
+        [
+          {
+            "node": "사장님 슬랙 알림 (Slack)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "사장님 이메일 알림 (Send Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "사장님 슬랙 알림 (Slack)": {
+      "main": [
+        [
+          {
+            "node": "잘 받았다고 응답 (Respond)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "사장님 이메일 알림 (Send Email)": {
+      "main": [
+        [
+          {
+            "node": "잘 받았다고 응답 (Respond)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "설명": "쇼핑몰에 새 주문이 들어오면(Webhook 트리거) n8n이 주문 내용을 정리해 사장님에게 슬랙과 이메일로 동시에 알림을 보내는 '주문 알림' 워크플로우입니다. 비밀값(슬랙 토큰·메일 비밀번호)은 워크플로우 JSON 이 아니라 n8n 의 Credentials(자격증명 저장소)에만 보관하고, 여기에는 자리표시자(REPLACE_WITH_... / YOUR_...)만 들어 있습니다."
+  }
+}

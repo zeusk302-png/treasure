@@ -1,6 +1,6 @@
 # 실습 300선 — 1년 커리큘럼
 
-> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 254 / 305 준비됨)**
+> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 270 / 305 준비됨)**
 
 !!! tip "난이도 읽는 법"
     ★ 입문 · ★★ 기초 · ★★★ 중급 · ★★★★ 응용 · ★★★★★ 종합·프로젝트
@@ -144,9 +144,9 @@
 | 099 | 비밀번호 강도 막대(약함·보통·강함) 표시하기 | 길이·숫자·특수문자 조건을 점수화해 색깔 막대로 강도를 보여주는 로직을 배운다 | ★★★☆☆ | 조건 점수화, 정규식 여러 개, 동적 클래스 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/099) |
 | 100 | 제출 막고 직접 검사 후 에러 모아 보여주기 (preventDefault) | submit을 가로채 모든 칸을 검사하고 통과 못 한 항목 목록을 한 번에 보여주는 패턴을 배운다 | ★★★★☆ | submit 이벤트, preventDefault, 일괄 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/100) |
 | 101 | 검색창에 입력하면 목록이 즉시 걸러지는 필터 만들기 | input 값으로 카드/리스트를 includes로 필터링해 실시간 검색 기능을 구현한다 | ★★★★☆ | filter, includes(), 실시간 검색 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/101) |
-| 102 | 타이핑 멈춘 뒤 검색 실행하는 디바운스 적용하기 | setTimeout 디바운스로 키 입력마다가 아닌 멈춘 0.3초 뒤 한 번만 검색하게 최적화한다 | ★★★★☆ | 디바운스, setTimeout/clearTimeout | 준비중 |
-| 103 | 드래그앤드롭 파일 첨부 영역과 미리보기 UI | drop 영역에 파일을 끌어놓으면 파일명·이미지 미리보기를 보여주는 첨부 UI를 만든다 | ★★★★☆ | input file, dragover/drop 이벤트, FileReader 미리보기 | 준비중 |
-| 104 | 단계별로 넘어가는 3단계 가입 폼(스텝 인디케이터) | 한 화면에서 다음/이전으로 단계를 전환하고 각 단계 검증을 통과해야 넘어가는 다단계 폼을 만든다 | ★★★★★ | 다단계 폼, 단계 상태 관리, 단계별 검증 | 준비중 |
+| 102 | 타이핑 멈춘 뒤 검색 실행하는 디바운스 적용하기 | setTimeout 디바운스로 키 입력마다가 아닌 멈춘 0.3초 뒤 한 번만 검색하게 최적화한다 | ★★★★☆ | 디바운스, setTimeout/clearTimeout | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/102) |
+| 103 | 드래그앤드롭 파일 첨부 영역과 미리보기 UI | drop 영역에 파일을 끌어놓으면 파일명·이미지 미리보기를 보여주는 첨부 UI를 만든다 | ★★★★☆ | input file, dragover/drop 이벤트, FileReader 미리보기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/103) |
+| 104 | 단계별로 넘어가는 3단계 가입 폼(스텝 인디케이터) | 한 화면에서 다음/이전으로 단계를 전환하고 각 단계 검증을 통과해야 넘어가는 다단계 폼을 만든다 | ★★★★★ | 다단계 폼, 단계 상태 관리, 단계별 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/104) |
 | 105 | 검증 통과한 문의 폼을 Supabase에 저장하고 전송 후 피드백 띄우기 | 검증을 통과한 값을 Supabase 테이블에 insert하고 로딩 스피너→성공/실패 메시지를 보여주는 전송 흐름을 완성한다 | ★★★★★ | Supabase insert, async/await, 로딩·성공·에러 피드백 | 준비중 |
 
 ## E. 데이터: localStorage→Supabase CRUD
@@ -171,9 +171,9 @@
 | 121 | 할 일 완료 상태 update로 서버에 반영하기 | 체크박스를 누르면 supabase.update({done:true}).eq('id', id)로 특정 행만 수정해 'eq로 한 건 골라 update'하는 패턴 익히기 | ★★★★☆ | update, eq 필터 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/121) |
 | 122 | 할 일 삭제 delete로 서버에서 지우기 | 삭제 버튼에 supabase.delete().eq('id', id)를 연결해 서버 행을 제거하고, 삭제 전 confirm으로 실수 방지까지 더해 CRUD의 D 완성하기 | ★★★★☆ | delete, eq, confirm | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/122) |
 | 123 | 방명록을 최신순으로 정렬해서 보여주기 | select에 .order('created_at', {ascending:false})를 붙여 최신 글이 위로 오게 하고, 정렬 기준을 created_at/이름 등으로 바꿔보며 order 사용법 익히기 | ★★★☆☆ | order, 정렬 방향 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/123) |
-| 124 | 방명록 키워드 검색창 만들기 (ilike 부분 일치) | 검색어를 입력하면 .ilike('message', '%검색어%')로 부분 일치·대소문자 무시 검색 결과만 보여줘 서버 측 필터링 배우기 | ★★★★☆ | ilike, 부분 검색 | 준비중 |
-| 125 | 글이 많을 때 페이지네이션 만들기 (range) | .range(시작, 끝)과 count 옵션으로 한 페이지에 10개씩 끊어 보여주고 이전/다음 버튼으로 페이지를 넘기며 대량 데이터 처리 익히기 | ★★★★★ | range, count, 페이지네이션 | 준비중 |
-| 126 | 각 글에 좋아요 버튼 달고 RPC로 카운트 증가시키기 | likes 컬럼을 만들고 좋아요 버튼 클릭 시 increment하는 Postgres 함수를 만들어 supabase.rpc()로 호출해, 동시성에 안전한 카운트 증가 방식을 배우기 | ★★★★★ | 좋아요, RPC, 증가 함수 | 준비중 |
+| 124 | 방명록 키워드 검색창 만들기 (ilike 부분 일치) | 검색어를 입력하면 .ilike('message', '%검색어%')로 부분 일치·대소문자 무시 검색 결과만 보여줘 서버 측 필터링 배우기 | ★★★★☆ | ilike, 부분 검색 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/124) |
+| 125 | 글이 많을 때 페이지네이션 만들기 (range) | .range(시작, 끝)과 count 옵션으로 한 페이지에 10개씩 끊어 보여주고 이전/다음 버튼으로 페이지를 넘기며 대량 데이터 처리 익히기 | ★★★★★ | range, count, 페이지네이션 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/125) |
+| 126 | 각 글에 좋아요 버튼 달고 RPC로 카운트 증가시키기 | likes 컬럼을 만들고 좋아요 버튼 클릭 시 increment하는 Postgres 함수를 만들어 supabase.rpc()로 호출해, 동시성에 안전한 카운트 증가 방식을 배우기 | ★★★★★ | 좋아요, RPC, 증가 함수 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/126) |
 | 127 | 가계부를 Supabase로 옮기고 분류별 합계 집계하기 | expenses 테이블로 옮긴 뒤 select로 받아 분류별 지출 합계를 화면에서 reduce로 계산하고, 월별 필터(gte/lte로 날짜 범위)까지 더해 데이터 집계 감각 익히기 | ★★★★★ | 날짜 범위 필터(gte/lte), 집계 | 준비중 |
 | 128 | Realtime 구독으로 다른 사람 글이 실시간으로 뜨게 하기 | supabase.channel().on('postgres_changes')로 방명록 INSERT를 구독해, 다른 브라우저에서 글을 쓰면 내 화면에 새로고침 없이 바로 나타나게 만들기 | ★★★★★ | Realtime 구독, postgres_changes | 준비중 |
 | 129 | Vercel 배포 + 환경변수로 Supabase 키 관리하기 | GitHub에 올린 정적 사이트를 Vercel로 배포하고, 키를 코드에 박지 않고 환경변수/설정 파일로 분리해 '실제 서비스처럼 공개'하는 마무리 경험하기 | ★★★★☆ | Vercel 배포, 환경변수, GitHub | 준비중 |
@@ -283,8 +283,8 @@
 | 208 | IF 노드로 조건 분기 처리하기 | IF 노드로 '문의 유형이 긴급인가?'를 판단해 긴급이면 Slack, 아니면 메일로 보내도록 길을 나누며 조건 분기(IF/true·false)와 워크플로우 가지치기를 익힌다 | ★★★☆☆ | IF 노드, 조건 분기, true/false 경로 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/208) |
 | 209 | Supabase 신규 가입자에게 환영 메일 자동 발송 | 정기 또는 Webhook로 Supabase의 신규 사용자 데이터를 받아(HTTP Request로 REST API 호출) 환영 메일을 보내며, 이 가이드의 핵심 스택인 Supabase와 n8n을 연결하는 법을 배운다 | ★★★★☆ | Supabase REST API, 신규가입 트리거, 환영메일 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/209) |
 | 210 | 여러 건을 반복 처리하기(Loop / Split In Batches) | API나 시트에서 받은 항목 목록을 Loop Over Items로 하나씩 돌며 처리하고, 마지막에 처리 건수를 합산해 보고하며 다건 데이터 반복 처리 개념을 익힌다 | ★★★★☆ | Loop/Split In Batches, 항목 반복 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/210) |
-| 211 | 주간 신규 문의 요약 리포트 자동 메일 발송 | 매주 월요일 구글 시트/Supabase에서 지난 주 문의를 모아 건수와 목록을 표로 정리한 HTML 리포트를 만들어 메일로 자동 발송하며 정기 리포트 자동화를 완성한다 | ★★★★☆ | 정기 집계, HTML 리포트, 주간 자동 발송 | 준비중 |
-| 212 | AI 노드로 들어온 문의를 자동 분류·요약하는 간단 봇 | 문의 텍스트를 AI(Claude) 노드에 보내 '카테고리 + 한 줄 요약'을 받아 Slack에 정리해 올리며, AI에게 분류·요약을 지시하는 프롬프트 설계와 AI 노드 연동을 배운다 | ★★★★☆ | AI(Claude) 노드, 자동 분류·요약, 프롬프트 | 준비중 |
+| 211 | 주간 신규 문의 요약 리포트 자동 메일 발송 | 매주 월요일 구글 시트/Supabase에서 지난 주 문의를 모아 건수와 목록을 표로 정리한 HTML 리포트를 만들어 메일로 자동 발송하며 정기 리포트 자동화를 완성한다 | ★★★★☆ | 정기 집계, HTML 리포트, 주간 자동 발송 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/211) |
+| 212 | AI 노드로 들어온 문의를 자동 분류·요약하는 간단 봇 | 문의 텍스트를 AI(Claude) 노드에 보내 '카테고리 + 한 줄 요약'을 받아 Slack에 정리해 올리며, AI에게 분류·요약을 지시하는 프롬프트 설계와 AI 노드 연동을 배운다 | ★★★★☆ | AI(Claude) 노드, 자동 분류·요약, 프롬프트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/212) |
 | 213 | 키워드에 답하는 Slack 슬래시 명령 챗봇 만들기 | Slack 슬래시 명령을 Webhook으로 받아 사용자의 질문을 AI 노드로 처리하고 답변을 Slack에 되돌려주며, 요청→처리→응답이 도는 대화형 봇의 구조를 익힌다 | ★★★★☆ | Slack 슬래시 명령, Webhook 봇, AI 응답 | 준비중 |
 | 214 | 노드 실패 시 자동으로 실패 알림 받기(Error Workflow) | 별도의 Error Trigger 워크플로우를 만들고 메인 워크플로우의 에러 처리로 지정해, 어떤 노드가 실패하면 에러 내용·시각을 Slack/메일로 자동 통지받으며 실패 알림 패턴을 배운다 | ★★★★★ | Error Trigger, 실패 알림, 에러 워크플로우 연결 | 준비중 |
 | 215 | 재시도·에러 처리·로그 저장까지 갖춘 안정 자동화 파이프라인 | API 호출에 재시도(Retry On Fail)와 타임아웃을 걸고, 실패는 에러 워크플로우로 알림, 모든 실행 결과는 구글 시트에 로그로 남기는 견고한 end-to-end 자동화를 설계하며 운영 가능한 워크플로우를 완성한다 | ★★★★★ | 재시도/에러 처리, 실행 로그, 안정성 설계 | 준비중 |
@@ -308,8 +308,8 @@
 | 228 | 나만의 첫 스킬 /qa-check 만들기 (배포 전 점검 자동화) | 체크리스트(콘솔에러·비밀키·모바일·alt)를 SKILL.md로 만들어 '점검해줘' 한마디로 매번 같은 검수를 돌린다 | ★★★☆☆ | Claude 스킬, SKILL.md frontmatter | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/228) |
 | 229 | AI에게 보안 체크리스트로 내 Supabase 코드 심문시키기 | 공개키/비밀키 분리·RLS·명단 조회 차단을 고정 항목으로 검증하게 해 코드리뷰를 보안 관점으로 확장한다 | ★★★★☆ | 보안 코드리뷰, RLS·키 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/229) |
 | 230 | 배포 자동화 스킬 /deploy 만들기 (비밀키 점검 단계 포함) | git status→빌드 확인→비밀키 점검→커밋(Conventional)→푸시→배포URL 보고를 순서로 박은 다단계 스킬을 만든다 | ★★★★☆ | 다단계 스킬, 배포 파이프라인 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/230) |
-| 231 | Supabase MCP 서버를 Claude에 연결해 내 DB 직접 조회시키기 | MCP로 Claude에 내 Supabase를 도구로 붙여 '방명록 테이블 최근 5건 보여줘'를 AI가 직접 실행하게 한다 | ★★★★☆ | MCP 연결, AI 도구 확장 | 준비중 |
-| 232 | GitHub MCP로 AI에게 PR 자동 코드리뷰 시키기 | GitHub MCP를 연결해 내 변경 PR을 AI가 직접 읽고 버그·보안 위험을 인라인으로 지적하게 만든다 | ★★★★☆ | MCP+코드리뷰, PR 자동 검토 | 준비중 |
+| 231 | Supabase MCP 서버를 Claude에 연결해 내 DB 직접 조회시키기 | MCP로 Claude에 내 Supabase를 도구로 붙여 '방명록 테이블 최근 5건 보여줘'를 AI가 직접 실행하게 한다 | ★★★★☆ | MCP 연결, AI 도구 확장 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/231) |
+| 232 | GitHub MCP로 AI에게 PR 자동 코드리뷰 시키기 | GitHub MCP를 연결해 내 변경 PR을 AI가 직접 읽고 버그·보안 위험을 인라인으로 지적하게 만든다 | ★★★★☆ | MCP+코드리뷰, PR 자동 검토 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/232) |
 | 233 | 재사용 프롬프트 템플릿 라이브러리(3종) 정리하기 | 검증 요구·비판 리뷰·선제 경고 등 자주 쓰는 지시를 빈칸형 템플릿으로 묶어 상황별로 복붙해 쓰게 만든다 | ★★★★☆ | 프롬프트 템플릿화, 재사용 | 준비중 |
 | 234 | n8n에서 AI Agent 노드 + MCP로 문의 자동 분류·알림 흐름 만들기 | 새 문의가 오면 AI Agent가 내용을 분류하고 MCP로 Supabase를 조회·기록 후 알림까지 보내는 자동화를 구성한다 | ★★★★★ | n8n AI Agent, MCP 도구 연동 | 준비중 |
 | 235 | 스킬·CLAUDE.md·MCP·코드리뷰를 묶은 '내 디렉터 작업환경' 완성하기 | 기획→작업→보안리뷰→배포까지 한 흐름으로 AI를 부리도록 CLAUDE.md·스킬·MCP를 통합 점검하고 README로 문서화한다 | ★★★★★ | AI 작업환경 통합, 운영 표준화 | 준비중 |
@@ -335,10 +335,10 @@
 | 250 | 쇼핑몰 장바구니를 localStorage로 담고 빼고 합계 계산하기 | 담기·빼기·수량 변경과 총액 계산을 JS로 구현해 클라이언트 상태 관리와 계산 로직을 익힌다 | ★★★☆☆ | 장바구니 상태, 합계 계산, localStorage | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/250) |
 | 251 | 쇼핑몰 상품 상세 페이지를 URL 쿼리 파라미터로 동적 표시하기 | ?id=값을 읽어 해당 상품 하나를 Supabase에서 불러와 보여주며 동적 페이지 패턴을 익힌다 | ★★★☆☆ | URL 쿼리, 단일 조회, 동적 표시 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/251) |
 | 252 | 쇼핑몰 주문 폼으로 주문 내역을 Supabase orders 테이블에 저장하기 | 장바구니 내용을 주문 테이블에 INSERT하고 주문번호를 보여줘 여러 데이터를 묶어 쓰는 흐름을 익힌다 | ★★★☆☆ | 관계형 데이터 저장, 주문 처리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/252) |
-| 253 | 쇼핑몰 주문 시 n8n으로 사장님에게 슬랙·이메일 알림 보내기 | 신규 주문을 트리거로 n8n이 알림을 보내게 해 외부 서비스 연동과 운영 자동화를 익힌다 | ★★★☆☆ | n8n 외부 연동, 주문 알림 | 준비중 |
-| 254 | 예약 시스템: 날짜·시간 선택 UI 만들기 | 달력에서 날짜를 고르고 가능한 시간대를 버튼으로 선택하는 예약 입력 화면을 만든다 | ★★★☆☆ | 날짜·시간 입력, 폼 UI | 준비중 |
-| 255 | 예약을 Supabase에 저장하고 이미 찬 시간대는 비활성화하기 | 예약을 저장하고 같은 시간 중복 예약을 막아 데이터 조회로 UI를 제어하는 법을 익힌다 | ★★★★☆ | 예약 저장, 중복 방지, 조건부 UI | 준비중 |
-| 256 | 예약 확정 후 n8n으로 고객에게 확인 메일과 하루 전 리마인더 보내기 | 확정 즉시 확인 메일을, 예약 전날 크론으로 리마인더를 보내 즉시·예약 자동화를 모두 익힌다 | ★★★★☆ | n8n 크론, 리마인더, 조건 분기 | 준비중 |
+| 253 | 쇼핑몰 주문 시 n8n으로 사장님에게 슬랙·이메일 알림 보내기 | 신규 주문을 트리거로 n8n이 알림을 보내게 해 외부 서비스 연동과 운영 자동화를 익힌다 | ★★★☆☆ | n8n 외부 연동, 주문 알림 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/253) |
+| 254 | 예약 시스템: 날짜·시간 선택 UI 만들기 | 달력에서 날짜를 고르고 가능한 시간대를 버튼으로 선택하는 예약 입력 화면을 만든다 | ★★★☆☆ | 날짜·시간 입력, 폼 UI | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/254) |
+| 255 | 예약을 Supabase에 저장하고 이미 찬 시간대는 비활성화하기 | 예약을 저장하고 같은 시간 중복 예약을 막아 데이터 조회로 UI를 제어하는 법을 익힌다 | ★★★★☆ | 예약 저장, 중복 방지, 조건부 UI | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/255) |
+| 256 | 예약 확정 후 n8n으로 고객에게 확인 메일과 하루 전 리마인더 보내기 | 확정 즉시 확인 메일을, 예약 전날 크론으로 리마인더를 보내 즉시·예약 자동화를 모두 익힌다 | ★★★★☆ | n8n 크론, 리마인더, 조건 분기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/256) |
 | 257 | 예약 취소 링크로 고객이 스스로 예약을 DELETE 하게 하기 | 메일 속 취소 링크로 본인 예약을 삭제하게 만들어 토큰 기반 식별과 삭제 처리를 익힌다 | ★★★★☆ | 토큰 식별, DELETE, 취소 흐름 | 준비중 |
 | 258 | 커뮤니티 게시판: 글 작성·목록 표시(CRUD의 C·R) 만들기 | 글을 쓰고 목록으로 읽는 게시판 기본형을 만들어 생성·조회 CRUD 절반을 익힌다 | ★★★★☆ | 게시판 CRUD, 글 작성·조회 | 준비중 |
 | 259 | Supabase Auth로 게시판 회원가입·로그인 붙이기 | 이메일 로그인을 붙여 로그인한 사용자만 글을 쓰게 만들어 인증(누구냐)의 기초를 익힌다 | ★★★★☆ | Supabase Auth, 로그인 세션 | 준비중 |
@@ -377,8 +377,8 @@
 | 287 | CORS 에러로 막힌 외부 API 호출 살리기 — 콘솔의 빨간 CORS 메시지 | 브라우저에서 직접 외부 API를 불러 CORS로 차단된 날씨 위젯을, 공개 CORS 허용 엔드포인트나 프록시로 바꿔 고치며 CORS가 무엇이고 왜 나는지를 배운다 | ★★★☆☆ | CORS, 브라우저 보안, 프록시 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/287) |
 | 288 | JSON 파싱·키 이름 오류 잡기 — 'undefined'만 뜨는 API 결과 | API 응답의 실제 키 이름과 코드의 키 이름이 달라 undefined가 뜨는 화면을, 응답 구조를 콘솔로 확인해 고치며 응답 JSON 검증 습관을 배운다 | ★★★☆☆ | JSON 구조, 응답 키 매칭, 콘솔 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/288) |
 | 289 | 404 라우팅 고치기 — 새로고침하면 사라지는 페이지와 깨진 내부 링크 | 잘못된 href와 배포 후 깨지는 경로로 404가 나는 다중 페이지 정적 사이트를, 링크와 파일 위치를 맞춰 고치며 URL과 파일 구조의 관계를 배운다 | ★★★☆☆ | 404, 라우팅, 파일 경로 구조 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/289) |
-| 290 | 프론트에 노출된 service_role 키 회수하기 — F12에 그대로 보이는 비밀키 | Supabase secret 키가 프론트 코드에 박혀 빌드 산출물에 노출된 코드를, publishable 키로 교체하고 비밀키를 제거하며 공개키와 비밀키의 차이를 배운다 | ★★★★☆ | 키 노출, anon/publishable vs service_role | 준비중 |
-| 291 | RLS 누락으로 남의 데이터가 다 보이는 방명록 잠그기 | RLS가 꺼져 있거나 USING(true)로 사실상 다 열린 정책 탓에 누구나 전체 데이터를 읽고 지우는 방명록을, 올바른 정책으로 고치며 행 수준 보안을 배운다 | ★★★★☆ | RLS, 접근 제어 정책 | 준비중 |
+| 290 | 프론트에 노출된 service_role 키 회수하기 — F12에 그대로 보이는 비밀키 | Supabase secret 키가 프론트 코드에 박혀 빌드 산출물에 노출된 코드를, publishable 키로 교체하고 비밀키를 제거하며 공개키와 비밀키의 차이를 배운다 | ★★★★☆ | 키 노출, anon/publishable vs service_role | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/290) |
+| 291 | RLS 누락으로 남의 데이터가 다 보이는 방명록 잠그기 | RLS가 꺼져 있거나 USING(true)로 사실상 다 열린 정책 탓에 누구나 전체 데이터를 읽고 지우는 방명록을, 올바른 정책으로 고치며 행 수준 보안을 배운다 | ★★★★☆ | RLS, 접근 제어 정책 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/291) |
 | 292 | 타임존 어긋남 잡기 — 한국 자정에 올린 글이 '어제'로 찍히는 버그 | UTC로 저장된 시각을 그대로 표시해 날짜가 하루 어긋나는 댓글 목록을, Asia/Seoul 기준 변환으로 고치며 타임존과 UTC 저장 원칙을 배운다 | ★★★★☆ | 타임존, UTC 저장/현지 표시 | 준비중 |
 | 293 | 부동소수점 오차 잡기 — 합계가 19,999.99원으로 나오는 장바구니 | 0.1+0.2 류의 부동소수점 누적 오차로 금액이 틀어지는 장바구니 합계를, 정수(원 단위) 계산이나 반올림으로 고치며 돈 계산에서 float을 피하는 법을 배운다 | ★★★★☆ | 부동소수점 오차, 금액 계산 | 준비중 |
 | 294 | 무한루프·무한요청 멈추기 — 탭을 멈추게 하는 useEffect/리스너 폭주 | 조건 없이 자기 자신을 다시 부르거나 매 렌더마다 fetch를 날려 브라우저를 먹통으로 만드는 코드를, 종료 조건과 의존성/가드를 넣어 고치며 무한 반복의 신호를 배운다 | ★★★★★ | 무한루프, 폭주 요청, 종료 조건 | 준비중 |

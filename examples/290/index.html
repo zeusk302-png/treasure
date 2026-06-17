@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 (고친 버전 - 공개키만 사용)</title>
+
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-top: 12px; }
+    input, textarea { width: 100%; box-sizing: border-box; padding: 8px; margin: 6px 0; }
+    button { padding: 8px 14px; }
+    .ok { background: #f1faf3; border: 1px solid #b6e3c4; color: #1a6b3a;
+          border-radius: 8px; padding: 12px; font-size: 13px; margin-top: 20px; }
+    code { background: #f2f2f2; padding: 1px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>우리 동네 방명록</h1>
+
+  <div class="card">
+    <input id="name" placeholder="이름" />
+    <textarea id="message" placeholder="한 마디 남겨 주세요"></textarea>
+    <button id="submit">남기기</button>
+  </div>
+
+  <div id="list" class="card">불러오는 중...</div>
+
+  <div class="ok">
+    이 버전은 <strong>공개돼도 되는 키(publishable / anon)</strong>만 사용합니다.<br />
+    F12 → <strong>Sources</strong> 탭에서 <code>service_role</code> 또는 <code>secret</code> 으로 검색해도
+    <strong>0건</strong>이 나와야 정상입니다.<br />
+    공개키가 노출돼도 안전한 이유는, DB 에 <strong>RLS(행 수준 보안)</strong>라는 잠금장치가 걸려 있기 때문입니다. (실습 291)
+  </div>
+
+  <!-- supabase-js 를 CDN 으로 불러온다 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!--
+    =========================================================================
+    ✅ 무엇을 고쳤나
+    =========================================================================
+    1) service_role(비밀) 키를 코드에서 "완전히 제거"했다. (프론트엔드에는 비밀키를 두지 않는다)
+    2) 그 자리에 "publishable / anon(공개)" 키를 넣었다. 이 키는 공개돼도 안전하다.
+    3) 공개키는 RLS(행 수준 보안) 정책의 통제를 받는다.
+       → 그래서 키가 노출돼도, 정책이 허용한 동작만 할 수 있다. (예: 글 읽기/내 글 쓰기)
+
+    공개돼도 되는 값 / 절대 숨겨야 하는 값:
+      - 프로젝트 URL          : 공개 OK  (그냥 주소)
+      - publishable / anon 키 : 공개 OK  (RLS 가 막아 줌)
+      - service_role / secret : ❌ 금지! (RLS 를 무시함 → 백엔드/서버 환경변수에만 둔다)
+    =========================================================================
+  -->
+  <script>
+    const SUPABASE_URL = "https://REPLACE_WITH_YOUR_PROJECT_REF.supabase.co";
+
+    // ✅ 공개돼도 되는 키(publishable / anon)만 사용한다. (아래 값은 가짜 자리표시자)
+    //    실제 값은 Supabase 대시보드 → Project Settings → API Keys 의 "publishable / anon" 칸에서 복사한다.
+    const SUPABASE_PUBLISHABLE_KEY = "REPLACE_WITH_YOUR_PUBLISHABLE_ANON_KEY";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const listEl = document.getElementById("list");
+
+    async function loadGuestbook() {
+      // RLS 의 SELECT 정책이 "모두 읽기 허용"이면 목록이 보이고,
+      // 아니면 정책에 맞는 행만 보인다. (공개키는 항상 정책의 통제를 받는다)
+      const { data, error } = await db
+        .from("guestbook")
+        .select("name, message")
+        .order("created_at", { ascending: false });
+
+      if (error) { listEl.textContent = "에러: " + error.message; return; }
+      listEl.innerHTML = (data || [])
+        .map(function (row) { return "<p><b>" + row.name + "</b> : " + row.message + "</p>"; })
+        .join("") || "아직 글이 없어요.";
+    }
+
+    document.getElementById("submit").addEventListener("click", async function () {
+      const name = document.getElementById("name").value.trim();
+      const message = document.getElementById("message").value.trim();
+      if (!name || !message) { alert("이름과 메시지를 모두 입력하세요."); return; }
+
+      // RLS 의 INSERT 정책이 허용해야 글이 등록된다.
+      const { error } = await db.from("guestbook").insert({ name: name, message: message });
+      if (error) { alert("에러: " + error.message); return; }
+
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
+      loadGuestbook();
+    });
+
+    loadGuestbook();
+  </script>
+</body>
+</html>

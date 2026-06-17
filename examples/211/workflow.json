@@ -1,0 +1,187 @@
+{
+  "name": "211 - 주간 신규 문의 요약 리포트 자동 메일 발송",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "a1111111-1111-4111-8111-111111111111",
+      "name": "매주 월요일 9시 (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// 이 노드는 '지난 주 월요일 0시 ~ 이번 주 월요일 0시' 구간을 계산합니다.\n// 아래에서 Supabase에 \"이 기간에 들어온 문의만 주세요\" 라고 조건을 걸 때 씁니다.\nconst now = new Date();\n\n// 오늘이 무슨 요일인지 (0=일, 1=월 ...)\nconst day = now.getUTCDay();\n// 이번 주 월요일 0시(UTC) 구하기\nconst daysSinceMonday = (day + 6) % 7;\nconst thisMonday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysSinceMonday, 0, 0, 0));\n// 지난 주 월요일 0시 = 이번 주 월요일 - 7일\nconst lastMonday = new Date(thisMonday.getTime() - 7 * 24 * 60 * 60 * 1000);\n\nreturn [{\n  json: {\n    기간시작: lastMonday.toISOString(),   // 예: 2026-06-08T00:00:00.000Z\n    기간끝: thisMonday.toISOString(),      // 예: 2026-06-15T00:00:00.000Z\n    기간라벨: `${lastMonday.toISOString().slice(0, 10)} ~ ${thisMonday.toISOString().slice(0, 10)}`\n  }\n}];"
+      },
+      "id": "b2222222-2222-4222-8222-222222222222",
+      "name": "지난 주 기간 계산 (Code)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/inquiries?select=id,name,email,message,created_at&created_at=gte.{{ $json.기간시작 }}&created_at=lt.{{ $json.기간끝 }}&order=created_at.asc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c3333333-3333-4333-8333-333333333333",
+      "name": "지난 주 문의 조회 (Supabase REST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "d4444444-4444-4444-8444-444444444444",
+      "name": "문의 전부 모으기 (Aggregate)",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// 조회된 문의들이 data 라는 배열 하나로 모여서 들어옵니다.\nconst rows = $json.data || [];\n\n// 위에서 계산한 '기간 계산' 노드의 값을 그대로 가져와 제목에 씁니다.\nconst 기간라벨 = $('지난 주 기간 계산 (Code)').first().json.기간라벨;\n\nconst 총건수 = rows.length;\n\n// 위험한 글자(<, >, &)를 메일에서 안전하게 보이도록 바꿔 줍니다.\nfunction escapeHtml(text) {\n  return String(text == null ? '' : text)\n    .replace(/&/g, '&amp;')\n    .replace(/</g, '&lt;')\n    .replace(/>/g, '&gt;');\n}\n\nfunction short(text, n) {\n  const s = String(text == null ? '' : text);\n  return s.length > n ? s.slice(0, n) + '…' : s;\n}\n\n// 문의 목록을 표(<tr>)로 한 줄씩 만듭니다.\nlet 표내용 = '';\nif (총건수 === 0) {\n  표내용 = '<tr><td colspan=\"3\" style=\"padding:12px; text-align:center; color:#888;\">지난 주에는 신규 문의가 없었습니다.</td></tr>';\n} else {\n  표내용 = rows.map((r) => {\n    const 날짜 = String(r.created_at || '').slice(0, 10);\n    return `<tr>\n      <td style=\"padding:8px 10px; border-bottom:1px solid #eee;\">${escapeHtml(날짜)}</td>\n      <td style=\"padding:8px 10px; border-bottom:1px solid #eee;\">${escapeHtml(r.name)}</td>\n      <td style=\"padding:8px 10px; border-bottom:1px solid #eee;\">${escapeHtml(short(r.message, 60))}</td>\n    </tr>`;\n  }).join('\\n');\n}\n\nconst 제목 = `[주간 리포트] 신규 문의 ${총건수}건 (${기간라벨})`;\n\nconst html = `<div style=\"font-family: sans-serif; max-width: 640px; margin: 0 auto; color:#222;\">\n  <h1 style=\"color:#2563eb; font-size:20px;\">주간 신규 문의 요약 리포트</h1>\n  <p style=\"color:#555;\">대상 기간: <strong>${escapeHtml(기간라벨)}</strong></p>\n  <p style=\"font-size:16px;\">지난 주 신규 문의는 총 <strong style=\"color:#2563eb;\">${총건수}건</strong> 입니다.</p>\n  <table style=\"width:100%; border-collapse:collapse; font-size:14px; margin-top:12px;\">\n    <thead>\n      <tr style=\"background:#f3f4f6; text-align:left;\">\n        <th style=\"padding:8px 10px; border-bottom:2px solid #ddd;\">날짜</th>\n        <th style=\"padding:8px 10px; border-bottom:2px solid #ddd;\">이름</th>\n        <th style=\"padding:8px 10px; border-bottom:2px solid #ddd;\">문의 내용(요약)</th>\n      </tr>\n    </thead>\n    <tbody>\n      ${표내용}\n    </tbody>\n  </table>\n  <hr style=\"border:none; border-top:1px solid #eee; margin:24px 0;\">\n  <p style=\"color:#888; font-size:12px;\">이 메일은 매주 월요일 오전 9시에 자동 발송됩니다.</p>\n</div>`;\n\nreturn [{\n  json: {\n    총건수,\n    기간라벨,\n    제목,\n    html\n  }\n}];"
+      },
+      "id": "e5555555-5555-4555-8555-555555555555",
+      "name": "HTML 리포트 만들기 (Code)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@your-domain.com",
+        "toEmail": "team@your-domain.com",
+        "subject": "={{ $json.제목 }}",
+        "emailFormat": "html",
+        "html": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "f6666666-6666-4666-8666-666666666666",
+      "name": "리포트 메일 발송 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        300
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 SMTP 계정"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "매주 월요일 9시 (Schedule)": {
+      "main": [
+        [
+          {
+            "node": "지난 주 기간 계산 (Code)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "지난 주 기간 계산 (Code)": {
+      "main": [
+        [
+          {
+            "node": "지난 주 문의 조회 (Supabase REST)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "지난 주 문의 조회 (Supabase REST)": {
+      "main": [
+        [
+          {
+            "node": "문의 전부 모으기 (Aggregate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "문의 전부 모으기 (Aggregate)": {
+      "main": [
+        [
+          {
+            "node": "HTML 리포트 만들기 (Code)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML 리포트 만들기 (Code)": {
+      "main": [
+        [
+          {
+            "node": "리포트 메일 발송 (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "guide-211-weekly-inquiry-report"
+  }
+}

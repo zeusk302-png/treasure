@@ -1,0 +1,239 @@
+/* ===== 기본 색/폰트 (CSS 변수로 한 곳에서 관리) ===== */
+:root {
+  --blue: #2563eb;      /* 강조색(현재 단계, 주요 버튼) */
+  --blue-dark: #1d4ed8;
+  --gray: #d1d5db;      /* 테두리/지나지 않은 단계 */
+  --gray-light: #f3f4f6;
+  --text: #1f2937;
+  --red: #dc2626;       /* 에러 */
+  --green: #16a34a;     /* 완료 단계 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+  background: var(--gray-light);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* 가운데 정렬된 카드 */
+.app {
+  max-width: 480px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 28px 24px 32px;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* ===== 스텝 인디케이터 ===== */
+.steps {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0 0 28px;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #9ca3af;          /* 아직 지나지 않은 단계는 회색 글씨 */
+  position: relative;
+}
+
+/* 단계 사이를 잇는 선 */
+.step::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--gray);
+  z-index: 0;
+}
+.step:first-child::before {
+  display: none;          /* 맨 앞 단계 왼쪽에는 선이 없다 */
+}
+
+/* 동그란 단계 번호 */
+.dot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--gray);
+  font-weight: bold;
+  color: #9ca3af;
+}
+
+/* 현재 단계: 파랑 */
+.step.active {
+  color: var(--blue);
+  font-weight: bold;
+}
+.step.active .dot {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+/* 지나온 단계: 초록 */
+.step.done .dot {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+}
+.step.done::before {
+  background: var(--green);
+}
+
+/* ===== 입력 영역 ===== */
+.step-panel {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.field input[type="email"],
+.field input[type="password"],
+.field input[type="text"],
+.field input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* 검증 실패한 입력칸 빨간 테두리 */
+.field input.invalid {
+  border-color: var(--red);
+}
+
+/* 에러 메시지 (내용이 있을 때만 보인다) */
+.error {
+  margin: 6px 0 0;
+  min-height: 1.1em;
+  color: var(--red);
+  font-size: 0.82rem;
+}
+
+/* 약관 동의 체크박스 줄 */
+.check-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ===== 3단계 요약 ===== */
+.summary {
+  background: var(--gray-light);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 0 0 18px;
+}
+.summary dt {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 8px;
+}
+.summary dt:first-child {
+  margin-top: 0;
+}
+.summary dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+}
+
+/* ===== 버튼 줄 ===== */
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 11px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  margin-left: auto;   /* '다음/완료'를 오른쪽으로 민다 */
+}
+.btn-primary:hover {
+  background: var(--blue-dark);
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--gray);
+}
+.btn-ghost:hover {
+  background: var(--gray-light);
+}
+
+/* ===== 완료 메시지 ===== */
+.done-msg {
+  margin-top: 20px;
+  padding: 16px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+  color: #065f46;
+  text-align: center;
+  font-weight: 600;
+}

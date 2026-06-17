@@ -1,0 +1,166 @@
+/* 색·간격을 한 곳에서 관리하는 CSS 변수 */
+:root {
+  --main: #2563eb;        /* 강조색(파랑) */
+  --main-dark: #1d4ed8;
+  --bg: #f1f5f9;          /* 페이지 배경 */
+  --border: #cbd5e1;      /* 테두리 회색 */
+  --text: #1e293b;        /* 본문 글자색 */
+  --muted: #64748b;       /* 흐린 글자색 */
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  font-family: "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+}
+
+/* 가운데 카드 */
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+/* 한 묶음의 입력 영역 */
+.field {
+  margin-bottom: 24px;
+}
+
+.field > label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.hint,
+.placeholder {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* 시간 버튼들을 줄바꿈되는 격자로 배치 */
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* 시간 버튼 한 개 */
+.slot {
+  padding: 12px 0;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.slot:hover:not(:disabled) {
+  border-color: var(--main);
+  color: var(--main);
+}
+
+/* 선택된 시간 버튼 */
+.slot.selected {
+  background: var(--main);
+  border-color: var(--main);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 이미 찬(예약 불가) 시간 버튼 */
+.slot:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* 선택 결과 요약 박스 */
+.summary {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.summary p {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.summary strong {
+  font-size: 17px;
+  color: var(--main-dark);
+}
+
+/* 예약하기 버튼 */
+#reserve-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--main);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#reserve-btn:hover:not(:disabled) {
+  background: var(--main-dark);
+}
+
+/* 날짜·시간을 아직 다 안 골랐을 때: 회색 비활성 */
+#reserve-btn:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* 예약 완료 메시지 */
+.done-message {
+  margin: 16px 0 0;
+  padding: 14px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: var(--radius);
+  color: #047857;
+  font-weight: 600;
+  text-align: center;
+}

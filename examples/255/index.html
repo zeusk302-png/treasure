@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>예약하기 — 이미 찬 시간대는 자동 비활성화 (실습 255)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>예약하기</h1>
+    <p class="sub">
+      이름과 <strong>날짜·시간대</strong>를 고르면 Supabase에 저장됩니다.
+      <strong>이미 찬 시간대</strong>는 자동으로 <em>예약 마감</em> 처리됩니다.
+    </p>
+  </header>
+
+  <main>
+    <form id="form" class="card">
+      <!-- 이름 -->
+      <label class="field">
+        <span class="label-text">이름</span>
+        <input id="name" type="text" placeholder="예: 홍길동" required />
+      </label>
+
+      <!-- 날짜 -->
+      <label class="field">
+        <span class="label-text">날짜</span>
+        <input id="date" type="date" required />
+      </label>
+
+      <!-- 시간대 (날짜를 고르면 JS가 채워 넣습니다. 찬 시간대는 disabled) -->
+      <label class="field">
+        <span class="label-text">시간대</span>
+        <select id="time" required disabled>
+          <option value="">← 먼저 날짜를 고르세요</option>
+        </select>
+      </label>
+
+      <button id="submit" type="submit" disabled>예약하기</button>
+
+      <!-- 결과/안내 메시지가 표시되는 자리 -->
+      <p id="status" class="status" hidden></p>
+    </form>
+
+    <!-- 선택한 날짜의 예약 현황을 작게 보여 주는 영역 -->
+    <section class="legend">
+      <p><span class="dot open"></span> 예약 가능 &nbsp; <span class="dot full"></span> 예약 마감</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>
+      이 페이지는 먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>),
+      <code>schema.sql</code>로 <code>reservations</code> 표·중복 방지·보안(RLS)을
+      만들어 두어야 동작합니다. 자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </footer>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

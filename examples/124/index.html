@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록 키워드 검색창 만들기 — 실습 124</title>
+  <style>
+    body {
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      max-width: 560px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; margin-top: 28px; }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+    /* 검색어 입력칸 + 검색/전체보기 버튼이 한 줄에 놓이는 영역 */
+    .search-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    #keyword {
+      flex: 1;                 /* 남는 가로 공간을 입력칸이 다 차지하게 */
+      min-width: 160px;
+      padding: 10px 12px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    button {
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 8px;
+      background: #3ecf8e;
+      color: #03311f;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.ghost {
+      background: #eef4ff;
+      color: #2b5fd9;
+    }
+    button:disabled { background: #cfcfcf; color: #777; cursor: not-allowed; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 글 목록을 담는 ul. 점(•) 표시를 없애고 카드 모양으로 꾸밉니다. */
+    #list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+    /* JS가 글 한 줄마다 만들어 넣는 li 한 칸의 모양 */
+    #list li {
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    #list li .who { font-weight: 700; }
+    #list li .when { color: #888; font-size: 0.85rem; margin-left: 6px; }
+    #list li .msg { margin-top: 4px; white-space: pre-wrap; }
+    /* 안내/상태 문구 (불러오는 중 · 결과 없음 · 에러) */
+    #status {
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      display: none;          /* 평소엔 숨겨 두고, 필요할 때 JS가 보여 줍니다 */
+    }
+    #status.info { display: block; background: #eef4ff; color: #2b5fd9; }
+    #status.fail { display: block; background: #fdecea; color: #b3261e; }
+    .hint { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>방명록 키워드 검색창 만들기</h1>
+
+  <p>
+    실습 123에서 글 목록을 <strong>정렬(order)</strong>해서 보여줬습니다.
+    글이 많아지면 이번엔 <strong>원하는 단어가 들어간 글만</strong> 찾고 싶어집니다.
+    이번 실습은 <code>select</code> 뒤에 <strong>.ilike('message', '%검색어%')</strong>를 붙여
+    <strong>메시지 내용에 검색어가 들어간 글만</strong> 골라 받아옵니다.
+    <strong>대소문자를 구분하지 않고(i)</strong>, <strong>일부만 일치(like)</strong>해도 찾아 줍니다.
+  </p>
+
+  <div class="card">
+    <h2>방명록 검색</h2>
+
+    <!-- 검색어 입력칸 + 검색 버튼 + 전체 보기 버튼 -->
+    <div class="search-bar">
+      <input
+        id="keyword"
+        type="text"
+        placeholder="찾을 단어를 입력하세요 (예: 안녕)"
+        autocomplete="off"
+      />
+      <button id="search-btn">검색</button>
+      <button id="all-btn" class="ghost">전체 보기</button>
+    </div>
+
+    <!-- '불러오는 중…' · '검색 결과 없음' · 에러 메시지가 여기에 표시됩니다. -->
+    <div id="status"></div>
+
+    <!-- 핵심: JS가 서버에서 '검색어로 걸러서' 받은 글들을 이 ul 안에 li로 채워 넣습니다. -->
+    <ul id="list"></ul>
+  </div>
+
+  <p class="hint">
+    먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+    내 프로젝트 값으로 바꾸고, 실습 116~117에서 만든 <code>guestbook</code> 표에
+    글이 여러 개 있어야 검색 결과 차이가 보입니다. (없으면 <code>schema.sql</code>의 연습용 글을 넣으세요.)
+    자세한 방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 검색·목록 불러오기 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

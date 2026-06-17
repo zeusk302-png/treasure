@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3단계 가입 폼 (스텝 인디케이터)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>회원가입</h1>
+
+    <!--
+      스텝 인디케이터: 지금 몇 단계에 있는지 위에 점/막대로 보여 준다.
+      JS가 현재 단계에 맞춰 .active(지금)와 .done(지나온 단계) 클래스를 붙인다.
+    -->
+    <ol class="steps" id="steps">
+      <li class="step active" data-step="1"><span class="dot">1</span>계정</li>
+      <li class="step" data-step="2"><span class="dot">2</span>프로필</li>
+      <li class="step" data-step="3"><span class="dot">3</span>확인</li>
+    </ol>
+
+    <!--
+      폼 전체를 form 하나로 감싼다.
+      3개의 단계(fieldset)를 모두 HTML에 넣어 두고,
+      JS가 "지금 단계만 보이고 나머지는 숨기는" 방식으로 전환한다.
+      novalidate: 브라우저 기본 안내 풍선 대신, 우리가 만든 빨간 메시지를 쓰기 위해 끈다.
+    -->
+    <form id="signup-form" novalidate>
+
+      <!-- ===== 1단계: 계정 ===== -->
+      <fieldset class="step-panel" data-panel="1">
+        <legend>1단계 · 계정 정보</legend>
+
+        <div class="field">
+          <label for="email">이메일</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="example@email.com"
+            autocomplete="off"
+          />
+          <!-- 검증 실패 시 JS가 이 자리에 안내 문구를 넣는다 -->
+          <p class="error" data-error-for="email"></p>
+        </div>
+
+        <div class="field">
+          <label for="password">비밀번호 (8자 이상)</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            autocomplete="off"
+          />
+          <p class="error" data-error-for="password"></p>
+        </div>
+      </fieldset>
+
+      <!-- ===== 2단계: 프로필 ===== -->
+      <fieldset class="step-panel" data-panel="2" hidden>
+        <legend>2단계 · 프로필</legend>
+
+        <div class="field">
+          <label for="nickname">닉네임</label>
+          <input
+            id="nickname"
+            name="nickname"
+            type="text"
+            placeholder="2~10글자"
+            autocomplete="off"
+          />
+          <p class="error" data-error-for="nickname"></p>
+        </div>
+
+        <div class="field">
+          <label for="age">나이</label>
+          <input
+            id="age"
+            name="age"
+            type="number"
+            placeholder="만 14세 이상"
+            min="14"
+            max="120"
+          />
+          <p class="error" data-error-for="age"></p>
+        </div>
+      </fieldset>
+
+      <!-- ===== 3단계: 확인 ===== -->
+      <fieldset class="step-panel" data-panel="3" hidden>
+        <legend>3단계 · 입력 내용 확인</legend>
+
+        <!-- JS가 앞 단계에서 입력한 값을 여기에 요약해 보여 준다 -->
+        <dl class="summary" id="summary"></dl>
+
+        <div class="field check-field">
+          <label>
+            <input id="agree" name="agree" type="checkbox" />
+            (필수) 이용약관에 동의합니다.
+          </label>
+          <p class="error" data-error-for="agree"></p>
+        </div>
+      </fieldset>
+
+      <!-- ===== 아래 버튼 줄 ===== -->
+      <div class="nav-row">
+        <!-- 1단계에서는 '이전'이 필요 없으므로 JS가 숨긴다 -->
+        <button type="button" id="prev-btn" class="btn btn-ghost" hidden>이전</button>
+        <button type="button" id="next-btn" class="btn btn-primary">다음</button>
+        <!-- 마지막 단계에서만 '가입 완료'가 나타난다 -->
+        <button type="submit" id="submit-btn" class="btn btn-primary" hidden>가입 완료</button>
+      </div>
+    </form>
+
+    <!-- 가입 완료 후 보여 줄 성공 메시지 (처음에는 숨김) -->
+    <p id="done-msg" class="done-msg" hidden>가입이 완료되었습니다. 환영합니다!</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

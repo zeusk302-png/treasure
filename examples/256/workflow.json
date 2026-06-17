@@ -1,0 +1,329 @@
+{
+  "name": "256 - 예약 확정 확인 메일 + 하루 전 리마인더",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "booking-confirmed",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1111111-1111-4111-8111-111111111111",
+      "name": "예약 확정 신호 받기 (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        180
+      ],
+      "webhookId": "booking-confirmed-256",
+      "notes": "예약 폼(255번 실습)에서 Supabase에 예약을 저장한 직후, 이 Webhook의 'Production URL'로 POST 요청을 보냅니다. 브라우저는 방금 만든 예약의 정보(이름·이메일·날짜·시간)만 담아 보냅니다. 비밀 키는 여기로 보내지 않습니다."
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@your-domain.com",
+        "toEmail": "={{ $json.body.email }}",
+        "subject": "=[예약 확정] {{ $json.body.reserve_date }} {{ $json.body.reserve_time }} 예약이 확정되었습니다",
+        "emailFormat": "html",
+        "html": "=<div style=\"font-family: sans-serif; max-width: 480px; margin: 0 auto;\">\n  <h1 style=\"color:#16a34a;\">예약이 확정되었습니다!</h1>\n  <p>안녕하세요, <strong>{{ $json.body.name || '고객' }}</strong>님.</p>\n  <p>아래 내용으로 예약이 확정되었습니다.</p>\n  <table style=\"border-collapse:collapse; margin:16px 0;\">\n    <tr><td style=\"padding:6px 12px; color:#666;\">날짜</td><td style=\"padding:6px 12px;\"><strong>{{ $json.body.reserve_date }}</strong></td></tr>\n    <tr><td style=\"padding:6px 12px; color:#666;\">시간</td><td style=\"padding:6px 12px;\"><strong>{{ $json.body.reserve_time }}</strong></td></tr>\n  </table>\n  <p>예약 하루 전에 리마인더 메일을 한 번 더 보내 드릴게요.</p>\n  <hr style=\"border:none; border-top:1px solid #eee; margin:24px 0;\">\n  <p style=\"color:#888; font-size:12px;\">이 메일은 자동 발송되었습니다.</p>\n</div>",
+        "options": {}
+      },
+      "id": "b2222222-2222-4222-8222-222222222222",
+      "name": "확인 메일 즉시 발송 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        120,
+        180
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 SMTP 계정"
+        }
+      },
+      "notes": "예약 확정 신호를 받은 즉시 고객에게 확인 메일을 보냅니다. SMTP 비밀번호는 이 노드에 적지 않고, n8n > Credentials(자격증명 저장소)에 'SMTP' 자격증명으로 저장한 뒤 여기에 연결합니다."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"message\": \"확인 메일을 보냈습니다.\"\n}",
+        "options": {}
+      },
+      "id": "c3333333-3333-4333-8333-333333333333",
+      "name": "브라우저에 응답 (200 OK)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        180
+      ],
+      "notes": "예약 폼에게 '확인 메일을 보냈다'고 알려 줍니다. 비밀 키는 응답에 담지 않습니다."
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "d4444444-4444-4444-8444-444444444444",
+      "name": "매일 아침 9시 (Cron)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        480
+      ],
+      "notes": "크론 표현식 '0 9 * * *' = 매일 9시 0분. 이 시각에 깨어나 '내일 예약'을 찾아 리마인더를 보냅니다."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/bookings?select=id,name,email,reserve_date,reserve_time,reminder_sent&reserve_date=eq.{{ $today.plus(1, 'days').toFormat('yyyy-MM-dd') }}&reminder_sent=is.false&order=reserve_time.asc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e5555555-5555-4555-8555-555555555555",
+      "name": "내일 예약 조회 (Supabase REST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        480
+      ],
+      "notes": "내일 날짜(오늘+1일)이고 아직 리마인더를 안 보낸(reminder_sent=false) 예약만 가져옵니다. 이 조회는 service_role 키로 해야 RLS(행 수준 보안)를 통과해 모든 고객의 예약을 읽을 수 있습니다. 키는 코드에 직접 쓰지 않고 n8n 환경변수 SUPABASE_SERVICE_ROLE_KEY 로 주입합니다(서버 전용·비밀)."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cccc0001-1111-4111-8111-cccccccccccc",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f6666666-6666-4666-8666-666666666666",
+      "name": "내일 예약이 있는가? (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        360,
+        480
+      ],
+      "notes": "조건 분기: 가져온 항목에 예약 id가 있으면(=내일 예약이 1건 이상) 위쪽(true) 가지로 흘러 리마인더를 보냅니다. 없으면 아래쪽(false) 가지로 끝나 아무 메일도 보내지 않습니다."
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "07777777-7777-4777-8777-777777777777",
+      "name": "한 건씩 반복 (Loop)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        600,
+        400
+      ],
+      "notes": "내일 예약을 한 건씩 꺼내 차례로 리마인더를 보내고 발송 표시를 합니다."
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@your-domain.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=[내일 예약 알림] {{ $json.reserve_date }} {{ $json.reserve_time }} 예약을 잊지 마세요",
+        "emailFormat": "html",
+        "html": "=<div style=\"font-family: sans-serif; max-width: 480px; margin: 0 auto;\">\n  <h1 style=\"color:#2563eb;\">내일 예약이 있어요!</h1>\n  <p>안녕하세요, <strong>{{ $json.name || '고객' }}</strong>님.</p>\n  <p>내일 아래 시간에 예약이 있습니다. 잊지 말고 방문해 주세요.</p>\n  <table style=\"border-collapse:collapse; margin:16px 0;\">\n    <tr><td style=\"padding:6px 12px; color:#666;\">날짜</td><td style=\"padding:6px 12px;\"><strong>{{ $json.reserve_date }}</strong></td></tr>\n    <tr><td style=\"padding:6px 12px; color:#666;\">시간</td><td style=\"padding:6px 12px;\"><strong>{{ $json.reserve_time }}</strong></td></tr>\n  </table>\n  <hr style=\"border:none; border-top:1px solid #eee; margin:24px 0;\">\n  <p style=\"color:#888; font-size:12px;\">이 메일은 자동 발송되었습니다.</p>\n</div>",
+        "options": {}
+      },
+      "id": "18888888-8888-4888-8888-888888888888",
+      "name": "리마인더 메일 발송 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        840,
+        320
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 SMTP 계정"
+        }
+      },
+      "notes": "내일 예약 고객에게 리마인더를 보냅니다. 확인 메일과 같은 SMTP 자격증명을 씁니다."
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/bookings?id=eq.{{ $json.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"reminder_sent\": true\n}",
+        "options": {}
+      },
+      "id": "29999999-9999-4999-8999-999999999999",
+      "name": "리마인더 발송 표시 (reminder_sent=true)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        320
+      ],
+      "notes": "리마인더를 보낸 예약은 reminder_sent=true 로 바꿔, 다음 날 9시에 같은 예약으로 또 메일이 가지 않게 막습니다(중복 방지)."
+    }
+  ],
+  "connections": {
+    "예약 확정 신호 받기 (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "확인 메일 즉시 발송 (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "확인 메일 즉시 발송 (SMTP)": {
+      "main": [
+        [
+          {
+            "node": "브라우저에 응답 (200 OK)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "매일 아침 9시 (Cron)": {
+      "main": [
+        [
+          {
+            "node": "내일 예약 조회 (Supabase REST)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "내일 예약 조회 (Supabase REST)": {
+      "main": [
+        [
+          {
+            "node": "내일 예약이 있는가? (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "내일 예약이 있는가? (IF)": {
+      "main": [
+        [
+          {
+            "node": "한 건씩 반복 (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "한 건씩 반복 (Loop)": {
+      "main": [
+        [],
+        [
+          {
+            "node": "리마인더 메일 발송 (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "리마인더 메일 발송 (SMTP)": {
+      "main": [
+        [
+          {
+            "node": "리마인더 발송 표시 (reminder_sent=true)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "리마인더 발송 표시 (reminder_sent=true)": {
+      "main": [
+        [
+          {
+            "node": "한 건씩 반복 (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "guide-256-booking-confirm-and-reminder"
+  }
+}

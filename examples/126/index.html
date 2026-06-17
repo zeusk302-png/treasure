@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>좋아요 글 목록 (Supabase RPC) — 실습 126</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      max-width: 520px;
+      margin: 50px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.4rem; }
+    .note {
+      background: #fff8e1;
+      border: 1px solid #ffe08a;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+    }
+    .note strong { color: #8a6d00; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 글 목록 */
+    #postList { list-style: none; padding: 0; margin-top: 20px; }
+    #postList li {
+      padding: 14px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .post-content { flex: 1; word-break: break-word; }
+    .when { display: block; color: #888; font-size: 0.78rem; margin-top: 4px; }
+    /* 좋아요 버튼 */
+    .like-btn {
+      flex-shrink: 0;
+      padding: 8px 14px;
+      font-size: 1rem;
+      border: 1px solid #f0c0c8;
+      border-radius: 999px;
+      background: #fff0f3;
+      color: #c2185b;
+      cursor: pointer;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .like-btn:hover { background: #ffe0e8; }
+    .like-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .like-count { font-variant-numeric: tabular-nums; }
+    .empty { color: #888; }
+    .hint { color: #888; font-size: 0.9rem; }
+    /* 상태 안내 박스 */
+    #status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      display: none;
+    }
+    #status.info { display: block; background: #eef4ff; color: #2b5fd9; }
+    #status.ok   { display: block; background: #e6f7ee; color: #137a4a; }
+    #status.fail { display: block; background: #fdecea; color: #b3261e; }
+  </style>
+</head>
+<body>
+  <h1>좋아요 글 목록 — 서버에서 안전하게 +1</h1>
+
+  <div class="note">
+    <strong>이번 실습의 핵심:</strong> 하트 버튼을 누르면
+    자바스크립트가 직접 숫자를 더하지 않습니다. 대신 서버에 만들어 둔 함수
+    <code>increment_likes</code>를 <code>supabase.rpc()</code>로 호출합니다.
+    더하기를 <strong>서버 안에서 한 번에</strong> 처리하므로,
+    여러 명이 <strong>동시에</strong> 눌러도 좋아요가 사라지지 않고 정확히 쌓입니다.
+  </div>
+
+  <div id="status"></div>
+
+  <!-- 서버에서 받아온 글들이 여기에 그려집니다 -->
+  <ul id="postList"></ul>
+
+  <p class="hint">
+    먼저 <code>schema.sql</code>로 <code>posts</code> 표·RLS·정책과
+    <code>increment_likes</code> 함수를 만들고,
+    <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+    내 <strong>anon(공개) 키</strong>로 바꾸세요(절대 service_role 아님). 자세한 방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>
