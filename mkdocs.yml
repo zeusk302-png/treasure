@@ -13,6 +13,7 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.top
+    - navigation.indexes
     - navigation.footer
     - search.suggest
     - search.highlight
@@ -54,7 +55,77 @@ plugins:
 
 nav:
   - 홈: index.md
-  - 마음가짐:
-      - 디렉터의 자리: 01-mindset/index.md
-  - 검색 노출(SEO):
-      - SEO 한눈에: 09-seo/index.md
+  - 1. 마음가짐:
+      - 01-mindset/01.md
+      - 01-mindset/02.md
+      - 01-mindset/03.md
+      - 01-mindset/04.md
+      - 01-mindset/05.md
+      - 01-mindset/06.md
+      - 01-mindset/07.md
+      - 01-mindset/08.md
+  - 2. 기초 내공:
+      - 02-web-basics/01.md
+      - 02-web-basics/02.md
+      - 02-web-basics/03.md
+      - 02-web-basics/04.md
+      - 02-web-basics/05.md
+      - 02-web-basics/06.md
+      - 02-web-basics/07.md
+      - 02-web-basics/08.md
+  - 3. 설계·코드 품질:
+      - 03-design-quality/01.md
+      - 03-design-quality/02.md
+      - 03-design-quality/03.md
+      - 03-design-quality/04.md
+      - 03-design-quality/05.md
+      - 03-design-quality/06.md
+      - 03-design-quality/07.md
+      - 03-design-quality/08.md
+      - 03-design-quality/09.md
+  - 4. 안전(보안):
+      - 04-security/01.md
+      - 04-security/02.md
+      - 04-security/03.md
+      - 04-security/04.md
+      - 04-security/05.md
+      - 04-security/06.md
+      - 04-security/07.md
+      - 04-security/08.md
+  - 5. 배포·운영·SEO:
+      - 05-deploy-ops-seo/01.md
+      - 05-deploy-ops-seo/02.md
+      - 05-deploy-ops-seo/03.md
+      - 05-deploy-ops-seo/04.md
+      - 05-deploy-ops-seo/05.md
+      - 05-deploy-ops-seo/06.md
+      - 05-deploy-ops-seo/07.md
+      - 05-deploy-ops-seo/08.md
+      - 05-deploy-ops-seo/09.md
+  - 6. 사업화:
+      - 06-business/01.md
+      - 06-business/02.md
+      - 06-business/03.md
+      - 06-business/04.md
+      - 06-business/05.md
+      - 06-business/06.md
+      - 06-business/07.md
+      - 06-business/08.md
+  - 7. 자동화·확장:
+      - 07-automation/01.md
+      - 07-automation/02.md
+      - 07-automation/03.md
+      - 07-automation/04.md
+      - 07-automation/05.md
+      - 07-automation/06.md
+      - 07-automation/07.md
+      - 07-automation/08.md
+  - 8. 계속 성장하기:
+      - 08-growth/01.md
+      - 08-growth/02.md
+      - 08-growth/03.md
+      - 08-growth/04.md
+      - 08-growth/05.md
+      - 08-growth/06.md
+      - 08-growth/07.md
+      - 08-growth/08.md
