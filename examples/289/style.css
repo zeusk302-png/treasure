@@ -1,0 +1,78 @@
+/* 세 페이지가 공유하는 스타일. 이 파일을 못 찾으면(경로가 틀리면)
+   페이지가 흰 바탕에 검은 글씨만 나오는 "민무늬" 상태로 보인다.
+   그게 바로 broken.html 의 ❌문제1 증상이다. */
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Pretendard", system-ui, sans-serif;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+  color: #1f2933;
+  background: #f7f8fa;
+}
+
+header {
+  padding: 24px 0 12px;
+  border-bottom: 2px solid #2f80ed;
+}
+
+header h1 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  color: #2f80ed;
+}
+
+nav a {
+  display: inline-block;
+  margin-right: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #2f80ed;
+  font-weight: 600;
+}
+
+nav a:hover {
+  background: #e8f1fe;
+}
+
+main {
+  padding: 24px 0;
+}
+
+main h2 {
+  font-size: 18px;
+}
+
+main a {
+  color: #2f80ed;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin: 6px 0;
+}
+
+.hint {
+  margin-top: 24px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e0e4e8;
+  border-radius: 8px;
+  color: #5b6770;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer {
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e4e8;
+  color: #98a3ad;
+  font-size: 13px;
+}

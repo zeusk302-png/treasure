@@ -1,0 +1,77 @@
+{
+  "name": "실습 163 — 스트리밍 챗 창구 (성격은 노드에, 키는 자격증명에)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-in",
+      "name": "Webhook (브라우저가 부르는 창구)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "chat-proxy-163",
+      "notes": "브라우저 script.js 의 PROXY_URL 을 이 Webhook 의 'Production URL' 로 바꾸면, Vercel 함수 대신 n8n 을 프록시로 쓸 수 있습니다. 이 노드 자체에는 비밀 키가 없습니다. 브라우저는 질문(message)만 보냅니다. 참고: n8n 의 Respond to Webhook 은 '한 번에' 응답을 돌려주므로, 진짜 글자 단위 스트리밍 체감을 보려면 Vercel 함수(api/chat.js) 쪽을 쓰는 것을 권합니다. 이 워크플로우는 '같은 보안 구조(키는 자격증명에)'를 보여 주는 대안 버전입니다."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-opus-4-8\",\n  \"max_tokens\": 1024,\n  \"system\": \"당신은 비전공자 웹개발 학습자를 돕는 친절한 한국어 도우미입니다. 규칙: 1) 쉬운 말로 너무 길지 않게 설명합니다. 2) 코드가 필요하면 짧은 예시만 곁들입니다. 3) 모르면 모른다고 솔직히 말합니다.\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": $json.body.message }\n  ]\n}",
+        "options": {}
+      },
+      "id": "call-claude",
+      "name": "Claude 챗 호출 (키는 자격증명에)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [560, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Anthropic x-api-key (비밀, 자격증명 저장소에만)"
+        }
+      },
+      "notes": "챗봇 성격(프롬프트)은 이 노드의 system 필드에 고정합니다. 비밀 키는 이 노드에 적지 않습니다. n8n > Credentials 에서 'Header Auth' 자격증명을 하나 만들고, Name = x-api-key, Value = sk-ant-... (진짜 키) 로 저장한 뒤 여기에 연결합니다. 워크플로우 JSON 에는 키가 아니라 자격증명 '참조'만 남습니다. (이 노드는 stream:false 로 한 번에 받습니다. 글자 단위 스트리밍은 Vercel 함수 버전을 사용하세요.)"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.content[0].text }}",
+        "options": {}
+      },
+      "id": "respond-out",
+      "name": "답 돌려주기 (키 없음)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 300],
+      "notes": "Claude 응답에서 텍스트만 골라 브라우저로 돌려줍니다(순수 텍스트). script.js 는 텍스트를 reader 로 읽으므로 그대로 호환됩니다. 비밀 키는 절대 응답에 담기지 않습니다."
+    }
+  ],
+  "connections": {
+    "Webhook (브라우저가 부르는 창구)": {
+      "main": [[{ "node": "Claude 챗 호출 (키는 자격증명에)", "type": "main", "index": 0 }]]
+    },
+    "Claude 챗 호출 (키는 자격증명에)": {
+      "main": [[{ "node": "답 돌려주기 (키 없음)", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "pinData": {},
+  "meta": {
+    "설명": "Vercel 서버리스 함수(api/chat.js) 대신 n8n 으로 같은 '챗 창구'를 만든 버전입니다. 핵심 보안 원칙은 동일합니다: 브라우저 → 창구(Webhook) → Claude. 비밀 키는 워크플로우 JSON 이 아니라 n8n 의 Credentials(자격증명 저장소)에만 보관하고, 챗봇 성격은 HTTP 노드의 system 필드에 고정합니다. 단, '글자 단위 타자 효과(진짜 스트리밍)'는 SSE 중계가 필요하므로 Vercel 함수 버전(api/chat.js)에서 가장 잘 보입니다."
+  }
+}

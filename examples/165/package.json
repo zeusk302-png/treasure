@@ -1,0 +1,10 @@
+{
+  "name": "safe-call-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI API 안전 호출 점검표 — 토큰·비용 로깅 + 한도 가드 (Vercel 서버 함수)",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0"
+  }
+}

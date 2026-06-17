@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!--
+  주의: 위 <html> 태그에는 일부러 data-theme 를 적지 않았습니다.
+  새로고침할 때 어떤 테마를 보여줄지는 script.js 가 가장 먼저 실행되면서
+  (1) 저장된 선택값 -> (2) OS 설정 순서로 결정해 직접 붙여 줍니다.
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>새로고침해도 유지되는 다크모드</title>
+
+  <!--
+    화면이 다 그려지기 "전에" 테마를 정해야 깜빡임(흰 화면이 번쩍였다가
+    어두워지는 현상)이 없습니다. 그래서 이 스크립트만 <head> 안에 둡니다.
+  -->
+  <script>
+    (function () {
+      // 1) 예전에 저장해 둔 선택이 있으면 그것을 최우선으로 따른다.
+      var saved = localStorage.getItem("theme");
+      // 2) 저장값이 없으면 OS(운영체제) 설정이 다크인지 물어본다.
+      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      // 3) 최종 테마 결정: 저장값 우선, 없으면 OS 설정, 그래도 없으면 light.
+      var theme = saved || (prefersDark ? "dark" : "light");
+      // 4) <html> 에 즉시 반영 -> CSS 변수가 처음부터 올바른 색으로 적용됨.
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 바: 제목 + 테마 전환 버튼 -->
+  <header class="topbar">
+    <h1 class="logo">나의 블로그</h1>
+    <!--
+      aria-pressed: 버튼이 "눌린 상태"인지 보조기기에 알려줍니다.
+      다크모드가 켜져 있으면 true, 아니면 false 로 JS가 바꿔 줍니다.
+    -->
+    <button id="themeToggle" class="theme-btn" aria-pressed="false">
+      <span class="icon">🌙</span>
+      <span class="label">다크모드</span>
+    </button>
+  </header>
+
+  <!-- 본문: 테마가 바뀌는 것을 눈으로 확인할 카드들 -->
+  <main class="content">
+    <section class="card">
+      <h2>이번에는 "기억하는" 다크모드</h2>
+      <p>
+        앞 실습(052)에서는 버튼으로 테마를 바꿀 수 있었지만, 새로고침하면
+        다시 밝은 화면으로 돌아갔습니다. 이번에는 선택을 저장해
+        <strong>새로고침해도 그대로 유지</strong>됩니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>OS 설정도 따라갑니다</h2>
+      <p>
+        한 번도 버튼을 누른 적이 없으면, 컴퓨터·스마트폰의 다크모드 설정을
+        그대로 따릅니다. 운영체제를 다크로 두면 이 페이지도 처음부터 어둡게
+        열립니다(<strong>prefers-color-scheme</strong>).
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>직접 확인해 보세요</h2>
+      <p>
+        오른쪽 위 버튼으로 테마를 바꾼 뒤, 브라우저를 새로고침(F5) 해 보세요.
+        선택한 테마가 그대로 유지됩니다. 아래 버튼 색도 테마에 맞춰 바뀝니다.
+      </p>
+      <button class="sample-btn">확인</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 다크모드 실전 완성 페이지</p>
+  </footer>
+
+  <!-- 버튼 동작과 저장 로직은 본문 아래에서 불러옵니다. -->
+  <script src="script.js"></script>
+</body>
+</html>

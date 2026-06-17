@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주문하기 — 실습 252</title>
+  <style>
+    body {
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      max-width: 560px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; margin-top: 0; }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+    /* 장바구니 한 줄(상품 이름 + 가격 + 수량 조절) */
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .item:last-child { border-bottom: 0; }
+    .item .info { flex: 1; }
+    .item .price { color: #666; font-size: 0.9rem; }
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty button {
+      width: 30px; height: 30px;
+      padding: 0; margin: 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f6f6f6;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .qty .count { min-width: 22px; text-align: center; font-weight: 700; }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: 8px;
+    }
+    label { display: block; font-weight: 700; margin: 12px 0 4px; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    button.submit {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #3ecf8e;
+      color: #03311f;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.submit:disabled { background: #cfcfcf; color: #777; cursor: not-allowed; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 주문 결과를 보여 주는 박스. JS가 색과 글자를 바꿔 줍니다. */
+    #result {
+      margin-top: 16px;
+      font-weight: 700;
+      padding: 14px 16px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;        /* 처음엔 숨겨 두고, 결과가 나오면 보여 줍니다 */
+    }
+    #result.ok   { display: block; background: #e6f7ee; color: #137a4a; } /* 성공(초록) */
+    #result.fail { display: block; background: #fdecea; color: #b3261e; } /* 실패(빨강) */
+    .hint { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>주문하기</h1>
+
+  <p>
+    장바구니에 담긴 상품들의 <strong>수량을 정하고</strong>, 이름·연락처를 적어
+    <strong>[주문하기]</strong> 버튼을 누르면, 그 <strong>주문 한 건</strong>이
+    <strong>Supabase 서버의 표(orders 테이블)</strong>에 저장되고 <strong>주문번호</strong>를 돌려받습니다.
+  </p>
+
+  <!-- 1) 장바구니: 상품 목록은 script.js의 CART 배열을 보고 JS가 자동으로 그립니다. -->
+  <div class="card">
+    <h2>🛒 장바구니</h2>
+    <div id="cart"><!-- JS가 여기에 상품 줄들을 채웁니다 --></div>
+    <div class="total">
+      <span>합계</span>
+      <span id="total">0원</span>
+    </div>
+  </div>
+
+  <!-- 2) 주문자 정보 입력 폼 -->
+  <div class="card">
+    <h2>📦 주문자 정보</h2>
+    <form id="order-form">
+      <label for="name">이름</label>
+      <input id="name" type="text" placeholder="홍길동" maxlength="20" required />
+
+      <label for="phone">연락처</label>
+      <input id="phone" type="tel" placeholder="010-1234-5678" maxlength="20" required />
+
+      <button id="submit-btn" type="submit" class="submit">주문하기</button>
+    </form>
+
+    <!-- 주문 성공/실패 메시지가 여기에 표시됩니다. -->
+    <div id="result"></div>
+  </div>
+
+  <p class="hint">
+    먼저 <code>script.js</code> 안의 <code>SUPABASE_URL</code>과
+    <code>SUPABASE_ANON_KEY</code>를 내 프로젝트 값으로 바꾸고,
+    <code>schema.sql</code>로 <code>orders</code> 표를 만들어 두어야 합니다.
+    방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 주문 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

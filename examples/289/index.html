@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부산 산책 모임 - 홈</title>
+  <!--
+    ✅ 고침 1: 절대경로 "/style.css" 를 상대경로 "style.css" 로 바꿨다.
+       "style.css" = "지금 이 HTML 파일과 같은 폴더에 있는 style.css".
+       그래서 더블클릭으로 열든, 그대로 통째로 배포하든 항상 스타일을 찾는다.
+  -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>부산 산책 모임</h1>
+    <nav>
+      <!--
+        ✅ 고침 2: 링크 주소를 실제 파일 이름과 글자 하나까지 똑같이 맞췄다.
+           About.html → about.html (소문자), contect.html → contact.html (오타 수정).
+           홈은 index.html 이지만, 폴더 주소만 입력해도 서버가 자동으로 index.html 을 열어 주므로
+           "index.html" 대신 "./"(현재 폴더)로 적어도 되고 "index.html"로 적어도 된다.
+      -->
+      <a href="index.html">홈</a>
+      <a href="about.html">소개</a>
+      <a href="contact.html">문의</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>함께 걸어요</h2>
+    <p>주말마다 부산 곳곳을 걷는 가벼운 산책 모임입니다. 아래에서 더 둘러보세요.</p>
+
+    <ul>
+      <li><a href="about.html">모임 소개 보러 가기</a></li>
+      <li><a href="contact.html">문의하기</a></li>
+    </ul>
+
+    <p class="hint">
+      이 페이지는 정상 동작합니다. 위/아래 링크를 누르면 소개·문의 페이지로 잘 이동하고,
+      거기서 다시 "홈"을 눌러 돌아올 수 있습니다.
+    </p>
+  </main>
+
+  <footer>
+    <p>© 2026 부산 산책 모임</p>
+  </footer>
+</body>
+</html>

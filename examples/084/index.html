@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다크모드 설정을 localStorage로 기억하기</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!--
+    [중요] 깜빡임 방지용 인라인 스크립트
+    -----------------------------------------------------------
+    이 작은 코드는 style.css 와 화면이 그려지기 "직전"에 실행됩니다.
+    저장해 둔 테마를 미리 <html> 에 적용해 두면,
+    어두운 테마인데 화면이 잠깐 하얗게 번쩍이는 현상을 막아 줍니다.
+    (자세한 저장/복원 로직은 아래 script.js 에서 다룹니다.)
+  -->
+  <script>
+    (function () {
+      // 브라우저에 저장된 테마를 꺼낸다. 처음 방문이면 null 이 나온다.
+      var saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- 상단 바: 제목 + 테마 전환 버튼 -->
+  <header class="topbar">
+    <h1 class="logo">나의 블로그</h1>
+    <!--
+      aria-pressed: 버튼이 "눌린 상태"인지 보조기기에 알려줍니다.
+      다크모드가 켜져 있으면 true, 아니면 false 로 JS가 바꿔 줍니다.
+    -->
+    <button id="themeToggle" class="theme-btn" aria-pressed="false">
+      <span class="icon">🌙</span>
+      <span class="label">다크모드</span>
+    </button>
+  </header>
+
+  <!-- 본문: 테마가 바뀌는 것을 눈으로 확인할 카드들 -->
+  <main class="content">
+    <section class="card">
+      <h2>설정을 기억하는 다크모드</h2>
+      <p>
+        오른쪽 위 버튼으로 라이트(밝은) / 다크(어두운) 테마를 바꿔 보세요.
+        이번 예제는 한 가지가 더해졌습니다.
+        <strong>선택한 테마를 브라우저가 기억해서</strong>
+        새로고침하거나 나중에 다시 방문해도 그대로 유지됩니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>어떻게 기억하나요?</h2>
+      <p>
+        버튼을 누를 때마다 선택한 테마 이름(<code>"light"</code> 또는 <code>"dark"</code>)을
+        <strong>localStorage</strong> 라는 브라우저 저장 공간에 적어 둡니다.
+        페이지가 다시 열리면 저장된 값을 꺼내 와 똑같은 테마로 복원합니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>직접 확인해 보세요</h2>
+      <p>
+        다크모드를 켠 다음 <strong>새로고침(F5)</strong> 해 보세요.
+        다시 라이트로 돌아가지 않고 어두운 화면이 그대로 유지되면 성공입니다.
+      </p>
+      <button class="sample-btn">확인</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 다크모드 기억하기 연습 페이지</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

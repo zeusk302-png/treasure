@@ -1,0 +1,4 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "_주석": "이 파일은 선택 사항입니다. api/ 폴더 안의 chat.js 는 Vercel이 자동으로 서버리스 함수(/api/chat)로 인식하므로, 라우팅 설정 없이도 동작합니다. 비밀 키(토큰/비밀번호)는 절대 이 파일에 적지 마세요. 비밀값은 오직 Vercel 대시보드의 Settings > Environment Variables 에 넣습니다."
+}

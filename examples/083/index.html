@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>할 일 목록 — 완료 체크와 개수 표시</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>오늘의 할 일</h1>
+
+    <!-- 입력 영역: 할 일을 적고 '추가' 버튼을 누른다 -->
+    <form id="todo-form" class="input-row">
+      <input
+        type="text"
+        id="todo-input"
+        placeholder="할 일을 입력하고 Enter 또는 추가를 누르세요"
+        autocomplete="off"
+      />
+      <button type="submit">추가</button>
+    </form>
+
+    <!-- 집계 영역: 남은 할 일 개수를 보여준다 -->
+    <p class="counter">남은 할 일 <strong id="remaining-count">0</strong>개</p>
+
+    <!-- 목록 영역: 자바스크립트가 여기에 할 일을 그려 넣는다 -->
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <!-- 할 일이 하나도 없을 때 보여줄 안내 문구 -->
+    <p id="empty-message" class="empty-message">아직 할 일이 없어요. 위에 입력해 보세요!</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

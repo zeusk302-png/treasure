@@ -1,0 +1,8 @@
+# 비밀값이 든 파일은 깃에 절대 올리지 않습니다.
+.env
+.env.local
+.env.*.local
+
+# 의존성/빌드 산출물
+node_modules/
+.vercel/

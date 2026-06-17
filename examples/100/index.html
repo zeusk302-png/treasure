@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>제출 막고 직접 검사 후 에러 모아 보여주기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>회원가입 (커스텀 검증 폼)</h1>
+    <p class="desc">
+      "가입하기" 버튼을 눌러도 화면이 바로 새로고침되지 않습니다.
+      자바스크립트가 제출을 가로채(preventDefault) 모든 칸을 직접 검사한 뒤,
+      통과하지 못한 항목을 <strong>한 번에 모아</strong> 위쪽 빨간 박스에 보여줍니다.
+    </p>
+
+    <!-- 에러를 한꺼번에 모아 보여줄 박스. 평소엔 hidden 으로 숨겨둔다. -->
+    <!-- role/aria-live: 화면 낭독기가 에러가 생길 때 읽어줌(접근성) -->
+    <div id="errorBox" class="error-box" role="alert" aria-live="assertive" hidden>
+      <strong>아래 항목을 확인해 주세요:</strong>
+      <ul id="errorList"></ul>
+    </div>
+
+    <!-- novalidate: 브라우저 기본 검사 끄기. 우리가 JS로 직접 검사할 것이기 때문. -->
+    <form id="signupForm" novalidate>
+      <!-- 1) 이름 -->
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" placeholder="홍길동" />
+
+      <!-- 2) 이메일 -->
+      <label for="email">이메일</label>
+      <input type="text" id="email" name="email" placeholder="you@example.com" />
+
+      <!-- 3) 비밀번호 -->
+      <label for="password">비밀번호 (8자 이상)</label>
+      <input type="password" id="password" name="password"
+             placeholder="비밀번호를 입력하세요" autocomplete="new-password" />
+
+      <!-- 4) 비밀번호 확인 -->
+      <label for="passwordConfirm">비밀번호 확인</label>
+      <input type="password" id="passwordConfirm" name="passwordConfirm"
+             placeholder="비밀번호를 다시 입력하세요" autocomplete="new-password" />
+
+      <!-- 5) 약관 동의 -->
+      <label class="checkbox-row">
+        <input type="checkbox" id="agree" name="agree" />
+        <span>이용약관에 동의합니다.</span>
+      </label>
+
+      <button type="submit">가입하기</button>
+    </form>
+
+    <!-- 모든 검사를 통과했을 때 보여줄 성공 메시지 -->
+    <p id="successText" class="success-text" aria-live="polite" hidden>
+      가입 정보가 모두 올바릅니다. (연습용 화면이라 실제 가입은 일어나지 않습니다.)
+    </p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

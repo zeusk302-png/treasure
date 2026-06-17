@@ -31,7 +31,7 @@
 5. 노드 5개가 보입니다: `매일 오전 9시(Schedule) → 방문 통계 가져오기(HTTP) → 필요한 값만 추리기(Set) → 알림 문장 만들기(Set) → 슬랙으로 보내기(HTTP)`.
 
 ### C. 비밀값은 자격증명/환경변수에만 넣기 (가장 중요)
-6. **슬랙 웹훅 주소 넣기**: 슬랙에서 **Incoming Webhook**을 하나 만들어 주소(`https://hooks.slack.com/services/...`)를 받습니다. 그 값을 n8n의 **환경변수 `SLACK_WEBHOOK_URL`**에 넣습니다. (워크플로우는 `$env.SLACK_WEBHOOK_URL`로 이 값을 읽습니다 — 코드에 직접 적지 않습니다.)
+6. **슬랙 웹훅 주소 넣기**: 슬랙에서 **Incoming Webhook**을 하나 만들어 주소(`https://hooks.slack.com/services/REPLACE_WITH_YOUR_WEBHOOK_PATH...`)를 받습니다. 그 값을 n8n의 **환경변수 `SLACK_WEBHOOK_URL`**에 넣습니다. (워크플로우는 `$env.SLACK_WEBHOOK_URL`로 이 값을 읽습니다 — 코드에 직접 적지 않습니다.)
 7. **통계 읽기 토큰 넣기**: 통계 API에 토큰이 필요하면, n8n의 **Credentials**에서 **Header Auth** 자격증명을 새로 만들어 `Name = Authorization`, `Value = Bearer <진짜토큰>`으로 저장하고, **방문 통계 가져오기** 노드에 연결합니다. → 토큰은 `workflow.json`이 아니라 **자격증명 저장소**에만 들어갑니다.
 8. **통계 주소 맞추기**: **방문 통계 가져오기** 노드의 `url`을 내 통계 주소로 바꿉니다. (예: Plausible `https://plausible.io/api/v1/stats/aggregate?site_id=내도메인&period=day`.) 그리고 **필요한 값만 추리기** 노드의 `$json.visitors` / `$json.pageviews`를 실제 응답 필드 이름에 맞춰 줍니다.
 

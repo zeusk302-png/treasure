@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+  이 파일은 /deploy 스킬을 "시험 삼아 돌려볼" 배포 대상입니다.
+  일부러 3단계(비밀키 점검)에서 ❌가 나도록 service_role 비밀키를 코드에 박아 두었습니다.
+  → /deploy 스킬은 이 파일을 보고 "비밀키 노출"로 배포를 중단해야 정답입니다.
+     (커밋/푸시로 넘어가면 안 됩니다.)
+
+  올바른 코드는 ../sample-fixed/index.html 를 보세요.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>방명록 - 우리 동네 카페</title>
+</head>
+<body>
+  <h1>우리 동네 카페 방명록</h1>
+  <p>한마디 남겨 주세요!</p>
+
+  <form id="guestbook-form">
+    <input id="message" type="text" placeholder="메시지" />
+    <button type="submit">남기기</button>
+  </form>
+
+  <ul id="list"></ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ❌ 문제: 여기에 비밀키(service_role)가 들어 있습니다.
+    //    service_role 키는 RLS를 무시하고 DB를 통째로 만질 수 있어, 절대 프론트엔드 코드에 두면 안 됩니다.
+    //    프론트에는 anon(공개) 키만 써야 합니다.
+    const SUPABASE_URL = "https://abcd1234.supabase.co";          // ✅ URL은 공개돼도 됨
+    const SUPABASE_SERVICE_ROLE = "YOUR_SERVICE_ROLE_KEY";        // ❌ 비밀키 — 코드에 있으면 안 됨 (자리표시자로 가림)
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE);
+
+    document.getElementById("guestbook-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = document.getElementById("message").value;
+      await supabase.from("messages").insert({ text });
+    });
+  </script>
+</body>
+</html>

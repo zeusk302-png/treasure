@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>할 일 목록 완성 (저장 + 필터)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>나의 할 일</h1>
+
+    <!-- 입력 영역: form으로 감싸면 Enter 키로도 추가할 수 있다 -->
+    <form id="todo-form" class="input-row">
+      <label for="todo-input" class="sr-only">할 일 입력</label>
+      <input
+        id="todo-input"
+        type="text"
+        placeholder="할 일을 입력하고 추가 버튼을 누르세요"
+        autocomplete="off"
+      />
+      <button type="submit">추가</button>
+    </form>
+
+    <!-- 필터 버튼: 전체 / 진행 중 / 완료 -->
+    <!-- data-filter 값으로 어떤 필터인지 구분한다 -->
+    <div class="filters" id="filters">
+      <button type="button" class="filter-btn active" data-filter="all">전체</button>
+      <button type="button" class="filter-btn" data-filter="active">진행 중</button>
+      <button type="button" class="filter-btn" data-filter="done">완료</button>
+    </div>
+
+    <!-- 할 일(또는 필터 결과)이 하나도 없을 때 보여줄 안내 문구 -->
+    <p id="empty-msg" class="empty-msg">아직 할 일이 없어요. 위에 입력해 보세요!</p>
+
+    <!-- 여기에 JS가 li들을 그려 넣는다 -->
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <!-- 아래 요약 줄: 남은 할 일 개수 + 완료 항목 한 번에 비우기 -->
+    <div class="footer-row">
+      <p class="count">남은 할 일: <span id="count">0</span>개</p>
+      <button type="button" id="clear-done" class="clear-done">완료 항목 비우기</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

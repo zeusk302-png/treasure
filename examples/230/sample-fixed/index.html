@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+  이 파일은 sample/index.html 을 "비밀키 노출" 없이 고친 버전입니다.
+  → service_role(비밀) 키를 빼고, 프론트에는 anon(공개) 키만 둡니다.
+  → 이 파일을 /deploy 로 돌리면 3단계(비밀키)가 ✅로 통과해, 끝까지 배포가 진행됩니다.
+
+  anon(공개) 키가 프론트에 있어도 안전한 이유: 데이터 보호는 키가 아니라
+  Supabase의 RLS(행 수준 보안) 정책이 막아 주기 때문입니다. 단, RLS가 켜져 있어야 합니다.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>방명록 - 우리 동네 카페</title>
+</head>
+<body>
+  <h1>우리 동네 카페 방명록</h1>
+  <p>한마디 남겨 주세요!</p>
+
+  <form id="guestbook-form">
+    <input id="message" type="text" placeholder="메시지" />
+    <button type="submit">남기기</button>
+  </form>
+
+  <ul id="list"></ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ✅ 프론트엔드에는 anon(공개) 키만 둔다. 노출돼도 RLS가 데이터를 지켜 준다.
+    //    아래 두 값은 노출돼도 되는 값이라 코드에 두는 것이 정상입니다.
+    const SUPABASE_URL = "https://abcd1234.supabase.co";            // ✅ 공개 OK
+    const SUPABASE_ANON_KEY = "sb_publishable_여러분의_공개키";       // ✅ 공개 OK (anon/publishable)
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.getElementById("guestbook-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = document.getElementById("message").value;
+      await supabase.from("messages").insert({ text });
+    });
+  </script>
+</body>
+</html>

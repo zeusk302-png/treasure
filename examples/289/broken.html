@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부산 산책 모임 (버그 버전) - 홈</title>
+  <!--
+    ❌ 문제 1: CSS 경로가 절대경로(/)로 시작한다.
+       href="/style.css" 는 "사이트 루트(맨 꼭대기 폴더)에 있는 style.css"라는 뜻이다.
+       내 컴퓨터에서 더블클릭으로 열면 루트가 디스크 전체(C:\)가 되어 파일을 못 찾고,
+       Vercel 등에 배포해도 파일이 루트에 없으면 스타일이 통째로 안 먹는다.
+       이 폴더 안에 있는 파일을 가리킬 때는 "/style.css"가 아니라 "style.css"라고 써야 한다.
+  -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>부산 산책 모임</h1>
+    <nav>
+      <!--
+        ❌ 문제 2: 링크 주소(href)가 실제 파일 이름과 다르다.
+           실제 파일은 about.html / contact.html 인데 아래처럼 적었다.
+           - about.html  을  About.html  (대문자 A) 로 적음 → 배포 서버는 대소문자를 구분해서 404
+           - contact.html 을  contect.html (오타) 로 적음 → 그런 파일이 없어서 404
+      -->
+      <a href="broken.html">홈</a>
+      <a href="About.html">소개</a>
+      <a href="contect.html">문의</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>함께 걸어요</h2>
+    <p>주말마다 부산 곳곳을 걷는 가벼운 산책 모임입니다. 아래에서 더 둘러보세요.</p>
+
+    <ul>
+      <!--
+        ❌ 문제 3: 본문 안내 링크도 위와 똑같이 깨져 있다.
+           누르면 "이 페이지를 찾을 수 없습니다(404)" 화면이 뜬다.
+      -->
+      <li><a href="About.html">모임 소개 보러 가기</a></li>
+      <li><a href="contect.html">문의하기</a></li>
+    </ul>
+
+    <p class="hint">
+      이 페이지는 일부러 고장 나 있습니다.<br />
+      스타일이 하나도 안 입혀져 보이고(❌문제1),
+      위/아래 링크를 누르면 404가 납니다(❌문제2·3).<br />
+      F12 → Network(네트워크) 탭을 열고 새로고침하면, 못 찾은 파일이 빨간색으로 표시됩니다.
+    </p>
+  </main>
+
+  <footer>
+    <p>© 2026 부산 산책 모임</p>
+  </footer>
+</body>
+</html>

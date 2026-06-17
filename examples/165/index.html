@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>안전 호출 점검 대시보드 — 토큰·비용·한도</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>안전 호출 점검 대시보드</h1>
+    <p class="subtitle">AI(Claude) API를 부를 때마다 <strong>토큰·예상 비용</strong>을 기록하고, <strong>한도를 넘으면 차단</strong>합니다.</p>
+  </header>
+
+  <main class="wrap">
+    <!-- 1) 한도 현황 카드 -->
+    <section class="card" id="budget-card">
+      <h2>오늘의 한도 현황</h2>
+      <div class="meters">
+        <div class="meter">
+          <div class="meter-label">요청 수</div>
+          <div class="meter-value"><span id="req-used">-</span> / <span id="req-limit">-</span></div>
+          <div class="bar"><div class="bar-fill" id="req-bar"></div></div>
+        </div>
+        <div class="meter">
+          <div class="meter-label">누적 비용(USD)</div>
+          <div class="meter-value">$<span id="cost-used">-</span> / $<span id="cost-limit">-</span></div>
+          <div class="bar"><div class="bar-fill" id="cost-bar"></div></div>
+        </div>
+      </div>
+      <p class="status" id="guard-status">상태 확인 중…</p>
+    </section>
+
+    <!-- 2) 호출 영역 -->
+    <section class="card">
+      <h2>AI에게 한 줄 물어보기</h2>
+      <label for="prompt">질문 (짧게)</label>
+      <textarea id="prompt" rows="3" placeholder="예) 비전공자에게 'API 토큰'을 한 문장으로 설명해줘"></textarea>
+      <button id="ask-btn">안전하게 호출하기</button>
+      <p class="hint">버튼을 누르면 서버 함수가 한도를 먼저 검사하고, 통과할 때만 AI를 부릅니다.</p>
+      <div id="answer" class="answer" hidden></div>
+      <div id="error" class="error" hidden></div>
+    </section>
+
+    <!-- 3) 호출 로그 -->
+    <section class="card">
+      <h2>호출 로그 (호출별 토큰·비용)</h2>
+      <table id="log-table">
+        <thead>
+          <tr>
+            <th>시각</th>
+            <th>입력 토큰</th>
+            <th>출력 토큰</th>
+            <th>이 호출 비용(USD)</th>
+            <th>결과</th>
+          </tr>
+        </thead>
+        <tbody id="log-body">
+          <tr><td colspan="5" class="empty">아직 호출 기록이 없습니다.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>비밀 키(service_role급의 AI API 키)는 이 화면 코드에 절대 없습니다. 서버 함수(<code>/api/safe-call</code>)에서만 사용합니다.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

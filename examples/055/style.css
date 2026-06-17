@@ -1,0 +1,192 @@
+/* =========================================================
+   055 - AI가 만든 "디자인 시스템" 컴포넌트 CSS 세트
+   ---------------------------------------------------------
+   이 파일은 AI(Claude)에게 prompt.md의 지시를 보내면
+   받게 되는 결과물의 "정답 예시"입니다.
+
+   핵심: 색·간격·폰트 같은 값을 하드코딩하지 않고
+   맨 위 :root 의 "디자인 토큰"(CSS 변수)으로 한 번만 정해 두고,
+   버튼·카드·폼이 전부 그 토큰만 가져다 씁니다.
+   → 토큰 한 줄만 바꾸면 전체 디자인이 통일된 채로 한꺼번에 바뀝니다.
+   ========================================================= */
+
+/* ---------- 1) 디자인 토큰 (여기만 바꾸면 전체가 바뀜) ---------- */
+:root {
+  /* 색 (Color) — 브랜드 색 + 회색 단계 + 의미 색 */
+  --color-primary: #2563eb;        /* 메인 색 (버튼, 강조) */
+  --color-primary-dark: #1d4ed8;   /* 메인 색 hover */
+  --color-primary-light: #dbeafe;  /* 메인 색 옅은 배경 */
+  --color-text: #1f2937;           /* 본문 글자 */
+  --color-text-muted: #6b7280;     /* 흐린 보조 글자 */
+  --color-border: #d1d5db;         /* 테두리 회색 */
+  --color-bg: #f9fafb;             /* 페이지 배경 */
+  --color-surface: #ffffff;        /* 카드·입력칸 배경 */
+  --color-danger: #dc2626;         /* 에러/경고 */
+  --color-success: #16a34a;        /* 성공 */
+
+  /* 간격 (Spacing) — 4px 배수의 일정한 단계 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+
+  /* 폰트 (Typography) */
+  --font-family: -apple-system, "Segoe UI", "Malgun Gothic", "맑은 고딕", sans-serif;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 20px;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --line-height: 1.6;
+
+  /* 모서리·그림자 — 둥글기와 입체감도 토큰으로 통일 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- 2) 기본 토대 ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: var(--space-5);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* ---------- 3) 버튼 컴포넌트 ---------- */
+/* 기본 버튼: 모든 버튼이 공유하는 모양 (간격·둥글기·폰트는 토큰 사용) */
+.btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* 변형(variant): 색만 바꿔 같은 모양의 다른 의미 버튼을 만든다 */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+.btn--primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn--secondary:hover {
+  background-color: var(--color-primary-light);
+}
+
+.btn--danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+.btn--danger:hover {
+  background-color: #b91c1c;
+}
+
+/* ---------- 4) 카드 컴포넌트 ---------- */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+  max-width: 360px;
+}
+
+.card__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.card__body {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+}
+
+/* ---------- 5) 폼 컴포넌트 ---------- */
+.form {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+  max-width: 360px;
+}
+
+.form__group {
+  margin-bottom: var(--space-3);
+}
+
+.form__label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.form__input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* 입력칸을 누르면(focus) 메인 색으로 강조 — 버튼과 같은 색 토큰 사용 */
+.form__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.form__help {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ---------- 6) 데모 페이지 정렬용 (컴포넌트와 무관한 보조 스타일) ---------- */
+.demo-section {
+  margin-bottom: var(--space-5);
+}
+.demo-section h2 {
+  font-size: var(--font-size-lg);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-start;
+}

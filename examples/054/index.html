@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서도 화면 너비에 맞게 보이도록 하는 필수 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모두의 가계부 — 랜딩페이지</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ① 내비게이션 바: 로고(왼쪽) + 메뉴(가운데) + 버튼(오른쪽) -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#top">모두의 가계부</a>
+
+      <!-- 메뉴 링크. # 뒤 이름은 아래 각 섹션의 id와 짝을 이룹니다 -->
+      <nav class="nav-menu">
+        <a href="#features">기능</a>
+        <a href="#price">요금</a>
+        <a href="#contact">문의</a>
+      </nav>
+
+      <a class="nav-cta" href="#price">무료로 시작</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ② 히어로: 페이지를 열면 가장 먼저 보이는 대표 영역 -->
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>돈 관리, 이제 한눈에.</h1>
+        <p class="hero-sub">
+          영수증을 사진만 찍으면 자동으로 정리되는
+          <strong>가장 쉬운 가계부 앱</strong>입니다.
+        </p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#price">무료로 시작하기</a>
+          <a class="btn btn-ghost" href="#features">기능 둘러보기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 카드 그리드: 핵심 기능 3가지를 카드로 나란히 -->
+    <section id="features" class="section">
+      <h2 class="section-title">이런 점이 좋아요</h2>
+      <p class="section-lead">복잡한 설정 없이, 꼭 필요한 기능만 담았습니다.</p>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon">📷</div>
+          <h3>영수증 자동 입력</h3>
+          <p>사진 한 장이면 금액·날짜·가게 이름이 알아서 정리됩니다.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">📊</div>
+          <h3>한눈에 보는 통계</h3>
+          <p>이번 달 어디에 얼마를 썼는지 색깔 그래프로 보여 줍니다.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🔔</div>
+          <h3>예산 알림</h3>
+          <p>정해 둔 예산을 넘기기 전에 미리 알려 주어 과소비를 막아 줍니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ④ 요금 안내 (히어로와 구분되는 옅은 배경 섹션) -->
+    <section id="price" class="section section-alt">
+      <h2 class="section-title">요금</h2>
+      <p class="section-lead">기본 기능은 평생 무료입니다.</p>
+      <div class="price-box">
+        <p class="price-amount">₩0<span>/월</span></p>
+        <p class="price-desc">개인 사용자를 위한 모든 기본 기능 포함</p>
+        <a class="btn btn-primary" href="#contact">지금 시작하기</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ⑤ 푸터: 페이지 맨 아래 정보·링크·저작권 -->
+  <footer id="contact" class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <p class="footer-logo">모두의 가계부</p>
+        <p class="footer-text">가장 쉬운 돈 관리의 시작.</p>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-head">바로가기</p>
+        <ul class="footer-links">
+          <li><a href="#features">기능</a></li>
+          <li><a href="#price">요금</a></li>
+          <li><a href="#top">맨 위로</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-head">문의</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+          <li><a href="#contact">자주 묻는 질문</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer-copy">© 2026 모두의 가계부. 연습용 예제입니다.</p>
+  </footer>
+
+</body>
+</html>

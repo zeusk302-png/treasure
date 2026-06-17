@@ -1,0 +1,9 @@
+# 비밀 키가 든 실제 환경변수 파일은 절대 올리지 않습니다.
+.env
+.env.local
+
+# 의존성 폴더
+node_modules/
+
+# Vercel 빌드 산출물
+.vercel/

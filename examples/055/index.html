@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>055 - AI 디자인 시스템 컴포넌트 세트</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>디자인 시스템 컴포넌트 미리보기</h1>
+  <p>
+    아래 버튼·카드·폼은 모두 <strong>style.css 맨 위의 디자인 토큰</strong>(CSS 변수)만
+    가져다 씁니다. <code>--color-primary</code> 한 줄만 바꿔서 새로고침해 보면
+    버튼·폼 강조색이 <em>한꺼번에</em> 바뀌는 걸 확인할 수 있습니다.
+  </p>
+
+  <!-- 버튼 세트: 같은 .btn 모양에 색(variant)만 다름 -->
+  <section class="demo-section">
+    <h2>1. 버튼 (Button)</h2>
+    <div class="demo-row">
+      <button class="btn btn--primary">메인 버튼</button>
+      <button class="btn btn--secondary">보조 버튼</button>
+      <button class="btn btn--danger">삭제 버튼</button>
+    </div>
+  </section>
+
+  <!-- 카드 세트: 같은 토큰의 간격·그림자·둥글기 사용 -->
+  <section class="demo-section">
+    <h2>2. 카드 (Card)</h2>
+    <div class="demo-row">
+      <article class="card">
+        <h3 class="card__title">기본 요금제</h3>
+        <p class="card__body">개인 사용자를 위한 무료 시작 플랜입니다.</p>
+        <button class="btn btn--primary">선택하기</button>
+      </article>
+      <article class="card">
+        <h3 class="card__title">프로 요금제</h3>
+        <p class="card__body">더 많은 기능이 필요한 팀을 위한 플랜입니다.</p>
+        <button class="btn btn--secondary">선택하기</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- 폼 세트: 입력칸 focus 색이 버튼과 같은 메인 색 -->
+  <section class="demo-section">
+    <h2>3. 폼 (Form)</h2>
+    <div class="demo-row">
+      <form class="form" onsubmit="return false">
+        <div class="form__group">
+          <label class="form__label" for="name">이름</label>
+          <input class="form__input" id="name" type="text" placeholder="홍길동" />
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="email">이메일</label>
+          <input class="form__input" id="email" type="email" placeholder="you@example.com" />
+          <p class="form__help">입력칸을 클릭하면 메인 색으로 강조됩니다.</p>
+        </div>
+        <button class="btn btn--primary">가입하기</button>
+      </form>
+    </div>
+  </section>
+
+</body>
+</html>
