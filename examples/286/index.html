@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 할 일 목록 (고친 버전)</title>
+
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    h1 { font-size: 20px; }
+    #status { color: #888; font-size: 14px; min-height: 20px; }
+    ul { padding-left: 20px; }
+    li { margin: 6px 0; }
+    .hint { color: #888; font-size: 13px; margin-top: 20px; }
+  </style>
+
+  <!-- ✅ 고친 핵심: 스크립트를 별도 파일로 빼고 defer 를 붙였다.
+       defer = "HTML(DOM)을 다 읽은 뒤에 실행해 줘"라는 뜻이라
+       script.js 가 돌 때는 아래 #status, #todoList 가 이미 존재한다. -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>오늘의 할 일 목록</h1>
+  <p id="status">불러오는 중...</p>
+  <ul id="todoList"></ul>
+
+  <p class="hint">
+    이 페이지는 정상 동작합니다. 잠깐(약 0.5초) 기다리면 할 일 3개가 나타납니다.
+  </p>
+</body>
+</html>

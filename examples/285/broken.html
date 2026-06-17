@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>장바구니 상태 — (고장난 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f1ea;
+      color: #2b2b2b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #ffffff;
+      width: 320px;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    h1 { margin-top: 0; font-size: 18px; color: #444; }
+    .row { display: flex; justify-content: center; gap: 8px; margin: 16px 0; }
+    .row button {
+      font-size: 16px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #e9e4d8;
+      cursor: pointer;
+    }
+    .qty {
+      font-size: 22px;
+      font-weight: bold;
+      min-width: 40px;
+    }
+    .status {
+      margin-top: 20px;
+      font-size: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #f0ede5;
+      color: #6d655a;
+    }
+    .status.empty { background: #fff3cd; color: #8a6d3b; }
+    .status.has   { background: #e6f4ea; color: #256029; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>장바구니에 담긴 상품 수</h1>
+
+    <div class="row">
+      <button id="minus">−</button>
+      <span id="qty" class="qty">0</span>
+      <button id="plus">+</button>
+    </div>
+
+    <p id="status" class="status">상태가 여기에 표시됩니다.</p>
+  </div>
+
+  <script>
+    // --- 깨진 입력값 예시 -------------------------------------------------
+    // 화면의 숫자(span)에서 값을 읽어오면 "항상 문자열"로 들어옵니다.
+    // 즉 0개여도 숫자 0이 아니라 글자 "0" 입니다. ("0" 은 자리표시자가 아닌 진짜 값)
+    // 또 가끔 데이터가 비어서 "" (빈 글자) 가 들어오기도 합니다.
+    // --------------------------------------------------------------------
+
+    const qtyEl = document.getElementById("qty");
+    const statusEl = document.getElementById("status");
+
+    function render() {
+      // span 의 글자를 그대로 읽습니다. → 이 값은 "문자열"입니다. 예: "0", "3", ""
+      const count = qtyEl.textContent.trim();
+
+      // BUG 1: 느슨한 비교(==)는 타입을 멋대로 바꿔 비교합니다.
+      //        "" == 0 → true 라서, 데이터가 비어 있을 때도 "비어 있어요"로 빠집니다.
+      // BUG 2: 그런데 글자 "0" 은 if(count) 에서 '참'으로 취급됩니다(빈 글자가 아니므로).
+      //        그래서 정작 0개일 때는 "담겨 있어요" 가지로 잘못 흘러갑니다.
+      if (count == "") {
+        // 비어 있다고 판단하는 칸
+        statusEl.textContent = "장바구니가 비어 있어요. 상품을 담아보세요!";
+        statusEl.className = "status empty";
+      } else if (count) {
+        // 뭔가 담겨 있다고 판단하는 칸 (← 글자 "0" 도 여기로 잘못 들어옴)
+        statusEl.textContent = count + "개의 상품이 담겨 있어요.";
+        statusEl.className = "status has";
+      } else {
+        statusEl.textContent = "상태를 알 수 없어요.";
+        statusEl.className = "status";
+      }
+    }
+
+    function setQty(n) {
+      if (n < 0) n = 0;
+      qtyEl.textContent = String(n); // 화면에는 항상 글자로 들어갑니다.
+      render();
+    }
+
+    document.getElementById("plus").addEventListener("click", () => {
+      setQty(Number(qtyEl.textContent) + 1);
+    });
+    document.getElementById("minus").addEventListener("click", () => {
+      setQty(Number(qtyEl.textContent) - 1);
+    });
+
+    render(); // 첫 화면(0개)부터 잘못 분기됩니다 → "0개의 상품이 담겨 있어요" 라고 뜸
+  </script>
+</body>
+</html>

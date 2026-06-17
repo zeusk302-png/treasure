@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+  이 파일은 /qa-check 스킬이 "점검할 대상"의 예시입니다. (일부러 문제를 몇 개 심어 뒀습니다)
+  스킬을 돌리면 report.md 처럼 ✅/⚠️/❌ 표가 나와야 합니다.
+  - 문제 1) viewport 메타태그가 없음 → 모바일에서 화면이 작게 보임 (모바일 항목 ❌)
+  - 문제 2) <img>에 alt가 없음 (alt 항목 ⚠️/❌)
+  - 문제 3) getElementById("count") 대상 id가 없음 → 콘솔에서 null 에러 (콘솔 항목 ❌)
+  - 문제 4) service_role(비밀키)이 코드에 박혀 있음 → 보안 사고 (비밀키 항목 ❌)
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>분식집 메뉴 (점검용 예시)</title>
+  <!-- (일부러 viewport 메타태그를 빼 뒀습니다) -->
+</head>
+<body>
+  <h1>오늘의 메뉴</h1>
+
+  <!-- (일부러 alt를 빼 뒀습니다) -->
+  <img src="tteokbokki.jpg" width="300">
+
+  <p>좋아요 수: <span>0</span></p>
+  <button id="like">좋아요</button>
+
+  <script>
+    // 문제 4) 절대 코드에 두면 안 되는 비밀키(service_role)를 박아 둔 잘못된 예시
+    const SUPABASE_URL = "https://xxxxxxxx.supabase.co";
+    const SUPABASE_SERVICE_ROLE = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.SERVICE_ROLE_DO_NOT_COMMIT";
+
+    let count = 0;
+    document.getElementById("like").addEventListener("click", function () {
+      count = count + 1;
+      // 문제 3) id="count" 라는 요소가 HTML에 없어서 아래 줄에서 null 에러가 난다
+      document.getElementById("count").textContent = count;
+    });
+  </script>
+</body>
+</html>

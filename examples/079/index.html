@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스크롤하면 요소가 스르륵 등장하기 (페이드인)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!--
+    이 페이지의 목표:
+      페이지를 아래로 스크롤할 때, 화면 안으로 들어온 카드만
+      서서히(페이드인) 나타나게 합니다.
+
+    원리:
+      각 카드에 'reveal'(아직 숨어 있음) 클래스를 붙여 두고,
+      IntersectionObserver가 "이 카드가 화면에 보이기 시작했다"를
+      감지하면 'visible' 클래스를 추가합니다.
+      나타나는 부드러운 움직임은 CSS의 transition이 담당합니다.
+  -->
+
+  <!-- 맨 위 안내 영역 (스크롤을 유도하기 위한 첫 화면) -->
+  <header class="hero">
+    <h1>스크롤해서 카드를 깨워 보세요</h1>
+    <p>아래로 천천히 내리면, 화면에 들어온 카드부터 하나씩 스르륵 나타납니다.</p>
+    <p class="hint">↓ 스크롤 ↓</p>
+  </header>
+
+  <main>
+    <!--
+      여러 개의 카드. 각 카드에 class="card reveal"을 붙여
+      처음에는 투명하게(숨김) 시작합니다.
+      화면에 들어오면 JS가 'visible'을 추가해 나타납니다.
+    -->
+    <section class="cards">
+      <article class="card reveal">
+        <span class="num">01</span>
+        <h2>화면에 보이는지 감지하기</h2>
+        <p>IntersectionObserver는 "이 요소가 지금 화면(뷰포트) 안에 들어왔는지"를 자동으로 알려 주는 도구입니다.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="num">02</span>
+        <h2>scroll 이벤트보다 가볍다</h2>
+        <p>스크롤할 때마다 직접 위치를 계산하지 않아도 됩니다. 브라우저가 알아서 "보이기 시작했다"는 순간만 알려 줍니다.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="num">03</span>
+        <h2>한 번만 나타나게</h2>
+        <p>한 번 나타난 카드는 다시 관찰을 멈춥니다(unobserve). 그래서 위아래로 왔다 갔다 해도 깜빡이지 않습니다.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="num">04</span>
+        <h2>움직임은 CSS가 담당</h2>
+        <p>나타나는 부드러운 효과는 자바스크립트가 아니라 CSS의 transition이 만듭니다. JS는 클래스를 붙이기만 합니다.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="num">05</span>
+        <h2>threshold로 시점 조절</h2>
+        <p>요소가 10%만 보여도 나타날지, 절반쯤 보여야 나타날지 threshold 값으로 정할 수 있습니다.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="num">06</span>
+        <h2>어디에나 응용 가능</h2>
+        <p>이미지 지연 로딩, 통계 숫자 카운트업, 무한 스크롤 등 "보이면 무언가 실행" 패턴 전부에 쓰입니다.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 부산코딩스쿨 실습 예제 079</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+{
+  "name": "208 - IF 노드로 조건 분기 처리하기 (긴급이면 슬랙, 아니면 메일)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "inquiry-route",
+        "responseMode": "lastNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "문의 받기 (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        320,
+        300
+      ],
+      "webhookId": "inquiry-route"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1a1a1a1-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "이름",
+              "value": "={{ ($json.body.name || '이름 없음').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "b2b2b2b2-2222-4222-8222-bbbbbbbbbbbb",
+              "name": "이메일",
+              "value": "={{ ($json.body.email || '이메일 없음').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "c3c3c3c3-3333-4333-8333-cccccccccccc",
+              "name": "문의유형",
+              "value": "={{ ($json.body.type || '일반').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "d4d4d4d4-4444-4444-8444-dddddddddddd",
+              "name": "메시지",
+              "value": "={{ ($json.body.message || '내용 없음').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "e5e5e5e5-5555-4555-8555-eeeeeeeeeeee",
+              "name": "받은시각",
+              "value": "={{ $now.format('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "문의 내용 정리하기 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-is-urgent",
+              "leftValue": "={{ $json.문의유형 }}",
+              "rightValue": "긴급",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "33333333-3333-4333-8333-333333333333",
+      "name": "문의 유형이 긴급인가? (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0000000000",
+          "mode": "id"
+        },
+        "text": "=:rotating_light: *긴급 문의가 도착했습니다*\n\n*이름:* {{ $json.이름 }}\n*이메일:* {{ $json.이메일 }}\n*유형:* {{ $json.문의유형 }}\n*내용:* {{ $json.메시지 }}\n\n받은 시각: {{ $json.받은시각 }}",
+        "otherOptions": {}
+      },
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "긴급: 슬랙으로 즉시 알림 (Slack)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        200
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "REPLACE_WITH_YOUR_SLACK_CREDENTIAL_ID",
+          "name": "내 Slack 봇 (Slack API)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "support@example.com",
+        "subject": "=[일반 문의] {{ $json.이름 }}님의 문의",
+        "emailType": "text",
+        "message": "=이름: {{ $json.이름 }}\n이메일: {{ $json.이메일 }}\n유형: {{ $json.문의유형 }}\n받은 시각: {{ $json.받은시각 }}\n\n내용:\n{{ $json.메시지 }}",
+        "options": {}
+      },
+      "id": "55555555-5555-4555-8555-555555555555",
+      "name": "일반: 담당자 메일로 전달 (Gmail)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1060,
+        420
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REPLACE_WITH_YOUR_GMAIL_CREDENTIAL_ID",
+          "name": "내 Gmail (Gmail OAuth2)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "문의 받기 (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "문의 내용 정리하기 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "문의 내용 정리하기 (Set)": {
+      "main": [
+        [
+          {
+            "node": "문의 유형이 긴급인가? (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "문의 유형이 긴급인가? (IF)": {
+      "main": [
+        [
+          {
+            "node": "긴급: 슬랙으로 즉시 알림 (Slack)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "일반: 담당자 메일로 전달 (Gmail)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비밀번호 확인 일치 검사</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>비밀번호 확인 일치 검사</h1>
+    <p class="desc">
+      비밀번호를 입력하고, 아래 "비밀번호 확인" 칸에 같은 값을 다시 적어 보세요.
+      두 칸이 다르면 빨간 경고가 즉시 나타나고, 똑같아지면 초록 메시지로 바뀝니다.
+    </p>
+
+    <form id="signupForm" novalidate>
+      <!-- 1) 비밀번호 칸 -->
+      <label for="password">비밀번호</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="비밀번호를 입력하세요"
+        autocomplete="new-password"
+      />
+
+      <!-- 2) 비밀번호 확인 칸 -->
+      <label for="confirm">비밀번호 확인</label>
+      <input
+        type="password"
+        id="confirm"
+        name="confirm"
+        placeholder="비밀번호를 한 번 더 입력하세요"
+        autocomplete="new-password"
+      />
+
+      <!-- 3) 일치 여부를 알려주는 안내 메시지 자리 -->
+      <!-- aria-live="polite": 화면 낭독기가 메시지가 바뀔 때 읽어줌 -->
+      <p id="matchMsg" class="msg" aria-live="polite"></p>
+
+      <!-- 4) 두 칸이 같을 때만 눌리는 가입 버튼 -->
+      <button type="submit" id="submitBtn" class="submit" disabled>가입하기</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

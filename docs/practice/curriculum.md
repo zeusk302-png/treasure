@@ -1,6 +1,6 @@
 # 실습 300선 — 1년 커리큘럼
 
-> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 206 / 305 준비됨)**
+> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 222 / 305 준비됨)**
 
 !!! tip "난이도 읽는 법"
     ★ 입문 · ★★ 기초 · ★★★ 중급 · ★★★★ 응용 · ★★★★★ 종합·프로젝트
@@ -81,8 +81,8 @@
 | 046 | 미디어쿼리로 모바일에서 메뉴 세로로 쌓기 | @media (max-width) 분기로 작은 화면에서 가로 메뉴를 세로로 바꾸며 반응형 분기점(breakpoint) 개념을 익힌다 | ★★★★☆ | 미디어쿼리, breakpoint | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/046) |
 | 047 | 모바일 우선으로 1열→2열→3열 반응형 카드 만들기 | 모바일 1열을 기본으로 두고 미디어쿼리 두 단계로 태블릿 2열·데스크톱 3열로 늘리며 모바일 퍼스트 설계를 익힌다 | ★★★★☆ | 모바일 퍼스트, 다단계 미디어쿼리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/047) |
 | 048 | 햄버거 버튼으로 열리는 모바일 슬라이드 메뉴 | 체크박스/JS 토글과 transform:translateX, transition으로 옆에서 미끄러져 나오는 모바일 메뉴를 만든다 | ★★★★★ | 햄버거 메뉴, transform, transition | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/048) |
-| 049 | 마우스 올리면 떠오르는 hover 카드 효과 | :hover 상태에서 transform:translateY와 box-shadow를 transition으로 부드럽게 바꿔 카드가 떠오르는 인터랙션을 만든다 | ★★★★☆ | :hover, transition, transform | 준비중 |
-| 050 | @keyframes로 빙글 도는 로딩 스피너 만들기 | @keyframes와 animation으로 무한 회전하는 로딩 스피너를 만들며 키프레임 애니메이션과 무한 반복을 익힌다 | ★★★★☆ | @keyframes, animation, rotate | 준비중 |
+| 049 | 마우스 올리면 떠오르는 hover 카드 효과 | :hover 상태에서 transform:translateY와 box-shadow를 transition으로 부드럽게 바꿔 카드가 떠오르는 인터랙션을 만든다 | ★★★★☆ | :hover, transition, transform | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/049) |
+| 050 | @keyframes로 빙글 도는 로딩 스피너 만들기 | @keyframes와 animation으로 무한 회전하는 로딩 스피너를 만들며 키프레임 애니메이션과 무한 반복을 익힌다 | ★★★★☆ | @keyframes, animation, rotate | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/050) |
 | 051 | 스크롤 내리면 아래에서 위로 나타나는 등장 애니메이션 | IntersectionObserver(JS)로 보일 때 클래스를 붙여 opacity·translateY를 transition으로 전환하는 스크롤 등장 효과를 만든다 | ★★★★★ | scroll reveal, IntersectionObserver, transition | 준비중 |
 | 052 | 버튼 하나로 켜고 끄는 다크모드 토글 만들기 | CSS 변수와 data-theme 속성을 JS로 전환해 라이트/다크 테마를 한 버튼으로 바꾸며 테마 토글 구조를 익힌다 | ★★★★★ | 다크모드, CSS 변수, data-theme 토글 | 준비중 |
 | 053 | 새로고침해도 유지되고 OS 설정 따르는 다크모드 | localStorage로 선택한 테마를 저장하고 prefers-color-scheme로 OS 기본 테마를 따르게 해 실전 다크모드를 완성한다 | ★★★★★ | localStorage, prefers-color-scheme | 준비중 |
@@ -116,8 +116,8 @@
 | 076 | 자동 재생 캐러셀 만들기 (점 인디케이터 포함) | 슬라이드가 일정 간격으로 자동 넘어가고 하단 점으로 위치를 표시·이동하게 해 타이머와 인덱스 상태를 합친다 | ★★★★☆ | setInterval 자동전환, 인디케이터 동기화 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/076) |
 | 077 | 스크롤하면 맨 위로 가기 버튼 나타나기 | 일정 높이 이상 내려가면 'TOP' 버튼이 나타나고 누르면 부드럽게 맨 위로 가게 해 scroll 이벤트를 다룬다 | ★★★★☆ | scroll 이벤트, scrollTo, 부드러운 이동 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/077) |
 | 078 | 스크롤 진행률 바 + 헤더 색 변하기 | 페이지를 읽은 비율을 상단 바로 보여주고 스크롤 시 헤더 배경이 바뀌게 해 스크롤 위치를 수치로 환산한다 | ★★★★☆ | scrollY, scrollHeight 비율 계산 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/078) |
-| 079 | 스크롤하면 요소가 스르륵 등장하기 (페이드인) | 화면에 들어온 카드만 애니메이션으로 나타나게 해 IntersectionObserver로 '보이는지'를 감지하는 법을 배운다 | ★★★★☆ | IntersectionObserver, 등장 애니메이션 | 준비중 |
-| 080 | 숫자 카운트업 애니메이션 만들기 | 통계 영역이 보일 때 0부터 목표 숫자까지 빠르게 올라가게 해 시간에 따라 값을 증가시키는 연출을 익힌다 | ★★★★☆ | requestAnimationFrame 또는 setInterval, 보간 | 준비중 |
+| 079 | 스크롤하면 요소가 스르륵 등장하기 (페이드인) | 화면에 들어온 카드만 애니메이션으로 나타나게 해 IntersectionObserver로 '보이는지'를 감지하는 법을 배운다 | ★★★★☆ | IntersectionObserver, 등장 애니메이션 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/079) |
+| 080 | 숫자 카운트업 애니메이션 만들기 | 통계 영역이 보일 때 0부터 목표 숫자까지 빠르게 올라가게 해 시간에 따라 값을 증가시키는 연출을 익힌다 | ★★★★☆ | requestAnimationFrame 또는 setInterval, 보간 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/080) |
 | 081 | 스톱워치 만들기 (시작/정지/리셋) | 시작·정지·초기화 버튼으로 경과 시간을 1/100초까지 재게 해 타이머 시작/정지 상태 관리를 익힌다 | ★★★★☆ | setInterval/clearInterval, 경과시간 계산 | 준비중 |
 | 082 | 할 일 목록(To-Do) 만들기 — 추가와 삭제 | 입력한 할 일을 목록에 추가하고 삭제 버튼으로 지우게 해 배열에 데이터를 넣고 빼며 화면을 다시 그리는 법을 배운다 | ★★★★☆ | 배열 push/filter, createElement, 다시 그리기 | 준비중 |
 | 083 | 할 일 목록 업그레이드 — 완료 체크와 개수 표시 | 각 할 일을 완료로 체크해 줄을 긋고 '남은 할 일 N개'를 보여줘 항목별 상태를 가진 배열을 다루는 법을 배운다 | ★★★★☆ | 객체 배열, 완료 상태, 필터링 집계 | 준비중 |
@@ -140,7 +140,7 @@
 | 095 | 입력하는 순간 글자 수 카운터 보여주기 | input 이벤트와 textContent로 타이핑할 때마다 '23/100' 글자 수를 실시간 표시한다 | ★★★☆☆ | input 이벤트, value.length | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/095) |
 | 096 | 이메일 실시간 검증: 입력 중 형식 맞으면 초록 체크 | JS로 입력값을 정규식 검사해 타이핑 도중 즉시 통과/실패 표시를 띄우는 법을 배운다 | ★★★☆☆ | input 이벤트, 정규식 test(), 실시간 피드백 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/096) |
 | 097 | 비밀번호 보기/숨기기 토글 버튼 만들기 | 버튼 클릭으로 input type을 password↔text로 바꿔 눈 아이콘 토글 UX를 구현한다 | ★★★☆☆ | type 속성 변경, click 이벤트, 토글 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/097) |
-| 098 | 비밀번호 확인 일치 검사 (두 칸 비교) | 비밀번호와 확인란 두 값을 비교해 다르면 즉시 경고를 띄우는 실시간 검증을 만든다 | ★★★☆☆ | 값 비교, 실시간 검증, 에러 토글 | 준비중 |
+| 098 | 비밀번호 확인 일치 검사 (두 칸 비교) | 비밀번호와 확인란 두 값을 비교해 다르면 즉시 경고를 띄우는 실시간 검증을 만든다 | ★★★☆☆ | 값 비교, 실시간 검증, 에러 토글 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/098) |
 | 099 | 비밀번호 강도 막대(약함·보통·강함) 표시하기 | 길이·숫자·특수문자 조건을 점수화해 색깔 막대로 강도를 보여주는 로직을 배운다 | ★★★☆☆ | 조건 점수화, 정규식 여러 개, 동적 클래스 | 준비중 |
 | 100 | 제출 막고 직접 검사 후 에러 모아 보여주기 (preventDefault) | submit을 가로채 모든 칸을 검사하고 통과 못 한 항목 목록을 한 번에 보여주는 패턴을 배운다 | ★★★★☆ | submit 이벤트, preventDefault, 일괄 검증 | 준비중 |
 | 101 | 검색창에 입력하면 목록이 즉시 걸러지는 필터 만들기 | input 값으로 카드/리스트를 includes로 필터링해 실시간 검색 기능을 구현한다 | ★★★★☆ | filter, includes(), 실시간 검색 | 준비중 |
@@ -168,7 +168,7 @@
 | 118 | insert 후 목록 자동 새로고침 + async/await로 깔끔하게 만들기 | 글을 등록하면 다시 select 해서 목록이 즉시 갱신되게 하고, 콜백 대신 async/await와 try/catch로 비동기 흐름과 에러 표시를 정리하기 | ★★★☆☆ | async/await, 에러 처리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/118) |
 | 119 | RLS(행 수준 보안) 켜고 읽기/쓰기 정책 추가하기 | 테이블에 RLS를 활성화한 뒤 '누구나 읽기/쓰기 허용' 정책을 추가해, 정책이 없으면 데이터가 안 보이는 이유와 보안의 기본 개념을 체험하기 | ★★★★☆ | RLS, policy | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/119) |
 | 120 | 할 일 앱을 localStorage에서 Supabase todos 테이블로 이전하기 | 앞서 만든 할 일 배열 구조를 todos 테이블로 옮기고, 추가는 insert·목록은 select로 바꿔 '로컬 앱을 서버 앱으로 마이그레이션'하는 전 과정 경험하기 | ★★★★☆ | 마이그레이션, insert/select | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/120) |
-| 121 | 할 일 완료 상태 update로 서버에 반영하기 | 체크박스를 누르면 supabase.update({done:true}).eq('id', id)로 특정 행만 수정해 'eq로 한 건 골라 update'하는 패턴 익히기 | ★★★★☆ | update, eq 필터 | 준비중 |
+| 121 | 할 일 완료 상태 update로 서버에 반영하기 | 체크박스를 누르면 supabase.update({done:true}).eq('id', id)로 특정 행만 수정해 'eq로 한 건 골라 update'하는 패턴 익히기 | ★★★★☆ | update, eq 필터 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/121) |
 | 122 | 할 일 삭제 delete로 서버에서 지우기 | 삭제 버튼에 supabase.delete().eq('id', id)를 연결해 서버 행을 제거하고, 삭제 전 confirm으로 실수 방지까지 더해 CRUD의 D 완성하기 | ★★★★☆ | delete, eq, confirm | 준비중 |
 | 123 | 방명록을 최신순으로 정렬해서 보여주기 | select에 .order('created_at', {ascending:false})를 붙여 최신 글이 위로 오게 하고, 정렬 기준을 created_at/이름 등으로 바꿔보며 order 사용법 익히기 | ★★★☆☆ | order, 정렬 방향 | 준비중 |
 | 124 | 방명록 키워드 검색창 만들기 (ilike 부분 일치) | 검색어를 입력하면 .ilike('message', '%검색어%')로 부분 일치·대소문자 무시 검색 결과만 보여줘 서버 측 필터링 배우기 | ★★★★☆ | ilike, 부분 검색 | 준비중 |
@@ -218,7 +218,7 @@
 | 158 | 지도 라이브러리로 검색한 장소에 핀 찍기 | Leaflet 같은 공개 지도와 지오코딩 API를 연결해 입력한 주소를 좌표로 바꿔 지도에 마커를 표시하며 '외부 지도 SDK 임베드와 좌표 다루기'를 익힌다 | ★★★★☆ | 지도 임베드, 지오코딩, 마커 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/158) |
 | 159 | 도서 검색 결과에 '다음 페이지' 페이지네이션 붙이기 | offset·page 파라미터로 결과를 나눠 받아 이전/다음 버튼으로 페이지를 넘기며 '많은 데이터를 한 번에 다 받지 않고 쪽 단위로 가져오기'를 익힌다 | ★★★★☆ | 페이지네이션, offset/page 파라미터 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/159) |
 | 160 | 입력하는 동안만 검색하는 디바운스·중복요청 막기 | 타이핑이 멈춘 뒤에만 검색하도록 디바운스를 걸고 이전 요청을 취소해 '입력할 때마다 API를 두들겨 호출 한도를 태우는 함정'을 막는 법을 익힌다 | ★★★★☆ | 디바운스, 요청 취소, rate limit 의식 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/160) |
-| 161 | 비밀 API 키를 프론트에 안 박고 서버로 숨기기 (프록시) | OpenAI/Claude 키를 브라우저 코드에 두면 왜 위험한지 확인하고, Vercel 서버리스 함수 또는 n8n 웹훅을 '중간 창구'로 두어 키를 서버에만 보관하는 구조를 만든다 | ★★★★★ | API 키 보안, 서버리스/n8n 프록시, 키 노출 방지 | 준비중 |
+| 161 | 비밀 API 키를 프론트에 안 박고 서버로 숨기기 (프록시) | OpenAI/Claude 키를 브라우저 코드에 두면 왜 위험한지 확인하고, Vercel 서버리스 함수 또는 n8n 웹훅을 '중간 창구'로 두어 키를 서버에만 보관하는 구조를 만든다 | ★★★★★ | API 키 보안, 서버리스/n8n 프록시, 키 노출 방지 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/161) |
 | 162 | Claude API로 글 요약해 주는 '한 줄 요약기' 만들기 | 긴 글을 입력하면 프록시를 거쳐 Claude API로 보내 한 줄 요약을 받아 표시하며 'AI를 내 사이트의 한 기능으로 부리기'와 프롬프트를 코드에 고정하는 법을 익힌다 | ★★★★★ | Claude API 호출, 프롬프트 설계, AI 기능화 | 준비중 |
 | 163 | AI 답변을 타자 치듯 흘려보내는 스트리밍 응답 붙이기 | AI 응답을 한 번에 받지 않고 스트리밍으로 조각조각 받아 화면에 이어 붙이며 '긴 응답의 체감 속도'와 스트리밍 데이터 처리를 익힌다 | ★★★★★ | 스트리밍 응답, 점진적 렌더링 | 준비중 |
 | 164 | 여러 외부 API를 엮은 'AI 여행 한 컷' 미니앱 완성하기 | 도시를 입력하면 날씨 API·지도·이미지 API 결과를 모아 Claude API로 그날의 추천 한마디까지 생성하는 미니앱을 만들며 '여러 외부 연동을 하나의 흐름으로 묶고 부분 실패를 견디게 설계'한다 | ★★★★★ | 다중 API 조합, 병렬 호출, 부분 실패 처리 | 준비중 |
@@ -240,8 +240,8 @@
 | 175 | Production과 Preview 환경변수 칸 나눠 설정하기 | 실서비스용과 미리보기용 Supabase 키를 Vercel의 Production/Preview 칸에 따로 넣어 '진짜 데이터'와 '연습 데이터'를 분리한다 | ★★★☆☆ | 환경 분리(dev/preview/prod) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/175) |
 | 176 | 브랜치 만들어 미리보기(Preview) 배포 URL 받기 | main이 아닌 새 브랜치에 변경을 올려 라이브를 건드리지 않고 별도 임시 URL에서 먼저 확인하는 안전한 실험법을 익힌다 | ★★★☆☆ | 브랜치, Preview Deployment | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/176) |
 | 177 | Pull Request로 미리보기 검토 후 라이브에 합치기 | PR을 열어 Preview URL로 검토하고 Merge하면 production에 반영되는 'AI 작업물 안전 검수' 워크플로우를 완성한다 | ★★★★☆ | Pull Request, Merge 배포 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/177) |
-| 178 | 내 도메인 사서 Vercel에 연결하고 HTTPS 자물쇠 확인하기 | 도메인을 구매해 DNS 레코드를 설정하고 www/루트를 301로 통일하며, 전파 시간 때문에 '안 떠도 정상'임을 이해한다 | ★★★★☆ | 커스텀 도메인, DNS, HTTPS | 준비중 |
-| 179 | 깨진 배포 일부러 만들고 Instant Rollback으로 즉시 되돌리기 | 고장난 변경을 올린 뒤 코드 수정 대신 Vercel Instant Rollback으로 직전 멀쩡한 버전으로 클릭 한 번에 복구한다 | ★★★★☆ | 롤백, 장애 복구 | 준비중 |
+| 178 | 내 도메인 사서 Vercel에 연결하고 HTTPS 자물쇠 확인하기 | 도메인을 구매해 DNS 레코드를 설정하고 www/루트를 301로 통일하며, 전파 시간 때문에 '안 떠도 정상'임을 이해한다 | ★★★★☆ | 커스텀 도메인, DNS, HTTPS | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/178) |
+| 179 | 깨진 배포 일부러 만들고 Instant Rollback으로 즉시 되돌리기 | 고장난 변경을 올린 뒤 코드 수정 대신 Vercel Instant Rollback으로 직전 멀쩡한 버전으로 클릭 한 번에 복구한다 | ★★★★☆ | 롤백, 장애 복구 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/179) |
 | 180 | 방문자수 측정 붙이고 n8n으로 일일 트래픽 알림 받기 | Vercel Analytics(또는 Plausible)로 방문자수를 보고, n8n 워크플로우가 매일 방문 요약을 메일/슬랙으로 보내는 간단 모니터링을 만든다 | ★★★★★ | 방문자 분석, n8n 자동 모니터링 | 준비중 |
 
 ## I. SEO·성능·접근성
@@ -280,7 +280,7 @@
 | 205 | 내 정적 사이트 문의 폼 제출 → 슬랙/메일 알림 받기 | Vercel에 올린 HTML 문의 폼에서 fetch로 n8n Webhook에 데이터를 보내고, n8n이 그 내용을 Slack 또는 메일로 알려주게 만들며 '폼 제출 → 알림' 자동화 패턴을 완성한다 | ★★★☆☆ | 폼 fetch→Webhook, 제출 알림 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/205) |
 | 206 | 폼 제출 내용을 구글 시트에 누적 저장하기 | 앞 단계의 Webhook 워크플로우에 Google Sheets 노드를 추가해 들어온 문의를 시트에 한 줄씩 쌓고, 같은 데이터를 여러 곳(알림+저장)으로 분기해 보내는 멀티 액션을 배운다 | ★★★☆☆ | Webhook 데이터 저장, 다중 출력 분기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/206) |
 | 207 | 필수값 검증 후 응답(Respond to Webhook) 돌려주기 | Webhook 입력에서 이메일 칸이 비었는지 검사하고, 결과에 따라 성공/실패 JSON을 Respond to Webhook 노드로 돌려주며 프런트가 응답을 받아 처리하게 만든다 | ★★★☆☆ | 입력 검증, Respond to Webhook, 응답 반환 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/207) |
-| 208 | IF 노드로 조건 분기 처리하기 | IF 노드로 '문의 유형이 긴급인가?'를 판단해 긴급이면 Slack, 아니면 메일로 보내도록 길을 나누며 조건 분기(IF/true·false)와 워크플로우 가지치기를 익힌다 | ★★★☆☆ | IF 노드, 조건 분기, true/false 경로 | 준비중 |
+| 208 | IF 노드로 조건 분기 처리하기 | IF 노드로 '문의 유형이 긴급인가?'를 판단해 긴급이면 Slack, 아니면 메일로 보내도록 길을 나누며 조건 분기(IF/true·false)와 워크플로우 가지치기를 익힌다 | ★★★☆☆ | IF 노드, 조건 분기, true/false 경로 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/208) |
 | 209 | Supabase 신규 가입자에게 환영 메일 자동 발송 | 정기 또는 Webhook로 Supabase의 신규 사용자 데이터를 받아(HTTP Request로 REST API 호출) 환영 메일을 보내며, 이 가이드의 핵심 스택인 Supabase와 n8n을 연결하는 법을 배운다 | ★★★★☆ | Supabase REST API, 신규가입 트리거, 환영메일 | 준비중 |
 | 210 | 여러 건을 반복 처리하기(Loop / Split In Batches) | API나 시트에서 받은 항목 목록을 Loop Over Items로 하나씩 돌며 처리하고, 마지막에 처리 건수를 합산해 보고하며 다건 데이터 반복 처리 개념을 익힌다 | ★★★★☆ | Loop/Split In Batches, 항목 반복 | 준비중 |
 | 211 | 주간 신규 문의 요약 리포트 자동 메일 발송 | 매주 월요일 구글 시트/Supabase에서 지난 주 문의를 모아 건수와 목록을 표로 정리한 HTML 리포트를 만들어 메일로 자동 발송하며 정기 리포트 자동화를 완성한다 | ★★★★☆ | 정기 집계, HTML 리포트, 주간 자동 발송 | 준비중 |
@@ -305,7 +305,7 @@
 | 225 | 디자인 시안 이미지 한 장 주고 똑같이 만들라고 시키기 | 참고 카드 UI 스크린샷을 첨부해 레이아웃·색·간격을 설명 없이 이미지로 지시하는 멀티모달 프롬프트를 연습한다 | ★★★☆☆ | 이미지로 지시(멀티모달) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/225) |
 | 226 | 깨진 화면 스크린샷 붙여넣어 레이아웃 깨짐 고치기 | 모바일에서 메뉴가 겹친 캡처를 첨부해 '이렇게 깨졌어, 원인 후보 3개부터'로 시각 증거 기반 디버깅을 한다 | ★★★☆☆ | 이미지로 디버깅, 반응형 수정 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/226) |
 | 227 | AI에게 '까다로운 심사위원'으로 내 PLAN.md 코드리뷰 시키기 | 칭찬을 빼고 약점 3가지와 내가 물었어야 할 질문을 지적하게 해 아첨 답변을 피하는 비판 프롬프트를 익힌다 | ★★★☆☆ | AI 코드리뷰, 아첨 방지 질문 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/227) |
-| 228 | 나만의 첫 스킬 /qa-check 만들기 (배포 전 점검 자동화) | 체크리스트(콘솔에러·비밀키·모바일·alt)를 SKILL.md로 만들어 '점검해줘' 한마디로 매번 같은 검수를 돌린다 | ★★★☆☆ | Claude 스킬, SKILL.md frontmatter | 준비중 |
+| 228 | 나만의 첫 스킬 /qa-check 만들기 (배포 전 점검 자동화) | 체크리스트(콘솔에러·비밀키·모바일·alt)를 SKILL.md로 만들어 '점검해줘' 한마디로 매번 같은 검수를 돌린다 | ★★★☆☆ | Claude 스킬, SKILL.md frontmatter | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/228) |
 | 229 | AI에게 보안 체크리스트로 내 Supabase 코드 심문시키기 | 공개키/비밀키 분리·RLS·명단 조회 차단을 고정 항목으로 검증하게 해 코드리뷰를 보안 관점으로 확장한다 | ★★★★☆ | 보안 코드리뷰, RLS·키 검증 | 준비중 |
 | 230 | 배포 자동화 스킬 /deploy 만들기 (비밀키 점검 단계 포함) | git status→빌드 확인→비밀키 점검→커밋(Conventional)→푸시→배포URL 보고를 순서로 박은 다단계 스킬을 만든다 | ★★★★☆ | 다단계 스킬, 배포 파이프라인 | 준비중 |
 | 231 | Supabase MCP 서버를 Claude에 연결해 내 DB 직접 조회시키기 | MCP로 Claude에 내 Supabase를 도구로 붙여 '방명록 테이블 최근 5건 보여줘'를 AI가 직접 실행하게 한다 | ★★★★☆ | MCP 연결, AI 도구 확장 | 준비중 |
@@ -330,8 +330,8 @@
 | 245 | 랜딩페이지를 모바일 반응형으로 만들기 | 미디어쿼리와 유연한 레이아웃으로 폰·태블릿·PC에서 깨지지 않는 반응형 랜딩을 완성한다 | ★★☆☆☆ | 미디어쿼리, 반응형 레이아웃 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/245) |
 | 246 | Supabase 프로젝트 만들고 newsletter 테이블 생성하기 | Supabase에 회원가입 후 이메일을 담을 테이블을 만들어 클라우드 DB와 테이블·컬럼 개념을 익힌다 | ★★☆☆☆ | Supabase, 테이블 스키마 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/246) |
 | 247 | 랜딩페이지 뉴스레터 구독 폼으로 이메일을 Supabase에 저장하기 | 입력한 이메일을 Supabase에 INSERT하는 폼을 붙여 프론트에서 DB로 데이터를 쓰는 흐름을 익힌다 | ★★★☆☆ | Supabase 클라이언트, INSERT, anon 키 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/247) |
-| 248 | n8n으로 새 구독자 발생 시 환영 이메일 자동 발송하기 | Supabase 신규 행을 트리거로 n8n이 환영 메일을 보내게 만들어 노코드 자동화의 기초를 익힌다 | ★★★☆☆ | n8n 워크플로우, 웹훅 트리거, 이메일 노드 | 준비중 |
-| 249 | 상품 목록 쇼핑몰 페이지를 Supabase products 테이블에서 불러오기 | 상품 데이터를 Supabase에서 SELECT해 카드 그리드로 그려 DB 읽기(조회)의 기본을 익힌다 | ★★★☆☆ | Supabase SELECT, 그리드 렌더링 | 준비중 |
+| 248 | n8n으로 새 구독자 발생 시 환영 이메일 자동 발송하기 | Supabase 신규 행을 트리거로 n8n이 환영 메일을 보내게 만들어 노코드 자동화의 기초를 익힌다 | ★★★☆☆ | n8n 워크플로우, 웹훅 트리거, 이메일 노드 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/248) |
+| 249 | 상품 목록 쇼핑몰 페이지를 Supabase products 테이블에서 불러오기 | 상품 데이터를 Supabase에서 SELECT해 카드 그리드로 그려 DB 읽기(조회)의 기본을 익힌다 | ★★★☆☆ | Supabase SELECT, 그리드 렌더링 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/249) |
 | 250 | 쇼핑몰 장바구니를 localStorage로 담고 빼고 합계 계산하기 | 담기·빼기·수량 변경과 총액 계산을 JS로 구현해 클라이언트 상태 관리와 계산 로직을 익힌다 | ★★★☆☆ | 장바구니 상태, 합계 계산, localStorage | 준비중 |
 | 251 | 쇼핑몰 상품 상세 페이지를 URL 쿼리 파라미터로 동적 표시하기 | ?id=값을 읽어 해당 상품 하나를 Supabase에서 불러와 보여주며 동적 페이지 패턴을 익힌다 | ★★★☆☆ | URL 쿼리, 단일 조회, 동적 표시 | 준비중 |
 | 252 | 쇼핑몰 주문 폼으로 주문 내역을 Supabase orders 테이블에 저장하기 | 장바구니 내용을 주문 테이블에 INSERT하고 주문번호를 보여줘 여러 데이터를 묶어 쓰는 흐름을 익힌다 | ★★★☆☆ | 관계형 데이터 저장, 주문 처리 | 준비중 |
@@ -372,8 +372,8 @@
 | 282 | 이미지·링크 깨진 경로 고치기 — 안 뜨는 사진과 404 링크 | 절대경로/상대경로 혼동으로 깨진 img와 a 태그를 고치며, 파일 경로가 어디 기준인지(루트 vs 현재 폴더)를 배운다 | ★★☆☆☆ | 상대/절대 경로, 깨진 링크 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/282) |
 | 283 | null 참조 에러 잡기 — getElementById가 못 찾는 요소 | 스크립트가 DOM보다 먼저 실행돼 'Cannot read properties of null' 에러로 죽는 코드를, defer나 위치 이동으로 고치며 실행 시점 개념을 배운다 | ★★☆☆☆ | TypeError null, DOM 로드 시점, defer | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/283) |
 | 284 | 이벤트가 두 번 실행되는 버그 — 좋아요가 +2씩 오르는 버튼 | addEventListener가 중복 등록돼 클릭 한 번에 두 번 처리되는 코드를 찾아 고치며, 리스너 중복 등록의 함정을 배운다 | ★★☆☆☆ | 이벤트 리스너 중복, 멱등성 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/284) |
-| 285 | == 때문에 어긋난 조건문 고치기 — '0개'가 비어있다고 안 뜨는 화면 | 느슨한 비교(==)와 문자열 '0' 처리로 조건이 잘못 갈라지는 코드를, ===와 타입 점검으로 고치며 동등 비교의 함정을 배운다 | ★★★☆☆ | ==/=== 비교, 타입 강제변환 | 준비중 |
-| 286 | 비동기 순서 꼬임 잡기 — 데이터보다 먼저 그려지는 빈 목록 | fetch 결과를 await 없이 써서 화면이 항상 비어 보이는 코드를, async/await로 고치며 비동기 실행 순서를 배운다 | ★★★☆☆ | async/await, Promise, 실행 순서 | 준비중 |
+| 285 | == 때문에 어긋난 조건문 고치기 — '0개'가 비어있다고 안 뜨는 화면 | 느슨한 비교(==)와 문자열 '0' 처리로 조건이 잘못 갈라지는 코드를, ===와 타입 점검으로 고치며 동등 비교의 함정을 배운다 | ★★★☆☆ | ==/=== 비교, 타입 강제변환 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/285) |
+| 286 | 비동기 순서 꼬임 잡기 — 데이터보다 먼저 그려지는 빈 목록 | fetch 결과를 await 없이 써서 화면이 항상 비어 보이는 코드를, async/await로 고치며 비동기 실행 순서를 배운다 | ★★★☆☆ | async/await, Promise, 실행 순서 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/286) |
 | 287 | CORS 에러로 막힌 외부 API 호출 살리기 — 콘솔의 빨간 CORS 메시지 | 브라우저에서 직접 외부 API를 불러 CORS로 차단된 날씨 위젯을, 공개 CORS 허용 엔드포인트나 프록시로 바꿔 고치며 CORS가 무엇이고 왜 나는지를 배운다 | ★★★☆☆ | CORS, 브라우저 보안, 프록시 | 준비중 |
 | 288 | JSON 파싱·키 이름 오류 잡기 — 'undefined'만 뜨는 API 결과 | API 응답의 실제 키 이름과 코드의 키 이름이 달라 undefined가 뜨는 화면을, 응답 구조를 콘솔로 확인해 고치며 응답 JSON 검증 습관을 배운다 | ★★★☆☆ | JSON 구조, 응답 키 매칭, 콘솔 검증 | 준비중 |
 | 289 | 404 라우팅 고치기 — 새로고침하면 사라지는 페이지와 깨진 내부 링크 | 잘못된 href와 배포 후 깨지는 경로로 404가 나는 다중 페이지 정적 사이트를, 링크와 파일 위치를 맞춰 고치며 URL과 파일 구조의 관계를 배운다 | ★★★☆☆ | 404, 라우팅, 파일 경로 구조 | 준비중 |
@@ -395,6 +395,6 @@
 | 300 | Supabase 테이블에 RLS 켜기 — 끄면 어떻게 새는지 먼저 확인 | RLS가 꺼진 테이블을 publishable 키로 통째로 읽히는 것을 직접 본 뒤 RLS를 켜서, 공개 키가 안전한 진짜 이유가 '키 숨김'이 아니라 'RLS 차단'임을 체감한다 | ★★★☆☆ | RLS 켜기, 행 수준 보안 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/300) |
 | 301 | '본인 데이터만' RLS 정책 작성하고 남의 행 못 읽는지 검증하기 | auth.uid() 기준 SELECT/INSERT 정책을 만들고, 다른 계정으로 로그인해 남의 행이 0건으로 막히는지 실제로 시도해 정책이 작동함을 증명한다 | ★★★☆☆ | RLS 정책, 인가 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/301) |
 | 302 | 방명록 입력 이스케이프 — <script> 글이 실행되지 않게 막기 | 사용자 입력을 innerHTML 대신 textContent로 출력하도록 고쳐, 악성 스크립트가 글로 들어와도 코드가 아니라 글자로만 표시되는 XSS 방어를 만든다 | ★★★☆☆ | 입력 이스케이프, XSS | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/302) |
-| 303 | 개인정보 최소 수집 폼 — 안 쓰는 항목 칼럼째 지우기 | 주민번호·생년월일처럼 실제로 안 쓰는 입력란을 폼과 테이블에서 제거하고 필수만 남겨, '필요 없는 건 처음부터 받지 않는다'는 최소 수집 원칙을 폼으로 구현한다 | ★★★★☆ | 개인정보 최소 수집, 데이터 다이어트 | 준비중 |
+| 303 | 개인정보 최소 수집 폼 — 안 쓰는 항목 칼럼째 지우기 | 주민번호·생년월일처럼 실제로 안 쓰는 입력란을 폼과 테이블에서 제거하고 필수만 남겨, '필요 없는 건 처음부터 받지 않는다'는 최소 수집 원칙을 폼으로 구현한다 | ★★★★☆ | 개인정보 최소 수집, 데이터 다이어트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/303) |
 | 304 | npm audit 돌리고 취약 의존성 한 개 고치기 | 프로젝트에서 npm audit를 실행해 알려진 취약점 목록을 뽑고, 심각도 높은 항목 하나를 버전 갱신으로 해결한 뒤 package-lock.json을 커밋해 '내가 안 짠 8할의 코드'를 점검한다 | ★★★★☆ | npm audit, 의존성·공급망 점검 | 준비중 |
 | 305 | Vercel에 보안 헤더 깔기 — CSP/HSTS 적용하고 점수 확인하기 | vercel.json(또는 헤더 설정)에 Content-Security-Policy, X-Content-Type-Options, HSTS 등 보안 헤더를 추가하고 외부 점검 도구로 등급 향상을 확인해, 브라우저가 강제하는 마지막 방어선을 친다 | ★★★★★ | 보안 헤더, CSP·HSTS | 준비중 |

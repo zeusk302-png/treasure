@@ -1,0 +1,123 @@
+/* ============================================
+   스크롤하면 요소가 스르륵 등장하기 (페이드인)
+   - .reveal  : 처음에는 투명하고 살짝 아래로 내려가 있는 '숨은' 상태
+   - .visible : 화면에 들어왔을 때 JS가 붙여 주는 '보이는' 상태
+   - transition이 두 상태 사이를 부드럽게 이어 줍니다.
+   ============================================ */
+
+/* 기본 여백 제거 + 글꼴/배경 설정 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+  color: #1f2937;
+  background: #f8fafc;
+  line-height: 1.6;
+}
+
+/* 첫 화면(히어로): 한 화면을 거의 채워 스크롤을 유도합니다. */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #ffffff;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin: 0 0 12px;
+}
+
+.hero p {
+  margin: 4px 0;
+  max-width: 480px;
+}
+
+.hero .hint {
+  margin-top: 24px;
+  font-weight: bold;
+  opacity: 0.85;
+}
+
+/* 카드들이 들어가는 영역 */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* 카드 한 장의 기본 모양 */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.card .num {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+
+.card p {
+  margin: 0;
+  color: #4b5563;
+}
+
+/* === 등장 애니메이션의 핵심 === */
+
+/* 1) 숨은 상태: 투명하고, 24px 아래로 내려가 있음 */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  /* opacity와 transform이 0.6초 동안 부드럽게 바뀌도록 예약 */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* 2) 보이는 상태: JS가 'visible'을 붙이면 제자리로, 또렷하게 */
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* 접근성: 사용자가 OS에서 '동작 줄이기'를 켜 두었다면
+   애니메이션 없이 바로 보이게 합니다. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

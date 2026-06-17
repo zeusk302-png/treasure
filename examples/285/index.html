@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>장바구니 상태 — (고친 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f1ea;
+      color: #2b2b2b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #ffffff;
+      width: 320px;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    h1 { margin-top: 0; font-size: 18px; color: #444; }
+    .row { display: flex; justify-content: center; gap: 8px; margin: 16px 0; }
+    .row button {
+      font-size: 16px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #e9e4d8;
+      cursor: pointer;
+    }
+    .qty {
+      font-size: 22px;
+      font-weight: bold;
+      min-width: 40px;
+    }
+    .status {
+      margin-top: 20px;
+      font-size: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #f0ede5;
+      color: #6d655a;
+    }
+    .status.empty { background: #fff3cd; color: #8a6d3b; }
+    .status.has   { background: #e6f4ea; color: #256029; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>장바구니에 담긴 상품 수</h1>
+
+    <div class="row">
+      <button id="minus">−</button>
+      <span id="qty" class="qty">0</span>
+      <button id="plus">+</button>
+    </div>
+
+    <p id="status" class="status">상태가 여기에 표시됩니다.</p>
+  </div>
+
+  <script>
+    const qtyEl = document.getElementById("qty");
+    const statusEl = document.getElementById("status");
+
+    function render() {
+      // 화면에서 읽은 값은 "문자열"입니다. 예: "0", "3", ""
+      const raw = qtyEl.textContent.trim();
+
+      // FIX 1: 비교하기 전에 "내가 다루려는 타입(숫자)으로 먼저 변환"합니다.
+      //        Number("0") → 0, Number("3") → 3, Number("") → 0 (빈 글자는 0으로 변환됨)
+      //        그래서 빈 값과 0을 따로 구분하고 싶다면, 변환 전에 빈 값을 먼저 점검합니다.
+      // FIX 2: 빈 값 점검은 느슨한 비교(==)가 아니라 "글자 그대로" 엄격하게(===) 합니다.
+      //        "" === "" 만 true 이고, "0" === "" 는 false 라서 0개와 빈 값이 섞이지 않습니다.
+      if (raw === "") {
+        statusEl.textContent = "값이 없어요. 데이터를 확인하세요.";
+        statusEl.className = "status";
+        return;
+      }
+
+      // 이제 안전하게 숫자로 바꿉니다.
+      const count = Number(raw);
+
+      // FIX 3: 숫자끼리 엄격하게 비교(===)합니다. 0 === 0 만 true 입니다.
+      if (count === 0) {
+        statusEl.textContent = "장바구니가 비어 있어요. 상품을 담아보세요!";
+        statusEl.className = "status empty";
+      } else {
+        statusEl.textContent = count + "개의 상품이 담겨 있어요.";
+        statusEl.className = "status has";
+      }
+    }
+
+    function setQty(n) {
+      if (n < 0) n = 0;
+      qtyEl.textContent = String(n);
+      render();
+    }
+
+    document.getElementById("plus").addEventListener("click", () => {
+      setQty(Number(qtyEl.textContent) + 1);
+    });
+    document.getElementById("minus").addEventListener("click", () => {
+      setQty(Number(qtyEl.textContent) - 1);
+    });
+
+    render(); // 첫 화면(0개)이 이제 "비어 있어요" 로 올바르게 분기됩니다.
+  </script>
+</body>
+</html>

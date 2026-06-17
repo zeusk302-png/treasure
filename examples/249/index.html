@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 목록 — Supabase products 표에서 불러오기 (실습 249)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>오늘의 상품</h1>
+    <p class="sub">Supabase <code>products</code> 표에서 불러온 목록입니다.</p>
+  </header>
+
+  <main>
+    <!-- JS가 여기에 상품 카드들을 그려 넣습니다. -->
+    <section id="product-grid" class="grid" aria-live="polite">
+      <!-- 처음엔 '불러오는 중...' 안내가 보였다가, 데이터가 도착하면 카드로 바뀝니다. -->
+      <p id="status" class="status">상품을 불러오는 중…</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>
+      먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>), <code>schema.sql</code>로
+      <code>products</code> 표·보안(RLS)·예시 데이터를 만들어 두세요.
+      자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </footer>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

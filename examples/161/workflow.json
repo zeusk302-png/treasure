@@ -1,0 +1,77 @@
+{
+  "name": "실습 161 — AI 프록시 창구 (키는 n8n 자격증명에만)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ask",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-in",
+      "name": "Webhook (브라우저가 부르는 창구)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "ask-proxy-161",
+      "notes": "브라우저 script.js 의 PROXY_URL 을 이 Webhook 의 'Production URL' 로 바꾸면, n8n 을 프록시로 쓸 수 있습니다. 이 노드 자체에는 비밀 키가 없습니다."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-opus-4-8\",\n  \"max_tokens\": 1024,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": $json.body.prompt }\n  ]\n}",
+        "options": {}
+      },
+      "id": "call-claude",
+      "name": "Claude 호출 (키는 자격증명에)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [560, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Anthropic x-api-key (비밀, 자격증명 저장소에만)"
+        }
+      },
+      "notes": "비밀 키는 이 노드 안에 적지 않습니다. n8n > Credentials 에서 'Header Auth' 자격증명을 하나 만들고, Name = x-api-key, Value = sk-ant-... (진짜 키) 로 저장한 뒤 여기에 연결합니다. 워크플로우 JSON 에는 키가 아니라 자격증명 '참조'만 남습니다."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"answer\": $json.content[0].text\n}",
+        "options": {}
+      },
+      "id": "respond-out",
+      "name": "응답 돌려주기 (키 없음)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 300],
+      "notes": "Claude 응답에서 텍스트만 골라 브라우저로 돌려줍니다. 비밀 키는 절대 응답에 담기지 않습니다."
+    }
+  ],
+  "connections": {
+    "Webhook (브라우저가 부르는 창구)": {
+      "main": [[{ "node": "Claude 호출 (키는 자격증명에)", "type": "main", "index": 0 }]]
+    },
+    "Claude 호출 (키는 자격증명에)": {
+      "main": [[{ "node": "응답 돌려주기 (키 없음)", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "pinData": {},
+  "meta": {
+    "설명": "Vercel 서버리스 함수(api/ask.js) 대신 n8n 으로 같은 '중간 창구'를 만든 버전입니다. 핵심 원칙은 동일합니다: 브라우저 → 창구(Webhook) → Claude. 비밀 키는 워크플로우 JSON 이 아니라 n8n 의 Credentials(자격증명 저장소)에만 보관합니다."
+  }
+}

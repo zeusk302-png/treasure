@@ -1,0 +1,133 @@
+/* ========================================================
+   로딩 스피너 예제 스타일
+   핵심: @keyframes 로 "어떻게 움직일지" 정하고,
+        animation 으로 "그 움직임을 요소에 입힌다".
+   ======================================================== */
+
+/* 페이지 전체를 가운데 정렬하고 보기 좋게 꾸미는 부분 (스피너와 직접 관련은 없음) */
+body {
+  margin: 0;
+  font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+  background-color: #f4f6fb;
+  color: #222;
+}
+
+.wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+
+.desc {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* 스피너 하나하나를 담는 카드 */
+.demo {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  padding: 36px 20px;
+  margin-bottom: 24px;
+  /* flex 로 스피너와 글자를 세로 가운데 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #888;
+}
+
+
+/* ========================================================
+   ① 기본 스피너 — 빙글 도는 고리
+   ======================================================== */
+
+.spinner {
+  width: 48px;          /* 가로 크기 */
+  height: 48px;         /* 세로 크기 (가로와 같게 해서 정사각형 = 원의 기반) */
+  border: 5px solid #e0e0e0;        /* 전체 테두리는 옅은 회색 */
+  border-top-color: #4f7cff;        /* 윗부분 한 곳만 진한 파란색 */
+  border-radius: 50%;               /* 네 모서리를 둥글게 → 동그란 고리 완성 */
+
+  /* animation 한 줄이 핵심입니다. 아래 순서대로 의미를 가집니다.
+     spin      = 사용할 @keyframes 이름
+     1s        = 한 바퀴 도는 데 걸리는 시간 (작을수록 빠름)
+     linear    = 속도 변화 없이 일정하게 (회전에는 보통 linear 가 자연스러움)
+     infinite  = 무한 반복 (멈추지 않고 계속 돈다) */
+  animation: spin 1s linear infinite;
+}
+
+/* @keyframes: "어떤 움직임인지"를 정의하는 곳.
+   0%(시작)에서 100%(끝)까지 어떻게 변할지 적습니다.
+   여기서는 0도 → 360도로 한 바퀴 회전시킵니다. */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);     /* 시작: 안 돌아간 상태 */
+  }
+  to {
+    transform: rotate(360deg);   /* 끝: 한 바퀴(360도) 돈 상태 */
+  }
+}
+
+
+/* ========================================================
+   ② 점 세 개 스피너 — 차례로 통통 튀기
+   ======================================================== */
+
+.dots {
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  background-color: #4f7cff;
+  border-radius: 50%;                       /* 동그란 점 */
+  animation: bounce 0.8s ease-in-out infinite;
+}
+
+/* 두 번째, 세 번째 점은 살짝 늦게 시작하게 해서
+   "차례로" 튀는 느낌을 만듭니다. (animation-delay = 시작을 늦추는 시간) */
+.dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* 점이 위로 살짝 올라갔다 내려오는 움직임 */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);     /* 평소 위치 */
+    opacity: 0.4;                 /* 살짝 흐리게 */
+  }
+  50% {
+    transform: translateY(-12px); /* 위로 12px 점프 */
+    opacity: 1;                   /* 선명하게 */
+  }
+}
+
+
+/* ========================================================
+   접근성 배려: "움직임 줄이기"를 켠 사용자에게는
+   애니메이션을 느리게/멈추게 합니다. (선택 사항이지만 좋은 습관)
+   ======================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .spinner,
+  .dot {
+    animation-duration: 3s;
+  }
+}

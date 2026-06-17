@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "_주석": "이 파일은 선택입니다. 커스텀 도메인의 'www -> 루트' 통일(301)은 보통 Vercel 대시보드 Domains 화면의 'Redirect to' 옵션 한 번으로 끝납니다. 아래 redirects 블록은 같은 일을 코드로 적어두는 예시일 뿐이며, 대시보드에서 이미 설정했다면 없어도 됩니다. 절대 비밀값(API 키/토큰/비밀번호)을 이 파일에 적지 마세요. 비밀값은 Vercel Settings > Environment Variables 에 자리표시자로 넣습니다.",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "_설명": "www.내이름.com 으로 들어온 손님을 대표 주소(내이름.com)로 301 영구 이동시키는 예시. 실제 도메인 통일은 대시보드 Domains 설정이 더 간단합니다.",
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.내이름.com" }],
+      "destination": "https://내이름.com/$1",
+      "permanent": true
+    }
+  ]
+}

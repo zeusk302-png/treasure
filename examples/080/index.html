@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>숫자 카운트업 애니메이션</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <h1>숫자 카운트업 애니메이션</h1>
+    <p class="desc">
+      회사 소개나 랜딩페이지에서 자주 보는 효과예요. 통계 숫자가 화면에 들어오는
+      순간 <strong>0부터 목표 숫자까지 빠르게 올라가며</strong> 시선을 사로잡습니다.
+      아래로 천천히 스크롤해서 통계 구역이 화면에 들어오는 순간을 지켜보세요.
+    </p>
+
+    <!-- 통계 구역이 화면에 들어올 때까지 스크롤이 필요하도록,
+         위쪽에 여백용 안내 구역을 둡니다. (내용 자체는 중요하지 않습니다) -->
+    <section class="spacer">
+      <p>여기서부터 아래로 스크롤하세요. 통계 구역이 화면에 들어오면 숫자가 올라갑니다.</p>
+    </section>
+
+    <!-- ===== 통계 카운트업 섹션 =====
+         숫자를 보여줄 곳마다 data-target 속성으로 '목표 숫자'를 적어 둡니다.
+         자바스크립트가 이 값을 읽어 0부터 그 숫자까지 올려줍니다.
+         data-suffix 는 숫자 뒤에 붙일 글자(예: + , %)입니다. -->
+    <section class="stats" id="stats">
+      <h2>지금까지의 성과</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="stat-num" data-target="1280" data-suffix="+">0</span>
+          <span class="stat-label">누적 가입자</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-target="98" data-suffix="%">0</span>
+          <span class="stat-label">만족도</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-target="45000" data-suffix="">0</span>
+          <span class="stat-label">처리한 작업 수</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-target="12" data-suffix="개국">0</span>
+          <span class="stat-label">서비스 지역</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 다시 스크롤할 여백을 둬서, 위로 올렸다 내릴 때
+         애니메이션이 한 번만 도는지 확인할 수 있게 합니다. -->
+    <section class="spacer">
+      <p>통계 구역을 지나왔습니다. 위로 다시 올렸다가 내려도 숫자는 한 번만 올라갑니다.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

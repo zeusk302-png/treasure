@@ -1,0 +1,97 @@
+/* ===== 기본 정리 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+  background-color: #f4f6fb;
+  color: #1f2937;
+  padding: 40px 20px;
+}
+
+/* ===== 페이지 머리말 ===== */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* ===== 카드들을 가로로 배치 (flex + wrap) ===== */
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ===== 카드 한 장의 기본(평소) 모습 ===== */
+.card {
+  background-color: #ffffff;
+  width: 260px;
+  padding: 28px 24px;
+  border-radius: 16px;
+  text-align: center;
+
+  /* 평소에도 옅은 그림자를 깔아둔다 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+
+  /*
+    이 한 줄이 '핵심'입니다.
+    transform과 box-shadow가 바뀔 때
+    0.3초 동안 부드럽게(ease) 변하라는 뜻입니다.
+  */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ===== 마우스를 올렸을 때(:hover)의 모습 ===== */
+.card:hover {
+  /* 위로 8px 떠오른다 (음수면 위쪽으로 이동) */
+  transform: translateY(-8px);
+
+  /* 그림자를 더 크고 진하게 → 공중에 뜬 듯한 느낌 */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== 카드 내부 요소 꾸미기 ===== */
+.card-emoji {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.card-link {
+  display: inline-block;
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}

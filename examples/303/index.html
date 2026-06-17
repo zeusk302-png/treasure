@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실습 303 — 개인정보 최소 수집 폼 (데이터 다이어트)</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.1rem; margin-top: 28px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    .before { background: #fff5f5; border-color: #f0b4b4; }
+    .after { background: #f3fbf5; border-color: #b4e3c0; }
+    label { display: block; font-weight: bold; margin: 12px 0 2px; }
+    input, select { font-size: 1rem; padding: 8px; border-radius: 8px; border: 1px solid #aaa; width: 100%; box-sizing: border-box; margin: 2px 0; }
+    button { font-size: 1rem; padding: 10px 16px; border-radius: 8px; border: 1px solid #888; background: #fff; cursor: pointer; margin-top: 12px; }
+    button:hover { background: #f2f2f2; }
+    .badge { display: inline-block; font-size: .8rem; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+    .badge-cut { background: #fde2e2; color: #b42318; }
+    .badge-keep { background: #d6f3df; color: #1e7e34; }
+    .removed { text-decoration: line-through; color: #b42318; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+    small { color: #666; }
+    .danger { color: #b42318; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>실습 303 — 개인정보 최소 수집 폼 (데이터 다이어트)</h1>
+  <p>
+    한 줄 원칙: <strong>"필요 없는 건 처음부터 받지 않는다."</strong>
+    아래 "고치기 전(Before)"에는 실제로는 안 쓰면서 받아두던 <span class="danger">주민등록번호·생년월일·집 주소</span> 같은 민감 항목이 가득합니다.
+    오른쪽 "고친 뒤(After)"처럼 <strong>꼭 필요한 항목만</strong> 남기는 것이 이번 실습입니다.
+  </p>
+
+  <!-- ============================================================= -->
+  <!-- ❌ 고치기 전(Before): 욕심껏 다 받는 "비만" 폼                  -->
+  <!--    (이건 나쁜 예시입니다. 비교용으로만 두고, 실제론 쓰지 마세요.) -->
+  <!-- ============================================================= -->
+  <div class="card before">
+    <h2>❌ 고치기 전 (Before) — "일단 다 받아두자" 폼</h2>
+    <small>회원가입 한 번 하는데 이렇게나 많이 묻습니다. 이 중 대부분은 우리 서비스가 실제로 쓰지 않습니다.</small>
+
+    <form id="formBefore" onsubmit="return false">
+      <label>이름 <span class="badge badge-keep">유지</span></label>
+      <input type="text" placeholder="홍길동" />
+
+      <label>이메일 <span class="badge badge-keep">유지</span></label>
+      <input type="email" placeholder="hong@example.com" />
+
+      <label>비밀번호 <span class="badge badge-keep">유지</span></label>
+      <input type="password" placeholder="자리표시자 — 실제 비번 넣지 마세요" />
+
+      <label>주민등록번호 <span class="badge badge-cut">삭제 대상</span></label>
+      <input type="text" placeholder="000000-0000000  ← 왜 받나요?" />
+
+      <label>생년월일 <span class="badge badge-cut">삭제 대상</span></label>
+      <input type="date" />
+
+      <label>집 주소 <span class="badge badge-cut">삭제 대상</span></label>
+      <input type="text" placeholder="○○시 ○○구 ○○동 ..." />
+
+      <label>휴대폰 번호 <span class="badge badge-cut">삭제 대상</span></label>
+      <input type="tel" placeholder="010-0000-0000" />
+
+      <label>성별 <span class="badge badge-cut">삭제 대상</span></label>
+      <select>
+        <option>선택 안 함</option>
+        <option>남</option>
+        <option>여</option>
+      </select>
+    </form>
+    <p class="danger">→ 민감정보 4종(주민번호·생년월일·주소·전화)과 불필요 항목까지 모두 수집. 모은 순간부터 우리가 "지켜야 할 책임"이 생깁니다.</p>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- ✅ 고친 뒤(After): 꼭 필요한 항목만 남긴 "최소 수집" 폼          -->
+  <!--    이것이 실제로 서비스에 쓸 폼입니다.                          -->
+  <!-- ============================================================= -->
+  <div class="card after">
+    <h2>✅ 고친 뒤 (After) — 최소 수집 폼</h2>
+    <small>"이 항목이 없으면 서비스가 동작 안 하나?"를 통과한 항목만 남겼습니다. (사유는 <code>data-audit.md</code> 참고)</small>
+
+    <form id="formAfter" onsubmit="submitAfter(); return false;">
+      <label for="name">이름 <span class="badge badge-keep">유지</span></label>
+      <input id="name" type="text" placeholder="홍길동" required />
+
+      <label for="email">이메일 <span class="badge badge-keep">유지</span></label>
+      <input id="email" type="email" placeholder="hong@example.com" required />
+
+      <label for="password">비밀번호 <span class="badge badge-keep">유지</span></label>
+      <input id="password" type="password" placeholder="자리표시자 — 실제 비번 넣지 마세요" required minlength="8" />
+
+      <!-- 아래 항목들은 "고치기 전"에 있었지만, 실제로 안 쓰므로 폼에서 통째로 지웠습니다. -->
+      <!-- 주민등록번호 input  → 삭제됨 (법으로 원칙적 수집 금지) -->
+      <!-- 생년월일 input       → 삭제됨 (현재 기능에서 안 씀) -->
+      <!-- 집 주소 input        → 삭제됨 (배송 없는 서비스라 불필요) -->
+      <!-- 휴대폰 input         → 삭제됨 (이메일로 연락 충분) -->
+      <!-- 성별 select          → 삭제됨 (개인화 미사용) -->
+
+      <button type="submit">가입 (제출 미리보기)</button>
+    </form>
+    <p>실제로 서버에 보낼 데이터(민감정보 0건):</p>
+    <pre id="payload">아직 제출하지 않음</pre>
+  </div>
+
+  <script>
+    function submitAfter() {
+      // 폼에 남아있는 항목만 모읍니다. 주민번호·주소 등은 "입력란 자체가 없으므로" 절대 수집되지 않습니다.
+      const payload = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        // 비밀번호는 실제로는 평문 저장 금지(Supabase Auth가 해시 처리). 여기선 "입력됨" 표시만.
+        password: document.getElementById("password").value ? "(입력됨 — 서버에서 해시 처리)" : "(빈칸)",
+      };
+      // 핵심: payload 안에 주민번호/생년월일/주소/전화/성별 키가 "아예 없는지" 눈으로 확인하세요.
+      document.getElementById("payload").textContent = JSON.stringify(payload, null, 2);
+    }
+  </script>
+</body>
+</html>

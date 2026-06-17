@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서도 화면 너비에 맞게 보이도록 하는 필수 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>빙글 도는 로딩 스피너</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="wrap">
+    <h1>로딩 스피너 만들기</h1>
+    <p class="desc">
+      아래 동그란 고리가 <strong>멈추지 않고 빙글빙글</strong> 돈다면 성공입니다.
+      데이터를 불러오는 동안 "기다려 주세요"를 보여줄 때 자주 쓰는 모양입니다.
+    </p>
+
+    <!-- ① 가장 기본: 한 줄이 빠진 고리가 회전하는 스피너 -->
+    <section class="demo">
+      <!-- 이 div 하나가 곧 스피너입니다. 모양은 모두 CSS가 만듭니다. -->
+      <div class="spinner" role="status" aria-label="불러오는 중"></div>
+      <p class="label">기본 스피너</p>
+    </section>
+
+    <!-- ② 응용: 점 세 개가 차례로 통통 튀는 스피너 -->
+    <section class="demo">
+      <div class="dots" role="status" aria-label="불러오는 중">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <p class="label">점 세 개 스피너</p>
+    </section>
+  </main>
+
+</body>
+</html>
