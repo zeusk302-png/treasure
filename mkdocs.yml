@@ -56,6 +56,7 @@ plugins:
 nav:
   - 홈: index.md
   - 1. 마음가짐:
+      - 01-mindset/index.md
       - 01-mindset/01.md
       - 01-mindset/02.md
       - 01-mindset/03.md
@@ -65,6 +66,7 @@ nav:
       - 01-mindset/07.md
       - 01-mindset/08.md
   - 2. 기초 내공:
+      - 02-web-basics/index.md
       - 02-web-basics/01.md
       - 02-web-basics/02.md
       - 02-web-basics/03.md
@@ -74,6 +76,7 @@ nav:
       - 02-web-basics/07.md
       - 02-web-basics/08.md
   - 3. 설계·코드 품질:
+      - 03-design-quality/index.md
       - 03-design-quality/01.md
       - 03-design-quality/02.md
       - 03-design-quality/03.md
@@ -84,6 +87,7 @@ nav:
       - 03-design-quality/08.md
       - 03-design-quality/09.md
   - 4. 안전(보안):
+      - 04-security/index.md
       - 04-security/01.md
       - 04-security/02.md
       - 04-security/03.md
@@ -93,6 +97,7 @@ nav:
       - 04-security/07.md
       - 04-security/08.md
   - 5. 배포·운영·SEO:
+      - 05-deploy-ops-seo/index.md
       - 05-deploy-ops-seo/01.md
       - 05-deploy-ops-seo/02.md
       - 05-deploy-ops-seo/03.md
@@ -103,6 +108,7 @@ nav:
       - 05-deploy-ops-seo/08.md
       - 05-deploy-ops-seo/09.md
   - 6. 사업화:
+      - 06-business/index.md
       - 06-business/01.md
       - 06-business/02.md
       - 06-business/03.md
@@ -112,6 +118,7 @@ nav:
       - 06-business/07.md
       - 06-business/08.md
   - 7. 자동화·확장:
+      - 07-automation/index.md
       - 07-automation/01.md
       - 07-automation/02.md
       - 07-automation/03.md
@@ -121,6 +128,7 @@ nav:
       - 07-automation/07.md
       - 07-automation/08.md
   - 8. 계속 성장하기:
+      - 08-growth/index.md
       - 08-growth/01.md
       - 08-growth/02.md
       - 08-growth/03.md
