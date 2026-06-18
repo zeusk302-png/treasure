@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인해야 글 쓰는 게시판 (실습 259)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>한 줄 게시판</h1>
+    <p class="sub">
+      글은 <strong>누구나 읽을 수</strong> 있지만,
+      <strong>로그인한 사람만 글을 쓸 수</strong> 있어요.
+      이것이 <em>인증(누구냐)</em>의 기초입니다.
+    </p>
+  </header>
+
+  <main>
+    <!-- ───────── 로그인/로그아웃 영역 ───────── -->
+    <section class="card" id="authCard">
+      <!-- 로그아웃 상태일 때 보이는 로그인/회원가입 폼 -->
+      <div id="loggedOut">
+        <p class="hint">이메일로 로그인하거나, 처음이면 회원가입하세요.</p>
+        <form id="authForm" class="auth-form">
+          <label class="field">
+            <span class="label-text">이메일</span>
+            <input id="email" type="email" placeholder="예: me@example.com" required />
+          </label>
+          <label class="field">
+            <span class="label-text">비밀번호 (6자 이상)</span>
+            <input id="password" type="password" placeholder="비밀번호" minlength="6" required />
+          </label>
+          <div class="btn-row">
+            <button id="loginBtn" type="submit">로그인</button>
+            <button id="signupBtn" type="button" class="ghost">회원가입</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 로그인 상태일 때 보이는 환영 줄 -->
+      <div id="loggedIn" hidden>
+        <p class="welcome">👋 <strong id="whoami"></strong> 님, 로그인 중</p>
+        <button id="logoutBtn" type="button" class="ghost">로그아웃</button>
+      </div>
+
+      <p id="authStatus" class="status" hidden></p>
+    </section>
+
+    <!-- ───────── 글쓰기 영역 (로그인해야 활성화) ───────── -->
+    <section class="card">
+      <h2 class="section-title">새 글 쓰기</h2>
+      <form id="postForm">
+        <textarea id="content" rows="3"
+          placeholder="로그인하면 여기에 글을 쓸 수 있어요." required disabled></textarea>
+        <button id="postBtn" type="submit" disabled>글 올리기</button>
+      </form>
+      <p id="postStatus" class="status" hidden></p>
+      <p class="lock-note" id="lockNote">🔒 글을 쓰려면 먼저 로그인하세요.</p>
+    </section>
+
+    <!-- ───────── 글 목록 ───────── -->
+    <section>
+      <h2 class="section-title">글 목록</h2>
+      <ul id="postList" class="post-list">
+        <li class="empty">아직 글이 없어요.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>
+      이 페이지는 먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>),
+      <code>schema.sql</code>로 <code>posts</code> 표와 보안(RLS)을 만들어 두어야 동작합니다.
+      자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </footer>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

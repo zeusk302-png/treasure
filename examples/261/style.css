@@ -1,0 +1,104 @@
+/* 실습 261 — 게시판(댓글 + 좋아요) 디자인. 내용 이해가 우선, 꾸밈은 최소만. */
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  background: #f6f5f2;
+  color: #2b2b2b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.wrap { max-width: 640px; margin: 40px auto; padding: 0 16px; }
+
+h1 { color: #7b5e3b; margin-bottom: 4px; }
+.lead { color: #555; margin-top: 0; }
+
+/* 카드 공통 */
+.card {
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.card h2 { margin: 0 0 10px; font-size: 1.05rem; }
+
+/* 입력칸 */
+input, textarea {
+  width: 100%;
+  padding: 9px 11px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* 버튼 */
+button {
+  padding: 9px 16px;
+  background: #7b5e3b;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+button:hover { background: #654b2d; }
+button:disabled { background: #bbb; cursor: not-allowed; }
+
+/* 글 목록 */
+.post-list { display: flex; flex-direction: column; gap: 16px; }
+
+.post {
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 14px;
+  padding: 16px;
+}
+.post-title { margin: 0 0 4px; font-size: 1.1rem; }
+.post-body { margin: 0 0 10px; white-space: pre-wrap; }
+.post-meta { color: #999; font-size: 0.82rem; }
+
+/* 좋아요 버튼 */
+.like-btn {
+  background: #fff;
+  color: #c0392b;
+  border: 1px solid #e7c3bd;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+}
+.like-btn:hover { background: #fdecea; }
+.like-count { font-weight: 700; }
+
+/* 댓글 영역 */
+.comments {
+  margin-top: 14px;
+  border-top: 1px dashed #e0dcd3;
+  padding-top: 12px;
+}
+.comment {
+  padding: 7px 0;
+  border-bottom: 1px solid #f0ede7;
+}
+.comment:last-child { border-bottom: 0; }
+.comment .who { font-weight: 600; font-size: 0.9rem; }
+.comment .when { color: #aaa; font-size: 0.78rem; margin-left: 6px; }
+.comment .text { font-size: 0.95rem; }
+.no-comment { color: #999; font-size: 0.9rem; }
+
+/* 댓글 입력 줄 */
+.comment-form { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.comment-form input.who-input { flex: 0 0 110px; min-width: 90px; margin: 0; }
+.comment-form input.text-input { flex: 1; min-width: 160px; margin: 0; }
+.comment-form button { flex: 0 0 auto; }
+
+/* 상태 메시지 */
+.status { padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; font-size: 0.95rem; }
+.status.info { background: #eef3fb; color: #2c5282; }
+.status.ok   { background: #e9f7ef; color: #1e7e45; }
+.status.fail { background: #fdecea; color: #b03a2e; }

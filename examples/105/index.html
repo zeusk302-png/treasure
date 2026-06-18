@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문의 폼을 Supabase에 저장하기 — 실습 105</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>문의하기</h1>
+    <p class="lead">
+      이름·이메일·문의 내용을 적고 [문의 보내기]를 누르면,
+      <strong>검증을 통과한 값만</strong> Supabase 데이터베이스에 저장됩니다.
+      저장하는 동안 <strong>로딩 표시</strong>가 돌고, 끝나면
+      <strong>성공/실패 메시지</strong>가 뜹니다.
+    </p>
+
+    <!--
+      폼 전체를 form 하나로 감싼다.
+      novalidate: 브라우저 기본 안내 풍선 대신, 우리가 만든 빨간 메시지를 쓰기 위해 끈다.
+      (이전 실습 100·104에서 배운 직접 검증 방식과 같다)
+    -->
+    <form id="contact-form" novalidate>
+
+      <div class="field">
+        <label for="name">이름</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="홍길동"
+          autocomplete="off"
+        />
+        <!-- 검증 실패 시 JS가 이 자리에 안내 문구를 넣는다 -->
+        <p class="error" data-error-for="name"></p>
+      </div>
+
+      <div class="field">
+        <label for="email">이메일</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="example@email.com"
+          autocomplete="off"
+        />
+        <p class="error" data-error-for="email"></p>
+      </div>
+
+      <div class="field">
+        <label for="message">문의 내용 (10자 이상)</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          placeholder="문의하실 내용을 자세히 적어 주세요."
+        ></textarea>
+        <p class="error" data-error-for="message"></p>
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn btn-primary">
+        <!-- 저장 중에는 JS가 이 안에 동그라미 스피너를 켰다 끈다 -->
+        <span class="spinner" id="spinner" hidden></span>
+        <span id="submit-label">문의 보내기</span>
+      </button>
+    </form>
+
+    <!--
+      전송 결과 안내 박스 (처음에는 숨김).
+      JS가 성공이면 초록(.ok), 실패면 빨강(.fail) 클래스를 붙여 보여 준다.
+    -->
+    <p id="result" class="result" hidden></p>
+  </main>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 검증·저장 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

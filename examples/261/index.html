@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>게시판 — 댓글과 좋아요 (실습 261)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>커뮤니티 게시판</h1>
+    <p class="lead">글에 <strong>댓글(1:N)</strong>을 달고, <strong>좋아요(공감)</strong> 수를 올려 봅니다.</p>
+
+    <!-- 새 글 쓰기 (게시판 기본형 — 댓글/좋아요 실습을 위해 글도 바로 쓸 수 있게 둠) -->
+    <section class="card">
+      <h2>새 글 쓰기</h2>
+      <form id="postForm">
+        <input id="postTitle" placeholder="제목" required />
+        <textarea id="postBody" placeholder="내용을 적어 주세요" rows="2" required></textarea>
+        <button type="submit">글 올리기</button>
+      </form>
+    </section>
+
+    <!-- 상태/안내 메시지 -->
+    <div id="status" class="status" hidden></div>
+
+    <!-- 글 목록 (각 글마다 좋아요 버튼 + 댓글 영역이 JS로 그려집니다) -->
+    <section id="postList" class="post-list">불러오는 중…</section>
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>

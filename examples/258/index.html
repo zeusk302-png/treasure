@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>커뮤니티 게시판 — 글쓰기·목록 보기 (실습 258)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>커뮤니티 게시판</h1>
+    <p class="sub">
+      글을 <strong>쓰면</strong> Supabase에 저장되고, 아래 <strong>목록</strong>에 바로 나타납니다.
+      게시판의 기본기인 <em>생성(Create)·조회(Read)</em>를 만들어 봅니다.
+    </p>
+  </header>
+
+  <main>
+    <!-- 1) 글쓰기 영역 (Create) -->
+    <form id="form" class="card">
+      <!-- 글쓴이 이름 -->
+      <label class="field">
+        <span class="label-text">이름</span>
+        <input id="author" type="text" placeholder="예: 홍길동" maxlength="20" required />
+      </label>
+
+      <!-- 글 내용 -->
+      <label class="field">
+        <span class="label-text">내용</span>
+        <textarea id="content" rows="4" placeholder="하고 싶은 말을 적어 보세요" maxlength="500" required></textarea>
+      </label>
+
+      <button id="submit" type="submit">글 올리기</button>
+
+      <!-- 결과/안내 메시지가 표시되는 자리 -->
+      <p id="status" class="status" hidden></p>
+    </form>
+
+    <!-- 2) 글 목록 영역 (Read) -->
+    <section class="list-area">
+      <h2 class="list-title">올라온 글 <span id="count" class="count">(0)</span></h2>
+      <ul id="list" class="list">
+        <!-- 여기에 JS가 글 카드를 그려 넣습니다. -->
+        <li class="empty">아직 글이 없어요. 첫 글을 남겨 보세요!</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>
+      이 페이지는 먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>),
+      <code>schema.sql</code>로 <code>posts</code> 표·보안(RLS)을
+      만들어 두어야 동작합니다. 자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </footer>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

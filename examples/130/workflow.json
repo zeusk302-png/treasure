@@ -1,0 +1,128 @@
+{
+  "name": "130 - 새 글 알림 (Supabase guestbook → 이메일/슬랙)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      },
+      "id": "node-schedule",
+      "name": "5분마다 깨우기 (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 320],
+      "notes": "5분마다 자동 실행. 처음 익힐 땐 Webhook보다 이 방식이 쉽고 안전합니다."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://여기에-내-프로젝트-ID.supabase.co/rest/v1/guestbook",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "select", "value": "*" },
+            { "name": "order", "value": "created_at.desc" },
+            { "name": "created_at", "value": "=gte.{{ $now.minus({ minutes: 5 }).toISO() }}" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "REPLACE_WITH_SERVICE_ROLE_KEY" },
+            { "name": "Authorization", "value": "Bearer REPLACE_WITH_SERVICE_ROLE_KEY" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-fetch",
+      "name": "최근 5분 새 글 조회 (Supabase REST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 320],
+      "notes": "service_role 키는 절대 코드/깃허브에 넣지 말고 n8n Credentials 또는 환경변수로만 보관하세요. 여기 값은 자리표시자입니다."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "cond-has-rows",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "exists", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if",
+      "name": "새 글이 있나? (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [800, 320],
+      "notes": "새 글이 0개면 아무 알림도 보내지 않고 조용히 끝납니다."
+    },
+    {
+      "parameters": {
+        "fromEmail": "alert@example.com",
+        "toEmail": "REPLACE_WITH_MY_EMAIL@example.com",
+        "subject": "=[방명록] 새 글: {{ $json.name }}",
+        "emailFormat": "text",
+        "text": "=새 글이 등록되었습니다.\n\n작성자: {{ $json.name }}\n내용: {{ $json.message }}\n시각: {{ $json.created_at }}",
+        "options": {}
+      },
+      "id": "node-email",
+      "name": "이메일 알림 보내기 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1100, 220],
+      "notes": "이메일 계정(SMTP) 비밀번호는 n8n Credentials에만 저장하세요. 워크플로우 JSON에는 비밀번호가 들어가지 않습니다."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "REPLACE_WITH_SLACK_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"📝 방명록 새 글: *{{ $json.name }}* — {{ $json.message }}\"\n}",
+        "options": {}
+      },
+      "id": "node-slack",
+      "name": "슬랙 알림 보내기 (Incoming Webhook)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, 420],
+      "notes": "슬랙 Incoming Webhook URL은 그 자체가 비밀입니다. 깃허브/화면에 노출하지 마세요. 여기 값은 자리표시자입니다."
+    }
+  ],
+  "connections": {
+    "5분마다 깨우기 (Schedule)": {
+      "main": [[{ "node": "최근 5분 새 글 조회 (Supabase REST)", "type": "main", "index": 0 }]]
+    },
+    "최근 5분 새 글 조회 (Supabase REST)": {
+      "main": [[{ "node": "새 글이 있나? (IF)", "type": "main", "index": 0 }]]
+    },
+    "새 글이 있나? (IF)": {
+      "main": [
+        [
+          { "node": "이메일 알림 보내기 (SMTP)", "type": "main", "index": 0 },
+          { "node": "슬랙 알림 보내기 (Incoming Webhook)", "type": "main", "index": 0 }
+        ],
+        []
+      ]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {
+    "templateNote": "비전공 청년용 실습 130. 모든 비밀값은 REPLACE_WITH_... 자리표시자입니다. 실제 키/URL을 채워 import 후 사용하세요."
+  }
+}

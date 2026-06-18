@@ -1,0 +1,93 @@
+{
+  "name": "214 - 메인 워크플로우 (실패 테스트용)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "m1111111-1111-4111-8111-111111111111",
+      "name": "정해진 시간마다 시작 (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://존재하지-않는-주소.example/일부러-실패시키기",
+        "options": {}
+      },
+      "id": "m2222222-2222-4222-8222-222222222222",
+      "name": "일부러 실패하는 노드 (HTTP Request)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f6f6f6f6-6666-4666-8666-ffffffffffff",
+              "name": "결과",
+              "value": "여기까지 오면 성공입니다 (보통은 위에서 멈춤)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "m3333333-3333-4333-8333-333333333333",
+      "name": "성공 시 처리 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "정해진 시간마다 시작 (Schedule)": {
+      "main": [
+        [
+          {
+            "node": "일부러 실패하는 노드 (HTTP Request)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "일부러 실패하는 노드 (HTTP Request)": {
+      "main": [
+        [
+          {
+            "node": "성공 시 처리 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "REPLACE_WITH_YOUR_ERROR_WORKFLOW_ID"
+  },
+  "pinData": {}
+}

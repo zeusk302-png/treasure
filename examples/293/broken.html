@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>장바구니 합계 — (고장난 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f1ea;
+      color: #2b2b2b;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #ffffff;
+      width: 380px;
+      max-width: 100%;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+    h1 { margin-top: 0; font-size: 18px; color: #444; }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #e3ddd0;
+      font-size: 15px;
+    }
+    .item .name { color: #555; }
+    .item .price { font-variant-numeric: tabular-nums; }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 12px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #b23b3b; /* 일부러 빨강: 값이 이상함을 강조 */
+    }
+    .note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #8a6d3b;
+      background: #fff3cd;
+      padding: 10px 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>장바구니 합계 (고장난 버전)</h1>
+    <div id="list"></div>
+
+    <div class="total">
+      <span>합계</span>
+      <span id="total">-</span>
+    </div>
+
+    <p class="note">
+      합계가 <b>19,999.99원</b> 처럼 1원이 모자라거나 소수점이 붙어 나옵니다.
+      값을 깎은 적이 없는데 왜 이럴까요? 콘솔(F12)도 함께 열어보세요.
+    </p>
+  </div>
+
+  <script>
+    // --- 오차가 났던 입력 조합 예시 ----------------------------------------
+    // 10원, 100원 단위가 아니라 "소수점 가격"이 섞이면 부동소수점 오차가 쌓입니다.
+    // 아래 세 상품 가격을 그냥 더하면 6666.66 * 3 = 19999.98 이 나와야 할 것 같지만,
+    // 컴퓨터의 소수 계산은 2진수라서 0.000000... 만큼 어긋난 값이 누적됩니다.
+    // --------------------------------------------------------------------
+    const 장바구니 = [
+      { name: "원두 (소분)", price: 6666.66, qty: 1 },
+      { name: "드립백 세트", price: 6666.66, qty: 1 },
+      { name: "텀블러",      price: 6666.67, qty: 1 },
+    ];
+
+    const listEl = document.getElementById("list");
+    const totalEl = document.getElementById("total");
+
+    // BUG: 소수점이 있는 가격(원 미만)을 그대로 + 로 누적합니다.
+    //      0.1 + 0.2 가 0.30000000000000004 가 되는 것과 같은 이유로,
+    //      더할수록 미세한 오차가 쌓여 합계가 19999.99 류로 어긋납니다.
+    let 합계 = 0;
+    for (const 상품 of 장바구니) {
+      const 줄금액 = 상품.price * 상품.qty; // 소수 곱셈에서 이미 오차 발생
+      합계 = 합계 + 줄금액;                  // 소수 덧셈에서 오차 누적
+
+      const row = document.createElement("div");
+      row.className = "item";
+      row.innerHTML =
+        '<span class="name">' + 상품.name + '</span>' +
+        '<span class="price">' + 줄금액 + '원</span>';
+      listEl.appendChild(row);
+    }
+
+    // BUG: 누적된 소수 오차가 그대로 화면에 찍힙니다. (예: 19999.99 또는 19999.989999...)
+    totalEl.textContent = 합계 + "원";
+
+    // 콘솔에서 오차를 직접 확인해 보세요.
+    console.log("화면에 찍힌 합계:", 합계);                 // 19999.989999999998 류의 이상한 소수
+    console.log("0.1 + 0.2 =", 0.1 + 0.2);                 // 0.30000000000000004 ← 함정의 본질
+    console.log("합계 === 19999.99 ?", 합계 === 19999.99); // false (19999.99 가 되어야 맞는데 아님)
+  </script>
+</body>
+</html>

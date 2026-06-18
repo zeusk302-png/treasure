@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+    실습 292 [고친 버전] — 한국 시간(Asia/Seoul)으로 올바르게 표시하기
+    원칙: 저장은 UTC로, 표시는 사용자의 현지(여기선 한국) 시간으로.
+    핵심은 ✅ 주석을 보세요.
+  -->
+  <title>댓글 목록 (고친 버전)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; color: #222; }
+    h1 { font-size: 20px; }
+    .ok { background: #e7f6ec; border: 1px solid #b6e2c5; padding: 12px; border-radius: 8px; font-size: 14px; }
+    ul { list-style: none; padding: 0; }
+    li { border-bottom: 1px solid #eee; padding: 12px 0; }
+    .name { font-weight: 700; }
+    .date { color: #888; font-size: 13px; margin-left: 6px; }
+    .msg { margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>댓글 목록 (고친 버전)</h1>
+  <p class="ok">
+    이제 "한국 시간 7월 1일 0시 30분"에 쓴 마지막 댓글이 화면에도 <strong>2026년 7월 1일</strong>로 정확히 나옵니다.
+  </p>
+
+  <ul id="list"></ul>
+
+  <script>
+    // 서버에서 내려온 데이터는 깨진 버전과 '완전히 똑같습니다'.
+    // 데이터(UTC 저장)는 그대로 두고, '표시하는 방법'만 고치는 게 정답입니다.
+    const comments = [
+      { name: "민수", message: "잘 보고 갑니다!",   created_at: "2026-06-30T05:10:00Z" },
+      { name: "지영", message: "도움 많이 됐어요",   created_at: "2026-06-30T11:00:00Z" },
+      { name: "현우", message: "자정에 첫 댓글!",     created_at: "2026-06-30T15:30:00Z" },
+    ];
+
+    // ✅ 핵심 1: UTC 문자열을 Date 객체로 '제대로' 해석한다.
+    //    new Date("...Z") 는 끝의 Z(=UTC) 를 보고 시각을 정확히 읽어 들인다.
+    //    절대 문자열을 split("T") 로 잘라 쓰면 안 된다(타임존 정보가 버려짐).
+    //
+    // ✅ 핵심 2: 표시할 때 timeZone: "Asia/Seoul" 을 명시한다.
+    //    이렇게 하면 보는 사람의 컴퓨터 설정과 상관없이 '항상 한국 시간'으로 보여 일관적이다.
+    //    (timeZone 을 생략하면 그 사람 컴퓨터의 시간대를 따라가서, 외국 사용자에겐 다르게 보인다.)
+    function formatKoreaDate(utcString) {
+      const date = new Date(utcString); // ✅ Z 를 인식해 정확히 해석
+      return date.toLocaleDateString("ko-KR", {
+        timeZone: "Asia/Seoul",         // ✅ 항상 한국 기준
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+
+    // (선택) 시:분까지 한국 시간으로 보고 싶다면 이렇게.
+    function formatKoreaDateTime(utcString) {
+      const date = new Date(utcString);
+      return date.toLocaleString("ko-KR", {
+        timeZone: "Asia/Seoul",
+        year: "numeric", month: "long", day: "numeric",
+        hour: "2-digit", minute: "2-digit",
+      });
+    }
+
+    const list = document.getElementById("list");
+
+    comments.forEach(function (c) {
+      const li = document.createElement("li");
+
+      const head = document.createElement("div");
+      const nameEl = document.createElement("span");
+      nameEl.className = "name";
+      nameEl.textContent = c.name;
+      const dateEl = document.createElement("span");
+      dateEl.className = "date";
+      dateEl.textContent = formatKoreaDate(c.created_at); // ✅ 한국 날짜로 변환해 표시
+      head.appendChild(nameEl);
+      head.appendChild(dateEl);
+
+      const msgEl = document.createElement("div");
+      msgEl.className = "msg";
+      msgEl.textContent = c.message;
+
+      li.appendChild(head);
+      li.appendChild(msgEl);
+      list.appendChild(li);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supabase 가계부 — 분류별 합계 + 월별 필터 (실습 127)</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      max-width: 640px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 { color: #3ecf8e; font-size: 1.4rem; }
+    h2 { font-size: 1.05rem; margin-top: 28px; }
+    .note {
+      background: #fff8e1;
+      border: 1px solid #ffe08a;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+    }
+    .note strong { color: #8a6d00; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    /* 월 선택 + 추가 폼 */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin: 18px 0;
+    }
+    .toolbar label { font-size: 0.9rem; color: #555; }
+    input, select {
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    form.add-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 8px 0 4px;
+    }
+    form.add-form button {
+      grid-column: 1 / -1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #3ecf8e;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    form.add-form button:hover { background: #2fb87a; }
+
+    /* 분류별 합계 카드 */
+    #summary { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    #summary li {
+      flex: 1 1 120px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 12px;
+      background: #f7fdfb;
+      text-align: center;
+    }
+    #summary .cat { color: #555; font-size: 0.85rem; }
+    #summary .sum { font-weight: 800; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+    .total {
+      margin-top: 10px;
+      font-weight: 800;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 지출 목록 */
+    #expenseList { list-style: none; padding: 0; }
+    #expenseList li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .meta { color: #888; font-size: 0.8rem; }
+    .amount { font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
+    .empty { color: #888; padding: 12px 0; }
+    .hint { color: #888; font-size: 0.9rem; }
+
+    /* 상태 안내 박스 */
+    #status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      display: none;
+    }
+    #status.info { display: block; background: #eef4ff; color: #2b5fd9; }
+    #status.ok   { display: block; background: #e6f7ee; color: #137a4a; }
+    #status.fail { display: block; background: #fdecea; color: #b3261e; }
+  </style>
+</head>
+<body>
+  <h1>Supabase 가계부 — 분류별 합계 + 월별 필터</h1>
+
+  <div class="note">
+    <strong>이번 실습의 핵심 두 가지:</strong>
+    ① <strong>월 선택</strong>을 바꾸면 서버에서
+    <code>.gte('spent_on', 시작일).lte('spent_on', 끝일)</code> 로 <strong>그 달치만</strong> 받아옵니다.
+    ② 받은 목록을 화면에서 <code>reduce</code> 로 묶어 <strong>분류별 합계</strong>를 계산합니다.
+    (서버는 '목록'만 주고, 합치는 건 브라우저가 합니다.)
+  </div>
+
+  <div id="status"></div>
+
+  <!-- 월 선택 -->
+  <div class="toolbar">
+    <label for="monthPicker">조회할 달:</label>
+    <input type="month" id="monthPicker" />
+  </div>
+
+  <!-- 지출 추가 폼 -->
+  <form class="add-form" id="addForm">
+    <input type="text"   id="item"     placeholder="무엇에 썼나요? (예: 점심 김밥)" required />
+    <input type="number" id="amount"   placeholder="금액(원)" min="1" required />
+    <select id="category">
+      <option value="식비">식비</option>
+      <option value="교통">교통</option>
+      <option value="문화">문화</option>
+      <option value="생활">생활</option>
+      <option value="기타">기타</option>
+    </select>
+    <input type="date"   id="spentOn" required />
+    <button type="submit">지출 추가</button>
+  </form>
+
+  <!-- 분류별 합계 -->
+  <h2>분류별 합계</h2>
+  <ul id="summary"></ul>
+  <div class="total" id="total"></div>
+
+  <!-- 지출 목록 -->
+  <h2>지출 내역</h2>
+  <ul id="expenseList"></ul>
+
+  <p class="hint">
+    먼저 <code>schema.sql</code>로 <code>expenses</code> 표·RLS·정책을 만들고,
+    <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+    내 <strong>anon(공개) 키</strong>로 바꾸세요(절대 service_role 아님). 자세한 방법은 <code>README.md</code>를 보세요.
+  </p>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN(인터넷 주소)으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

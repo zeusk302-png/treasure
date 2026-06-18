@@ -1,0 +1,118 @@
+{
+  "name": "214 - 실패 알림 (Error Workflow)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e1111111-1111-4111-8111-111111111111",
+      "name": "에러 감지 (Error Trigger)",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1a1a1a1-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "실패한_워크플로우",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "b2b2b2b2-2222-4222-8222-bbbbbbbbbbbb",
+              "name": "실패한_노드",
+              "value": "={{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            },
+            {
+              "id": "c3c3c3c3-3333-4333-8333-cccccccccccc",
+              "name": "에러_메시지",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "d4d4d4d4-4444-4444-8444-dddddddddddd",
+              "name": "발생_시각",
+              "value": "={{ $now.setZone('Asia/Seoul').format('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            },
+            {
+              "id": "e5e5e5e5-5555-4555-8555-eeeeeeeeeeee",
+              "name": "실행_링크",
+              "value": "={{ $json.execution.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e2222222-2222-4222-8222-222222222222",
+      "name": "에러 내용 정리 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SLACK_CHANNEL_ID",
+          "mode": "id"
+        },
+        "text": "=:rotating_light: *자동화가 실패했어요!*\n\n*워크플로우:* {{ $json.실패한_워크플로우 }}\n*멈춘 노드:* {{ $json.실패한_노드 }}\n*에러 내용:* {{ $json.에러_메시지 }}\n*발생 시각:* {{ $json.발생_시각 }}\n\n자세히 보기: {{ $json.실행_링크 }}",
+        "otherOptions": {}
+      },
+      "id": "e3333333-3333-4333-8333-333333333333",
+      "name": "Slack으로 알림 보내기",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        820,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "REPLACE_WITH_YOUR_SLACK_CREDENTIAL_ID",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "에러 감지 (Error Trigger)": {
+      "main": [
+        [
+          {
+            "node": "에러 내용 정리 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "에러 내용 정리 (Set)": {
+      "main": [
+        [
+          {
+            "node": "Slack으로 알림 보내기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

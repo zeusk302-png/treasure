@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>장바구니 합계 — (고친 정답 버전)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #f4f1ea;
+      color: #2b2b2b;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #ffffff;
+      width: 380px;
+      max-width: 100%;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+    h1 { margin-top: 0; font-size: 18px; color: #444; }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #e3ddd0;
+      font-size: 15px;
+    }
+    .item .name { color: #555; }
+    .item .price { font-variant-numeric: tabular-nums; }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 12px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #256029; /* 초록: 값이 정확함을 강조 */
+    }
+    .note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #256029;
+      background: #e6f4ea;
+      padding: 10px 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>장바구니 합계 (고친 정답 버전)</h1>
+    <div id="list"></div>
+
+    <div class="total">
+      <span>합계</span>
+      <span id="total">-</span>
+    </div>
+
+    <p class="note">
+      합계가 <b>19,999.99원</b> 으로 깔끔하게, 소수점 오차 없이 나옵니다.
+      비결은 "소수로 더하지 말고, <b>정수(가장 작은 단위)로 바꿔서 더한다</b>" 입니다.
+    </p>
+  </div>
+
+  <script>
+    // --- 핵심 아이디어 -----------------------------------------------------
+    // 돈을 "원(소수 포함)" 으로 더하지 말고, 더 작은 정수 단위(여기서는 '전' = 1/100원)로
+    // 바꿔서 더합니다. 정수끼리의 덧셈은 오차가 전혀 없습니다.
+    // 마지막에 화면에 보여줄 때만 100으로 나눠 "원" 으로 되돌립니다.
+    // (10원/100원 단위만 다루는 가게라면 처음부터 가격을 정수 '원'으로 저장하면 됩니다.)
+    // --------------------------------------------------------------------
+
+    // 가격을 처음부터 정수 '전' 단위로 저장합니다. 6666.66원 → 666666전
+    const 장바구니 = [
+      { name: "원두 (소분)", priceJeon: 666666, qty: 1 }, // 6666.66원
+      { name: "드립백 세트", priceJeon: 666666, qty: 1 }, // 6666.66원
+      { name: "텀블러",      priceJeon: 666667, qty: 1 }, // 6666.67원
+    ];
+
+    const listEl = document.getElementById("list");
+    const totalEl = document.getElementById("total");
+
+    // 정수 '전' → 보기 좋은 "원" 문자열로 바꾸는 도우미 함수
+    function 전을원문자열로(jeon) {
+      const 원 = Math.floor(jeon / 100);          // 정수 부분(원)
+      const 소수 = String(jeon % 100).padStart(2, "0"); // 나머지(전), 두 자리로 맞춤
+      const 천단위 = 원.toLocaleString("ko-KR");   // 19999 → "19,999"
+      return 천단위 + "." + 소수 + "원";           // "19,999.99원"
+    }
+
+    // FIX: 정수(전)끼리만 더합니다. 정수 덧셈은 오차가 없습니다.
+    let 합계전 = 0;
+    for (const 상품 of 장바구니) {
+      const 줄금액전 = 상품.priceJeon * 상품.qty; // 정수 곱셈 → 오차 없음
+      합계전 = 합계전 + 줄금액전;                  // 정수 덧셈 → 오차 없음
+
+      const row = document.createElement("div");
+      row.className = "item";
+      row.innerHTML =
+        '<span class="name">' + 상품.name + '</span>' +
+        '<span class="price">' + 전을원문자열로(줄금액전) + '</span>';
+      listEl.appendChild(row);
+    }
+
+    // 마지막 출력 순간에만 100으로 나눠 "원" 으로 되돌립니다.
+    totalEl.textContent = 전을원문자열로(합계전);
+
+    // 콘솔에서 정확함을 확인해 보세요.
+    console.log("합계(전, 정수):", 합계전);            // 1999999 (정수, 오차 없음)
+    console.log("합계(원, 표시):", 전을원문자열로(합계전)); // "19,999.99원"
+    console.log("합계전 === 1999999 ?", 합계전 === 1999999); // true ← 정확!
+  </script>
+</body>
+</html>

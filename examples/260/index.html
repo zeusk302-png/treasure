@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RLS 게시판 — 작성자만 수정·삭제</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { color: #7b5e3b; }
+    input, textarea { width: 100%; padding: 9px; margin: 6px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+    button { padding: 9px 16px; background: #7b5e3b; color: #fff; border: 0; border-radius: 999px; cursor: pointer; font-size: 0.95rem; }
+    button.ghost { background: #eee; color: #555; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .post { border: 1px solid #e6e0d6; border-radius: 12px; padding: 14px; margin: 12px 0; }
+    .post h3 { margin: 0 0 6px; }
+    .post .meta { color: #999; font-size: 0.8rem; margin-bottom: 8px; }
+    .post .actions { margin-top: 10px; }
+    .post .actions button { font-size: 0.85rem; padding: 6px 12px; }
+    .mine { background: #f6f1e7; }
+    .badge { display: inline-block; font-size: 0.7rem; background: #7b5e3b; color: #fff; border-radius: 6px; padding: 2px 6px; margin-left: 6px; }
+    #status { color: #b14; min-height: 1.2em; }
+    section { margin: 24px 0; }
+    hr { border: 0; border-top: 1px dashed #ddd; }
+  </style>
+</head>
+<body>
+  <h1>RLS 게시판</h1>
+  <p>로그인한 사람만 글을 쓰고, <strong>자기 글만</strong> 수정·삭제할 수 있습니다. 남의 글 버튼은 아예 보이지 않고, 혹시 코드로 시도해도 데이터베이스가 막아 줍니다(RLS).</p>
+
+  <!-- 로그인 영역 -->
+  <section id="authBox">
+    <h2>로그인 / 가입</h2>
+    <input id="email" type="email" placeholder="이메일" />
+    <input id="password" type="password" placeholder="비밀번호(6자 이상)" />
+    <div class="row">
+      <button id="signupBtn">가입</button>
+      <button id="loginBtn">로그인</button>
+    </div>
+  </section>
+
+  <!-- 로그인 후 보이는 영역 -->
+  <section id="appBox" hidden>
+    <div class="row">
+      <span id="who"></span>
+      <button id="logoutBtn" class="ghost">로그아웃</button>
+    </div>
+
+    <hr />
+    <h2>새 글 쓰기</h2>
+    <input id="title" placeholder="제목" />
+    <textarea id="content" rows="3" placeholder="내용"></textarea>
+    <button id="addBtn">올리기</button>
+  </section>
+
+  <p id="status"></p>
+
+  <h2>글 목록</h2>
+  <div id="list">불러오는 중…</div>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ▼▼▼ 아래 두 값을 내 Supabase 프로젝트 값으로 바꾸세요 (Settings → API) ▼▼▼
+    //  - anon(공개) 키는 "출입증"이라 브라우저에 둬도 됩니다. 안전의 진짜 이유는 RLS 입니다.
+    //  - service_role(secret) 키는 RLS 를 통째로 무시하므로 절대 여기 넣지 마세요!
+    const SUPABASE_URL = "https://여기에-내-프로젝트-주소.supabase.co";
+    const SUPABASE_ANON_KEY = "REPLACE_WITH_YOUR_ANON_PUBLIC_KEY";
+    // ▲▲▲ 여기까지 ▲▲▲
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const authBox = document.getElementById('authBox');
+    const appBox  = document.getElementById('appBox');
+    const whoEl   = document.getElementById('who');
+    const listEl  = document.getElementById('list');
+    const statusEl = document.getElementById('status');
+
+    let currentUserId = null; // 지금 로그인한 사람의 ID (글 주인 비교에 사용)
+
+    function setStatus(msg) { statusEl.textContent = msg || ''; }
+
+    // 로그인 상태가 바뀔 때마다 화면을 갱신
+    async function refreshAuth() {
+      const { data } = await db.auth.getUser();
+      const user = data.user;
+      if (user) {
+        currentUserId = user.id;
+        whoEl.textContent = user.email + ' 님으로 로그인됨';
+        authBox.hidden = true;
+        appBox.hidden = false;
+      } else {
+        currentUserId = null;
+        authBox.hidden = false;
+        appBox.hidden = true;
+      }
+      loadPosts();
+    }
+
+    // 가입
+    document.getElementById('signupBtn').addEventListener('click', async function () {
+      setStatus('');
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const { error } = await db.auth.signUp({ email: email, password: password });
+      if (error) { setStatus('가입 실패: ' + error.message); return; }
+      setStatus('가입 완료! (이메일 인증이 켜져 있으면 메일함을 확인하세요.) 이제 로그인하세요.');
+    });
+
+    // 로그인
+    document.getElementById('loginBtn').addEventListener('click', async function () {
+      setStatus('');
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const { error } = await db.auth.signInWithPassword({ email: email, password: password });
+      if (error) { setStatus('로그인 실패: ' + error.message); return; }
+      refreshAuth();
+    });
+
+    // 로그아웃
+    document.getElementById('logoutBtn').addEventListener('click', async function () {
+      await db.auth.signOut();
+      refreshAuth();
+    });
+
+    // 글 올리기
+    document.getElementById('addBtn').addEventListener('click', async function () {
+      setStatus('');
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      if (!title || !content) { setStatus('제목과 내용을 모두 채워주세요.'); return; }
+      // user_id 는 DB 기본값(auth.uid())이 자동으로 채웁니다 → 여기서 굳이 보내지 않아도 됩니다.
+      const { error } = await db.from('posts').insert({ title: title, content: content });
+      if (error) { setStatus('저장 실패: ' + error.message); return; }
+      document.getElementById('title').value = '';
+      document.getElementById('content').value = '';
+      loadPosts();
+    });
+
+    // 목록 불러오기 + 그리기
+    async function loadPosts() {
+      const { data, error } = await db
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) { listEl.textContent = '에러: ' + error.message; return; }
+      if (!data || data.length === 0) { listEl.textContent = '아직 글이 없어요.'; return; }
+
+      listEl.innerHTML = data.map(function (p) {
+        const isMine = (p.user_id === currentUserId);
+        const mineBadge = isMine ? '<span class="badge">내 글</span>' : '';
+        // 내 글일 때만 수정·삭제 버튼을 보여줍니다(화면용 가드).
+        // 진짜 차단은 DB의 RLS 가 합니다 — 버튼이 보여도 남의 글이면 DB가 거부합니다.
+        const actions = isMine
+          ? '<div class="actions row">' +
+              '<button data-act="edit" data-id="' + p.id + '">수정</button>' +
+              '<button data-act="del" data-id="' + p.id + '" class="ghost">삭제</button>' +
+            '</div>'
+          : '';
+        return '<div class="post ' + (isMine ? 'mine' : '') + '">' +
+                 '<h3>' + escapeHtml(p.title) + mineBadge + '</h3>' +
+                 '<div class="meta">' + new Date(p.created_at).toLocaleString('ko-KR') + '</div>' +
+                 '<div>' + escapeHtml(p.content) + '</div>' +
+                 actions +
+               '</div>';
+      }).join('');
+
+      // 수정/삭제 버튼 연결
+      listEl.querySelectorAll('button[data-act]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const id = Number(btn.getAttribute('data-id'));
+          if (btn.getAttribute('data-act') === 'del') deletePost(id);
+          else editPost(id);
+        });
+      });
+    }
+
+    // 수정: 새 내용을 입력받아 UPDATE
+    async function editPost(id) {
+      setStatus('');
+      const newContent = prompt('새 내용을 입력하세요:');
+      if (newContent === null) return; // 취소
+      const { error } = await db.from('posts').update({ content: newContent.trim() }).eq('id', id);
+      if (error) { setStatus('수정 실패: ' + error.message); return; }
+      loadPosts();
+    }
+
+    // 삭제: DELETE
+    async function deletePost(id) {
+      setStatus('');
+      if (!confirm('정말 삭제할까요?')) return;
+      const { error } = await db.from('posts').delete().eq('id', id);
+      if (error) { setStatus('삭제 실패: ' + error.message); return; }
+      loadPosts();
+    }
+
+    // 사용자가 넣은 글에 태그가 끼어들지 않도록 최소한의 안전 처리
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // 시작
+    refreshAuth();
+  </script>
+</body>
+</html>
