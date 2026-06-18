@@ -1,0 +1,8 @@
+# 진짜 비밀 키가 들어가는 파일은 절대 커밋하지 않습니다.
+.env
+.env.local
+.env.*.local
+
+# Vercel/Node 작업 폴더
+.vercel
+node_modules

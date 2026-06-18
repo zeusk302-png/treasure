@@ -1,0 +1,208 @@
+{
+  "name": "215 - 메인 파이프라인 (재시도+타임아웃+로그)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "a1111111-1111-4111-8111-111111111111",
+      "name": "정해진 시간마다 시작 (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://httpbin.org/delay/1",
+        "options": {
+          "timeout": 8000
+        }
+      },
+      "id": "a2222222-2222-4222-8222-222222222222",
+      "name": "API 호출 (재시도+타임아웃)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        300
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "onError": "stopWorkflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1b1b1b1-1111-4111-8111-bbbbbbbbbbbb",
+              "name": "워크플로우",
+              "value": "215 - 메인 파이프라인",
+              "type": "string"
+            },
+            {
+              "id": "b2b2b2b2-2222-4222-8222-bbbbbbbbbbbb",
+              "name": "상태",
+              "value": "성공",
+              "type": "string"
+            },
+            {
+              "id": "b3b3b3b3-3333-4333-8333-bbbbbbbbbbbb",
+              "name": "메모",
+              "value": "API 응답 정상 수신",
+              "type": "string"
+            },
+            {
+              "id": "b4b4b4b4-4444-4444-8444-bbbbbbbbbbbb",
+              "name": "시각",
+              "value": "={{ $now.setZone('Asia/Seoul').format('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a3333333-3333-4333-8333-333333333333",
+      "name": "성공 로그 만들기 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SHEET_DOCUMENT_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "실행로그"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "워크플로우": "={{ $json.워크플로우 }}",
+            "상태": "={{ $json.상태 }}",
+            "메모": "={{ $json.메모 }}",
+            "시각": "={{ $json.시각 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "워크플로우",
+              "displayName": "워크플로우",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "상태",
+              "displayName": "상태",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "메모",
+              "displayName": "메모",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "시각",
+              "displayName": "시각",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a4444444-4444-4444-8444-444444444444",
+      "name": "성공 로그를 구글 시트에 기록 (Google Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1080,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_WITH_YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "내 구글 계정 (Google Sheets OAuth2)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "정해진 시간마다 시작 (Schedule)": {
+      "main": [
+        [
+          {
+            "node": "API 호출 (재시도+타임아웃)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API 호출 (재시도+타임아웃)": {
+      "main": [
+        [
+          {
+            "node": "성공 로그 만들기 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "성공 로그 만들기 (Set)": {
+      "main": [
+        [
+          {
+            "node": "성공 로그를 구글 시트에 기록 (Google Sheets)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "REPLACE_WITH_YOUR_ERROR_WORKFLOW_ID"
+  },
+  "pinData": {}
+}

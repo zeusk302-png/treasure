@@ -1,0 +1,118 @@
+/* 실습 264 — KPI 카드 대시보드 스타일 */
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  margin: 0;
+  background: #f6f7f9;
+  color: #222;
+}
+
+/* 상단 제목 영역 */
+.topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+  padding: 28px 20px;
+  text-align: center;
+}
+.topbar h1 {
+  margin: 0 0 6px;
+  color: #3ecf8e;          /* Supabase 색 */
+  font-size: 1.6rem;
+}
+.topbar .sub {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+/* 안내/에러 메시지 */
+.status {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.status.info { background: #eef0f2; color: #555; }
+.status.ok   { background: #e7f7ef; color: #137a4a; font-weight: 700; }
+.status.fail { background: #fdeaea; color: #b3261e; font-weight: 700; }
+
+/* KPI 카드 격자 — 화면 폭에 맞춰 자동으로 칸 수가 늘고 줄어듭니다 */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+/* KPI 카드 한 장 */
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 16px;
+  padding: 22px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+.kpi-label {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #777;
+}
+.kpi-value {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+}
+.kpi-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+/* 새로고침 버튼 */
+.reload-btn {
+  display: block;
+  margin: 24px auto 0;
+  font: inherit;
+  font-weight: 800;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 10px;
+  background: #3ecf8e;
+  color: #053d28;
+  cursor: pointer;
+}
+.reload-btn:hover:not(:disabled) { background: #34b87c; }
+.reload-btn:disabled {
+  background: #cfe9dc;
+  color: #7aa492;
+  cursor: not-allowed;
+}
+
+.foot {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  color: #999;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+code {
+  background: #eef0f2;
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 0.9em;
+}

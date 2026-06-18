@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주문 대시보드 — 검색·정렬·페이지네이션</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { color: #7b5e3b; }
+    .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+    input, select { padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; }
+    #search { flex: 1; min-width: 180px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #eee; font-size: 0.92rem; }
+    th { color: #555; background: #f6f1e7; user-select: none; cursor: pointer; white-space: nowrap; }
+    th .arrow { color: #7b5e3b; font-size: 0.8rem; }
+    td.amount { text-align: right; font-variant-numeric: tabular-nums; }
+    .badge { display: inline-block; font-size: 0.78rem; border-radius: 6px; padding: 2px 8px; }
+    .결제완료 { background: #e6f0ff; color: #2256b3; }
+    .배송중   { background: #fff3da; color: #9a6b00; }
+    .배송완료 { background: #e7f6ea; color: #1d7a3a; }
+    .취소     { background: #f3e7e7; color: #b14; }
+    .pager { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+    .pager button { padding: 8px 14px; background: #7b5e3b; color: #fff; border: 0; border-radius: 999px; cursor: pointer; font-size: 0.9rem; }
+    .pager button:disabled { background: #ddd; color: #999; cursor: not-allowed; }
+    #info { color: #888; font-size: 0.85rem; }
+    #status { color: #b14; min-height: 1.2em; }
+  </style>
+</head>
+<body>
+  <h1>주문 대시보드</h1>
+  <p>큰 목록을 <strong>검색</strong>으로 좁히고, <strong>정렬</strong>로 줄 세우고, <strong>페이지네이션</strong>으로 나눠서 불러옵니다. 데이터를 한 번에 다 받지 않고 <strong>10개씩만</strong> 서버에서 가져오는 게 핵심입니다.</p>
+
+  <div class="toolbar">
+    <input id="search" type="text" placeholder="고객/상품 이름으로 검색…" />
+    <select id="statusFilter">
+      <option value="">상태 전체</option>
+      <option value="결제완료">결제완료</option>
+      <option value="배송중">배송중</option>
+      <option value="배송완료">배송완료</option>
+      <option value="취소">취소</option>
+    </select>
+  </div>
+
+  <p id="status"></p>
+
+  <table>
+    <thead>
+      <tr>
+        <!-- 머리글을 클릭하면 그 칼럼으로 정렬됩니다. data-col 에 DB 칼럼명을 담아 둡니다. -->
+        <th data-col="customer">고객 <span class="arrow"></span></th>
+        <th data-col="product">상품 <span class="arrow"></span></th>
+        <th data-col="amount">금액 <span class="arrow"></span></th>
+        <th data-col="status">상태 <span class="arrow"></span></th>
+        <th data-col="created_at">주문일 <span class="arrow"></span></th>
+      </tr>
+    </thead>
+    <tbody id="rows">
+      <tr><td colspan="5">불러오는 중…</td></tr>
+    </tbody>
+  </table>
+
+  <div class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span id="info"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </div>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ▼▼▼ 아래 두 값을 내 Supabase 프로젝트 값으로 바꾸세요 (Settings → API) ▼▼▼
+    //  - anon(공개) 키는 "출입증"이라 브라우저에 둬도 됩니다. 안전의 진짜 이유는 RLS(읽기만 허용) 입니다.
+    //  - service_role(secret) 키는 RLS 를 통째로 무시하므로 절대 여기 넣지 마세요!
+    const SUPABASE_URL = "https://여기에-내-프로젝트-주소.supabase.co";
+    const SUPABASE_ANON_KEY = "REPLACE_WITH_YOUR_ANON_PUBLIC_KEY";
+    // ▲▲▲ 여기까지 ▲▲▲
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const PAGE_SIZE = 10; // 한 페이지에 보여줄 줄 수
+
+    // 화면의 현재 상태(=쿼리 파라미터). 이 값들이 바뀌면 표를 다시 불러옵니다.
+    const state = {
+      search: '',            // 검색어
+      status: '',            // 상태 필터('' 이면 전체)
+      sortCol: 'created_at', // 정렬 기준 칼럼
+      sortAsc: false,        // false = 내림차순(최신/큰 순), true = 오름차순
+      page: 1,               // 현재 페이지(1부터)
+    };
+
+    const rowsEl   = document.getElementById('rows');
+    const infoEl   = document.getElementById('info');
+    const statusEl = document.getElementById('status');
+    const prevBtn  = document.getElementById('prevBtn');
+    const nextBtn  = document.getElementById('nextBtn');
+
+    function setStatus(msg) { statusEl.textContent = msg || ''; }
+
+    // ── 핵심: 현재 state 로 Supabase 쿼리를 조립해서 "딱 한 페이지"만 불러오기 ──
+    async function loadTable() {
+      setStatus('');
+
+      // (1) 기본 쿼리. count: 'exact' 로 "조건에 맞는 전체 개수"도 함께 받습니다(페이지 수 계산용).
+      let query = db.from('orders').select('*', { count: 'exact' });
+
+      // (2) 검색: 고객 또는 상품 이름에 검색어가 들어가면 통과 (대소문자 무시 ilike)
+      if (state.search) {
+        const kw = '%' + state.search + '%';
+        query = query.or('customer.ilike.' + kw + ',product.ilike.' + kw);
+      }
+
+      // (3) 상태 필터: 특정 상태만 보기
+      if (state.status) {
+        query = query.eq('status', state.status);
+      }
+
+      // (4) 정렬: 클릭한 칼럼 기준 오름/내림차순
+      query = query.order(state.sortCol, { ascending: state.sortAsc });
+
+      // (5) 페이지네이션: range(시작인덱스, 끝인덱스) 로 "그 페이지 구간"만 받습니다.
+      //     1페이지 → 0~9, 2페이지 → 10~19 …  (0부터 세는 점 주의!)
+      const from = (state.page - 1) * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+      query = query.range(from, to);
+
+      const { data, count, error } = await query;
+      if (error) {
+        rowsEl.innerHTML = '<tr><td colspan="5">에러: ' + escapeHtml(error.message) + '</td></tr>';
+        return;
+      }
+
+      renderRows(data);
+      renderPager(count);
+      renderSortArrows();
+    }
+
+    // 표 본문 그리기
+    function renderRows(data) {
+      if (!data || data.length === 0) {
+        rowsEl.innerHTML = '<tr><td colspan="5">조건에 맞는 주문이 없어요.</td></tr>';
+        return;
+      }
+      rowsEl.innerHTML = data.map(function (o) {
+        const date = new Date(o.created_at).toLocaleDateString('ko-KR');
+        return '<tr>' +
+          '<td>' + escapeHtml(o.customer) + '</td>' +
+          '<td>' + escapeHtml(o.product) + '</td>' +
+          '<td class="amount">' + o.amount.toLocaleString('ko-KR') + '원</td>' +
+          '<td><span class="badge ' + o.status + '">' + escapeHtml(o.status) + '</span></td>' +
+          '<td>' + date + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    // 페이지 버튼/안내문 그리기
+    function renderPager(count) {
+      const total = count || 0;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      // 검색 결과가 줄어 현재 페이지가 범위를 벗어나면 1페이지로 되돌립니다.
+      if (state.page > totalPages) { state.page = 1; loadTable(); return; }
+
+      infoEl.textContent = total + '건 중 ' + state.page + ' / ' + totalPages + ' 페이지';
+      prevBtn.disabled = state.page <= 1;
+      nextBtn.disabled = state.page >= totalPages;
+    }
+
+    // 정렬 중인 칼럼에 ▲/▼ 화살표 표시
+    function renderSortArrows() {
+      document.querySelectorAll('th[data-col]').forEach(function (th) {
+        const arrow = th.querySelector('.arrow');
+        if (th.getAttribute('data-col') === state.sortCol) {
+          arrow.textContent = state.sortAsc ? '▲' : '▼';
+        } else {
+          arrow.textContent = '';
+        }
+      });
+    }
+
+    // ── 이벤트 연결 ──
+
+    // 검색: 타이핑할 때마다 호출되면 너무 잦으니, 0.3초 멈추면 한 번만 불러옵니다(디바운스).
+    let searchTimer = null;
+    document.getElementById('search').addEventListener('input', function (e) {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () {
+        state.search = e.target.value.trim();
+        state.page = 1; // 검색이 바뀌면 항상 1페이지부터
+        loadTable();
+      }, 300);
+    });
+
+    // 상태 필터
+    document.getElementById('statusFilter').addEventListener('change', function (e) {
+      state.status = e.target.value;
+      state.page = 1;
+      loadTable();
+    });
+
+    // 머리글 클릭 → 정렬. 같은 칼럼을 또 누르면 오름/내림이 뒤집힙니다.
+    document.querySelectorAll('th[data-col]').forEach(function (th) {
+      th.addEventListener('click', function () {
+        const col = th.getAttribute('data-col');
+        if (state.sortCol === col) {
+          state.sortAsc = !state.sortAsc; // 방향 토글
+        } else {
+          state.sortCol = col;
+          state.sortAsc = true; // 새 칼럼은 오름차순부터
+        }
+        state.page = 1;
+        loadTable();
+      });
+    });
+
+    // 페이지 이동
+    prevBtn.addEventListener('click', function () {
+      if (state.page > 1) { state.page--; loadTable(); }
+    });
+    nextBtn.addEventListener('click', function () {
+      state.page++; loadTable();
+    });
+
+    // 표에 글자가 끼어들지 않도록 최소한의 안전 처리
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // 시작
+    loadTable();
+  </script>
+</body>
+</html>

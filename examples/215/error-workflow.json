@@ -1,0 +1,209 @@
+{
+  "name": "215 - 실패 처리 (로그+알림)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e1111111-1111-4111-8111-111111111111",
+      "name": "에러 감지 (Error Trigger)",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1c1c1c1-1111-4111-8111-cccccccccccc",
+              "name": "워크플로우",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "c2c2c2c2-2222-4222-8222-cccccccccccc",
+              "name": "상태",
+              "value": "실패",
+              "type": "string"
+            },
+            {
+              "id": "c3c3c3c3-3333-4333-8333-cccccccccccc",
+              "name": "메모",
+              "value": "={{ '멈춘 노드: ' + $json.execution.lastNodeExecuted + ' / ' + $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "c4c4c4c4-4444-4444-8444-cccccccccccc",
+              "name": "시각",
+              "value": "={{ $now.setZone('Asia/Seoul').format('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            },
+            {
+              "id": "c5c5c5c5-5555-4555-8555-cccccccccccc",
+              "name": "실행_링크",
+              "value": "={{ $json.execution.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e2222222-2222-4222-8222-222222222222",
+      "name": "실패 내용 정리 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        520,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SHEET_DOCUMENT_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "실행로그"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "워크플로우": "={{ $json.워크플로우 }}",
+            "상태": "={{ $json.상태 }}",
+            "메모": "={{ $json.메모 }}",
+            "시각": "={{ $json.시각 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "워크플로우",
+              "displayName": "워크플로우",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "상태",
+              "displayName": "상태",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "메모",
+              "displayName": "메모",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "시각",
+              "displayName": "시각",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3333333-3333-4333-8333-333333333333",
+      "name": "실패 로그를 구글 시트에 기록 (Google Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_WITH_YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "내 구글 계정 (Google Sheets OAuth2)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SLACK_CHANNEL_ID",
+          "mode": "id"
+        },
+        "text": "=:rotating_light: *자동화가 실패했어요!*\n\n*워크플로우:* {{ $json.워크플로우 }}\n*상태:* {{ $json.상태 }}\n*내용:* {{ $json.메모 }}\n*발생 시각:* {{ $json.시각 }}\n\n자세히 보기: {{ $json.실행_링크 }}",
+        "otherOptions": {}
+      },
+      "id": "e4444444-4444-4444-8444-444444444444",
+      "name": "Slack으로 알림 보내기",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1080,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "REPLACE_WITH_YOUR_SLACK_CREDENTIAL_ID",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "에러 감지 (Error Trigger)": {
+      "main": [
+        [
+          {
+            "node": "실패 내용 정리 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "실패 내용 정리 (Set)": {
+      "main": [
+        [
+          {
+            "node": "실패 로그를 구글 시트에 기록 (Google Sheets)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "실패 로그를 구글 시트에 기록 (Google Sheets)": {
+      "main": [
+        [
+          {
+            "node": "Slack으로 알림 보내기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>추이 대시보드 — Chart.js로 그래프 그리기</title>
+
+  <!--
+    Chart.js를 CDN(인터넷 주소)으로 불러옵니다.
+    이렇게 하면 따로 설치할 게 없고, index.html만 더블클릭하면 바로 됩니다.
+    (인터넷이 연결돼 있어야 그래프가 그려집니다.)
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; line-height: 1.6; color: #222; background: #faf8f4; }
+    h1 { color: #7b5e3b; }
+    p.lead { color: #555; }
+
+    /* 위쪽 요약 카드 3개 */
+    .cards { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+    .card { flex: 1; min-width: 160px; background: #fff; border: 1px solid #e6e0d6; border-radius: 12px; padding: 16px; }
+    .card .label { color: #999; font-size: 0.85rem; }
+    .card .value { font-size: 1.6rem; font-weight: 700; color: #7b5e3b; }
+
+    /* 그래프가 들어갈 박스 */
+    .chart-box { background: #fff; border: 1px solid #e6e0d6; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    .chart-box h2 { margin: 0 0 10px; font-size: 1.05rem; color: #444; }
+
+    footer { color: #999; font-size: 0.85rem; margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <h1>일주일 방문자 추이 대시보드</h1>
+  <p class="lead">아래 표 같은 숫자(요일별 방문자 수)를 <strong>선 그래프</strong>와 <strong>막대 그래프</strong>로 한눈에 보여 줍니다.</p>
+
+  <!-- 요약 카드: 합계 / 평균 / 최고일 -->
+  <div class="cards">
+    <div class="card">
+      <div class="label">총 방문자</div>
+      <div class="value" id="totalValue">-</div>
+    </div>
+    <div class="card">
+      <div class="label">하루 평균</div>
+      <div class="value" id="avgValue">-</div>
+    </div>
+    <div class="card">
+      <div class="label">가장 많은 날</div>
+      <div class="value" id="bestValue">-</div>
+    </div>
+  </div>
+
+  <!-- 선 그래프가 그려질 자리 -->
+  <div class="chart-box">
+    <h2>방문자 추이 (선 그래프)</h2>
+    <canvas id="lineChart"></canvas>
+  </div>
+
+  <!-- 막대 그래프가 그려질 자리 -->
+  <div class="chart-box">
+    <h2>요일별 방문자 (막대 그래프)</h2>
+    <canvas id="barChart"></canvas>
+  </div>
+
+  <footer>
+    데이터는 아래 script 안의 sampleData를 보면 됩니다. 내 진짜 숫자로 바꿔 보세요.
+  </footer>
+
+  <script>
+    // =========================================================
+    // 1) 화면에 그릴 데이터
+    //    실제로는 Supabase나 API에서 받아오지만,
+    //    이번 실습은 "차트 그리기"가 목표라 숫자를 직접 적어 둡니다.
+    //
+    //    [나중에 진짜 데이터로 바꾸고 싶다면]
+    //    아래 sampleData 대신, fetch로 받아온 값을 넣으면 됩니다. 예시:
+    //
+    //    const res = await fetch("YOUR_API_URL", {
+    //      headers: { Authorization: "Bearer YOUR_API_KEY" } // ← 자리표시자. 진짜 키는 코드에 박지 마세요.
+    //    });
+    //    const sampleData = await res.json();
+    //
+    //    (단, API 키 같은 비밀값을 브라우저 코드에 그대로 두면 안 됩니다.
+    //     그런 비밀값은 서버나 n8n 쪽에서만 다뤄야 합니다.)
+    // =========================================================
+    const sampleData = [
+      { day: "월", visitors: 120 },
+      { day: "화", visitors: 200 },
+      { day: "수", visitors: 150 },
+      { day: "목", visitors: 280 },
+      { day: "금", visitors: 320 },
+      { day: "토", visitors: 410 },
+      { day: "일", visitors: 380 },
+    ];
+
+    // 2) 데이터에서 "이름표(요일)"와 "숫자(방문자)"를 따로 뽑습니다.
+    //    Chart.js는 labels(가로축 이름)와 data(세로축 숫자)를 따로 받습니다.
+    const labels = sampleData.map(function (d) { return d.day; });
+    const values = sampleData.map(function (d) { return d.visitors; });
+
+    // 3) 위쪽 요약 카드 채우기 (합계, 평균, 최고일)
+    const total = values.reduce(function (sum, n) { return sum + n; }, 0);
+    const avg = Math.round(total / values.length);
+    const maxValue = Math.max.apply(null, values);
+    const bestDay = sampleData[values.indexOf(maxValue)].day;
+
+    document.getElementById("totalValue").textContent = total.toLocaleString() + "명";
+    document.getElementById("avgValue").textContent = avg.toLocaleString() + "명";
+    document.getElementById("bestValue").textContent = bestDay + "요일";
+
+    // 4) 선 그래프 그리기
+    //    canvas를 고르고 → new Chart(...)에 "어떤 종류(type)"인지,
+    //    "무슨 데이터(data)"를 그릴지 알려 주면 끝납니다.
+    new Chart(document.getElementById("lineChart"), {
+      type: "line", // 선 그래프
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "방문자 수",
+          data: values,
+          borderColor: "#7b5e3b",
+          backgroundColor: "rgba(123, 94, 59, 0.15)",
+          fill: true,        // 선 아래를 옅게 채움
+          tension: 0.3,      // 선을 살짝 부드럽게
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }, // 세로축을 0부터 시작
+      },
+    });
+
+    // 5) 막대 그래프 그리기 (type만 "bar"로 바꾸면 됩니다)
+    new Chart(document.getElementById("barChart"), {
+      type: "bar", // 막대 그래프
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "방문자 수",
+          data: values,
+          backgroundColor: "#c9a96a",
+          borderRadius: 6,
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } },
+      },
+    });
+  </script>
+</body>
+</html>

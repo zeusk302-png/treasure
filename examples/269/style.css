@@ -1,0 +1,92 @@
+/* 실습 269 — 5초 클릭 게임 + Supabase 리더보드. 내용 이해가 우선, 꾸밈은 최소만. */
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  background: #f6f5f2;
+  color: #2b2b2b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.wrap { max-width: 520px; margin: 40px auto; padding: 0 16px; }
+
+h1 { color: #7b5e3b; margin-bottom: 4px; }
+.lead { color: #555; margin-top: 0; }
+
+/* 카드 공통 */
+.card {
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.card h2 { margin: 0 0 10px; font-size: 1.05rem; }
+
+/* 게임 영역 */
+.game { text-align: center; }
+.timer { margin: 0; color: #555; }
+.count { margin: 6px 0 14px; font-size: 1.4rem; font-weight: 700; }
+.count #count { color: #7b5e3b; }
+
+/* 누르는 버튼 (게임용 큰 버튼) */
+.tap-btn {
+  width: 100%;
+  padding: 28px;
+  font-size: 1.3rem;
+  background: #7b5e3b;
+  color: #fff;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+}
+.tap-btn:hover { background: #654b2d; }
+.tap-btn:active { transform: scale(0.98); }
+.tap-btn:disabled { background: #bbb; cursor: not-allowed; transform: none; }
+
+/* 일반 입력칸/버튼 */
+input {
+  width: 100%;
+  padding: 9px 11px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+form button {
+  padding: 9px 16px;
+  background: #7b5e3b;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+form button:hover { background: #654b2d; }
+
+/* 리더보드(순위표) */
+.board { margin: 0; padding-left: 0; list-style: none; }
+.board li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  border-bottom: 1px solid #f0ede7;
+}
+.board li:last-child { border-bottom: 0; }
+.board .rank { width: 28px; text-align: center; font-weight: 700; color: #999; }
+.board li:nth-child(1) .rank { color: #d4af37; } /* 1등 금색 */
+.board li:nth-child(2) .rank { color: #aeb3b8; } /* 2등 은색 */
+.board li:nth-child(3) .rank { color: #cd7f32; } /* 3등 동색 */
+.board .who { flex: 1; }
+.board .pts { font-weight: 700; color: #7b5e3b; }
+
+/* 상태 메시지 */
+.status { padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; font-size: 0.95rem; }
+.status.info { background: #eef3fb; color: #2c5282; }
+.status.ok   { background: #e9f7ef; color: #1e7e45; }
+.status.fail { background: #fdecea; color: #b03a2e; }

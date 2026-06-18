@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이력 저장 챗봇 — Supabase 실습 273</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 600px; margin: 32px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { color: #2f5d8f; font-size: 1.4rem; }
+    .hint { color: #666; font-size: 0.9rem; margin-top: -8px; }
+    #log { border: 1px solid #ddd; border-radius: 12px; padding: 14px; height: 360px; overflow-y: auto; background: #fafafa; }
+    .msg { margin: 8px 0; display: flex; }
+    .msg.user { justify-content: flex-end; }
+    .bubble { max-width: 78%; padding: 9px 13px; border-radius: 14px; white-space: pre-wrap; word-break: break-word; }
+    .user .bubble { background: #2f5d8f; color: #fff; border-bottom-right-radius: 4px; }
+    .assistant .bubble { background: #eceff3; color: #222; border-bottom-left-radius: 4px; }
+    form { display: flex; gap: 8px; margin-top: 12px; }
+    #input { flex: 1; padding: 11px; border: 1px solid #ccc; border-radius: 10px; font-size: 1rem; }
+    button { padding: 11px 18px; background: #2f5d8f; color: #fff; border: 0; border-radius: 10px; cursor: pointer; font-size: 1rem; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .bar { display: flex; gap: 8px; align-items: center; margin: 10px 0; font-size: 0.85rem; color: #555; }
+    .bar code { background: #f0f0f0; padding: 1px 6px; border-radius: 6px; }
+    .reset { background: #fff; color: #b23; border: 1px solid #e0b4be; padding: 5px 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>이력 저장 챗봇</h1>
+  <p class="hint">대화가 Supabase에 저장됩니다. <b>새로고침해도</b> 이전 대화가 그대로 보이고, AI에게는 <b>최근 맥락</b>이 함께 전달됩니다.</p>
+
+  <div class="bar">
+    <span>내 대화 키: <code id="userKey">…</code></span>
+    <button class="reset" id="reset">대화 비우기(화면만)</button>
+  </div>
+
+  <div id="log">불러오는 중…</div>
+
+  <form id="form">
+    <input id="input" placeholder="메시지를 입력하세요" autocomplete="off" required />
+    <button type="submit" id="send">보내기</button>
+  </form>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 공개용 값(URL·anon 키·웹훅 주소)은 별도 파일에 둡니다 -->
+  <script src="config.js"></script>
+  <script>
+    const cfg = window.APP_CONFIG;
+    const db = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+
+    const logEl = document.getElementById('log');
+    const formEl = document.getElementById('form');
+    const inputEl = document.getElementById('input');
+    const sendEl = document.getElementById('send');
+
+    // --- (1) "누구의 대화인지" 구분하는 키 만들기 ---
+    // 로그인 없이도 사용자별로 대화를 나누기 위해, 이 브라우저만의 임의 키를 만들어
+    // localStorage에 저장해 둡니다. (다음에 와도 같은 키 → 내 대화를 다시 불러옴)
+    function getUserKey() {
+      let key = localStorage.getItem('chat_user_key');
+      if (!key) {
+        key = 'user_' + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem('chat_user_key', key);
+      }
+      return key;
+    }
+    const userKey = getUserKey();
+    document.getElementById('userKey').textContent = userKey;
+
+    // --- (2) 한 줄을 화면에 그리기 ---
+    function renderOne(role, content) {
+      const wrap = document.createElement('div');
+      wrap.className = 'msg ' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.textContent = content; // textContent라 태그가 끼어들 수 없어 안전합니다
+      wrap.appendChild(bubble);
+      logEl.appendChild(wrap);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    // --- (3) 저장된 대화를 통째로 불러와 화면에 다시 그리기 (복원) ---
+    let history = []; // [{role, content}, ...] — AI에게 넘길 맥락으로도 씁니다
+    async function loadHistory() {
+      const { data, error } = await db
+        .from('chat_messages')
+        .select('role, content, created_at')
+        .eq('user_key', userKey)               // 내 대화만
+        .order('created_at', { ascending: true }); // 오래된 → 최신 순
+      if (error) { logEl.textContent = '불러오기 실패: ' + error.message; return; }
+      history = data.map(function (r) { return { role: r.role, content: r.content }; });
+      logEl.innerHTML = '';
+      if (history.length === 0) { renderOne('assistant', '안녕하세요! 무엇이든 물어보세요.'); }
+      history.forEach(function (m) { renderOne(m.role, m.content); });
+    }
+
+    // --- (4) 한 줄을 Supabase에 저장하기 ---
+    async function saveMessage(role, content) {
+      const { error } = await db
+        .from('chat_messages')
+        .insert({ user_key: userKey, role: role, content: content });
+      if (error) { alert('저장 실패: ' + error.message); throw error; }
+    }
+
+    // --- (5) AI에게 "맥락과 함께" 답을 받아오기 ---
+    // 핵심: 방금 질문 하나만 보내는 게 아니라, 최근 대화 history를 함께 보냅니다.
+    // 그래야 "아까 그거 다시 설명해줘" 같은 말을 AI가 이해합니다(컨텍스트 유지).
+    // 비밀값(AI API 키)은 브라우저에 두지 않습니다. n8n 웹훅이 키를 들고 대신 호출합니다.
+    async function askAI(recentHistory) {
+      const url = cfg.AI_WEBHOOK_URL || '';
+      // 웹훅 주소가 아직 자리표시자/빈 값이면 → "메아리 모드"로 대신 동작 (저장·복원 실습은 그대로 가능)
+      const notConfigured = !url || url.indexOf('REPLACE_WITH_') !== -1 || url.indexOf('YOUR-N8N-HOST') !== -1;
+      if (notConfigured) {
+        const last = recentHistory[recentHistory.length - 1];
+        return '(메아리 모드: n8n 웹훅 미연결) 방금 ' + recentHistory.length +
+               '개의 맥락과 함께 받은 질문은 "' + last.content + '" 입니다.';
+      }
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // 최근 맥락(messages 배열)을 통째로 전달 → n8n에서 AI 노드에 그대로 넘깁니다
+        body: JSON.stringify({ messages: recentHistory }),
+      });
+      if (!res.ok) throw new Error('웹훅 응답 오류: ' + res.status);
+      const out = await res.json();
+      // n8n에서 { reply: "..." } 형태로 돌려준다고 약속합니다
+      return out.reply || '(빈 응답)';
+    }
+
+    // --- (6) 보내기: 사람 메시지 저장 → AI에게 맥락 전달 → AI 답 저장 ---
+    formEl.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+      sendEl.disabled = true;
+      inputEl.value = '';
+
+      // 6-1) 사람 메시지: 화면 + 저장 + 맥락에 추가
+      renderOne('user', text);
+      history.push({ role: 'user', content: text });
+      await saveMessage('user', text);
+
+      // 6-2) AI 호출: 최근 12개만 맥락으로 보냄(너무 길면 비용·속도 손해 + 한도 초과)
+      const recent = history.slice(-12);
+      try {
+        const reply = await askAI(recent);
+        renderOne('assistant', reply);
+        history.push({ role: 'assistant', content: reply });
+        await saveMessage('assistant', reply); // AI 답도 저장해야 다음에 맥락으로 쓰임
+      } catch (err) {
+        renderOne('assistant', '답을 가져오지 못했어요: ' + err.message);
+      } finally {
+        sendEl.disabled = false;
+        inputEl.focus();
+      }
+    });
+
+    // 화면만 비우기(저장된 기록은 그대로 둠 — 새로고침하면 다시 보입니다)
+    document.getElementById('reset').addEventListener('click', function () {
+      logEl.innerHTML = '';
+      renderOne('assistant', '(화면만 비웠습니다. 새로고침하면 저장된 대화가 다시 보여요.)');
+    });
+
+    loadHistory();
+  </script>
+</body>
+</html>

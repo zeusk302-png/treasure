@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실시간 리더보드 — 클릭 게임 (Supabase Realtime)</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; max-width: 560px; margin: 32px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    h1 { color: #5b3fae; margin-bottom: 4px; }
+    .sub { color: #777; margin-top: 0; font-size: 0.9rem; }
+
+    .game { text-align: center; background: #f5f2ff; border: 1px solid #e3dbff; border-radius: 16px; padding: 20px; margin: 18px 0; }
+    .timer { font-size: 1.1rem; color: #5b3fae; font-weight: 600; }
+    .score { font-size: 2.4rem; font-weight: 800; margin: 6px 0; }
+    #tapBtn { width: 160px; height: 160px; border-radius: 50%; border: 0; font-size: 1.3rem; font-weight: 700; color: #fff; background: #7c5cff; cursor: pointer; transition: transform 0.05s; }
+    #tapBtn:active { transform: scale(0.94); }
+    #tapBtn:disabled { background: #c5bce6; cursor: not-allowed; }
+
+    .save { margin-top: 14px; }
+    .save input { padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; width: 140px; }
+    .save button { padding: 9px 16px; background: #5b3fae; color: #fff; border: 0; border-radius: 999px; cursor: pointer; font-size: 1rem; }
+
+    h2 { margin-top: 28px; }
+    .live { display: inline-block; font-size: 0.75rem; color: #fff; background: #2ca84c; border-radius: 999px; padding: 2px 8px; vertical-align: middle; margin-left: 8px; }
+    .live.off { background: #bbb; }
+
+    ol#board { list-style: none; padding: 0; }
+    ol#board li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px dashed #ddd; }
+    ol#board li.me { background: #fff7d6; border-radius: 8px; }
+    .rank { width: 28px; text-align: center; font-weight: 700; color: #5b3fae; }
+    .who { flex: 1; }
+    .pts { font-weight: 700; }
+    .flash { animation: flash 1.2s ease; }
+    @keyframes flash { from { background: #d6ffe0; } to { background: transparent; } }
+  </style>
+</head>
+<body>
+  <h1>탭 클릭 게임 🏆</h1>
+  <p class="sub">10초 동안 버튼을 최대한 많이 누르세요. 점수는 모두의 리더보드에 <b>실시간으로</b> 올라갑니다.</p>
+
+  <!-- 게임 영역 -->
+  <div class="game">
+    <div class="timer" id="timer">남은 시간: 10초</div>
+    <div class="score" id="score">0</div>
+    <button id="tapBtn">눌러서 시작!</button>
+
+    <div class="save" id="saveBox" style="display:none;">
+      <input id="nick" placeholder="닉네임" maxlength="12" />
+      <button id="saveBtn">점수 올리기</button>
+    </div>
+  </div>
+
+  <!-- 리더보드 영역 -->
+  <h2>리더보드 (TOP 10)<span class="live off" id="liveBadge">연결 중…</span></h2>
+  <ol id="board"><li>불러오는 중…</li></ol>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ──────────────────────────────────────────────────────────────
+    // 아래 두 값을 내 Supabase 프로젝트 값으로 바꾸세요. (Settings → API)
+    // anon 키는 "공개돼도 되는 출입증"이라 브라우저에 둬도 됩니다.
+    // 진짜 안전장치는 schema.sql 안의 RLS 정책입니다.
+    // ※ 아래 두 줄은 진짜 키가 아니라 '자리표시자'입니다. 꼭 내 값으로 바꾸세요.
+    // ──────────────────────────────────────────────────────────────
+    const SUPABASE_URL = "https://여기에-내-프로젝트.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_여기에-내-anon-키";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const boardEl = document.getElementById('board');
+    const liveBadge = document.getElementById('liveBadge');
+    const tapBtn = document.getElementById('tapBtn');
+    const scoreEl = document.getElementById('score');
+    const timerEl = document.getElementById('timer');
+    const saveBox = document.getElementById('saveBox');
+    const saveBtn = document.getElementById('saveBtn');
+    const nickInput = document.getElementById('nick');
+
+    // 내가 방금 올린 점수 줄을 강조하기 위해 기억해 둡니다.
+    let myLastId = null;
+
+    // ── 1) 리더보드 그리기 (DB에서 TOP 10 읽어와 화면에 표시) ───────
+    async function loadBoard() {
+      const { data, error } = await db
+        .from('scores')
+        .select('id, nickname, score, created_at')
+        .order('score', { ascending: false })
+        .order('created_at', { ascending: true })  // 동점이면 먼저 올린 사람이 위
+        .limit(10);
+
+      if (error) { boardEl.innerHTML = '<li>에러: ' + escapeHtml(error.message) + '</li>'; return; }
+      if (!data.length) { boardEl.innerHTML = '<li>아직 기록이 없어요. 첫 도전자가 되어 보세요!</li>'; return; }
+
+      boardEl.innerHTML = data.map(function (row, i) {
+        const mine = (row.id === myLastId) ? ' me' : '';
+        const medal = ['🥇', '🥈', '🥉'][i] || (i + 1);
+        return '<li class="' + mine.trim() + '">' +
+                 '<span class="rank">' + medal + '</span>' +
+                 '<span class="who">' + escapeHtml(row.nickname) + '</span>' +
+                 '<span class="pts">' + row.score + '점</span>' +
+               '</li>';
+      }).join('');
+    }
+
+    // ── 2) Realtime 구독: 다른 사람이 점수를 올리면 자동으로 다시 그림 ─
+    // 'scores' 테이블에 INSERT가 생기면 콜백이 실행됩니다. 새로고침 불필요!
+    db.channel('leaderboard')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'scores' },
+        function (payload) {
+          // 새 점수가 들어왔다는 신호 → 리더보드를 다시 읽어 갱신
+          loadBoard().then(function () {
+            // 방금 들어온 1등 줄을 살짝 반짝이게
+            const first = boardEl.querySelector('li');
+            if (first) { first.classList.add('flash'); }
+          });
+        }
+      )
+      .subscribe(function (status) {
+        // 구독이 성공하면 'SUBSCRIBED' 상태가 옵니다.
+        if (status === 'SUBSCRIBED') {
+          liveBadge.textContent = '● LIVE';
+          liveBadge.classList.remove('off');
+        } else {
+          liveBadge.textContent = '연결 끊김';
+          liveBadge.classList.add('off');
+        }
+      });
+
+    // ── 3) 게임 로직 (간단한 10초 클릭 게임) ──────────────────────
+    let playing = false;
+    let count = 0;
+    let timeLeft = 10;
+    let ticker = null;
+
+    function startGame() {
+      playing = true;
+      count = 0;
+      timeLeft = 10;
+      scoreEl.textContent = '0';
+      tapBtn.textContent = '눌러! 눌러!';
+      saveBox.style.display = 'none';
+
+      ticker = setInterval(function () {
+        timeLeft -= 1;
+        timerEl.textContent = '남은 시간: ' + timeLeft + '초';
+        if (timeLeft <= 0) { endGame(); }
+      }, 1000);
+    }
+
+    function endGame() {
+      playing = false;
+      clearInterval(ticker);
+      tapBtn.textContent = '다시 시작';
+      timerEl.textContent = '끝! ' + count + '점 (점수를 올려보세요)';
+      // 점수가 1점 이상일 때만 저장 칸을 보여줌
+      if (count > 0) { saveBox.style.display = 'block'; }
+    }
+
+    tapBtn.addEventListener('click', function () {
+      if (!playing) { startGame(); return; }   // 멈춰 있으면 시작
+      count += 1;                                // 게임 중이면 1점
+      scoreEl.textContent = count;
+    });
+
+    // ── 4) 점수 올리기 (DB에 INSERT → 내 화면 + 남의 화면 모두 갱신) ─
+    saveBtn.addEventListener('click', async function () {
+      const nickname = nickInput.value.trim() || '익명';
+      saveBtn.disabled = true;
+
+      const { data, error } = await db
+        .from('scores')
+        .insert({ nickname: nickname, score: count })
+        .select('id')   // 방금 만든 줄의 id를 돌려받아 내 줄을 강조
+        .single();
+
+      saveBtn.disabled = false;
+      if (error) { alert('저장 실패: ' + error.message); return; }
+
+      myLastId = data.id;
+      saveBox.style.display = 'none';
+      timerEl.textContent = '리더보드에 올렸어요! 다시 도전해 보세요.';
+      // 내 INSERT는 Realtime이 알아서 알려주지만, 내 화면은 바로 그려 줍니다.
+      loadBoard();
+    });
+
+    // 사용자가 넣은 닉네임에 태그가 끼어들지 않도록 최소한의 안전 처리
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // 첫 화면: 리더보드 한 번 그려 두기
+    loadBoard();
+  </script>
+</body>
+</html>

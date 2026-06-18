@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5초 클릭 게임 — Supabase 리더보드 (실습 269)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>5초 클릭 게임 🏆</h1>
+    <p class="lead">
+      <strong>5초 동안</strong> 버튼을 최대한 많이 누르세요.
+      끝나면 점수가 <strong>Supabase 리더보드</strong>에 저장되고,
+      <strong>점수 높은 순</strong>으로 순위가 표시됩니다.
+    </p>
+
+    <!-- 게임 영역 -->
+    <section class="card game">
+      <p class="timer">남은 시간: <span id="time">5.0</span>초</p>
+      <p class="count">점수: <span id="count">0</span></p>
+      <button id="tapBtn" class="tap-btn">눌러서 시작!</button>
+    </section>
+
+    <!-- 게임이 끝나면 보이는 '점수 저장' 영역 -->
+    <section id="saveArea" class="card" hidden>
+      <h2>점수 저장하기</h2>
+      <p>이번 점수: <strong id="finalScore">0</strong>점</p>
+      <form id="saveForm">
+        <input id="playerName" placeholder="닉네임 (예: 홍길동)" maxlength="12" required />
+        <button type="submit">리더보드에 올리기</button>
+      </form>
+    </section>
+
+    <!-- 상태/안내 메시지 -->
+    <div id="status" class="status" hidden></div>
+
+    <!-- 리더보드(순위표) -->
+    <section class="card">
+      <h2>🏅 TOP 10 순위</h2>
+      <ol id="board" class="board">불러오는 중…</ol>
+    </section>
+  </main>
+
+  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- =====================================================================
+       ↓↓↓ 여기 두 줄을 '내 Supabase 값'으로 바꾸세요 ↓↓↓
+       (Supabase 대시보드 > Settings > API 에서 복사)
+
+       ★ SUPABASE_ANON_KEY 에는 반드시 anon(publishable, 공개) 키만 넣습니다.
+         service_role(secret, 비밀) 키는 절대 여기 넣지 마세요!
+       ===================================================================== -->
+  <script>
+    const SUPABASE_URL = "https://여기에_내_프로젝트_URL.supabase.co";
+    const SUPABASE_ANON_KEY = "REPLACE_WITH_YOUR_ANON_PUBLISHABLE_KEY";
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "_설명": "이 파일은 MCP(AI를 바깥 세계와 잇는 통로) 서버를 AI 클라이언트에 연결하는 설정 예시입니다. 토큰은 모두 자리표시자입니다. 진짜 값은 여기에 적지 말고, 운영체제의 환경변수에만 넣으세요. 실제 사용 시 이 파일을 mcp.json으로 복사하되, mcp.json은 .gitignore로 커밋을 막으세요.",
+  "mcpServers": {
+    "github": {
+      "_설명": "내 GitHub 저장소/PR을 AI가 직접 읽게 합니다. 처음엔 읽기 위주의 최소 권한 토큰으로 시작하세요.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "REPLACE_WITH_YOUR_GITHUB_TOKEN"
+      }
+    },
+    "supabase": {
+      "_설명": "내 Supabase DB를 AI가 직접 조회하게 합니다. 가능하면 읽기 전용 키/접근으로 두고, 쓰기·삭제는 사람 승인을 끼우세요.",
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase"],
+      "env": {
+        "SUPABASE_PROJECT_REF": "REPLACE_WITH_YOUR_PROJECT_REF",
+        "SUPABASE_ACCESS_TOKEN": "REPLACE_WITH_YOUR_SUPABASE_ACCESS_TOKEN"
+      }
+    }
+  }
+}

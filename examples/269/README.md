@@ -1,0 +1,52 @@
+# 실습 269 — 웹게임 점수를 Supabase 리더보드에 저장하고 순위 표시하기
+
+간단한 **5초 클릭 게임**을 만들고, 게임이 끝나면 **점수를 Supabase(데이터베이스)에 진짜로 저장**합니다.
+그리고 저장된 점수들을 **높은 순서대로 정렬**해 **TOP 10 순위표(리더보드)** 로 보여 줍니다.
+
+> 비유: 리더보드는 **오락실 점수판**입니다.
+> 게임이 끝나면 '이름 + 점수'를 점수판에 **한 줄 적고(저장)**,
+> 점수판은 항상 **점수가 높은 사람을 맨 위에(정렬)** 둡니다.
+
+이 폴더에 있는 파일:
+
+- `README.md` — 이 안내문
+- `schema.sql` — Supabase에 붙여넣을 **점수판 표(scores) + 보안 정책(RLS)**
+- `index.html` — 게임 화면 + 순위표 뼈대 (여기에 내 Supabase 값 2개를 넣음)
+- `style.css` — 보기 좋게 꾸미기
+- `script.js` — **이번 실습의 핵심.** 게임 / 점수 저장 / 정렬 조회 로직 전부
+
+## 목표
+
+- 게임 결과(이름 + 점수)를 **Supabase `scores` 표에 한 줄씩 저장(insert)** 하는 법을 익힌다.
+- `.order("score", { ascending: false }).limit(10)` 으로 **점수 높은 순 정렬 + 상위 N개만 조회**하는 **정렬 조회** 패턴을 익힌다.
+- 화면에 직접 넣는 키는 **anon(공개) 키**이고, 이게 안전한 진짜 이유는 **RLS 정책** 덕분이라는 걸 체험한다.
+
+## 따라하는 단계
+
+1. **Supabase 프로젝트 준비.** [supabase.com](https://supabase.com)에서 프로젝트를 만듭니다(부트캠프에서 한 그대로).
+2. **표와 정책 만들기.** Supabase 대시보드 → **SQL Editor → New query** 에 이 폴더의 `schema.sql`을 통째로 붙여넣고 **[Run]** 을 누릅니다. → `scores` 표와 RLS 정책, 샘플 점수 3개가 생깁니다.
+3. **내 키 복사.** 대시보드 → **Settings → API** 에서 `Project URL` 과 `anon`(publishable, 공개) 키를 복사합니다.
+4. **키 넣기.** `index.html` 아래쪽 `<script>` 안의 `SUPABASE_URL` 과 `SUPABASE_ANON_KEY` 두 값을 내 값으로 바꿉니다. (지금은 `https://여기에_내_프로젝트_URL.supabase.co` 와 `REPLACE_WITH_YOUR_ANON_PUBLISHABLE_KEY` 라는 **자리표시자**가 들어 있습니다.)
+5. **게임 실행.** `index.html`을 **더블클릭**해 브라우저로 엽니다. 큰 버튼을 누르면 **5초 카운트다운**이 시작되고, 5초 동안 누른 횟수가 점수가 됩니다.
+6. **점수 저장.** 게임이 끝나면 닉네임을 적고 **[리더보드에 올리기]** 를 누릅니다. → 아래 **TOP 10 순위표**에 내 점수가 점수 높은 순서대로 끼어 들어갑니다.
+7. **진짜 저장 확인.** 새로고침해도 순위가 남아 있고, Supabase 대시보드 → **Table Editor → scores** 에서도 같은 줄이 보입니다.
+
+> 내 것으로 바꿔 보기: `script.js` 맨 위의 `GAME_SECONDS`(게임 시간)나 `TOP_N`(보여 줄 순위 수)을 바꿔 보세요. 화면이 그대로 따라옵니다.
+
+## 검증법
+
+- **저장 동작:** 점수를 올린 뒤 **새로고침(F5)** 해도 순위표에 내 점수가 그대로 남아 있는가?
+- **정렬 동작:** 서로 다른 점수를 2~3번 올려 보세요. **항상 점수가 높은 사람이 맨 위(1등)** 에 오는가? (낮은 점수가 위로 오면 정렬이 잘못된 것)
+- **상위 N개 제한:** 점수를 11번 이상 올려도 화면에는 **딱 10명까지만** 보이는가?
+- **DB 확인:** Supabase 대시보드 → Table Editor의 `scores` 표에 내가 올린 줄이 보이는가?
+- **(보안 체험)** `schema.sql`에서 `enable row level security` 줄을 빼고 만들면 Supabase가 "RLS 꺼짐" 경고를 줍니다 — 왜 위험한지는 아래 보안 가이드를 참고하세요.
+
+!!! danger "절대 하지 말 것"
+    `index.html`에 넣는 건 **anon(publishable, 공개) 키**입니다. `service_role`(secret, 비밀) 키는 **RLS를 통째로 우회**하므로 **브라우저·`script.js`·GitHub에 절대 두면 안 됩니다.** 두 키를 헷갈리는 게 가장 흔한 사고예요. service_role 키는 오직 서버(예: n8n, 백엔드)에서만 비밀로 보관해 씁니다.
+
+## 더 배우기
+
+- 개념: [4. 안전(보안) — 키와 RLS](https://zeusk302-png.github.io/treasure/04-security/)
+- 공개 키가 왜 공개돼도 되는지: [4. 안전(보안) · 01](https://zeusk302-png.github.io/treasure/04-security/01/)
+- RLS로 출입 통제하기: [4. 안전(보안) · 04](https://zeusk302-png.github.io/treasure/04-security/04/)
+- 전체 실습 모음: [실습 목록](https://zeusk302-png.github.io/treasure/practice/)

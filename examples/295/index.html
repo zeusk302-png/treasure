@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N+1 쿼리 잡기 — 51번을 2번으로 (실습 295)</title>
+  <style>
+    body {
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      max-width: 920px;
+      margin: 32px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+      color: #222;
+      background: #f6f7f9;
+    }
+    h1 { font-size: 1.5rem; color: #1f6feb; }
+    p.lead { color: #444; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    .panel {
+      background: #fff;
+      border: 1px solid #e3e6ea;
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    }
+    .panel.bad   { border-top: 5px solid #d1242f; }
+    .panel.good  { border-top: 5px solid #1a7f37; }
+    .panel h2 { font-size: 1.05rem; margin: 4px 0 10px; }
+    button {
+      font-size: 0.95rem;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 700;
+    }
+    .bad  button { background: #d1242f; }
+    .good button { background: #1a7f37; }
+    .result {
+      margin: 14px 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f1f3f5;
+      font-size: 0.95rem;
+      min-height: 1.4em;
+    }
+    .bad  .result b { color: #d1242f; }
+    .good .result b { color: #1a7f37; }
+    .list { max-height: 240px; overflow-y: auto; margin-top: 8px; }
+    .post {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 4px;
+      border-bottom: 1px dashed #e3e6ea;
+      font-size: 0.88rem;
+    }
+    .post-author { color: #777; }
+    code { background: #eef1f4; padding: 2px 6px; border-radius: 6px; font-size: 0.88em; }
+    .hint { color: #666; font-size: 0.9rem; }
+    .setup {
+      background: #fff8e1;
+      border: 1px solid #ffe08a;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>N+1 쿼리 잡기 — 같은 화면, 51번 vs 2번</h1>
+  <p class="lead">
+    아래 왼쪽(❌)과 오른쪽(✅)은 <strong>화면 결과가 똑같습니다.</strong>
+    글 50개와 작성자 이름. 다른 건 단 하나, <strong>서버를 몇 번 두드리느냐</strong>입니다.
+    버튼을 누른 뒤 결과 박스의 "DB 요청 횟수"와 <strong>콘솔(F12)</strong>을 비교해 보세요.
+  </p>
+
+  <div class="setup">
+    먼저 ① <code>schema.sql</code>을 Supabase SQL Editor에 붙여넣어 테이블을 만들고,
+    ② <code>config.js</code>의 <code>SUPABASE_URL</code> / <code>SUPABASE_ANON_KEY</code>를
+    내 값으로 바꿔야 동작합니다. (자세한 건 <code>README.md</code>)
+  </div>
+
+  <div class="grid">
+    <!-- ❌ 느린 버전 -->
+    <div class="panel bad">
+      <h2>❌ 느린 버전 (broken.js) — N+1</h2>
+      <p class="hint">글 하나마다 작성자를 따로 조회 → 1 + 50 = <b>51번</b></p>
+      <button id="runBroken">느린 목록 불러오기</button>
+      <div class="result" id="brokenResult">버튼을 눌러 측정하세요.</div>
+      <div class="list" id="brokenList"></div>
+    </div>
+
+    <!-- ✅ 고친 버전 -->
+    <div class="panel good">
+      <h2>✅ 고친 버전 (index.js)</h2>
+      <p class="hint">방법 A: 관계 조회(join) → <b>1번</b></p>
+      <button id="runFixedA">관계 조회로 불러오기</button>
+      <div class="result" id="fixedResultA">버튼을 눌러 측정하세요.</div>
+      <div class="list" id="fixedListA"></div>
+
+      <p class="hint" style="margin-top:14px;">방법 B: in 일괄 조회 → <b>2번</b></p>
+      <button id="runFixedB">in 일괄 조회로 불러오기</button>
+      <div class="result" id="fixedResultB">버튼을 눌러 측정하세요.</div>
+      <div class="list" id="fixedListB"></div>
+    </div>
+  </div>
+
+  <p class="hint" style="margin-top:18px;">
+    💡 콘솔에 <code>→ DB 요청 #1, #2, …</code>가 한 줄씩 찍힙니다.
+    느린 버전은 #1부터 #51까지, 고친 버전은 #1(또는 #2)에서 멈춥니다.
+  </p>
+
+  <!-- 1) Supabase 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 2) 공통 설정 + 요청 횟수 측정기 -->
+  <script src="config.js"></script>
+  <!-- 3) 느린 버전과 고친 버전 (둘 다 같은 페이지에서 비교) -->
+  <script src="broken.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

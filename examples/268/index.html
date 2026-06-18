@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>숫자 맞히기 미니게임</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --main: #4361ee;
+      --up: #ef476f;
+      --down: #118ab2;
+      --ok: #06d6a0;
+      --text: #1f2933;
+      --muted: #6b7280;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .game {
+      background: var(--card);
+      width: 100%;
+      max-width: 420px;
+      padding: 28px 24px 32px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    .desc {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* 위쪽 상태판: 시도 횟수 + 경과 시간(타이머) */
+    .status {
+      display: flex;
+      justify-content: space-around;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 12px 0;
+      margin-bottom: 18px;
+    }
+
+    .status div {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status strong {
+      display: block;
+      font-size: 20px;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    #guessInput {
+      flex: 1;
+      padding: 12px;
+      font-size: 18px;
+      text-align: center;
+      border: 2px solid #d1d5db;
+      border-radius: 10px;
+    }
+
+    #guessInput:focus {
+      outline: none;
+      border-color: var(--main);
+    }
+
+    button {
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      color: #fff;
+      background: var(--main);
+      transition: transform 0.05s ease, opacity 0.2s ease;
+    }
+
+    button:active { transform: scale(0.97); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    #resetBtn {
+      background: #adb5bd;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* 힌트 메시지 — 색으로 위/아래/정답을 구분 */
+    #message {
+      min-height: 28px;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 6px 0 14px;
+    }
+
+    .up { color: var(--up); }
+    .down { color: var(--down); }
+    .ok { color: var(--ok); }
+
+    #history {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    #history li {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <h1>숫자 맞히기</h1>
+    <p class="desc">1부터 100 사이의 숨겨진 숫자를 맞혀 보세요.<br />더 적은 시도, 더 빠른 시간이 목표!</p>
+
+    <div class="status">
+      <div>시도 횟수<strong id="tries">0</strong></div>
+      <div>경과 시간<strong id="timer">0.0초</strong></div>
+    </div>
+
+    <div class="input-row">
+      <input
+        id="guessInput"
+        type="number"
+        min="1"
+        max="100"
+        placeholder="1 ~ 100"
+        autocomplete="off"
+      />
+      <button id="guessBtn">확인</button>
+    </div>
+
+    <p id="message">아래 칸에 숫자를 입력하고 [확인]을 눌러 시작하세요.</p>
+
+    <ul id="history"></ul>
+
+    <button id="resetBtn">새 게임 시작</button>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+{
+  "name": "262 - 신고 누적 시 관리자 통보 + 글 자동 숨김 (모더레이션)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "report-post",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1111111-1111-4111-8111-111111111111",
+      "name": "신고 신호 받기 (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -180,
+        300
+      ],
+      "webhookId": "report-post-262",
+      "notes": "게시판의 '신고' 버튼이 눌리면, 화면(script.js)이 이 Webhook의 'Production URL'로 POST 합니다. 화면은 신고한 글의 번호(post_id) 하나만 보냅니다. 비밀 키는 여기로 보내지 않습니다. 받는 모양: { \"post_id\": 12 }"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/rpc/increment_report",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"target_id\": {{ $json.body.post_id }}\n}",
+        "options": {}
+      },
+      "id": "b2222222-2222-4222-8222-222222222222",
+      "name": "신고 +1 (Supabase RPC)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        300
+      ],
+      "notes": "Supabase 함수 increment_report 를 호출해 신고 수를 안전하게 +1 하고, 올린 뒤의 글 정보(id, title, report_count, is_hidden)를 돌려받습니다. 이 동작은 anon(공개) 키로는 막혀 있으므로, RLS를 우회하는 service_role(비밀) 키로 합니다. 키는 코드에 직접 쓰지 않고 n8n 환경변수 SUPABASE_SERVICE_ROLE_KEY 로 주입합니다."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e700001-1111-4111-8111-aaaaaaaaaaaa",
+              "name": "post_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "5e700002-2222-4222-8222-aaaaaaaaaaaa",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "5e700003-3333-4333-8333-aaaaaaaaaaaa",
+              "name": "report_count",
+              "value": "={{ $json.report_count }}",
+              "type": "number"
+            },
+            {
+              "id": "5e700004-4444-4444-8444-aaaaaaaaaaaa",
+              "name": "이미숨김",
+              "value": "={{ $json.is_hidden }}",
+              "type": "boolean"
+            },
+            {
+              "id": "5e700005-5555-4555-8555-aaaaaaaaaaaa",
+              "name": "임계치",
+              "value": 3,
+              "type": "number"
+            },
+            {
+              "id": "5e700006-6666-4666-8666-aaaaaaaaaaaa",
+              "name": "숨겨야함",
+              "value": "={{ $json.report_count >= 3 && $json.is_hidden === false }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c3333333-3333-4333-8333-333333333333",
+      "name": "임계치 판단 (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        340,
+        300
+      ],
+      "notes": "RPC가 돌려준 값을 보기 좋게 정리합니다. 임계치(3)와 비교해 '숨겨야함'을 계산합니다: 신고 수가 3 이상이고 아직 숨겨지지 않은 글이면 true. 임계치를 5로 바꾸려면 여기 '임계치' 값과 아래 IF의 숫자만 바꾸면 됩니다."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "dddd0001-1111-4111-8111-dddddddddddd",
+              "leftValue": "={{ $json.숨겨야함 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d4444444-4444-4444-8444-444444444444",
+      "name": "임계치 넘었나? (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        600,
+        300
+      ],
+      "notes": "조건 분기: '숨겨야함'이 true 이면 위쪽(true) 가지 → 글을 숨기고 관리자에게 알림. 아직 임계치 미만이면 아래쪽(false) 가지 → 신고만 +1 된 채 조용히 끝납니다(메일 없음)."
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/posts?id=eq.{{ $json.post_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"is_hidden\": true\n}",
+        "options": {}
+      },
+      "id": "e5555555-5555-4555-8555-555555555555",
+      "name": "글 자동 숨김 (is_hidden=true)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        180
+      ],
+      "notes": "임계치를 넘은 글의 is_hidden 을 true 로 바꿉니다. RLS 정책(읽기는 is_hidden=false 만 허용) 때문에, 이 글은 즉시 화면에서 사라집니다. 화면(anon)으로는 막혀 있는 동작이라 service_role 키로 수행합니다."
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@your-domain.com",
+        "toEmail": "admin@your-domain.com",
+        "subject": "=[신고 누적] '{{ $('임계치 판단 (Set)').item.json.title }}' 글이 자동 숨김 처리되었습니다 (신고 {{ $('임계치 판단 (Set)').item.json.report_count }}회)",
+        "emailFormat": "html",
+        "html": "=<div style=\"font-family: sans-serif; max-width: 520px; margin: 0 auto;\">\n  <h1 style=\"color:#dc2626;\">신고 누적으로 글이 자동 숨김되었습니다</h1>\n  <p>아래 글이 신고 임계치({{ $('임계치 판단 (Set)').item.json.임계치 }}회)에 도달해 화면에서 자동으로 가려졌습니다.</p>\n  <table style=\"border-collapse:collapse; margin:16px 0;\">\n    <tr><td style=\"padding:6px 12px; color:#666;\">글 번호</td><td style=\"padding:6px 12px;\"><strong>{{ $('임계치 판단 (Set)').item.json.post_id }}</strong></td></tr>\n    <tr><td style=\"padding:6px 12px; color:#666;\">제목</td><td style=\"padding:6px 12px;\"><strong>{{ $('임계치 판단 (Set)').item.json.title }}</strong></td></tr>\n    <tr><td style=\"padding:6px 12px; color:#666;\">누적 신고 수</td><td style=\"padding:6px 12px;\"><strong>{{ $('임계치 판단 (Set)').item.json.report_count }}회</strong></td></tr>\n  </table>\n  <p>Supabase 대시보드 &gt; Table editor 에서 글을 확인하세요.<br>\n  문제없는 글이면 is_hidden 을 false 로 되돌려 다시 노출할 수 있습니다.</p>\n  <hr style=\"border:none; border-top:1px solid #eee; margin:24px 0;\">\n  <p style=\"color:#888; font-size:12px;\">이 메일은 n8n 모더레이션 워크플로우가 자동 발송했습니다.</p>\n</div>",
+        "options": {}
+      },
+      "id": "f6666666-6666-4666-8666-666666666666",
+      "name": "관리자에게 통보 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        180
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 SMTP 계정"
+        }
+      },
+      "notes": "관리자에게 '어떤 글이 왜 숨겨졌는지' 알립니다. SMTP 비밀번호는 이 노드에 적지 않고, n8n > Credentials(자격증명 저장소)에 저장한 뒤 여기에 연결합니다. JSON 속 ID는 자리표시자입니다."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"report_count\": {{ $('임계치 판단 (Set)').item.json.report_count }},\n  \"hidden\": true,\n  \"message\": \"신고가 접수되어 글이 숨김 처리되었습니다.\"\n}",
+        "options": {}
+      },
+      "id": "07777777-7777-4777-8777-777777777777",
+      "name": "화면에 응답 — 숨김됨",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        180
+      ],
+      "notes": "신고한 사람의 화면에 '신고 접수 + 숨김 처리됨'을 알려 줍니다. 비밀 키는 응답에 담지 않습니다."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"report_count\": {{ $json.report_count }},\n  \"hidden\": false,\n  \"message\": \"신고가 접수되었습니다.\"\n}",
+        "options": {}
+      },
+      "id": "18888888-8888-4888-8888-888888888888",
+      "name": "화면에 응답 — 접수됨",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        860,
+        420
+      ],
+      "notes": "아직 임계치 미만일 때의 응답. 신고는 +1 되었지만 글은 그대로 보입니다. 관리자 메일은 가지 않습니다."
+    }
+  ],
+  "connections": {
+    "신고 신호 받기 (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "신고 +1 (Supabase RPC)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "신고 +1 (Supabase RPC)": {
+      "main": [
+        [
+          {
+            "node": "임계치 판단 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "임계치 판단 (Set)": {
+      "main": [
+        [
+          {
+            "node": "임계치 넘었나? (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "임계치 넘었나? (IF)": {
+      "main": [
+        [
+          {
+            "node": "글 자동 숨김 (is_hidden=true)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "화면에 응답 — 접수됨",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "글 자동 숨김 (is_hidden=true)": {
+      "main": [
+        [
+          {
+            "node": "관리자에게 통보 (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "관리자에게 통보 (SMTP)": {
+      "main": [
+        [
+          {
+            "node": "화면에 응답 — 숨김됨",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "guide-262-report-moderation-autohide"
+  }
+}

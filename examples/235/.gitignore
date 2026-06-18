@@ -1,0 +1,14 @@
+# 비밀이 담긴 파일은 절대 깃에 올리지 않습니다 (이 실습의 핵심 보안 습관)
+
+# 환경변수 / 비밀
+.env
+.env.*
+*.local
+*-secret.*
+
+# 실제 MCP 설정(진짜 토큰이 들어갈 수 있음). 예시(mcp.example.json)만 공유합니다.
+.claude/mcp.json
+
+# 의존성/빌드 산출물
+node_modules/
+dist/

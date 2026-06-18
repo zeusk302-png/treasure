@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대시보드 (보호됨) — 마이 SaaS (실습 263)</title>
+  <link rel="stylesheet" href="style.css" />
+  <!--
+    [핵심] 깜빡임 방지:
+    로그인 안 한 사람이 잠깐이라도 대시보드 내용을 보는 걸 막으려고,
+    처음엔 본문을 통째로 숨겨 둡니다(.gate-hidden). 세션 확인이 끝나면 열어 줍니다.
+  -->
+  <style> .gate-hidden { display: none; } </style>
+</head>
+<body class="dash-page">
+  <!-- 세션 확인 중에 보이는 안내 (확인 끝나면 사라짐) -->
+  <p id="gateLoading" class="gate-loading">로그인 상태 확인 중…</p>
+
+  <!-- 로그인한 사람만 보게 될 진짜 대시보드 (처음엔 숨김) -->
+  <div id="app" class="gate-hidden">
+    <header class="topbar">
+      <h1>📊 대시보드</h1>
+      <div class="topbar-right">
+        <span class="whoami">👋 <strong id="whoami"></strong></span>
+        <button id="logoutBtn" type="button" class="ghost">로그아웃</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="card welcome">
+        <h2>여기는 로그인한 사람만 볼 수 있는 공간입니다.</h2>
+        <p>
+          주소창에 <code>dashboard.html</code>을 직접 쳐서 들어와도,
+          로그인 세션이 없으면 곧바로 <code>login.html</code>로 튕겨 나갑니다.
+        </p>
+      </section>
+
+      <!-- SaaS 느낌을 내기 위한 가짜 통계 카드 3장 (보호 영역 안의 콘텐츠 예시) -->
+      <section class="stat-grid">
+        <div class="stat">
+          <p class="stat-label">오늘 방문자</p>
+          <p class="stat-value">1,284</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">신규 가입</p>
+          <p class="stat-value">37</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">이번 달 매출</p>
+          <p class="stat-value">₩4.2M</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 1) Supabase 라이브러리(CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 2) 공통 설정 (URL/anon 키, db 클라이언트) -->
+  <script src="config.js"></script>
+  <!-- 3) 이 페이지 전용 로직: 세션 가드 -->
+  <script>
+    const appEl = document.getElementById("app");
+    const gateLoadingEl = document.getElementById("gateLoading");
+    const whoamiEl = document.getElementById("whoami");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // 로그인 페이지로 돌려보내기 (= 보호 라우트의 '게이트')
+    function kickToLogin() {
+      window.location.replace("login.html");
+    }
+
+    // [핵심 ①] 세션 가드 — 이 페이지의 심장.
+    // 세션이 없으면 본문을 절대 보여주지 않고 로그인으로 돌려보냅니다.
+    async function guard() {
+      if (isPlaceholder()) {
+        gateLoadingEl.textContent =
+          "아직 내 프로젝트 값이 입력되지 않았어요 (config.js 수정 필요)";
+        return;
+      }
+
+      const { data: { session } } = await db.auth.getSession();
+
+      if (!session) {
+        // 로그인 안 함 → 즉시 추방. 본문(#app)은 끝까지 숨김 상태로 둡니다.
+        kickToLogin();
+        return;
+      }
+
+      // 통과! 이제 본문을 열고, 누가 로그인했는지 보여 줍니다.
+      whoamiEl.textContent = session.user.email;
+      gateLoadingEl.hidden = true;
+      appEl.classList.remove("gate-hidden");
+    }
+
+    // [핵심 ②] 로그아웃 — 누르면 세션이 사라지므로 곧바로 로그인으로 보냅니다.
+    logoutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      kickToLogin();
+    });
+
+    // [핵심 ③] 다른 탭에서 로그아웃하거나 세션이 만료되면 여기로 들어옵니다.
+    // 보호 페이지에 머무는 동안 세션이 풀리면 바로 추방합니다.
+    db.auth.onAuthStateChange((event, session) => {
+      if (!session) kickToLogin();
+    });
+
+    guard();
+  </script>
+</body>
+</html>

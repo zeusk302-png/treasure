@@ -1,0 +1,210 @@
+{
+  "name": "267 - 매일 아침 대시보드 요약 리포트 메일",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "a1111111-1111-4111-8111-111111111111",
+      "name": "매일 아침 8시 (Cron)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -260,
+        300
+      ],
+      "notes": "크론 표현식 '0 8 * * *' = 매일 8시 0분에 깨어납니다. 5칸은 '분 시 일 월 요일' 순서입니다. 주의: 서버 기본 시간대는 보통 UTC라서, n8n 워크플로우 설정의 Timezone을 'Asia/Seoul'로 맞춰야 한국 아침 8시에 정확히 돕니다. 안 그러면 새벽 5시(UTC 8시)에 도는 사고가 납니다."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/orders?select=id,amount,status,created_at&created_at=gte.{{ $today.toFormat('yyyy-MM-dd') }}T00:00:00&created_at=lt.{{ $today.plus(1, 'days').toFormat('yyyy-MM-dd') }}T00:00:00",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b2222222-2222-4222-8222-222222222222",
+      "name": "오늘 주문 조회 (Supabase REST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        180
+      ],
+      "notes": "오늘 0시부터 내일 0시 직전까지 들어온 주문을 모두 가져옵니다. 모든 사용자의 데이터를 읽어 집계해야 하므로 RLS(행 수준 보안)를 우회하는 service_role 키가 필요합니다. 키는 코드에 직접 쓰지 않고 n8n 환경변수 SUPABASE_SERVICE_ROLE_KEY 로 주입합니다(서버 전용·비밀)."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://YOUR_PROJECT_REF.supabase.co/rest/v1/users?select=id,created_at&created_at=gte.{{ $today.toFormat('yyyy-MM-dd') }}T00:00:00&created_at=lt.{{ $today.plus(1, 'days').toFormat('yyyy-MM-dd') }}T00:00:00",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c3333333-3333-4333-8333-333333333333",
+      "name": "오늘 가입자 조회 (Supabase REST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        420
+      ],
+      "notes": "오늘 새로 가입한 사용자를 가져옵니다. 위 '오늘 주문 조회'와 같은 시간 범위·같은 service_role 키를 씁니다. 두 조회가 끝나면 다음 'Merge' 노드에서 하나로 합칩니다."
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "d4444444-4444-4444-8444-444444444444",
+      "name": "두 결과 합치기 (Merge)",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        260,
+        300
+      ],
+      "notes": "오른쪽 두 조회(주문·가입자)의 결과를 한 흐름으로 모아 다음 'Code' 노드로 넘깁니다. 합치기만 할 뿐 계산은 다음 노드에서 합니다."
+    },
+    {
+      "parameters": {
+        "jsCode": "// 앞의 두 조회 결과를 한꺼번에 받아 지표를 집계합니다.\n// 주문에는 amount(금액)/status(상태)가 있고, 가입자에는 그 두 칸이 없습니다.\nconst rows = $input.all().map((item) => item.json);\n\n// 주문으로 보이는 행: amount 칸이 있는 행\nconst orders = rows.filter((r) => r.amount !== undefined && r.amount !== null);\n// 가입자로 보이는 행: amount/status 칸이 없는 행\nconst signups = rows.filter((r) => r.amount === undefined || r.amount === null);\n\nconst orderCount = orders.length;\nconst signupCount = signups.length;\n\n// 오늘 매출 합계 (숫자만 더하기)\nconst revenue = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);\n\n// 상태가 'pending'(처리 대기)인 주문 수 — 오늘 처리해야 할 일감\nconst pendingCount = orders.filter((o) => o.status === 'pending').length;\n\n// 천 단위 콤마 붙인 금액 문자열 (예: 1,250,000)\nconst revenueText = revenue.toLocaleString('ko-KR');\n\n// 오늘 날짜 (리포트 제목용)\nconst dateText = $today.toFormat('yyyy-MM-dd');\n\nreturn [\n  {\n    json: {\n      dateText,\n      signupCount,\n      orderCount,\n      revenue,\n      revenueText,\n      pendingCount,\n    },\n  },\n];"
+      },
+      "id": "e5555555-5555-4555-8555-555555555555",
+      "name": "지표 집계 (Code)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        300
+      ],
+      "notes": "신규 가입 수, 주문 수, 매출 합계, 처리 대기 주문 수를 계산해 한 덩어리로 만듭니다. 비전공자도 읽을 수 있게 한 줄씩 주석을 달았습니다. 이 결과가 다음 메일 본문에 채워집니다."
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@your-domain.com",
+        "toEmail": "REPLACE_WITH_YOUR_REPORT_INBOX@example.com",
+        "subject": "=[일일 리포트] {{ $json.dateText }} 대시보드 요약",
+        "emailFormat": "html",
+        "html": "=<div style=\"font-family: sans-serif; max-width: 520px; margin: 0 auto; color:#222;\">\n  <h1 style=\"color:#2563eb; margin-bottom:4px;\">오늘의 대시보드 요약</h1>\n  <p style=\"color:#666; margin-top:0;\">{{ $json.dateText }} 기준</p>\n  <table style=\"border-collapse:collapse; width:100%; margin:16px 0;\">\n    <tr>\n      <td style=\"padding:12px 16px; background:#f3f4f6; border-radius:8px;\">\n        <div style=\"color:#666; font-size:13px;\">신규 가입</div>\n        <div style=\"font-size:24px; font-weight:bold;\">{{ $json.signupCount }}명</div>\n      </td>\n    </tr>\n    <tr><td style=\"height:8px;\"></td></tr>\n    <tr>\n      <td style=\"padding:12px 16px; background:#f3f4f6; border-radius:8px;\">\n        <div style=\"color:#666; font-size:13px;\">오늘 주문</div>\n        <div style=\"font-size:24px; font-weight:bold;\">{{ $json.orderCount }}건</div>\n      </td>\n    </tr>\n    <tr><td style=\"height:8px;\"></td></tr>\n    <tr>\n      <td style=\"padding:12px 16px; background:#ecfdf5; border-radius:8px;\">\n        <div style=\"color:#666; font-size:13px;\">오늘 매출</div>\n        <div style=\"font-size:24px; font-weight:bold; color:#16a34a;\">{{ $json.revenueText }}원</div>\n      </td>\n    </tr>\n    <tr><td style=\"height:8px;\"></td></tr>\n    <tr>\n      <td style=\"padding:12px 16px; background:#fff7ed; border-radius:8px;\">\n        <div style=\"color:#666; font-size:13px;\">처리 대기 주문</div>\n        <div style=\"font-size:24px; font-weight:bold; color:#ea580c;\">{{ $json.pendingCount }}건</div>\n      </td>\n    </tr>\n  </table>\n  <hr style=\"border:none; border-top:1px solid #eee; margin:24px 0;\">\n  <p style=\"color:#888; font-size:12px;\">이 메일은 매일 아침 8시에 n8n이 자동 발송합니다.</p>\n</div>",
+        "options": {}
+      },
+      "id": "f6666666-6666-4666-8666-666666666666",
+      "name": "요약 메일 발송 (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        780,
+        300
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID",
+          "name": "내 메일 SMTP 계정"
+        }
+      },
+      "notes": "집계한 지표를 카드 모양 표로 담아 나에게(또는 팀 메일로) 보냅니다. SMTP 비밀번호는 이 노드에 적지 않고, n8n > Credentials(자격증명 저장소)에 'SMTP' 자격증명으로 저장한 뒤 여기에 연결합니다. toEmail 자리표시자를 리포트를 받을 실제 주소로 바꾸세요."
+    }
+  ],
+  "connections": {
+    "매일 아침 8시 (Cron)": {
+      "main": [
+        [
+          {
+            "node": "오늘 주문 조회 (Supabase REST)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "오늘 가입자 조회 (Supabase REST)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "오늘 주문 조회 (Supabase REST)": {
+      "main": [
+        [
+          {
+            "node": "두 결과 합치기 (Merge)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "오늘 가입자 조회 (Supabase REST)": {
+      "main": [
+        [
+          {
+            "node": "두 결과 합치기 (Merge)",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "두 결과 합치기 (Merge)": {
+      "main": [
+        [
+          {
+            "node": "지표 집계 (Code)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "지표 집계 (Code)": {
+      "main": [
+        [
+          {
+            "node": "요약 메일 발송 (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "guide-267-daily-dashboard-summary-report"
+  }
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대시보드 — KPI 카드 통계 (실습 264)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>주문 대시보드</h1>
+    <p class="sub">
+      Supabase에 쌓인 주문 데이터를 <strong>집계</strong>해서
+      핵심 지표(<em>KPI</em>) 카드로 한눈에 보여 줍니다.
+    </p>
+  </header>
+
+  <main>
+    <!-- 안내/에러 메시지가 표시되는 자리 -->
+    <p id="status" class="status info">데이터를 불러오는 중…</p>
+
+    <!-- KPI 카드 4개. 처음엔 '—' 였다가 JS가 진짜 숫자로 채웁니다. -->
+    <section class="kpi-grid">
+      <article class="kpi-card">
+        <p class="kpi-label">주문 건수</p>
+        <p class="kpi-value" id="kpi-count">—</p>
+        <p class="kpi-hint">들어온 주문이 몇 건인가 (COUNT)</p>
+      </article>
+
+      <article class="kpi-card">
+        <p class="kpi-label">매출 합계</p>
+        <p class="kpi-value" id="kpi-total">—</p>
+        <p class="kpi-hint">주문 금액을 모두 더하면 (SUM)</p>
+      </article>
+
+      <article class="kpi-card">
+        <p class="kpi-label">평균 주문액</p>
+        <p class="kpi-value" id="kpi-avg">—</p>
+        <p class="kpi-hint">한 건당 평균 얼마인가 (AVG)</p>
+      </article>
+
+      <article class="kpi-card">
+        <p class="kpi-label">고객 수</p>
+        <p class="kpi-value" id="kpi-customers">—</p>
+        <p class="kpi-hint">서로 다른 손님은 몇 명 (DISTINCT)</p>
+      </article>
+    </section>
+
+    <button id="reload" type="button" class="reload-btn">↻ 새로고침</button>
+  </main>
+
+  <footer class="foot">
+    <p>
+      이 페이지는 먼저 <code>script.js</code>의 <code>SUPABASE_URL</code>·<code>SUPABASE_ANON_KEY</code>를
+      내 프로젝트의 <strong>anon(공개) 키</strong>로 바꾸고
+      (<strong>절대 service_role 아님</strong>),
+      <code>schema.sql</code>로 <code>orders</code> 표·보안(RLS)·샘플 데이터를
+      만들어 두어야 동작합니다. 자세한 방법은 <code>README.md</code>를 보세요.
+    </p>
+  </footer>
+
+  <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <script src="script.js"></script>
+</body>
+</html>

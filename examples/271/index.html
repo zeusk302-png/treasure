@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 챗봇 — 말풍선 채팅 UI</title>
+  <style>
+    /* ===== 기본 화면 ===== */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, "Malgun Gothic", sans-serif;
+      background: #eef1f6;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* 채팅 앱 전체를 감싸는 카드 */
+    .chat {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      max-height: 720px;
+      margin: 0 auto;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 상단 제목 줄 */
+    .chat header {
+      background: #4a6cf7;
+      color: #fff;
+      padding: 16px 20px;
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+    .chat header small { display: block; font-weight: normal; opacity: 0.85; font-size: 0.75rem; margin-top: 2px; }
+
+    /* 말풍선이 쌓이는 영역 (넘치면 스크롤) */
+    #messages {
+      flex: 1;                 /* 남는 공간을 모두 차지 */
+      overflow-y: auto;        /* 내용이 많으면 세로 스크롤 */
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* 말풍선 공통 모양 */
+    .bubble {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      line-height: 1.5;
+      white-space: pre-wrap;   /* 줄바꿈을 그대로 보여줌 */
+      word-break: break-word;
+    }
+
+    /* 내가 보낸 말풍선 (오른쪽, 파란색) */
+    .bubble.me {
+      align-self: flex-end;
+      background: #4a6cf7;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* AI가 보낸 말풍선 (왼쪽, 회색) */
+    .bubble.ai {
+      align-self: flex-start;
+      background: #f0f1f5;
+      color: #222;
+      border-bottom-left-radius: 4px;
+    }
+
+    /* "입력 중..." 점 3개 애니메이션 */
+    .typing { display: inline-flex; gap: 4px; }
+    .typing span {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #aaa; animation: blink 1.2s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
+
+    /* 맨 아래 입력 줄 */
+    #composer {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid #e6e8ee;
+      background: #fafbfc;
+    }
+    #input {
+      flex: 1;
+      padding: 11px 14px;
+      border: 1px solid #ccd1dc;
+      border-radius: 999px;
+      font-size: 1rem;
+      outline: none;
+    }
+    #input:focus { border-color: #4a6cf7; }
+    #sendBtn {
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      background: #4a6cf7;
+      color: #fff;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    #sendBtn:disabled { background: #b9c2e6; cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- 채팅 앱 전체 -->
+  <div class="chat">
+    <header>
+      간단 AI 챗봇
+      <small>질문을 입력하고 보내면 말풍선으로 답이 나타나요</small>
+    </header>
+
+    <!-- 말풍선들이 여기에 하나씩 추가됩니다 -->
+    <div id="messages"></div>
+
+    <!-- 입력 줄: form 으로 감싸면 Enter 키로도 전송됩니다 -->
+    <form id="composer">
+      <input id="input" type="text" placeholder="메시지를 입력하세요…" autocomplete="off" />
+      <button id="sendBtn" type="submit">보내기</button>
+    </form>
+  </div>
+
+  <script>
+    // ===================================================================
+    // 1) 화면 요소 가져오기
+    // ===================================================================
+    const messagesEl = document.getElementById('messages');
+    const formEl     = document.getElementById('composer');
+    const inputEl    = document.getElementById('input');
+    const sendBtn    = document.getElementById('sendBtn');
+
+    // ===================================================================
+    // 2) 말풍선 하나를 화면에 추가하는 함수
+    //    who = 'me'(내 말, 오른쪽) 또는 'ai'(AI 말, 왼쪽)
+    // ===================================================================
+    function addBubble(text, who) {
+      const div = document.createElement('div');
+      div.className = 'bubble ' + who;
+      div.textContent = text;          // textContent = 입력 글자를 안전하게 그대로 표시
+      messagesEl.appendChild(div);
+      scrollToBottom();
+      return div;                      // 나중에 내용을 바꿀 수 있게 돌려줌
+    }
+
+    // 새 말풍선이 생기면 항상 맨 아래가 보이도록 스크롤
+    function scrollToBottom() {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // "AI가 입력 중…" 점 3개 말풍선을 보여주는 함수
+    function addTypingBubble() {
+      const div = document.createElement('div');
+      div.className = 'bubble ai';
+      div.innerHTML = '<span class="typing"><span></span><span></span><span></span></span>';
+      messagesEl.appendChild(div);
+      scrollToBottom();
+      return div;
+    }
+
+    // ===================================================================
+    // 3) "AI에게 물어보기" — 비동기(async) 함수
+    //    지금은 인터넷/요금 없이도 바로 돌아가도록 가짜 응답을 돌려줍니다.
+    //    실제 AI API 연결법은 아래 [실제 API 붙이기] 주석을 보세요.
+    // ===================================================================
+    async function askAI(question) {
+      // await = "응답이 올 때까지 잠깐 기다려" 라는 뜻.
+      // 진짜 AI도 답하는 데 시간이 걸리므로 0.9초 기다리는 척을 합니다.
+      await new Promise(function (resolve) { setTimeout(resolve, 900); });
+
+      // --- 아주 단순한 규칙 기반 가짜 답변 ---
+      const q = question.toLowerCase();
+      if (q.includes('안녕') || q.includes('하이') || q.includes('hello')) {
+        return '안녕하세요! 무엇을 도와드릴까요? 😊';
+      }
+      if (q.includes('이름')) {
+        return '저는 연습용 챗봇이에요. 아직 이름은 없답니다!';
+      }
+      if (q.includes('날씨')) {
+        return '저는 실제 날씨를 알지 못해요. 진짜 AI API를 붙이면 더 똑똑해집니다!';
+      }
+      if (q.includes('고마워') || q.includes('감사')) {
+        return '천만에요! 또 물어봐 주세요. 🙌';
+      }
+      // 그 밖의 질문은 그대로 따라 말하며 안내합니다.
+      return '"' + question + '" 라고 하셨네요.\n지금은 연습용 가짜 답변이에요. README의 "실제 API 붙이기"를 따라 하면 진짜 AI가 대답합니다.';
+    }
+
+    // ===================================================================
+    // 4) 전송 처리: 폼이 제출되면(보내기 버튼 또는 Enter)
+    // ===================================================================
+    formEl.addEventListener('submit', async function (event) {
+      event.preventDefault();                 // 새로고침되는 기본 동작 막기
+      const text = inputEl.value.trim();
+      if (!text) return;                       // 빈 메시지는 무시
+
+      addBubble(text, 'me');                   // 1) 내 말풍선 먼저 그리기
+      inputEl.value = '';                      // 2) 입력칸 비우기
+      sendBtn.disabled = true;                 // 3) 답 오는 동안 버튼 잠그기
+
+      const typing = addTypingBubble();        // 4) "입력 중…" 말풍선
+
+      try {
+        const answer = await askAI(text);      // 5) AI 응답 기다리기
+        typing.remove();                       // 6) "입력 중…" 지우고
+        addBubble(answer, 'ai');               //    진짜 답 말풍선 그리기
+      } catch (err) {
+        typing.remove();
+        addBubble('⚠️ 답을 가져오지 못했어요: ' + err.message, 'ai');
+      } finally {
+        sendBtn.disabled = false;              // 7) 버튼 다시 풀기
+        inputEl.focus();
+      }
+    });
+
+    // 첫 인사 말풍선
+    addBubble('안녕하세요! 아래 칸에 아무거나 입력해 보세요. 👋', 'ai');
+
+
+    /* ===================================================================
+       [실제 API 붙이기] — 가짜 응답 대신 진짜 AI를 연결하고 싶다면
+       ===================================================================
+       위 askAI 함수 안의 가짜 부분을 지우고 아래 형태로 바꿉니다.
+       ⚠️ 매우 중요(보안): API 키는 "비밀값"입니다.
+          - 이 HTML(브라우저에서 보이는 코드)에 키를 그대로 적으면
+            아무나 소스 보기로 훔쳐 갑니다. 절대 넣지 마세요!
+          - 올바른 방법: n8n 웹훅이나 Supabase Edge Function 같은
+            "중간 서버"를 두고, 키는 그 서버에만 보관합니다.
+            브라우저는 키 없이 그 중간 주소로만 요청을 보냅니다.
+
+       async function askAI(question) {
+         // YOUR_WEBHOOK_URL = 내 n8n/Supabase 함수 주소로 바꾸세요(키 아님, 공개되어도 됨)
+         const res = await fetch('REPLACE_WITH_YOUR_WEBHOOK_URL', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ message: question })
+         });
+         if (!res.ok) throw new Error('서버 응답 오류 (' + res.status + ')');
+         const data = await res.json();
+         return data.reply;   // 중간 서버가 { "reply": "..." } 형태로 돌려준다고 가정
+       }
+
+       // 중간 서버(n8n 등) 안에서만 진짜 키를 사용합니다:
+       //   Authorization: Bearer YOUR_API_KEY   ← 여기(서버)에만 보관!
+    =================================================================== */
+  </script>
+</body>
+</html>

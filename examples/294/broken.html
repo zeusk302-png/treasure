@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>요청 폭주 — (고장난 버전 · 탭이 멈춥니다)</title>
+  <!-- React를 따로 설치하지 않고 CDN으로 바로 불러옵니다(연습용). -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- 브라우저에서 JSX를 바로 해석하게 해주는 도구(연습용). 실전에선 빌드 단계에서 처리합니다. -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background: #fdf2f2;
+      color: #2b2b2b;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #ffffff;
+      width: 460px;
+      max-width: 100%;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+    h1 { margin-top: 0; font-size: 18px; color: #b23b3b; }
+    .count {
+      font-size: 40px;
+      font-weight: bold;
+      color: #b23b3b;
+      font-variant-numeric: tabular-nums;
+    }
+    .label { color: #777; font-size: 13px; }
+    .note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #8a3b3b;
+      background: #fde2e2;
+      padding: 12px 14px;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+    code { background: #f3eded; padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- type="text/babel" : 이 안의 JSX를 브라우저가 해석합니다(연습용) -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // =====================================================================
+    // 고장 1) "매 렌더마다 fetch" — useEffect에 의존성 배열이 없음
+    // ---------------------------------------------------------------------
+    // useEffect의 두 번째 인자(의존성 배열)를 "아예 빼면" 화면이 다시 그려질
+    // 때마다 effect가 또 실행됩니다. 그런데 그 안에서 setState(setCount)를
+    // 부르면 → 다시 렌더 → 또 effect 실행 → 또 fetch → 또 setState ...
+    // 끝나지 않는 고리가 생겨 네트워크 탭에 요청이 "폭주"합니다.
+    // =====================================================================
+    function 폭주요청(props) {
+      const [count, setCount] = useState(0);
+
+      // ❌ BUG: 의존성 배열이 없습니다( [] 도, [어떤값] 도 없음 ).
+      //         그래서 "렌더될 때마다 매번" 이 effect가 돌아갑니다.
+      useEffect(() => {
+        // 진짜 서버 대신, 요청이 나가는 것만 흉내 냅니다(가짜 주소).
+        // 네트워크 탭(F12 → Network)에는 이 fetch가 1초에 수십~수백 번 찍힙니다.
+        fetch("https://example.invalid/ping?n=" + count).catch(() => {});
+
+        // ❌ 그리고 effect 안에서 상태를 바꿉니다 → 또 렌더 → 또 effect → 또 fetch...
+        setCount(count + 1);
+
+        console.log("fetch 발사! count =", count); // 콘솔이 끝없이 쌓입니다
+      }); // ← 여기에 의존성 배열이 빠진 것이 핵심 버그
+
+      return (
+        <div>
+          <div className="label">지금까지 보낸 요청 수(폭주 중)</div>
+          <div className="count">{count}</div>
+        </div>
+      );
+    }
+
+    // =====================================================================
+    // 고장 2) "종료 조건 없는 자기 호출" — 함수가 자신을 무한히 다시 부름
+    // ---------------------------------------------------------------------
+    // 이 함수는 자기 자신을 다시 부르기만 하고, "언제 멈출지" 조건이 없습니다.
+    // 부르는 순간 탭이 멈추므로, 아래에서는 일부러 호출하지 않고 모양만 둡니다.
+    // =====================================================================
+    function 카운트다운(n) {
+      console.log(n);
+      // ❌ BUG: n === 0 같은 "멈추는 조건(종료 조건)"이 없습니다.
+      //         그래서 n이 음수로 끝없이 내려가며 영원히 자기 자신을 부릅니다.
+      카운트다운(n - 1); // ← 멈추지 않는 재귀 → "Maximum call stack size exceeded"
+    }
+    // 주의: 아래 줄의 주석을 풀면 탭이 즉시 멈춥니다. 풀지 마세요(고장 시연용).
+    // 카운트다운(3);
+
+    function App() {
+      return (
+        <div className="card">
+          <h1>요청 폭주 (고장난 버전 · 탭이 멈춥니다)</h1>
+          <폭주요청 />
+          <p className="note">
+            이 페이지를 열면 <b>F12 → Network(네트워크)</b> 탭에 요청이 끝없이 쌓이고,
+            <b>Console(콘솔)</b>에는 <code>fetch 발사!</code> 로그가 폭주합니다. 곧 탭이 느려지거나 멈춥니다.<br />
+            원인은 <code>useEffect</code>에 <b>의존성 배열이 빠진 것</b>(고장 1)과,
+            <b>종료 조건 없는 자기 호출</b>(고장 2)입니다. 정답은 <code>index.html</code>에 있습니다.<br />
+            <b>탭이 멈추면 그냥 탭을 닫으세요.</b> 컴퓨터에 해가 가지는 않습니다.
+          </p>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 — 마이 SaaS (실습 263)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-page">
+  <main class="auth-card">
+    <h1>마이 SaaS 로그인</h1>
+    <p class="sub">
+      로그인해야 <strong>대시보드</strong>를 볼 수 있어요.
+      이것이 <em>보호 라우트(로그인 게이트)</em>의 기본입니다.
+    </p>
+
+    <form id="authForm" class="auth-form">
+      <label class="field">
+        <span class="label-text">이메일</span>
+        <input id="email" type="email" placeholder="예: me@example.com" required />
+      </label>
+      <label class="field">
+        <span class="label-text">비밀번호 (6자 이상)</span>
+        <input id="password" type="password" placeholder="비밀번호" minlength="6" required />
+      </label>
+      <div class="btn-row">
+        <button id="loginBtn" type="submit">로그인</button>
+        <button id="signupBtn" type="button" class="ghost">회원가입</button>
+      </div>
+    </form>
+
+    <p id="authStatus" class="status" hidden></p>
+  </main>
+
+  <!-- 1) Supabase 라이브러리(CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 2) 공통 설정 (URL/anon 키, db 클라이언트) -->
+  <script src="config.js"></script>
+  <!-- 3) 이 페이지 전용 로직 -->
+  <script>
+    const emailEl = document.getElementById("email");
+    const passwordEl = document.getElementById("password");
+    const authForm = document.getElementById("authForm");
+    const signupBtn = document.getElementById("signupBtn");
+    const authStatusEl = document.getElementById("authStatus");
+
+    function showStatus(kind, text) {
+      authStatusEl.hidden = false;
+      authStatusEl.className = "status " + kind; // info | ok | fail
+      authStatusEl.textContent = text;
+    }
+
+    // 로그인에 성공하면 대시보드로 보냅니다.
+    function goToDashboard() {
+      window.location.href = "dashboard.html";
+    }
+
+    // [핵심 ①] 이미 로그인된 상태로 로그인 페이지에 오면, 그냥 대시보드로 보냅니다.
+    async function redirectIfAlreadyLoggedIn() {
+      if (isPlaceholder()) {
+        showStatus("fail", "아직 내 프로젝트 값이 입력되지 않았어요 (config.js 수정 필요)");
+        return;
+      }
+      const { data: { session } } = await db.auth.getSession();
+      if (session) goToDashboard();
+    }
+
+    // [핵심 ②] 회원가입 — signUp
+    signupBtn.addEventListener("click", async () => {
+      const email = emailEl.value.trim();
+      const password = passwordEl.value;
+      if (!email || password.length < 6) {
+        showStatus("fail", "이메일과 6자 이상 비밀번호를 입력하세요.");
+        return;
+      }
+      showStatus("info", "회원가입 중…");
+      const { data, error } = await db.auth.signUp({ email, password });
+      if (error) {
+        console.error("회원가입 실패:", error.message);
+        showStatus("fail", "회원가입 실패: " + error.message);
+        return;
+      }
+      // 이메일 확인 OFF → 바로 세션 생김 / ON → 메일 확인 후 로그인
+      if (data.session) {
+        showStatus("ok", "가입 완료! 대시보드로 이동합니다…");
+        goToDashboard();
+      } else {
+        showStatus("ok", "가입 메일을 보냈어요. 메일의 링크를 누른 뒤 로그인하세요.");
+      }
+    });
+
+    // [핵심 ③] 로그인 — signInWithPassword
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = emailEl.value.trim();
+      const password = passwordEl.value;
+      showStatus("info", "로그인 중…");
+      const { error } = await db.auth.signInWithPassword({ email, password });
+      if (error) {
+        console.error("로그인 실패:", error.message);
+        let friendly = "로그인 실패: " + error.message;
+        if (error.message.includes("Invalid login credentials")) {
+          friendly = "이메일 또는 비밀번호가 맞지 않아요. (처음이면 먼저 회원가입)";
+        } else if (error.message.includes("Email not confirmed")) {
+          friendly = "가입 확인 메일의 링크를 먼저 눌러 주세요.";
+        }
+        showStatus("fail", friendly);
+        return;
+      }
+      showStatus("ok", "로그인 성공! 대시보드로 이동합니다…");
+      goToDashboard();
+    });
+
+    redirectIfAlreadyLoggedIn();
+  </script>
+</body>
+</html>
