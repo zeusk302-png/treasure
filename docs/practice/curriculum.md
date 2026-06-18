@@ -1,6 +1,6 @@
 # 실습 300선 — 1년 커리큘럼
 
-> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 304 / 305 준비됨)**
+> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 305 / 305 준비됨)**
 
 !!! tip "난이도 읽는 법"
     ★ 입문 · ★★ 기초 · ★★★ 중급 · ★★★★ 응용 · ★★★★★ 종합·프로젝트
@@ -96,7 +96,7 @@
 | 056 | 버튼 누르면 알림창 띄우기 (첫 이벤트) | 버튼 1개를 만들고 클릭하면 alert가 뜨게 해서 '이벤트'가 무엇인지 처음 체감한다 | ★☆☆☆☆ | click 이벤트, addEventListener | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/056) |
 | 057 | 버튼 클릭으로 화면 글자 바꾸기 | 버튼을 누르면 <p> 안의 텍스트가 다른 문장으로 바뀌게 해서 DOM에서 요소를 골라 내용을 바꾸는 법을 배운다 | ★☆☆☆☆ | getElementById, textContent | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/057) |
 | 058 | 박스 색깔 바꾸기 버튼 3개 만들기 | 빨강·초록·파랑 버튼을 만들어 누르는 색으로 박스 배경색이 바뀌게 해서 style 속성을 JS로 조작한다 | ★☆☆☆☆ | element.style, 이벤트 연결 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/058) |
-| 059 | 다크모드 토글 버튼 만들기 | 버튼 한 번으로 밝은 화면/어두운 화면을 번갈아 바꿔 classList.toggle로 상태를 켜고 끄는 패턴을 익힌다 | ★★☆☆☆ | classList.toggle, CSS 클래스 전환 | 준비중 |
+| 059 | 다크모드 토글 버튼 만들기 | 버튼 한 번으로 밝은 화면/어두운 화면을 번갈아 바꿔 classList.toggle로 상태를 켜고 끄는 패턴을 익힌다 | ★★☆☆☆ | classList.toggle, CSS 클래스 전환 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/059) |
 | 060 | 더보기/접기 텍스트 토글 만들기 | 긴 글을 '더보기' 버튼으로 펼치고 '접기'로 다시 숨겨 요소를 보였다 숨겼다 하는 show/hide를 배운다 | ★★☆☆☆ | hidden 속성, display 토글 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/060) |
 | 061 | 비밀번호 보기/가리기 눈 아이콘 토글 | 입력칸의 type을 password↔text로 바꿔 비밀번호를 보였다 가렸다 해 input 속성을 동적으로 바꾸는 법을 익힌다 | ★★☆☆☆ | input type 변경, toggle 상태 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/061) |
 | 062 | 이름 입력하면 인사말 출력하기 | 입력칸에 이름을 적고 버튼을 누르면 '○○님 안녕하세요'가 화면에 뜨게 해 사용자 입력값을 읽어 출력한다 | ★★☆☆☆ | input.value, 문자열 결합 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/062) |

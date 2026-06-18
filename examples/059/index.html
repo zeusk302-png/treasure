@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다크모드 토글 버튼</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>다크모드 토글</h1>
+    <p class="hint">아래 버튼을 누르면 화면이 밝은 모드 ↔ 어두운 모드로 번갈아 바뀌어요.</p>
+
+    <article class="card">
+      <h2>부산코딩스쿨</h2>
+      <p>
+        이 페이지의 색은 <strong>CSS 클래스 하나</strong>로 정해집니다.
+        버튼을 누르면 자바스크립트가 화면 전체에 <code>dark</code> 클래스를
+        붙였다 뗐다 하고, 그에 맞춰 배경과 글자 색이 바뀝니다.
+      </p>
+      <p>
+        밝은 화면이 눈부신 밤에는 어두운 모드가, 글을 오래 읽는 낮에는
+        밝은 모드가 편하죠. 버튼 하나로 둘을 오가는 작은 기능을 만들어 봅니다.
+      </p>
+    </article>
+
+    <!-- 이 버튼을 누르면 화면 전체(body)에 dark 클래스가 붙었다 떼였다 합니다 -->
+    <!-- aria-pressed: 지금 다크모드가 켜졌는지(true)/꺼졌는지(false)를 알려주는 표시(접근성) -->
+    <button type="button" id="themeBtn" class="theme-btn" aria-pressed="false">
+      🌙 어두운 모드로 바꾸기
+    </button>
+  </main>
+
+  <!-- 자바스크립트는 화면(HTML)이 다 만들어진 뒤에 읽히도록 body 끝에 둡니다 -->
+  <script src="script.js"></script>
+</body>
+</html>
