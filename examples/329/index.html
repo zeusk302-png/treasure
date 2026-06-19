@@ -1,0 +1,125 @@
+<!--
+  이 파일은 무엇인가:
+  "외부 날씨 API"를 호출해 오늘 날씨를 보여주는 한 페이지짜리 날씨 위젯(index.html)입니다.
+  왜 있는가:
+  실습 329에서 "외부 서비스(API)에서 데이터를 받아 화면에 그리는 흐름"과
+  그 과정에서 꼭 필요한 로딩 표시·에러 처리를 직접 눈으로 확인하기 위한 예제입니다.
+
+  왜 이 구조인가:
+  - 화면(HTML)·꾸밈(CSS)·동작(JS)을 한 파일에 담아, 더블클릭만으로 바로 열리게 했습니다.
+    (서버·빌드 도구 없이 따라할 수 있어 비전공 입문자가 막힐 일이 적습니다.)
+  - 날씨 데이터는 Open-Meteo(open-meteo.com)에서 받습니다.
+    이 API는 "비상업 용도 무료 + API 키 불필요"라, 키를 코드에 박을 위험 자체가 없어 첫 연동 실습에 가장 안전합니다.
+    (키가 필요한 API였다면 키는 절대 프론트 코드에 두면 안 되고, 서버를 거쳐 호출해야 합니다.)
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자·레이아웃이 적절히 보이게 하는 설정입니다. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘 날씨 위젯</title>
+  <style>
+    /* 디자인 토큰: 색을 한 곳(:root)에 모아두면 나중에 한 줄만 바꿔 전체 톤을 조절할 수 있습니다. */
+    :root {
+      --main: #2563eb;
+      --bg: #eff6ff;
+      --card: #ffffff;
+      --line: #dbeafe;
+      --text: #1e293b;
+      --muted: #64748b;
+      --danger: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    .widget {
+      width: 100%;
+      max-width: 380px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+    }
+    h1 { font-size: 1.2rem; margin: 0 0 16px; }
+
+    /* 도시 선택 영역 */
+    .controls { display: flex; gap: 8px; margin-bottom: 18px; }
+    select, button {
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    select { flex: 1; background: #fff; color: var(--text); }
+    button {
+      background: var(--main);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* 결과 카드 */
+    .result { text-align: center; padding: 12px 0; min-height: 150px; }
+    .temp { font-size: 3rem; font-weight: 700; margin: 4px 0; }
+    .desc { font-size: 1.05rem; color: var(--muted); }
+    .meta { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .emoji { font-size: 2.4rem; }
+
+    /* 로딩 스켈레톤: 데이터가 오는 동안 "회색 자리"를 깜빡이게 해서
+       사용자가 "멈춘 게 아니라 불러오는 중"임을 알게 합니다. */
+    .skeleton {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: 8px;
+      height: 18px;
+      margin: 10px auto;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* 에러 메시지: 빨간색 + 다시 시도 버튼으로, 실패해도 사용자가 다음 행동을 알 수 있게 합니다. */
+    .error { color: var(--danger); font-weight: 600; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <main class="widget">
+    <h1>🌤️ 오늘 날씨 위젯</h1>
+
+    <!-- 도시 선택: 위도/경도를 직접 외우지 않아도 되게, 좌표를 option의 값으로 미리 넣어둡니다. -->
+    <div class="controls">
+      <label for="city" class="hidden">도시 선택</label>
+      <select id="city">
+        <option value="35.18,129.08">부산</option>
+        <option value="37.57,126.98">서울</option>
+        <option value="35.87,128.60">대구</option>
+        <option value="33.51,126.52">제주</option>
+        <option value="37.46,126.71">인천</option>
+      </select>
+      <button id="loadBtn">조회</button>
+    </div>
+
+    <!-- 결과가 그려질 영역. 처음엔 비어 있고, JS가 상태에 따라 내용을 바꿔 넣습니다. -->
+    <div id="result" class="result"></div>
+  </main>
+
+  <!-- 동작 코드는 별도 파일로 분리: HTML(구조)과 JS(동작)를 나누면 읽고 고치기 쉽습니다.
+       defer는 "HTML을 다 읽은 뒤 스크립트를 실행"하게 해, 아직 안 만들어진 요소를 건드리는 오류를 막습니다. -->
+  <script defer src="script.js"></script>
+</body>
+</html>

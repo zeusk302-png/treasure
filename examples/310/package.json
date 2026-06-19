@@ -1,0 +1,22 @@
+{
+  "//": "실습 310 — WebSocket 실시간 채팅 서버용 설정. 'npm install'이 읽어 'ws' 라이브러리를 받고, 'npm start'로 서버를 켭니다.",
+  "name": "practice-310-websocket-chat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WebSocket으로 만드는 실시간 채팅 데모 (서버+클라)",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "comments": {
+    "scripts.start": "서버를 켜는 명령. 터미널에서 'npm start' 라고 치면 server.js가 실행됩니다.",
+    "dependencies.ws": "브라우저와 양방향 연결을 열어 주는 WebSocket 서버 라이브러리. 이게 있어야 server.js가 동작합니다.",
+    "engines.node": "최신 Node LTS(18 이상)에서 검증됨. 설치된 버전은 터미널에서 'node -v'로 확인합니다."
+  }
+}

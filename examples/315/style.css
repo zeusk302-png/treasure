@@ -1,0 +1,236 @@
+/*
+  ============================================================
+  style.css — 디자인 토큰(CSS 변수) 정의 + 그 토큰을 참조하는 모든 스타일
+  ------------------------------------------------------------
+  이 파일이 핵심입니다. 두 부분으로 나뉩니다.
+   (1) :root 와 [data-theme="..."] — "토큰 정의부". 색/간격/글꼴의 '값'은 오직 여기에만 있습니다.
+   (2) 그 아래 .btn, .card 등 — "토큰 사용부". 값을 직접 쓰지 않고 var(--토큰)으로 참조만 합니다.
+  왜 이렇게? : 값과 사용을 분리하면, 색을 바꾸고 싶을 때 (1)의 토큰 한 줄만 고치면
+               (2)를 쓰는 모든 화면이 자동으로 따라 바뀝니다. = '일관성'을 코드로 보장.
+  ============================================================
+*/
+
+/* ---------- (1-A) 전 테마 공통 토큰 — 간격·글꼴·모서리 ----------
+   색이 아닌 값(여백, 글자 크기, 둥근 모서리)은 테마가 바뀌어도 같으므로
+   :root(문서 전체 기본값)에 한 번만 둡니다. 숫자를 직접 쓰는 대신 토큰으로 둔 이유:
+   "여백을 전부 8px 넓혀 줘" 같은 요청을 토큰 한 줄 수정으로 끝내기 위해서입니다. */
+:root {
+  /* 간격 토큰 — 4의 배수로 정해 두면 화면 리듬(여백 간격)이 들쭉날쭉하지 않습니다. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* 글꼴·글자크기 토큰 — 폰트를 한 곳에서 관리하면 브랜드 폰트 교체가 한 줄로 끝납니다. */
+  --font-base: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  --font-sm: 0.9rem;
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.6rem;
+
+  /* 모양 토큰 — 둥근 정도/그림자. 카드·버튼이 같은 '재질감'을 갖게 통일합니다. */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- (1-B) 테마별 색 토큰 ----------
+   각 테마는 '같은 이름의 색 토큰'에 다른 값을 넣습니다.
+   사용부(.btn 등)는 항상 --color-brand 같은 '이름'만 보므로, 어떤 테마든 그대로 동작합니다.
+   이름은 의미(brand/bg/text)로 짓습니다. '파랑'처럼 색깔로 이름 지으면
+   나중에 빨강 테마로 바꿀 때 이름과 실제 색이 어긋나 헷갈리기 때문입니다. */
+
+/* 기본 테마: 인디고 (body data-theme="indigo") */
+[data-theme="indigo"] {
+  --color-brand: #4f46e5;        /* 핵심 강조색(버튼·링크) */
+  --color-brand-strong: #4338ca; /* 눌렀을 때 등 더 진한 강조 */
+  --color-bg: #f7f7fb;           /* 페이지 배경 */
+  --color-surface: #ffffff;      /* 카드 같은 '판' 배경 */
+  --color-text: #1f2937;         /* 본문 글자색 */
+  --color-muted: #6b7280;        /* 보조 설명 글자색 */
+  --color-line: #e5e7eb;         /* 경계선 */
+}
+
+/* 에메랄드 테마 — 색 토큰만 갈아끼우면 끝. 사용부는 한 줄도 안 고칩니다. */
+[data-theme="emerald"] {
+  --color-brand: #059669;
+  --color-brand-strong: #047857;
+  --color-bg: #f3faf6;
+  --color-surface: #ffffff;
+  --color-text: #14302a;
+  --color-muted: #5f7d72;
+  --color-line: #d7ece2;
+}
+
+/* 로즈 테마 */
+[data-theme="rose"] {
+  --color-brand: #e11d48;
+  --color-brand-strong: #be123c;
+  --color-bg: #fdf3f5;
+  --color-surface: #ffffff;
+  --color-text: #3a1620;
+  --color-muted: #8a5a66;
+  --color-line: #f3d4dc;
+}
+
+/* 다크 테마 — 배경·글자색까지 전부 토큰으로 두었기에 '다크모드'도 새 색 세트일 뿐입니다. */
+[data-theme="dark"] {
+  --color-brand: #818cf8;
+  --color-brand-strong: #a5b4fc;
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-line: #334155;
+}
+
+/* ============================================================
+   (2) 토큰 사용부 — 여기서부터는 색/간격을 '직접' 쓰지 않습니다.
+   전부 var(--토큰)으로 참조 → 테마를 바꾸면 자동으로 따라옵니다.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  font-size: var(--font-md);
+  background: var(--color-bg);   /* 배경도 토큰 — 다크 테마면 자동으로 어두워집니다. */
+  color: var(--color-text);
+  line-height: 1.6;
+  /* 색이 부드럽게 바뀌도록 전환 효과. 테마 교체가 '뚝' 끊기지 않고 자연스럽게 보입니다. */
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.site-header {
+  background: var(--color-brand);
+  color: #fff;
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  transition: background-color 0.25s ease;
+}
+.site-header h1 { margin: 0 0 var(--space-2); font-size: var(--font-xl); }
+.subtitle { margin: 0; opacity: 0.92; }
+
+/* 테마 전환 버튼(칩) 묶음 */
+.theme-switch {
+  margin-top: var(--space-6);
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.chip {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 999px;
+  font-size: var(--font-sm);
+  cursor: pointer;
+}
+.chip:hover { background: rgba(255, 255, 255, 0.28); }
+/* 현재 선택된 테마 칩 강조. JS가 aria-pressed="true"를 달아 주면 이 스타일이 켜집니다. */
+.chip[aria-pressed="true"] {
+  background: #fff;
+  color: var(--color-brand-strong);
+  font-weight: 700;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+/* 반응형 카드 그리드 — 화면이 좁으면 1열, 넓으면 자동으로 여러 열이 됩니다. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.card h2 { margin-top: 0; font-size: var(--font-lg); }
+.muted { color: var(--color-muted); font-size: var(--font-sm); }
+
+code {
+  background: var(--color-bg);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* 버튼 — 색은 전적으로 토큰 참조. 그래서 4개 테마에서 자동으로 알맞은 색이 됩니다. */
+.btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-md);
+  cursor: pointer;
+  margin: var(--space-1) var(--space-1) 0 0;
+  transition: background-color 0.15s ease;
+}
+.btn-primary {
+  background: var(--color-brand);
+  color: #fff;
+  border: 1px solid var(--color-brand);
+}
+.btn-primary:hover { background: var(--color-brand-strong); border-color: var(--color-brand-strong); }
+.btn-outline {
+  background: transparent;
+  color: var(--color-brand);
+  border: 1px solid var(--color-brand);
+}
+
+.link { color: var(--color-brand); font-weight: 600; }
+.badge {
+  display: inline-block;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: var(--font-sm);
+  padding: 1px var(--space-2);
+  border-radius: 999px;
+}
+
+/* 토큰 미리보기 영역 */
+.token-preview { margin-top: var(--space-4); }
+.swatch-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-3) 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-2);
+}
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-sm);
+}
+/* 색을 보여 주는 작은 네모. 배경색은 JS가 인라인 style로 넣습니다(읽어 온 토큰 값 그대로). */
+.swatch .dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--color-line);
+  flex: 0 0 auto;
+}
+.swatch .name { color: var(--color-muted); }
+
+.site-footer {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: var(--font-sm);
+  padding: var(--space-6);
+}

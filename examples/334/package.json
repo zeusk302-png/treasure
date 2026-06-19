@@ -1,0 +1,13 @@
+{
+  "_comment": "이 파일은 무엇인가: 이 데모가 어떤 패키지(express)에 기대고, 어떤 명령(npm start)으로 도는지 적은 설명서입니다. npm install이 이 목록을 보고 필요한 것을 받아옵니다.",
+  "name": "practice-334-logging-error-tracking",
+  "version": "1.0.0",
+  "description": "구조화 로깅 + 에러 추적(관측성) 데모 서버",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

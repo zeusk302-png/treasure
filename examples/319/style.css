@@ -1,0 +1,113 @@
+/*
+  파일: style.css (실습 319 — 등장 애니메이션 스타일)
+  무엇: 카드의 '숨김 상태'와 '보임 상태', 그 사이를 잇는 부드러운 전환(transition),
+        그리고 움직임에 민감한 사용자를 위한 접근성 처리(prefers-reduced-motion)를 정의한다.
+  왜 이렇게: 애니메이션의 본질은 '두 상태 사이를 부드럽게 잇기'다. 여기서 두 상태는
+            .reveal(숨김)과 .reveal.is-visible(보임)이고, transition이 그 둘을 0.6초로 연결한다.
+*/
+
+/* ===== 기본 레이아웃 (애니메이션과 무관, 데모를 보기 좋게) ===== */
+:root {
+  --main: #4f46e5;     /* 포인트 색 */
+  --bg: #0f172a;       /* 어두운 배경 — 떠오르는 카드가 잘 보이게 */
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(160deg, #312e81, #0f172a);
+}
+.hero h1 { margin: 0 0 12px; font-size: 2rem; }
+.hero p { margin: 4px 0; color: #cbd5e1; }
+.hint { font-size: 0.9rem; color: var(--muted); }
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  /* 카드 사이를 넉넉히 띄워 스크롤이 생기게 한다 — 그래야 '들어오는 순간'을 관찰할 수 있다 */
+  padding: 40px 20px;
+  display: grid;
+  gap: 64px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.card h2 { margin-top: 0; color: #c7d2fe; font-size: 1.2rem; }
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 48px 20px;
+}
+
+/* ===== 핵심: 등장 애니메이션 ===== */
+
+/*
+  무엇: .reveal = '숨김(처음) 상태'. 투명하고(opacity:0) 살짝 아래로 내려가 있다(translateY).
+  왜: 화면에 보이기 전엔 이 상태로 대기시킨다. 나중에 .is-visible이 붙으면 '보임 상태'로 전환된다.
+  왜 opacity와 transform만 쓰나: 이 둘은 브라우저가 GPU로 처리해 레이아웃을 다시 계산하지 않는다.
+       그래서 스크롤 중에도 버벅이지 않고 부드럽다. (width/top/margin 애니메이션은 무거워 피한다.)
+*/
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  /*
+    무엇: 상태가 바뀔 때 0.6초 동안 부드럽게 이동시킨다.
+    왜 cubic-bezier: 끝에서 살짝 감속하는 곡선이라 '뚝' 멈추지 않고 자연스럽게 안착한다.
+  */
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  /*
+    무엇: will-change로 "이 속성이 곧 변한다"고 브라우저에 귀띔.
+    왜: 브라우저가 미리 준비해 첫 프레임이 더 매끄럽다. (남발하면 메모리를 먹으니 등장 요소에만.)
+  */
+  will-change: opacity, transform;
+}
+
+/*
+  무엇: .is-visible = '보임(목표) 상태'. 선명하게(opacity:1) 제자리로(transform 없음) 돌아온다.
+  왜: script.js가 화면에 들어온 요소에 이 클래스를 추가한다. 그 순간 위 transition이 발동해 떠오른다.
+*/
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== 점진적 향상: JS가 없을 때의 안전장치 ===== */
+/*
+  무엇: 자바스크립트가 꺼졌으면(<html class="no-js">) .reveal을 처음부터 '보임'으로 강제한다.
+  왜: JS가 막힌 환경에서 .reveal을 숨김으로 두면 글이 영영 안 보인다. 애니메이션은 '있으면 좋은 것'이지
+      '없으면 내용이 사라지는 것'이 되면 안 된다. 그래서 내용 노출을 최우선으로 보장한다.
+*/
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== 모션 접근성: 움직임에 민감한 사용자 배려 ===== */
+/*
+  무엇: 사용자가 OS에서 "동작 줄이기"를 켜면(prefers-reduced-motion: reduce) 애니메이션을 끈다.
+  왜: 화려한 등장 모션은 전정기관이 예민한 사람에게 멀미·어지럼증을 유발할 수 있다.
+      그래서 transition을 없애고 카드를 즉시 보이게 해, '예쁨'보다 '모두가 어지럽지 않게'를 우선한다.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    /* transition을 0으로 — 변화가 '순간 이동'처럼 즉시 끝나 모션이 사실상 사라진다 */
+    transition: none;
+    /* 숨김 대기 없이 바로 보이게 — 줄이기를 켰어도 내용은 당연히 다 보여야 한다 */
+    opacity: 1;
+    transform: none;
+  }
+}

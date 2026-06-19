@@ -1,0 +1,23 @@
+{
+  "//": "이 파일은 무엇인가: Node.js 앱이 쓰는 의존성과 실행 스크립트를 적은 명세서. 왜 있는가: 'npm install'이 어떤 라이브러리를 깔아야 하는지, 'npm start'가 무엇을 실행할지 알려주어 환경을 재현 가능하게 만든다.",
+  "name": "compose-app-db-demo",
+  "version": "1.0.0",
+  "description": "docker-compose로 Node.js 앱 + Postgres DB를 함께 띄우는 실습 331 데모",
+  "main": "server.js",
+  "scripts": {
+    "//start": "nodemon으로 server.js 실행 — 코드를 고치면 서버가 자동 재시작되어 개발이 편하다(운영에서는 보통 'node server.js'를 쓴다)",
+    "start": "nodemon server.js",
+    "//start:prod": "운영용: 자동 재시작 없이 그냥 한 번 실행",
+    "start:prod": "node server.js"
+  },
+  "dependencies": {
+    "//express": "간단한 웹 서버를 만드는 라이브러리 — 라우팅(/ 요청 처리)을 쉽게 해준다",
+    "express": "^4.19.2",
+    "//pg": "Node.js에서 Postgres에 접속·쿼리하는 공식 드라이버",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "//nodemon": "소스 변경을 감지해 서버를 자동 재시작 — 개발 편의용(운영 의존성 아님)",
+    "nodemon": "^3.1.4"
+  }
+}

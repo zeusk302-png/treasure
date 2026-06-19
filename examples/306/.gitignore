@@ -1,0 +1,11 @@
+# 비밀값이 든 .env 는 절대 깃에 올리지 않습니다(접속 주소·비밀번호 노출 방지).
+.env
+
+# 설치된 라이브러리 폴더는 용량이 크고 npm install로 다시 만들 수 있어 제외합니다.
+node_modules/
+
+# 속도 비교(benchmark)에서 잠깐 만들었다 지우는 임시 파일.
+.benchmark_counter.tmp
+
+# OS/에디터 부산물
+.DS_Store

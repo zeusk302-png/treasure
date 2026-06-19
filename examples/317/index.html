@@ -1,0 +1,134 @@
+<!--
+  ============================================================
+  실습 317 — Tailwind로 반응형 카드 그리드 만들기
+  ------------------------------------------------------------
+  이 파일은 무엇인가:
+    유틸리티 CSS(Tailwind)만으로 "화면 크기에 따라 열 수가 바뀌는"
+    반응형 카드 그리드를 만든 한 장짜리 데모입니다.
+    별도 CSS 파일을 거의 쓰지 않고, HTML 태그의 class 속성에
+    `grid`, `md:grid-cols-2`, `lg:grid-cols-3` 같은 작은 유틸리티
+    클래스를 조립해서 디자인을 완성하는 방식을 보여줍니다.
+
+  왜 이렇게 했나(이 실습의 핵심):
+    - 비전공자가 "CSS 파일을 따로 만들고 선택자를 고민"하는 부담 없이,
+      태그 옆에 클래스를 붙이는 것만으로 빠르게 스타일을 입히는
+      유틸리티 CSS 방식을 체감하게 하려는 것.
+    - 모바일에서는 1열, 태블릿(md)에서는 2열, 데스크톱(lg)에서는 3열로
+      자동으로 바뀌는 "반응형 그리드"를 눈으로 확인하게 하려는 것.
+
+  실행 방법:
+    이 파일을 더블클릭해서 브라우저로 열기만 하면 됩니다(서버 불필요).
+    브라우저 창 가로폭을 줄였다 늘렸다 하면 열 수가 바뀌는 게 보입니다.
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 휴대폰에서도 글자/레이아웃이 적절히 보이게 하는 설정.
+       반응형 실습에서는 이 줄이 없으면 모바일에서 화면이 줄어든 채로 보일 수 있어 꼭 필요합니다. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind 반응형 카드 그리드 데모</title>
+
+  <!--
+    Tailwind를 가장 쉽게 시작하는 방법: CDN 한 줄.
+    이 <script>를 넣으면 class에 적은 Tailwind 유틸리티가 그 자리에서 바로 동작합니다.
+    (이 CDN 방식은 "연습용"입니다. 실제 서비스에서는 빌드해서 쓰는 게 더 가볍고 빠릅니다 —
+     그 이유와 방법은 README의 '관련 가이드'에서 다룹니다.)
+  -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!--
+    Tailwind의 기본 색/폰트를 살짝 커스터마이즈하는 설정(선택).
+    여기서는 '브랜드 색' 하나만 추가했습니다.
+    왜: 디자인 토큰처럼 색을 한 곳에서 정해 두면, 카드마다 같은 색을 일관되게 쓸 수 있어서.
+  -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            // brand-500을 class에서 `bg-brand-500`, `text-brand-500`처럼 쓸 수 있게 됩니다.
+            brand: { 500: "#4f46e5", 600: "#4338ca" },
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<!--
+  body에 붙인 클래스 풀이(유틸리티 CSS의 느낌을 보여주는 대표 줄):
+    bg-slate-50  : 아주 옅은 회색 배경 (눈이 편하게)
+    text-slate-800 : 본문 글자색을 진회색으로
+    min-h-screen : 내용이 적어도 화면 높이만큼은 채우게
+    antialiased  : 글자를 부드럽게 렌더링
+-->
+<body class="bg-slate-50 text-slate-800 min-h-screen antialiased">
+
+  <!-- 상단 헤더. bg-brand-500은 위에서 정의한 브랜드 색입니다. -->
+  <header class="bg-brand-500 text-white">
+    <!--
+      mx-auto + max-w-6xl : 가운데 정렬 + 너무 넓은 화면에서 양옆이 비게 폭 제한
+      px-4 py-10 : 좌우/상하 여백 (모바일에서도 답답하지 않게)
+    -->
+    <div class="mx-auto max-w-6xl px-4 py-10">
+      <h1 class="text-2xl sm:text-3xl font-bold">Tailwind 반응형 카드 그리드</h1>
+      <p class="mt-2 text-white/90">
+        창 가로폭을 줄였다 늘려 보세요. 카드가 1열 → 2열 → 3열로 바뀝니다.
+      </p>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8">
+
+    <!--
+      ▼▼▼ 이 실습의 심장: 반응형 그리드 컨테이너 ▼▼▼
+      grid                : "그리드 레이아웃을 쓰겠다"
+      grid-cols-1         : 기본(가장 작은 화면=모바일)에서는 1열
+      sm:grid-cols-2      : 화면이 sm(640px) 이상이면 2열
+      lg:grid-cols-3      : 화면이 lg(1024px) 이상이면 3열
+      gap-5               : 카드 사이 간격
+      왜 이 순서인가(모바일 퍼스트):
+        기본값을 모바일(1열)로 두고, 화면이 커질 때마다 sm: / lg: 로 "더하기"만 합니다.
+        작은 화면을 먼저 챙기는 이 방식이 Tailwind(와 현대 CSS)의 권장 방식입니다.
+    -->
+    <section
+      id="cardGrid"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+    >
+      <!--
+        카드 한 장은 아래 형태를 반복합니다. (실제 카드는 아래 script.js가 데이터로 자동 생성합니다.)
+        여기 적은 한 장은 "JS가 꺼졌을 때도 뭔가 보이게" 하는 예시 겸 견본입니다.
+        bg-white rounded-xl shadow-sm : 흰 카드 + 둥근 모서리 + 옅은 그림자
+        ring-1 ring-slate-200 : 아주 얇은 테두리(카드 경계를 또렷하게)
+        transition hover:shadow-md hover:-translate-y-0.5 :
+          마우스를 올리면 살짝 떠오르는 효과 — 클릭 가능한 느낌을 주려고
+      -->
+      <article
+        class="bg-white rounded-xl shadow-sm ring-1 ring-slate-200 overflow-hidden transition hover:shadow-md hover:-translate-y-0.5"
+      >
+        <div class="aspect-video bg-slate-100"></div>
+        <div class="p-4">
+          <span class="inline-block text-xs font-semibold text-brand-600 bg-brand-500/10 rounded px-2 py-0.5">
+            견본
+          </span>
+          <h2 class="mt-2 font-bold text-lg">예시 카드</h2>
+          <p class="mt-1 text-sm text-slate-500">
+            아래 카드들은 script.js가 데이터로 자동으로 그립니다.
+          </p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400">
+    실습 317 데모 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+
+  <!-- 카드 데이터를 코드와 분리해서 따로 둔 파일. 내용을 바꿔 보며 연습하기 좋습니다. -->
+  <script src="data.js"></script>
+  <!-- 데이터를 받아 카드 HTML을 만들어 그리드에 채워 넣는 파일. -->
+  <script src="script.js"></script>
+</body>
+</html>

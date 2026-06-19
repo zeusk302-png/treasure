@@ -1,0 +1,82 @@
+<!--
+  파일: index.html (실습 319 — 스크롤 등장 애니메이션 데모)
+  무엇: 스크롤하면 카드가 부드럽게 떠오르며 나타나는 한 페이지짜리 데모.
+  왜 이렇게: 등장 애니메이션의 핵심은 "처음엔 숨김 → 화면에 보이면 보임"으로 상태를 바꾸는 것.
+            HTML은 '무엇을 보여줄지'(카드들)만 담고, '어떻게 움직일지'는 style.css,
+            '언제 켤지'는 script.js로 역할을 나눠 두면 초보도 각 책임을 따로 이해하기 쉽다.
+  점진적 향상: JS가 막혀도 글은 보이도록 설계했다(아래 .no-js 설명 참고).
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스크롤 등장 애니메이션 데모</title>
+
+  <!--
+    무엇: <html>에 'no-js' 클래스를 잠깐 붙였다가, JS가 살아 있으면 곧바로 'js'로 바꾼다.
+    왜: 자바스크립트가 꺼졌거나 막힌 환경에서는 .reveal을 '숨김'으로 두면 글이 영영 안 보인다.
+        그래서 "JS 없을 땐 처음부터 다 보이게" 하기 위한 신호로 이 클래스를 쓴다(점진적 향상).
+  -->
+  <script>
+    // <html class="no-js"> 를 <html class="js"> 로 즉시 교체 — 이 한 줄이 실행되면 JS가 동작한다는 증거.
+    document.documentElement.className = "js";
+  </script>
+
+  <!-- 스타일(움직임 정의)은 별도 파일로 분리해서 불러온다 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <h1>스크롤 등장 애니메이션</h1>
+    <p>아래로 천천히 스크롤하면 카드가 하나씩 떠오릅니다.</p>
+    <p class="hint">움직임에 민감하다면 OS의 "동작 줄이기"를 켜 보세요 — 애니메이션이 자동으로 꺼집니다.</p>
+  </header>
+
+  <main>
+    <!--
+      무엇: 각 카드에 class="reveal"을 붙였다. 이 클래스가 '등장 애니메이션 대상' 표시다.
+      왜: style.css가 .reveal을 '투명+아래' 숨김 상태로 두고, script.js가 화면에 들어온 순간
+          .is-visible을 추가해 '선명+제자리'로 바꾼다. 즉 클래스 하나로 등장 대상을 지정한다.
+      data-reveal-delay: 같은 줄 카드가 시간차(stagger)를 두고 나타나게 하는 지연(ms). script.js가 읽는다.
+    -->
+    <section class="card reveal" data-reveal-delay="0">
+      <h2>① 처음엔 숨어 있어요</h2>
+      <p>이 카드는 화면에 들어오기 전까지 투명하고 살짝 아래에 있습니다. 스크롤로 보이는 순간 떠오릅니다.</p>
+    </section>
+
+    <section class="card reveal" data-reveal-delay="100">
+      <h2>② transition이 부드러움을 만듭니다</h2>
+      <p>opacity(투명도)와 transform(위치)만 0.6초에 걸쳐 바꾸기 때문에 끊기지 않고 매끄럽습니다.</p>
+    </section>
+
+    <section class="card reveal" data-reveal-delay="200">
+      <h2>③ IntersectionObserver가 타이밍을 잡습니다</h2>
+      <p>스크롤 위치를 직접 계산하지 않고, 브라우저에게 "이 요소가 보이면 알려줘"라고 맡깁니다. 가볍고 정확합니다.</p>
+    </section>
+
+    <section class="card reveal" data-reveal-delay="0">
+      <h2>④ 한 번만 등장합니다</h2>
+      <p>나타난 뒤에는 감시를 끊어, 위아래로 다시 스크롤해도 깜빡이며 재생되지 않습니다.</p>
+    </section>
+
+    <section class="card reveal" data-reveal-delay="100">
+      <h2>⑤ 모두를 위한 배려</h2>
+      <p>"동작 줄이기"를 켠 사용자에겐 애니메이션 없이 즉시 보입니다. 어지럼증을 막기 위한 접근성 처리입니다.</p>
+    </section>
+
+    <section class="card reveal" data-reveal-delay="200">
+      <h2>⑥ 라이브러리 없이 순수 코드</h2>
+      <p>외부 패키지 없이 HTML/CSS/JS 기본 기능만으로 만들었습니다. 그래서 가볍고 의존성이 없습니다.</p>
+    </section>
+  </main>
+
+  <footer>
+    실습 319 데모 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+
+  <!-- 동작 로직은 마지막에 불러온다(본문 요소가 다 만들어진 뒤 JS가 잡을 수 있도록) -->
+  <script src="script.js"></script>
+</body>
+</html>

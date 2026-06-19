@@ -1,0 +1,13 @@
+<!--
+  이 파일은 무엇인가:
+  데모용 로고 이미지(SVG)입니다. URL이 /assets/logo.svg 로 '고정'입니다.
+  왜 /assets 에 두는가:
+  server.js가 /assets 경로를 "no-cache, must-revalidate"로 서빙합니다.
+  즉, 파일명이 고정이라 캐시 버스팅을 못 쓰는 자원을 흉내 내, 매번 304 재검증이 일어나는 모습을
+  관찰하기 위한 것입니다.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="데모 로고">
+  <rect width="120" height="120" rx="20" fill="#2563eb"/>
+  <text x="60" y="74" font-family="system-ui, sans-serif" font-size="40" font-weight="700"
+        text-anchor="middle" fill="#ffffff">337</text>
+</svg>

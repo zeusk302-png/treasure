@@ -1,0 +1,12 @@
+# 비밀값 파일 — 절대 깃에 올리지 않습니다.
+# 왜: .env 에는 진짜 Claude API 키가 들어가므로, 깃허브에 올라가면 곧바로 도용 위험입니다.
+.env
+.env.*
+!.env.example
+
+# 설치된 의존성 — 용량이 크고 npm install 로 언제든 다시 만들 수 있어 올리지 않습니다.
+node_modules/
+
+# 로그/디버그 부산물
+npm-debug.log*
+*.log

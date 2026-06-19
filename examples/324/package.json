@@ -1,0 +1,17 @@
+{
+  "name": "rag-document-chatbot",
+  "version": "1.0.0",
+  "description": "실습 324 — 내 문서로 답하는 RAG 챗봇 (Supabase pgvector + Claude)",
+  "private": true,
+  "scripts": {
+    "ingest": "node ingest.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.67.0"
+  }
+}

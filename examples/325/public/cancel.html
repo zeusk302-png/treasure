@@ -1,0 +1,39 @@
+<!--
+  이 파일은 무엇인가:
+  손님이 Stripe 결제창에서 결제를 '취소'(뒤로 가기 등)했을 때 돌아오는 페이지입니다.
+  왜 있는가: 결제를 중간에 그만둔 손님에게 "괜찮아요, 다시 시도할 수 있어요"를 보여 주려고요.
+  여기서는 아무 처리도 하지 않습니다(돈이 빠진 게 없으니까요).
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 취소 — Stripe 테스트 결제</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #f6f7fb; color: #1f2937; line-height: 1.6;
+      display: flex; min-height: 100vh; align-items: center; justify-content: center; margin: 0; padding: 20px;
+    }
+    .card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 16px;
+      padding: 32px; max-width: 420px; width: 100%; text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .icon { font-size: 3rem; }
+    h1 { font-size: 1.3rem; margin: 8px 0; }
+    p { color: #6b7280; }
+    a { color: #635bff; font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🛒</div>
+    <h1>결제가 취소되었습니다</h1>
+    <p>아무 것도 청구되지 않았어요. 원하시면 다시 시도할 수 있습니다.</p>
+    <p><a href="/">← 가게로 돌아가기</a></p>
+  </div>
+</body>
+</html>

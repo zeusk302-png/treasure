@@ -1,0 +1,147 @@
+<!--
+  ============================================================
+  실습 320 — 키보드·스크린리더 대응 접근성 폼 (index.html)
+  ============================================================
+  이 파일은 무엇인가:
+    - 마우스 없이 "키보드만"으로도, 그리고 "스크린리더"(화면을 읽어주는 보조기기)로도
+      막힘없이 쓸 수 있는 회원 신청 폼 예제입니다.
+  왜 이렇게 만드는가 (넣은 이유):
+    - 화면이 예뻐도, 눈이 안 보이는 사람·손이 불편해 키보드만 쓰는 사람이 못 쓰면
+      "그 사람들에게는 없는 기능"이 됩니다. 접근성(a11y)은 '모두가 쓰게' 하는 기본기입니다.
+    - 또한 라벨 연결·명확한 에러 안내는 비장애인에게도 더 쉬운 폼이 됩니다(모두에게 이득).
+  핵심 포인트(이 파일에서 꼭 볼 것):
+    1) <label for>와 <input id>를 짝지어, 라벨 글자를 눌러도 입력칸이 선택되게 함
+    2) 필수 항목은 aria-required, 에러는 aria-describedby + role="alert"로 스크린리더가 읽게 함
+    3) 키보드 Tab 순서가 자연스럽고, 포커스 테두리(focus ring)가 또렷하게 보이게 함
+    4) 사용자가 친 글자는 textContent로만 출력(innerHTML 금지) → XSS(악성 스크립트 주입) 차단
+  같은 폴더의 style.css(보이는 모양·포커스 표시), script.js(검증·에러 안내)와 함께 동작합니다.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>접근성 신청 폼 — 키보드·스크린리더 대응</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!--
+    "본문 바로가기" 링크: 키보드 사용자가 Tab을 처음 누르면 가장 먼저 잡히게 둡니다.
+    이유 - 매번 메뉴를 다 거치지 않고 한 번에 폼으로 점프할 수 있어, 키보드 사용자의 수고를 덜어줍니다.
+    평소엔 화면 밖에 숨겼다가(skip-link), 포커스를 받으면 나타나게 style.css에서 처리합니다.
+  -->
+  <a class="skip-link" href="#main">본문(신청 폼)으로 바로가기</a>
+
+  <header>
+    <h1>스터디 모임 신청</h1>
+    <p class="lead">마우스 없이 키보드만으로도, 스크린리더로도 끝까지 작성할 수 있는 폼입니다.</p>
+  </header>
+
+  <!--
+    <main>은 "이 페이지의 핵심 영역"이라는 의미 표지(랜드마크)입니다.
+    이유 - 스크린리더 사용자는 랜드마크 단위로 건너뛰며 탐색하므로, header/main/footer를 구분해 주면 길찾기가 쉬워집니다.
+    id="main"은 위 "본문 바로가기" 링크의 도착 지점입니다.
+  -->
+  <main id="main">
+    <!--
+      novalidate: 브라우저 기본 오류풍선 대신 우리가 만든 친절한 에러 안내(스크린리더가 읽는)를 쓰려고 끕니다.
+      aria-describedby="form-help": 폼 전체에 대한 설명(별표=필수 안내)을 스크린리더가 함께 읽게 연결합니다.
+    -->
+    <form id="signup-form" novalidate aria-describedby="form-help">
+      <p id="form-help" class="form-help">
+        <span aria-hidden="true">*</span> 표시는 필수 항목입니다.
+      </p>
+
+      <!--
+        한 입력칸 = 한 묶음(field).
+        <label for="name">와 <input id="name">가 짝 → 라벨 글자를 눌러도 입력칸이 선택됩니다.
+        이유 - 스크린리더가 "이름, 편집창, 필수"처럼 라벨을 입력칸과 묶어 읽어줄 수 있고, 누르는 영역도 넓어져 누구에게나 편합니다.
+      -->
+      <div class="field">
+        <label for="name">이름 <span class="req" aria-hidden="true">*</span></label>
+        <!--
+          aria-required="true": "이건 필수"라고 스크린리더에 알립니다(novalidate라 required 대신 명시).
+          aria-describedby="name-error": 이 칸의 에러 메시지 영역을 입력칸과 연결 → 오류가 뜨면 함께 읽힙니다.
+          autocomplete="name": 브라우저/보조기기가 자동완성으로 도와줄 수 있게 의미를 알려줍니다.
+        -->
+        <input
+          type="text"
+          id="name"
+          name="name"
+          aria-required="true"
+          aria-describedby="name-error"
+          autocomplete="name"
+        />
+        <!--
+          role="alert": 내용이 채워지는 순간 스크린리더가 "즉시" 소리내어 읽습니다(놓치지 않게).
+          평소엔 비어 있어 화면에도 안 보이고, 검증 실패 때만 script.js가 글자를 채웁니다.
+        -->
+        <p class="error" id="name-error" role="alert"></p>
+      </div>
+
+      <div class="field">
+        <label for="email">이메일 <span class="req" aria-hidden="true">*</span></label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          aria-required="true"
+          aria-describedby="email-error email-hint"
+          autocomplete="email"
+          inputmode="email"
+        />
+        <!-- 도움말도 aria-describedby로 연결 → 입력 전에 형식을 미리 안내받습니다. -->
+        <p class="hint" id="email-hint">예: hong@example.com 형식으로 적어주세요.</p>
+        <p class="error" id="email-error" role="alert"></p>
+      </div>
+
+      <fieldset class="field">
+        <!--
+          <fieldset> + <legend>: 라디오/체크박스처럼 "여러 칸이 하나의 질문"인 묶음에 씁니다.
+          이유 - legend가 그 묶음의 제목이 되어, 스크린리더가 "참여 방식, 그룹"처럼 질문 전체를 먼저 읽어줍니다.
+        -->
+        <legend>참여 방식 <span class="req" aria-hidden="true">*</span></legend>
+        <div class="radio-row">
+          <label class="radio">
+            <input type="radio" name="mode" value="online" aria-required="true" />
+            온라인
+          </label>
+          <label class="radio">
+            <input type="radio" name="mode" value="offline" />
+            오프라인
+          </label>
+        </div>
+        <p class="error" id="mode-error" role="alert"></p>
+      </fieldset>
+
+      <div class="field checkbox-field">
+        <label class="checkbox">
+          <input type="checkbox" id="agree" name="agree" aria-required="true" aria-describedby="agree-error" />
+          개인정보 수집·이용에 동의합니다 <span class="req" aria-hidden="true">*</span>
+        </label>
+        <p class="error" id="agree-error" role="alert"></p>
+      </div>
+
+      <!--
+        제출 버튼은 <button type="submit">(진짜 버튼)입니다.
+        이유 - <div>를 버튼처럼 꾸미면 키보드 Enter/Space나 스크린리더가 버튼으로 인식 못 합니다.
+              네이티브 button을 쓰면 키보드·보조기기 동작이 공짜로 따라옵니다.
+      -->
+      <button type="submit" class="submit-btn">신청하기</button>
+
+      <!--
+        제출 결과(성공) 안내 영역.
+        aria-live="polite": 다 읽고 난 뒤 자연스러운 틈에 읽어줍니다(작업을 방해하지 않게).
+        성공 메시지는 사용자가 친 이름을 보여주는데, script.js에서 textContent로만 넣어 XSS를 막습니다.
+      -->
+      <p class="result" id="result" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <footer>
+    실습 320 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

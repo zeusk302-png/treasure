@@ -1,6 +1,6 @@
-# 실습 300선 — 1년 커리큘럼
+# 실습 337선 — 1년 커리큘럼
 
-> 비전공자가 단계별로 따라 할 수 있는 실습 **305개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 305 / 305 준비됨)**
+> 비전공자가 단계별로 따라 할 수 있는 실습 **337개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 337 / 337 준비됨)**
 
 !!! tip "난이도 읽는 법"
     ★ 입문 · ★★ 기초 · ★★★ 중급 · ★★★★ 응용 · ★★★★★ 종합·프로젝트
@@ -23,6 +23,10 @@
 | L | 아키타입 미니프로젝트 | 40 |
 | M | 디버깅 챌린지 | 20 |
 | N | 보안 실습 | 10 |
+| O | 캐시·실시간·검색 인프라 | 8 |
+| P | 디자인·프론트 도구 | 8 |
+| Q | AI·결제·외부서비스 | 8 |
+| R | 인프라·운영·관측 | 8 |
 
 ## A. 기초 HTML/CSS
 
@@ -398,3 +402,55 @@
 | 303 | 개인정보 최소 수집 폼 — 안 쓰는 항목 칼럼째 지우기 | 주민번호·생년월일처럼 실제로 안 쓰는 입력란을 폼과 테이블에서 제거하고 필수만 남겨, '필요 없는 건 처음부터 받지 않는다'는 최소 수집 원칙을 폼으로 구현한다 | ★★★★☆ | 개인정보 최소 수집, 데이터 다이어트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/303) |
 | 304 | npm audit 돌리고 취약 의존성 한 개 고치기 | 프로젝트에서 npm audit를 실행해 알려진 취약점 목록을 뽑고, 심각도 높은 항목 하나를 버전 갱신으로 해결한 뒤 package-lock.json을 커밋해 '내가 안 짠 8할의 코드'를 점검한다 | ★★★★☆ | npm audit, 의존성·공급망 점검 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/304) |
 | 305 | Vercel에 보안 헤더 깔기 — CSP/HSTS 적용하고 점수 확인하기 | vercel.json(또는 헤더 설정)에 Content-Security-Policy, X-Content-Type-Options, HSTS 등 보안 헤더를 추가하고 외부 점검 도구로 등급 향상을 확인해, 브라우저가 강제하는 마지막 방어선을 친다 | ★★★★★ | 보안 헤더, CSP·HSTS | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/305) |
+
+## O. 캐시·실시간·검색 인프라
+
+| # | 실습 | 목표 | 난이도 | 개념 | 코드 |
+|---|---|---|---|---|---|
+| 306 | Redis로 조회수 카운터 만들기 | Redis의 INCR로 페이지 조회수를 인메모리에서 1씩 올려, DB에 매번 쓰지 않고도 빠르게 세는 캐시형 카운터를 만들며 '인메모리 저장소가 왜 빠른지'를 체감한다 | ★★★☆☆ | Redis, INCR, 인메모리 캐시 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/306) |
+| 307 | Redis에 로그인 세션 저장하기 | 로그인 상태(세션)를 Redis에 키-값으로 저장하고 만료(TTL)를 걸어, 서버를 재시작해도·여러 대로 늘려도 로그인이 유지되는 세션 스토어를 만든다 | ★★★★☆ | 세션 스토어, TTL, 상태 외부화 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/307) |
+| 308 | Redis로 API 레이트리밋(1분 N회) 걸기 | IP별 요청 수를 Redis 카운터+만료로 세어 '1분에 N회'를 넘으면 막는 레이트리밋을 붙여, 무료 캐시로 남용·도배를 방어하는 법을 익힌다 | ★★★★☆ | 레이트리밋, 슬라이딩 윈도우, 남용 방어 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/308) |
+| 309 | Redis 캐시로 느린 API 응답 캐싱하기 | 외부 API/무거운 쿼리 결과를 Redis에 일정 시간 캐시(cache-aside)해, 두 번째 요청부터 즉시 응답하게 만들며 '캐시 적중/만료/무효화'를 이해한다 | ★★★★☆ | cache-aside, 캐시 적중률, 무효화 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/309) |
+| 310 | WebSocket으로 실시간 채팅 만들기 | WebSocket으로 서버와 양방향 연결을 열어, 새로고침 없이 메시지가 즉시 모두에게 퍼지는 미니 채팅을 만들며 'HTTP 요청-응답'과 '실시간 연결'의 차이를 익힌다 | ★★★★☆ | WebSocket, 양방향 통신, 브로드캐스트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/310) |
+| 311 | Supabase Realtime으로 실시간 방명록 만들기 | Supabase Realtime 구독으로 누군가 새 글을 남기면 내 화면에도 자동으로 뜨게 만들어, 직접 서버를 안 짜고도 실시간 기능을 붙이는 법을 익힌다 | ★★★★☆ | Supabase Realtime, 구독, 실시간 동기화 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/311) |
+| 312 | Meilisearch로 즉시 검색창 만들기 | 오픈소스 검색엔진 Meilisearch에 데이터를 색인하고 검색창을 붙여, DB의 LIKE 검색보다 빠르고 오타에 강한 '즉시 검색'을 만들며 전문 검색의 가치를 체감한다 | ★★★★☆ | 전문 검색, 색인, 오타 교정 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/312) |
+| 313 | 디바운스 자동완성 검색 UI 만들기 | 입력할 때마다가 아니라 '잠깐 멈췄을 때'만 검색을 보내는 디바운스를 적용해, 서버 부하를 줄이는 자동완성 검색 입력창을 만든다 | ★★★☆☆ | 디바운스, 자동완성, 요청 절약 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/313) |
+
+## P. 디자인·프론트 도구
+
+| # | 실습 | 목표 | 난이도 | 개념 | 코드 |
+|---|---|---|---|---|---|
+| 314 | Figma 디자인을 스크린샷→AI로 코드화하기 | Figma 시안(또는 스크린샷)을 AI에게 주고 '이 디자인대로 HTML/CSS로 만들어'라고 시켜 받은 코드를 시안과 비교·보정하며, 디자인을 코드로 옮기는 워크플로우를 익힌다 | ★★★☆☆ | Figma, 디자인→코드, AI 디렉팅 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/314) |
+| 315 | 디자인 토큰(CSS 변수)으로 테마 시스템 만들기 | 색·간격·글꼴을 CSS 변수(디자인 토큰)로 한 곳에 정의하고 전 페이지가 그것을 참조하게 만들어, 값 하나만 바꿔도 전체 톤이 일관되게 바뀌는 테마 체계를 만든다 | ★★★☆☆ | 디자인 토큰, CSS 변수, 일관성 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/315) |
+| 316 | 다크모드 토글(시스템 설정 연동) 만들기 | prefers-color-scheme로 시스템 다크모드를 따르고, 토글 버튼으로 수동 전환한 선택을 localStorage에 기억하는 다크모드를 만든다 | ★★★☆☆ | 다크모드, prefers-color-scheme, 설정 저장 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/316) |
+| 317 | Tailwind로 반응형 카드 그리드 만들기 | 유틸리티 CSS(Tailwind) 클래스로 화면 크기에 따라 열 수가 바뀌는 반응형 카드 그리드를 만들며, 유틸리티 CSS의 빠른 스타일링 방식을 익힌다 | ★★★☆☆ | Tailwind, 유틸리티 CSS, 반응형 그리드 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/317) |
+| 318 | 재사용 컴포넌트(버튼·카드) 만들기 | 버튼·카드를 웹 컴포넌트(또는 작은 템플릿 함수)로 한 번 정의해 여러 곳에서 재사용하며, '복붙' 대신 컴포넌트로 묶을 때의 이점을 체감한다 | ★★★★☆ | 컴포넌트, 재사용, 캡슐화 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/318) |
+| 319 | CSS 애니메이션으로 부드러운 등장 효과 만들기 | 스크롤 시 요소가 부드럽게 나타나는 등장 애니메이션을 CSS transition/animation과 IntersectionObserver로 만들고, prefers-reduced-motion으로 과한 모션을 끄는 배려까지 넣는다 | ★★★☆☆ | CSS 애니메이션, IntersectionObserver, 모션 접근성 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/319) |
+| 320 | 키보드·스크린리더 대응 접근성 폼 만들기 | label 연결·focus 표시·aria 속성·키보드 탐색을 갖춘 접근성 좋은 폼을 만들고, 키보드만으로/스크린리더로 점검하며 모두가 쓰는 UI를 익힌다 | ★★★★☆ | 접근성(a11y), ARIA, 키보드 내비게이션 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/320) |
+| 321 | 스켈레톤 로딩 UI 만들기 | 데이터를 불러오는 동안 빈 화면 대신 회색 뼈대(스켈레톤)를 보여줘 체감 속도를 높이는 로딩 UI를 만들며, 로딩 상태 설계를 익힌다 | ★★★☆☆ | 스켈레톤 UI, 로딩 상태, 체감 성능 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/321) |
+
+## Q. AI·결제·외부서비스
+
+| # | 실습 | 목표 | 난이도 | 개념 | 코드 |
+|---|---|---|---|---|---|
+| 322 | Claude API로 글 요약 버튼 만들기 | 서버 함수가 Claude API를 호출해 긴 글을 3줄로 요약해 주는 버튼을 만들며, API 키는 브라우저가 아니라 서버에만 두는 안전한 LLM 연동 구조를 익힌다 | ★★★★☆ | Claude API, 서버 경유 호출, 키 보호 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/322) |
+| 323 | Claude API 스트리밍 챗봇 UI 만들기 | Claude API의 스트리밍 응답을 받아 글자가 타이핑되듯 흘러나오는 챗봇 화면을 만들며, 시스템 프롬프트·대화 맥락·스트리밍의 개념을 익힌다 | ★★★★★ | 스트리밍, 시스템 프롬프트, 대화 맥락 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/323) |
+| 324 | RAG: 내 문서로 답하는 챗봇 만들기 | 내 문서를 임베딩해 pgvector(Supabase)에 저장하고, 질문과 가까운 조각을 찾아 Claude에게 함께 주는 RAG 챗봇을 만들며 '환각을 줄이는' 원리를 익힌다 | ★★★★★ | RAG, 임베딩, 벡터 검색(pgvector) | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/324) |
+| 325 | Stripe 테스트 결제(Checkout) 붙이기 | Stripe Checkout으로 테스트 카드로 결제되는 '구매' 버튼을 만들며, 테스트키 vs 라이브키 구분과 결제 흐름을 안전하게 익힌다 | ★★★★☆ | Stripe Checkout, 테스트키, 결제 흐름 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/325) |
+| 326 | Stripe 웹훅으로 결제 완료 처리하기 | Stripe가 보내는 결제 완료 웹훅을 서버에서 받아 서명을 검증하고 주문을 '결제됨'으로 바꾸며, 웹훅 신뢰·검증의 중요성을 익힌다 | ★★★★★ | 웹훅, 서명 검증, 멱등 처리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/326) |
+| 327 | 이메일 발송(Resend/SMTP) 연동하기 | 폼 제출 시 확인 메일이 자동 발송되게 이메일 API(Resend 등)를 서버에서 연동하며, 발신 도메인·API 키 보관·스팸 회피 기본을 익힌다 | ★★★★☆ | 트랜잭션 메일, API 키 보관, 발신 신뢰 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/327) |
+| 328 | 이미지 업로드를 Supabase Storage에 저장하기 | 사용자가 올린 이미지를 Supabase Storage 버킷에 저장하고 공개 URL을 받아 화면에 보여주며, 파일 업로드와 스토리지 권한(공개/비공개) 개념을 익힌다 | ★★★★☆ | 파일 업로드, 오브젝트 스토리지, 버킷 권한 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/328) |
+| 329 | 외부 날씨 API 연동 위젯 만들기 | 공개 날씨 API를 호출해 오늘 날씨를 보여주는 위젯을 만들며, 외부 API 호출·로딩/에러 처리·키 필요 여부 확인 같은 연동 기본기를 익힌다 | ★★★☆☆ | 외부 API, fetch, 로딩/에러 처리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/329) |
+
+## R. 인프라·운영·관측
+
+| # | 실습 | 목표 | 난이도 | 개념 | 코드 |
+|---|---|---|---|---|---|
+| 330 | Dockerfile로 앱 컨테이너 만들기 | 간단한 앱을 Dockerfile로 이미지화해 '내 컴퓨터에선 됐는데' 문제를 없애는 컨테이너의 개념을 익히고, 빌드·실행까지 직접 해 본다 | ★★★★☆ | Docker, 이미지, 컨테이너 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/330) |
+| 331 | docker-compose로 앱+DB 함께 띄우기 | docker-compose로 앱과 데이터베이스(Postgres)를 한 번에 띄워 로컬 개발 환경을 코드로 재현하며, 여러 컨테이너를 잇는 법을 익힌다 | ★★★★☆ | docker-compose, 서비스 연결, 로컬 환경 재현 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/331) |
+| 332 | GitHub Actions CI로 자동 검사 붙이기 | push할 때마다 자동으로 빌드/린트/테스트가 도는 GitHub Actions 워크플로우를 만들어, 깨진 코드가 합쳐지는 걸 막는 CI의 가치를 익힌다 | ★★★★☆ | CI, GitHub Actions, 자동 검사 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/332) |
+| 333 | 환경변수·시크릿 안전하게 관리하기 | .env와 .gitignore, 배포 플랫폼의 시크릿 저장소를 써서 키를 코드에서 분리하고, 실수로 깃에 올라간 키를 점검·교체하는 절차를 익힌다 | ★★★☆☆ | 환경변수, 시크릿 관리, 키 회수 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/333) |
+| 334 | 구조화 로깅 + 에러 추적 붙이기 | 사람이 읽기 쉬운 구조화 로그를 남기고, 에러 추적 도구(Sentry 개념)로 운영 중 터진 에러를 모아 보는 관측성의 기초를 익힌다 | ★★★★☆ | 구조화 로깅, 에러 추적, 관측성 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/334) |
+| 335 | 헬스체크 엔드포인트 + 업타임 모니터 만들기 | 서버가 살아있는지 알려주는 /health 엔드포인트를 만들고 무료 업타임 모니터로 주기 점검·알림을 걸어, 장애를 먼저 아는 운영 습관을 익힌다 | ★★★☆☆ | 헬스체크, 업타임 모니터링, 알림 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/335) |
+| 336 | 간단 부하테스트로 한계 감 잡기 | k6(또는 autocannon)로 내 엔드포인트에 가벼운 부하를 줘 초당 처리량·응답시간을 측정하며, '몇 명까지 버티나'를 숫자로 보는 법을 익힌다 | ★★★★☆ | 부하테스트, 처리량(RPS), p95 지연 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/336) |
+| 337 | 캐시·CDN 헤더로 정적자원 빠르게 하기 | Cache-Control 헤더와 CDN을 이용해 이미지·CSS·JS가 재방문 시 즉시 뜨게 만들며, 브라우저/CDN 캐시 계층과 캐시 무효화(버전 쿼리)를 익힌다 | ★★★☆☆ | Cache-Control, CDN, 캐시 버스팅 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/337) |

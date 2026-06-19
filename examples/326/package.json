@@ -1,0 +1,15 @@
+{
+  "//": "이 파일은 무엇인가: 이 실습 서버가 어떤 라이브러리를 쓰는지와 실행 명령을 적어 둔 설정 파일입니다. 왜 있는가: `npm install` 한 번으로 필요한 도구(express, stripe, dotenv)를 똑같이 깔 수 있게 하고, `npm start` 로 서버를 켜게 하기 위함입니다.",
+  "name": "stripe-webhook-handler",
+  "version": "1.0.0",
+  "description": "Stripe 웹훅으로 결제 완료를 처리하는 실습용 서버 (서명 검증 + 멱등 처리)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "stripe": "^16.0.0"
+  }
+}

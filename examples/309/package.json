@@ -1,0 +1,15 @@
+{
+  "//": "무엇: 이 데모를 실행하는 데 필요한 도구 목록과 실행 명령. 왜: npm install 한 번으로 환경이 갖춰지게 하려고.",
+  "name": "redis-cache-aside-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "실습 309 — Redis cache-aside로 느린 API 응답 캐싱하기",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ioredis": "^5.4.1"
+  }
+}

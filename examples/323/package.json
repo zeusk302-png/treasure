@@ -1,0 +1,16 @@
+{
+  "comment_무엇": "이 프로젝트의 설명서 겸 의존성 목록입니다.",
+  "comment_왜": "npm install 이 파일을 보고 필요한 라이브러리를 깔고, npm start 로 서버를 켜기 위해 있습니다.",
+  "name": "claude-streaming-chatbot",
+  "version": "1.0.0",
+  "description": "실습 323 — Claude API 스트리밍 챗봇 (브라우저 UI + 키를 숨기는 Node 프록시 서버)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.69.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2"
+  }
+}

@@ -3048,5 +3048,325 @@
     "difficulty": 5,
     "concept": "보안 헤더, CSP·HSTS",
     "deliverable": "보안 헤더가 설정된 vercel.json과 적용 전후 보안 헤더 점검 등급 캡처"
+  },
+  {
+    "id": "306",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "Redis로 조회수 카운터 만들기",
+    "goal": "Redis의 INCR로 페이지 조회수를 인메모리에서 1씩 올려, DB에 매번 쓰지 않고도 빠르게 세는 캐시형 카운터를 만들며 '인메모리 저장소가 왜 빠른지'를 체감한다",
+    "difficulty": 3,
+    "concept": "Redis, INCR, 인메모리 캐시",
+    "deliverable": "조회수 카운터(서버 함수 + Redis)"
+  },
+  {
+    "id": "307",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "Redis에 로그인 세션 저장하기",
+    "goal": "로그인 상태(세션)를 Redis에 키-값으로 저장하고 만료(TTL)를 걸어, 서버를 재시작해도·여러 대로 늘려도 로그인이 유지되는 세션 스토어를 만든다",
+    "difficulty": 4,
+    "concept": "세션 스토어, TTL, 상태 외부화",
+    "deliverable": "Redis 세션 데모(서버)"
+  },
+  {
+    "id": "308",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "Redis로 API 레이트리밋(1분 N회) 걸기",
+    "goal": "IP별 요청 수를 Redis 카운터+만료로 세어 '1분에 N회'를 넘으면 막는 레이트리밋을 붙여, 무료 캐시로 남용·도배를 방어하는 법을 익힌다",
+    "difficulty": 4,
+    "concept": "레이트리밋, 슬라이딩 윈도우, 남용 방어",
+    "deliverable": "레이트리밋 미들웨어"
+  },
+  {
+    "id": "309",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "Redis 캐시로 느린 API 응답 캐싱하기",
+    "goal": "외부 API/무거운 쿼리 결과를 Redis에 일정 시간 캐시(cache-aside)해, 두 번째 요청부터 즉시 응답하게 만들며 '캐시 적중/만료/무효화'를 이해한다",
+    "difficulty": 4,
+    "concept": "cache-aside, 캐시 적중률, 무효화",
+    "deliverable": "캐싱 적용 API"
+  },
+  {
+    "id": "310",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "WebSocket으로 실시간 채팅 만들기",
+    "goal": "WebSocket으로 서버와 양방향 연결을 열어, 새로고침 없이 메시지가 즉시 모두에게 퍼지는 미니 채팅을 만들며 'HTTP 요청-응답'과 '실시간 연결'의 차이를 익힌다",
+    "difficulty": 4,
+    "concept": "WebSocket, 양방향 통신, 브로드캐스트",
+    "deliverable": "실시간 채팅(서버+클라)"
+  },
+  {
+    "id": "311",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "Supabase Realtime으로 실시간 방명록 만들기",
+    "goal": "Supabase Realtime 구독으로 누군가 새 글을 남기면 내 화면에도 자동으로 뜨게 만들어, 직접 서버를 안 짜고도 실시간 기능을 붙이는 법을 익힌다",
+    "difficulty": 4,
+    "concept": "Supabase Realtime, 구독, 실시간 동기화",
+    "deliverable": "실시간 방명록(정적+Supabase)"
+  },
+  {
+    "id": "312",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "Meilisearch로 즉시 검색창 만들기",
+    "goal": "오픈소스 검색엔진 Meilisearch에 데이터를 색인하고 검색창을 붙여, DB의 LIKE 검색보다 빠르고 오타에 강한 '즉시 검색'을 만들며 전문 검색의 가치를 체감한다",
+    "difficulty": 4,
+    "concept": "전문 검색, 색인, 오타 교정",
+    "deliverable": "즉시 검색 UI(+Meilisearch)"
+  },
+  {
+    "id": "313",
+    "code": "O",
+    "category": "캐시·실시간·검색 인프라",
+    "title": "디바운스 자동완성 검색 UI 만들기",
+    "goal": "입력할 때마다가 아니라 '잠깐 멈췄을 때'만 검색을 보내는 디바운스를 적용해, 서버 부하를 줄이는 자동완성 검색 입력창을 만든다",
+    "difficulty": 3,
+    "concept": "디바운스, 자동완성, 요청 절약",
+    "deliverable": "자동완성 검색창(프론트)"
+  },
+  {
+    "id": "314",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "Figma 디자인을 스크린샷→AI로 코드화하기",
+    "goal": "Figma 시안(또는 스크린샷)을 AI에게 주고 '이 디자인대로 HTML/CSS로 만들어'라고 시켜 받은 코드를 시안과 비교·보정하며, 디자인을 코드로 옮기는 워크플로우를 익힌다",
+    "difficulty": 3,
+    "concept": "Figma, 디자인→코드, AI 디렉팅",
+    "deliverable": "시안 재현 정적 페이지"
+  },
+  {
+    "id": "315",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "디자인 토큰(CSS 변수)으로 테마 시스템 만들기",
+    "goal": "색·간격·글꼴을 CSS 변수(디자인 토큰)로 한 곳에 정의하고 전 페이지가 그것을 참조하게 만들어, 값 하나만 바꿔도 전체 톤이 일관되게 바뀌는 테마 체계를 만든다",
+    "difficulty": 3,
+    "concept": "디자인 토큰, CSS 변수, 일관성",
+    "deliverable": "토큰 기반 테마 페이지"
+  },
+  {
+    "id": "316",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "다크모드 토글(시스템 설정 연동) 만들기",
+    "goal": "prefers-color-scheme로 시스템 다크모드를 따르고, 토글 버튼으로 수동 전환한 선택을 localStorage에 기억하는 다크모드를 만든다",
+    "difficulty": 3,
+    "concept": "다크모드, prefers-color-scheme, 설정 저장",
+    "deliverable": "다크모드 토글 페이지"
+  },
+  {
+    "id": "317",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "Tailwind로 반응형 카드 그리드 만들기",
+    "goal": "유틸리티 CSS(Tailwind) 클래스로 화면 크기에 따라 열 수가 바뀌는 반응형 카드 그리드를 만들며, 유틸리티 CSS의 빠른 스타일링 방식을 익힌다",
+    "difficulty": 3,
+    "concept": "Tailwind, 유틸리티 CSS, 반응형 그리드",
+    "deliverable": "반응형 카드 그리드"
+  },
+  {
+    "id": "318",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "재사용 컴포넌트(버튼·카드) 만들기",
+    "goal": "버튼·카드를 웹 컴포넌트(또는 작은 템플릿 함수)로 한 번 정의해 여러 곳에서 재사용하며, '복붙' 대신 컴포넌트로 묶을 때의 이점을 체감한다",
+    "difficulty": 4,
+    "concept": "컴포넌트, 재사용, 캡슐화",
+    "deliverable": "재사용 컴포넌트 데모"
+  },
+  {
+    "id": "319",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "CSS 애니메이션으로 부드러운 등장 효과 만들기",
+    "goal": "스크롤 시 요소가 부드럽게 나타나는 등장 애니메이션을 CSS transition/animation과 IntersectionObserver로 만들고, prefers-reduced-motion으로 과한 모션을 끄는 배려까지 넣는다",
+    "difficulty": 3,
+    "concept": "CSS 애니메이션, IntersectionObserver, 모션 접근성",
+    "deliverable": "등장 애니메이션 페이지"
+  },
+  {
+    "id": "320",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "키보드·스크린리더 대응 접근성 폼 만들기",
+    "goal": "label 연결·focus 표시·aria 속성·키보드 탐색을 갖춘 접근성 좋은 폼을 만들고, 키보드만으로/스크린리더로 점검하며 모두가 쓰는 UI를 익힌다",
+    "difficulty": 4,
+    "concept": "접근성(a11y), ARIA, 키보드 내비게이션",
+    "deliverable": "접근성 폼"
+  },
+  {
+    "id": "321",
+    "code": "P",
+    "category": "디자인·프론트 도구",
+    "title": "스켈레톤 로딩 UI 만들기",
+    "goal": "데이터를 불러오는 동안 빈 화면 대신 회색 뼈대(스켈레톤)를 보여줘 체감 속도를 높이는 로딩 UI를 만들며, 로딩 상태 설계를 익힌다",
+    "difficulty": 3,
+    "concept": "스켈레톤 UI, 로딩 상태, 체감 성능",
+    "deliverable": "스켈레톤 로딩 페이지"
+  },
+  {
+    "id": "322",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "Claude API로 글 요약 버튼 만들기",
+    "goal": "서버 함수가 Claude API를 호출해 긴 글을 3줄로 요약해 주는 버튼을 만들며, API 키는 브라우저가 아니라 서버에만 두는 안전한 LLM 연동 구조를 익힌다",
+    "difficulty": 4,
+    "concept": "Claude API, 서버 경유 호출, 키 보호",
+    "deliverable": "요약 버튼(서버 함수+프론트)"
+  },
+  {
+    "id": "323",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "Claude API 스트리밍 챗봇 UI 만들기",
+    "goal": "Claude API의 스트리밍 응답을 받아 글자가 타이핑되듯 흘러나오는 챗봇 화면을 만들며, 시스템 프롬프트·대화 맥락·스트리밍의 개념을 익힌다",
+    "difficulty": 5,
+    "concept": "스트리밍, 시스템 프롬프트, 대화 맥락",
+    "deliverable": "스트리밍 챗봇"
+  },
+  {
+    "id": "324",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "RAG: 내 문서로 답하는 챗봇 만들기",
+    "goal": "내 문서를 임베딩해 pgvector(Supabase)에 저장하고, 질문과 가까운 조각을 찾아 Claude에게 함께 주는 RAG 챗봇을 만들며 '환각을 줄이는' 원리를 익힌다",
+    "difficulty": 5,
+    "concept": "RAG, 임베딩, 벡터 검색(pgvector)",
+    "deliverable": "문서 기반 챗봇"
+  },
+  {
+    "id": "325",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "Stripe 테스트 결제(Checkout) 붙이기",
+    "goal": "Stripe Checkout으로 테스트 카드로 결제되는 '구매' 버튼을 만들며, 테스트키 vs 라이브키 구분과 결제 흐름을 안전하게 익힌다",
+    "difficulty": 4,
+    "concept": "Stripe Checkout, 테스트키, 결제 흐름",
+    "deliverable": "결제 버튼(테스트)"
+  },
+  {
+    "id": "326",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "Stripe 웹훅으로 결제 완료 처리하기",
+    "goal": "Stripe가 보내는 결제 완료 웹훅을 서버에서 받아 서명을 검증하고 주문을 '결제됨'으로 바꾸며, 웹훅 신뢰·검증의 중요성을 익힌다",
+    "difficulty": 5,
+    "concept": "웹훅, 서명 검증, 멱등 처리",
+    "deliverable": "결제 웹훅 핸들러"
+  },
+  {
+    "id": "327",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "이메일 발송(Resend/SMTP) 연동하기",
+    "goal": "폼 제출 시 확인 메일이 자동 발송되게 이메일 API(Resend 등)를 서버에서 연동하며, 발신 도메인·API 키 보관·스팸 회피 기본을 익힌다",
+    "difficulty": 4,
+    "concept": "트랜잭션 메일, API 키 보관, 발신 신뢰",
+    "deliverable": "메일 발송 폼"
+  },
+  {
+    "id": "328",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "이미지 업로드를 Supabase Storage에 저장하기",
+    "goal": "사용자가 올린 이미지를 Supabase Storage 버킷에 저장하고 공개 URL을 받아 화면에 보여주며, 파일 업로드와 스토리지 권한(공개/비공개) 개념을 익힌다",
+    "difficulty": 4,
+    "concept": "파일 업로드, 오브젝트 스토리지, 버킷 권한",
+    "deliverable": "이미지 업로드 페이지"
+  },
+  {
+    "id": "329",
+    "code": "Q",
+    "category": "AI·결제·외부서비스",
+    "title": "외부 날씨 API 연동 위젯 만들기",
+    "goal": "공개 날씨 API를 호출해 오늘 날씨를 보여주는 위젯을 만들며, 외부 API 호출·로딩/에러 처리·키 필요 여부 확인 같은 연동 기본기를 익힌다",
+    "difficulty": 3,
+    "concept": "외부 API, fetch, 로딩/에러 처리",
+    "deliverable": "날씨 위젯"
+  },
+  {
+    "id": "330",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "Dockerfile로 앱 컨테이너 만들기",
+    "goal": "간단한 앱을 Dockerfile로 이미지화해 '내 컴퓨터에선 됐는데' 문제를 없애는 컨테이너의 개념을 익히고, 빌드·실행까지 직접 해 본다",
+    "difficulty": 4,
+    "concept": "Docker, 이미지, 컨테이너",
+    "deliverable": "Dockerfile + 앱"
+  },
+  {
+    "id": "331",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "docker-compose로 앱+DB 함께 띄우기",
+    "goal": "docker-compose로 앱과 데이터베이스(Postgres)를 한 번에 띄워 로컬 개발 환경을 코드로 재현하며, 여러 컨테이너를 잇는 법을 익힌다",
+    "difficulty": 4,
+    "concept": "docker-compose, 서비스 연결, 로컬 환경 재현",
+    "deliverable": "compose 개발 환경"
+  },
+  {
+    "id": "332",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "GitHub Actions CI로 자동 검사 붙이기",
+    "goal": "push할 때마다 자동으로 빌드/린트/테스트가 도는 GitHub Actions 워크플로우를 만들어, 깨진 코드가 합쳐지는 걸 막는 CI의 가치를 익힌다",
+    "difficulty": 4,
+    "concept": "CI, GitHub Actions, 자동 검사",
+    "deliverable": ".github/workflows CI"
+  },
+  {
+    "id": "333",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "환경변수·시크릿 안전하게 관리하기",
+    "goal": ".env와 .gitignore, 배포 플랫폼의 시크릿 저장소를 써서 키를 코드에서 분리하고, 실수로 깃에 올라간 키를 점검·교체하는 절차를 익힌다",
+    "difficulty": 3,
+    "concept": "환경변수, 시크릿 관리, 키 회수",
+    "deliverable": ".env 구성 + 점검 스크립트"
+  },
+  {
+    "id": "334",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "구조화 로깅 + 에러 추적 붙이기",
+    "goal": "사람이 읽기 쉬운 구조화 로그를 남기고, 에러 추적 도구(Sentry 개념)로 운영 중 터진 에러를 모아 보는 관측성의 기초를 익힌다",
+    "difficulty": 4,
+    "concept": "구조화 로깅, 에러 추적, 관측성",
+    "deliverable": "로깅/에러추적 데모"
+  },
+  {
+    "id": "335",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "헬스체크 엔드포인트 + 업타임 모니터 만들기",
+    "goal": "서버가 살아있는지 알려주는 /health 엔드포인트를 만들고 무료 업타임 모니터로 주기 점검·알림을 걸어, 장애를 먼저 아는 운영 습관을 익힌다",
+    "difficulty": 3,
+    "concept": "헬스체크, 업타임 모니터링, 알림",
+    "deliverable": "헬스체크 + 모니터 설정"
+  },
+  {
+    "id": "336",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "간단 부하테스트로 한계 감 잡기",
+    "goal": "k6(또는 autocannon)로 내 엔드포인트에 가벼운 부하를 줘 초당 처리량·응답시간을 측정하며, '몇 명까지 버티나'를 숫자로 보는 법을 익힌다",
+    "difficulty": 4,
+    "concept": "부하테스트, 처리량(RPS), p95 지연",
+    "deliverable": "부하테스트 스크립트"
+  },
+  {
+    "id": "337",
+    "code": "R",
+    "category": "인프라·운영·관측",
+    "title": "캐시·CDN 헤더로 정적자원 빠르게 하기",
+    "goal": "Cache-Control 헤더와 CDN을 이용해 이미지·CSS·JS가 재방문 시 즉시 뜨게 만들며, 브라우저/CDN 캐시 계층과 캐시 무효화(버전 쿼리)를 익힌다",
+    "difficulty": 3,
+    "concept": "Cache-Control, CDN, 캐시 버스팅",
+    "deliverable": "캐시 헤더 적용 데모"
   }
 ]

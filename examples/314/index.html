@@ -1,0 +1,289 @@
+<!--
+  ============================================================
+  실습 314 — Figma 시안을 "스크린샷 → AI" 로 코드화한 결과물 예시
+  ------------------------------------------------------------
+  무엇(기능): Figma(또는 캡처한 디자인 시안)를 AI에게 주고 "이대로 만들어"라고
+              시켜 받을 법한, 잘 다듬어진 정적 랜딩 페이지 1장입니다.
+              (히어로 + 가격 카드 3개 + 푸터로 구성된 흔한 SaaS 시안 형태)
+  왜(넣은 이유): 이 실습의 핵심은 "디자인을 코드로 옮긴 뒤, 시안과 코드를 나란히
+              비교·보정하는 워크플로우"입니다. 그래서 비교 대상이 될 '완성된 결과물'이
+              필요하고, 그 결과물이 어떻게 생겨야 하는지를 한 파일로 보여줍니다.
+  파일 1개로 끝나게 한 이유: 비전공자가 더블클릭만으로 바로 열어 시안과 비교할 수 있게
+              CSS·구조를 이 파일 안에 모았습니다(빌드 도구 없이 동작).
+  보안 메모: 이 페이지에는 비밀값이 없습니다. 전부 공개되어도 되는 정적 자원입니다.
+              (만약 폼이 실제로 데이터를 보낸다면 API 키는 절대 여기 넣지 말 것)
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서도 시안과 같은 비율로 보이게 하는 필수 설정 (반응형의 출발점) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowdesk — 시안 재현 랜딩 페이지</title>
+
+  <style>
+    /*
+      디자인 토큰(색·간격·둥글기)을 CSS 변수로 한곳에 모았습니다.
+      넣은 이유: Figma 시안의 "정해진 색/여백"을 한 곳에서 관리하면,
+      시안과 색이 다를 때 변수 한 줄만 고쳐 전체를 한 번에 맞출 수 있습니다.
+      (AI에게도 "색은 눈대중 말고 이 HEX 그대로"라고 시키면 이렇게 변수로 정리해 줍니다.)
+    */
+    :root {
+      --brand: #4f46e5;        /* 시안의 메인 보라색 — 버튼·강조에 반복 사용 */
+      --brand-dark: #4338ca;   /* 호버(마우스 올렸을 때) 살짝 진해지는 색 */
+      --ink: #111827;          /* 본문 글자(거의 검정) */
+      --muted: #6b7280;        /* 보조 설명 글자(회색) */
+      --line: #e5e7eb;         /* 카드 테두리·구분선 */
+      --bg: #ffffff;           /* 기본 배경(흰색) */
+      --bg-soft: #f5f6fb;      /* 섹션 구분용 옅은 배경 */
+      --radius: 16px;          /* 카드 둥글기 — 시안의 둥근 모서리 값 */
+      --space: 20px;           /* 기본 여백 단위 — 8의 배수로 맞춰 시안과 통일 */
+      --max: 1080px;           /* 콘텐츠 최대 폭 — 너무 넓어지지 않게 가운데 정렬 */
+    }
+
+    /* box-sizing: border-box — 패딩을 줘도 박스가 커지지 않게 해 시안의 칸 크기를 맞추기 쉽게 함 */
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      /* 시스템 기본 글꼴 — 시안이 특정 폰트를 지정하지 않았을 때의 무난한 선택 */
+      font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* 가운데 정렬 컨테이너 — 모든 섹션이 같은 폭/여백을 공유하게 해 시안과 정렬을 맞춤 */
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--space);
+    }
+
+    /* ---------- 상단 내비게이션 ---------- */
+    header {
+      position: sticky;        /* 스크롤해도 위에 붙어 있게 — 흔한 SaaS 시안 동작 */
+      top: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px); /* 살짝 흐림 효과로 떠 있는 느낌(시안의 글래스 느낌 재현) */
+      border-bottom: 1px solid var(--line);
+      z-index: 10;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* 로고는 왼쪽, 버튼은 오른쪽 — 시안 배치 그대로 */
+      height: 64px;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .logo span { color: var(--brand); } /* 로고 일부만 브랜드색으로 강조 */
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* 버튼 공통 스타일 — 시안의 동일한 버튼이 여러 번 나오므로 클래스로 재사용 */
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+    .btn-ghost:hover { background: var(--bg-soft); }
+
+    /* ---------- 히어로(첫 화면 큰 문구) ---------- */
+    .hero {
+      text-align: center;
+      padding: 72px 0 56px;
+    }
+    .badge {
+      display: inline-block;
+      background: #eef2ff;          /* 브랜드색의 아주 옅은 버전 — 시안의 작은 알약 라벨 */
+      color: var(--brand-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;          /* 완전히 둥근 알약 모양 */
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem); /* 화면 폭에 따라 글자 크기 자동 조절 — 모바일/PC 모두 시안처럼 */
+      line-height: 1.2;
+      margin: 0 auto 16px;
+      max-width: 16ch;               /* 한 줄이 너무 길어지지 않게 — 시안의 두 줄 제목 느낌 유지 */
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 46ch;
+      margin: 0 auto 28px;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ---------- 가격 카드 3개(반응형 그리드) ---------- */
+    .pricing { padding: 56px 0 72px; background: var(--bg-soft); }
+    .section-head { text-align: center; margin-bottom: 36px; }
+    .section-head h2 { font-size: 1.8rem; margin: 0 0 8px; }
+    .section-head p { color: var(--muted); margin: 0; }
+
+    .cards {
+      display: grid;
+      /* auto-fit + minmax: 화면이 넓으면 3칸, 좁으면 자동으로 1~2칸으로 접힘.
+         넣은 이유: 시안은 PC에서 3칸이지만 모바일에서 깨지면 안 되므로 반응형으로. */
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    /* 가운데(추천) 카드 강조 — 시안에서 흔히 한 카드만 테두리 색을 다르게 줌 */
+    .card.featured {
+      border-color: var(--brand);
+      box-shadow: 0 8px 28px rgba(79, 70, 229, 0.15);
+      transform: translateY(-6px); /* 살짝 위로 띄워 '추천'임을 시각적으로 표현 */
+    }
+    .card .plan { font-weight: 700; font-size: 1.05rem; }
+    .card .price { font-size: 2rem; font-weight: 800; margin: 12px 0 4px; }
+    .card .price small { font-size: 0.9rem; color: var(--muted); font-weight: 500; }
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .card li { padding: 6px 0; }
+    .card li::before { content: "✓ "; color: var(--brand); font-weight: 700; } /* 체크 표시 — 시안의 기능 목록 느낌 */
+    /* 카드의 버튼은 항상 맨 아래에 정렬 — margin-top:auto 로 카드 높이가 달라도 줄을 맞춤 */
+    .card .btn { margin-top: auto; text-align: center; }
+
+    /* ---------- 푸터 ---------- */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--line);
+    }
+
+    /*
+      반응형 보정: 좁은 화면에서는 내비게이션의 가운데 메뉴 링크를 숨깁니다.
+      넣은 이유: 모바일 시안에서는 메뉴가 햄버거로 접히는 경우가 많아,
+      간단히 링크만 감춰 시안의 모바일 모습에 가깝게 맞춥니다.
+    */
+    @media (max-width: 640px) {
+      .nav-links a:not(.btn) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 상단 바: 로고 + 메뉴 + CTA 버튼 (시안 상단 영역 재현) -->
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#">Flow<span>desk</span></a>
+      <nav class="nav-links">
+        <a href="#features">기능</a>
+        <a href="#pricing">가격</a>
+        <a href="#" class="btn btn-primary">무료로 시작</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 히어로: 큰 제목 + 설명 + 버튼 2개 (시안 첫 화면) -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">새로워진 2026 버전</span>
+      <h1>팀의 일정을 한 곳에서 가볍게</h1>
+      <p>
+        흩어진 할 일과 일정을 Flowdesk 하나로 모으세요.
+        복잡한 설정 없이 5분 만에 팀 워크플로우를 시작할 수 있습니다.
+      </p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn btn-primary">무료로 시작하기</a>
+        <a href="#features" class="btn btn-ghost">기능 둘러보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가격 카드 3개: 반응형 그리드 (시안의 핵심 비교 섹션) -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <h2>합리적인 요금제</h2>
+        <p>팀 규모에 맞춰 고르세요. 언제든 변경할 수 있습니다.</p>
+      </div>
+
+      <div class="cards">
+        <!-- 카드 1: 무료 -->
+        <div class="card">
+          <div class="plan">Starter</div>
+          <div class="price">₩0<small> / 월</small></div>
+          <ul>
+            <li>사용자 3명까지</li>
+            <li>기본 일정 보드</li>
+            <li>커뮤니티 지원</li>
+          </ul>
+          <a href="#" class="btn btn-ghost">무료로 시작</a>
+        </div>
+
+        <!-- 카드 2: 추천(가운데 강조) -->
+        <div class="card featured">
+          <div class="plan">Team</div>
+          <div class="price">₩9,900<small> / 월</small></div>
+          <ul>
+            <li>사용자 무제한</li>
+            <li>자동화 워크플로우</li>
+            <li>우선 이메일 지원</li>
+          </ul>
+          <a href="#" class="btn btn-primary">14일 무료 체험</a>
+        </div>
+
+        <!-- 카드 3: 기업 -->
+        <div class="card">
+          <div class="plan">Business</div>
+          <div class="price">문의<small> / 맞춤</small></div>
+          <ul>
+            <li>전담 매니저</li>
+            <li>보안·감사 로그</li>
+            <li>SLA 보장</li>
+          </ul>
+          <a href="#" class="btn btn-ghost">상담 신청</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터: 저작권 한 줄 (시안 하단) -->
+  <footer>
+    © 2026 Flowdesk · 실습 314 시안 재현 데모 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "_comment_무엇": "이 실습의 실행/점검 명령을 한 곳에 모은 설정 파일입니다.",
+  "_comment_왜": "npm run start / npm run scan 한 줄로 누구나 같은 명령을 돌릴 수 있게 하여, 점검을 CI에도 쉽게 끼워 넣기 위함입니다.",
+  "name": "practice-333-secrets",
+  "version": "1.0.0",
+  "description": "환경변수·시크릿 안전 관리 + 점검 스크립트 실습",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "scan": "node scan-secrets.js"
+  },
+  "_comment_dependencies": "dotenv 는 .env 파일을 process.env 로 읽어 주는 도구입니다. 'npm install' 로 설치하세요. (없어도 config.js 가 죽지 않게 처리해 두었습니다.)",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

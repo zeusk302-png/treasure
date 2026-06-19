@@ -1,0 +1,15 @@
+{
+  "_comment": "이 파일은 무엇인가: 이 실습이 어떤 외부 라이브러리를 쓰고, 어떤 명령으로 실행하는지 적은 설명서입니다. 'npm install'이 dependencies를 내려받고, 'npm start'가 server.js를 켭니다.",
+  "name": "stripe-checkout-test",
+  "version": "1.0.0",
+  "description": "Stripe Checkout 테스트 결제 실습 (실습 325)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "stripe": "^16.0.0",
+    "dotenv": "^16.4.5"
+  }
+}

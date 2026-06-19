@@ -1,0 +1,122 @@
+/*
+  이 파일은 무엇인가:
+  챗봇 화면의 "꾸미기(CSS)"입니다. 색·여백·말풍선 모양 등 보이는 부분만 담당합니다.
+  왜 분리했나: HTML(구조)·JS(동작)·CSS(모양)를 나눠 두면 초보가 고칠 곳을 빨리 찾습니다.
+*/
+
+/* 디자인 토큰: 색을 한곳에 모아 두고 변수로 씀.
+   왜: 나중에 색을 바꿀 때 여기 한 줄만 고치면 화면 전체에 반영되기 때문. */
+:root {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --line: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+  --user: #2563eb;   /* 사용자 말풍선(파랑) */
+  --bot: #f3f4f6;    /* 챗봇 말풍선(회색) */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* 가운데 정렬된 한 장의 카드처럼 보이게 */
+.app {
+  max-width: 640px;
+  margin: 24px auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 88vh;
+}
+
+.app__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.app__header h1 { margin: 0 0 4px; font-size: 1.2rem; }
+.app__header p { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+/* 시스템 프롬프트 입력 영역 */
+.system {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fafafa;
+}
+.system__label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+.system__input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  resize: vertical;
+}
+
+/* 대화가 쌓이는 영역 — 넘치면 세로 스크롤 */
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 말풍선 공통 */
+.bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap; /* 줄바꿈/공백을 그대로 보여 줌 (코드/목록 답변 가독성) */
+  word-break: break-word;
+}
+/* 사용자 말풍선: 오른쪽 정렬, 파란 배경 */
+.bubble--user {
+  align-self: flex-end;
+  background: var(--user);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+/* 챗봇 말풍선: 왼쪽 정렬, 회색 배경 */
+.bubble--assistant {
+  align-self: flex-start;
+  background: var(--bot);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+
+/* 입력 줄 */
+.composer {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+}
+.composer__input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font: inherit;
+}
+.composer__input:disabled { background: #f9fafb; }
+.composer__send {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  background: var(--user);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.composer__send:disabled { opacity: 0.5; cursor: not-allowed; }

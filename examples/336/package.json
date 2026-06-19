@@ -1,0 +1,22 @@
+{
+  "_comment_what": "실습 336 — 간단 부하테스트. 대상 서버 실행과 부하 도구 실행 명령을 한곳에 모은 설정 파일입니다.",
+  "_comment_why": "npm run 한 줄로 실행하게 해, 입문자가 긴 명령을 외우거나 오타 내지 않게 하려는 의도입니다.",
+  "name": "practice-336-load-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "k6/autocannon로 엔드포인트에 가벼운 부하를 줘 RPS와 p95를 측정하는 실습",
+  "scripts": {
+    "_comment_start": "부하를 받아 줄 연습용 대상 서버를 띄웁니다. 부하를 주기 전에 먼저 실행하세요.",
+    "start": "node server.js",
+
+    "_comment_k6": "k6로 load-test.js 시나리오를 실행합니다. (k6는 별도 설치 필요 — README B단계 참고)",
+    "loadtest:k6": "k6 run load-test.js",
+
+    "_comment_auto": "k6 설치가 어려울 때 쓰는 대안. autocannon로 동시연결 50개, 10초 동안 / 경로를 때립니다. -c=동시연결 수, -d=지속시간(초).",
+    "loadtest:auto": "autocannon -c 50 -d 10 http://localhost:3000/"
+  },
+  "_comment_devDependencies": "autocannon은 npm으로 깔리는 부하 도구라, k6 설치가 막힌 사람도 npm install 한 번이면 바로 쓸 수 있어 함께 넣었습니다. (devDependencies 안에는 진짜 패키지만 둬야 npm install이 깨지지 않으므로 설명은 여기 밖에 둡니다.)",
+  "devDependencies": {
+    "autocannon": "^7.15.0"
+  }
+}

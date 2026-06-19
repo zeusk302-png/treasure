@@ -1,0 +1,210 @@
+<!--
+  index.html — Meilisearch 즉시 검색 데모의 화면(프론트)
+
+  무엇: 검색창 + 결과 목록을 보여 줍니다. 글자를 칠 때마다(잠깐 멈추면) 우리 서버의
+        /api/search 를 불러 결과를 받아 화면에 그립니다.
+  왜:  검색엔진 키는 여기(브라우저)에 절대 두지 않습니다. 이 페이지는 오직 우리 서버의
+        /api/search 만 호출하고, 키를 쓰는 진짜 검색은 서버(server.js)가 대신합니다.
+        (키를 여기 박으면 F12로 그대로 보여 도용당함)
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meilisearch 즉시 검색 데모</title>
+  <style>
+    :root {
+      --main: #ff5caa;       /* Meilisearch 브랜드를 떠올리는 핑크 톤 */
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --text: #1f2937;
+      --muted: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header { text-align: center; padding: 32px 20px 8px; }
+    header h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    main { max-width: 640px; margin: 0 auto; padding: 16px 20px 64px; }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin: 16px 0;
+    }
+    .search-box:focus-within { border-color: var(--main); }
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1.05rem;
+      background: transparent;
+      color: var(--text);
+    }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.2em; }
+    ul.results { list-style: none; padding: 0; margin: 12px 0 0; }
+    li.result {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin: 8px 0;
+    }
+    li.result .name { font-weight: 700; }
+    li.result .category {
+      display: inline-block;
+      font-size: 0.75rem;
+      color: var(--main);
+      border: 1px solid var(--main);
+      border-radius: 999px;
+      padding: 1px 8px;
+      margin-left: 6px;
+    }
+    li.result .desc { color: var(--muted); font-size: 0.9rem; margin-top: 2px; }
+    /* 일치한 글자 강조 — 서버가 보내준 <em> 부분에 색을 입힘 */
+    mark { background: #ffe3f1; color: #c2185b; border-radius: 3px; padding: 0 1px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔎 즉시 검색 데모</h1>
+    <p>글자를 치면 바로 결과가 떠요. 오타를 내도 알아서 맞춰 줍니다.</p>
+  </header>
+
+  <main>
+    <div class="search-box">
+      <span aria-hidden="true">🔍</span>
+      <!-- 사용자 입력창. 결과 갱신은 아래 script 에서 처리 -->
+      <input id="q" type="search" placeholder="예: 스파게티, 피자, 샐러드…" autocomplete="off" />
+    </div>
+
+    <!-- 상태 안내(검색 중/결과 수/에러) 영역 -->
+    <p id="status" class="status"></p>
+
+    <!-- 결과 목록이 여기에 그려집니다 -->
+    <ul id="results" class="results"></ul>
+  </main>
+
+  <script>
+    const input = document.getElementById('q');
+    const statusEl = document.getElementById('status');
+    const resultsEl = document.getElementById('results');
+
+    let timer = null;          // 디바운스 타이머
+    let lastRequestId = 0;     // 늦게 온 옛 응답이 새 결과를 덮어쓰지 않게 하는 번호표
+
+    // 입력 이벤트: 매 글자마다 서버를 부르면 낭비라, '250ms 멈췄을 때만' 검색합니다(디바운스).
+    // 왜: 빠르게 타이핑하는 동안 수십 번 요청하면 서버·검색엔진에 부담이 됩니다.
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => search(input.value), 250);
+    });
+
+    async function search(query) {
+      const q = query.trim();
+
+      // 빈 검색어면 결과를 비우고 안내만 표시(불필요한 요청 안 보냄)
+      if (q === '') {
+        resultsEl.replaceChildren();
+        statusEl.textContent = '검색어를 입력해 보세요.';
+        return;
+      }
+
+      const myId = ++lastRequestId; // 이 요청의 번호표
+      statusEl.textContent = '검색 중…';
+
+      try {
+        // 우리 서버의 검색 API만 호출(여기엔 키가 전혀 없음 → 안전)
+        // encodeURIComponent: 검색어에 &, = 같은 글자가 있어도 URL이 깨지지 않게 인코딩
+        const res = await fetch('/api/search?q=' + encodeURIComponent(q));
+        if (!res.ok) throw new Error('서버 응답 오류');
+        const data = await res.json();
+
+        // 내가 보낸 게 가장 최신 요청이 아니면(더 새 입력이 있었으면) 이 결과는 버립니다.
+        // 왜: 느린 옛 응답이 뒤늦게 도착해 최신 결과를 덮어쓰는 깜빡임을 막기 위해.
+        if (myId !== lastRequestId) return;
+
+        render(data.hits, q);
+      } catch (err) {
+        if (myId !== lastRequestId) return;
+        resultsEl.replaceChildren();
+        statusEl.textContent = '검색에 실패했어요. Meilisearch가 켜져 있고 색인(npm run seed)을 했는지 확인하세요.';
+      }
+    }
+
+    function render(hits, q) {
+      resultsEl.replaceChildren(); // 이전 결과 비우기
+
+      if (!hits || hits.length === 0) {
+        statusEl.textContent = `'${q}' 에 대한 결과가 없어요.`;
+        return;
+      }
+      statusEl.textContent = `'${q}' 검색 결과 ${hits.length}건`;
+
+      for (const hit of hits) {
+        const li = document.createElement('li');
+        li.className = 'result';
+
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'name';
+        // 서버가 보내준 강조(<em>) 버전을 안전하게 그립니다.
+        // 왜 innerHTML 을 안 쓰나: 사용자/데이터 텍스트를 그대로 innerHTML 하면 XSS 위험.
+        //   그래서 텍스트는 textContent 로, <em> 강조만 직접 <mark> 요소로 조립합니다.
+        appendHighlighted(nameDiv, hit.nameHighlighted, hit.name);
+
+        const catSpan = document.createElement('span');
+        catSpan.className = 'category';
+        catSpan.textContent = hit.category; // 사용자 노출 텍스트는 항상 textContent
+        nameDiv.appendChild(catSpan);
+
+        const descDiv = document.createElement('div');
+        descDiv.className = 'desc';
+        appendHighlighted(descDiv, hit.descHighlighted, hit.desc);
+
+        li.appendChild(nameDiv);
+        li.appendChild(descDiv);
+        resultsEl.appendChild(li);
+      }
+    }
+
+    // 강조 표시 안전 조립:
+    // 서버가 준 문자열에서 <em>...</em> 으로 감싼 부분만 <mark> 로 바꾸고,
+    // 나머지 글자는 전부 textContent 로 넣어 HTML 주입(XSS)을 원천 차단합니다.
+    function appendHighlighted(parent, highlighted, plainFallback) {
+      // 강조 정보가 없으면 평문을 안전하게 그대로 표시
+      if (typeof highlighted !== 'string') {
+        parent.appendChild(document.createTextNode(plainFallback || ''));
+        return;
+      }
+      // <em>태그</em> 기준으로 쪼갬. 태그 사이 글자는 일반 텍스트, 태그 안 글자는 <mark>.
+      const parts = highlighted.split(/<em>|<\/em>/);
+      // split 결과는 [평문, 강조, 평문, 강조, ...] 순서로 번갈아 나옵니다(짝수 index = 평문).
+      parts.forEach((segment, i) => {
+        if (segment === '') return;
+        if (i % 2 === 1) {
+          const mark = document.createElement('mark');
+          mark.textContent = segment; // 강조해도 내용은 textContent → 안전
+          parent.appendChild(mark);
+        } else {
+          parent.appendChild(document.createTextNode(segment));
+        }
+      });
+    }
+
+    // 첫 안내
+    statusEl.textContent = '검색어를 입력해 보세요. (예: 스파게이 처럼 오타를 내도 됩니다)';
+  </script>
+</body>
+</html>

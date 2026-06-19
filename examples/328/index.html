@@ -1,0 +1,252 @@
+<!--
+  이 파일은 무엇인가:
+  사용자가 고른 이미지를 Supabase Storage(클라우드 파일 보관함)에 올리고,
+  돌려받은 공개 URL을 화면에 미리보기로 보여 주는 "이미지 업로드 페이지" 한 장입니다.
+
+  왜 있는가:
+  실습 328에서 (1) 파일 업로드의 기본 흐름, (2) 이미지 같은 큰 파일은 DB가 아니라
+  오브젝트 스토리지에 둔다는 원칙, (3) 버킷 공개/비공개(권한) 차이를 직접 손으로
+  익히기 위한 예제입니다. 빌드 도구 없이 브라우저에서 더블클릭으로 바로 열립니다.
+
+  보안 한 줄 요약:
+  여기 들어가는 SUPABASE_URL 과 anon(공개) 키는 "공개되어도 되는 값"이라 프론트에 둬도 됩니다.
+  진짜 보호는 RLS/Storage 정책이 하고, 마스터 키인 service_role 키는 절대 여기 넣지 않습니다.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이미지 업로드 → Supabase Storage 데모</title>
+  <style>
+    :root {
+      --main: #3ecf8e;     /* Supabase 브랜드 그린 — 친숙함을 주려고 포인트색으로 사용 */
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --danger: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; font-size: 1.5rem; }
+    header p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+    main { max-width: 640px; margin: 0 auto; padding: 24px 20px 64px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    .card h2 { margin-top: 0; font-size: 1.05rem; }
+    /* 파일 선택 버튼을 보기 좋게 — label을 버튼처럼 꾸미고 진짜 input은 숨김 */
+    .uploader { text-align: center; padding: 12px 0; }
+    .file-label {
+      display: inline-block;
+      background: var(--main);
+      color: #06281c;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .file-label:hover { filter: brightness(0.95); }
+    #fileInput { display: none; }  /* 기본 input 모양 대신 위 label을 클릭하게 함 */
+    .status { margin-top: 14px; min-height: 1.4em; font-size: 0.95rem; color: var(--muted); }
+    .status.error { color: var(--danger); font-weight: 600; }   /* 에러는 빨간색으로 눈에 띄게 */
+    .preview-wrap { margin-top: 16px; text-align: center; }
+    .preview-wrap img {
+      max-width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+    .url-box {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      word-break: break-all;        /* 긴 URL이 줄을 넘쳐 깨지지 않게 */
+      background: #f1f5f9;
+      padding: 8px 10px;
+      border-radius: 6px;
+      color: var(--muted);
+    }
+    .note {
+      font-size: 0.88rem;
+      color: var(--muted);
+      background: #ecfdf5;
+      border-left: 4px solid var(--main);
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
+    code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>이미지 업로드 → Supabase Storage</h1>
+    <p>사진을 고르면 클라우드 보관함에 올라가고, 받은 URL로 바로 미리보기를 보여 줍니다.</p>
+  </header>
+
+  <main>
+    <section class="card uploader">
+      <h2>이미지 올리기</h2>
+
+      <!--
+        label[for=fileInput] 을 누르면 숨겨 둔 진짜 파일 input 이 열립니다.
+        accept="image/*" 는 파일 선택창에서 이미지만 보이게 해 실수로 다른 파일을 고르는 걸 줄입니다.
+      -->
+      <label class="file-label" for="fileInput">이미지 선택</label>
+      <input type="file" id="fileInput" accept="image/*" />
+
+      <!-- 업로드 진행/성공/실패 메시지를 여기에 textContent 로 찍습니다 (innerHTML 아님: XSS 방지) -->
+      <div class="status" id="status"></div>
+
+      <!-- 업로드가 끝나면 여기에 올라간 이미지와 그 공개 URL 을 보여 줍니다 -->
+      <div class="preview-wrap" id="previewWrap"></div>
+    </section>
+
+    <section class="card">
+      <h2>지금 무슨 일이 일어났나요?</h2>
+      <p class="note">
+        파일을 고르면 → 브라우저가 그 파일을 <strong>Supabase Storage</strong>의 <code>images</code> 버킷에 올리고
+        → Storage가 <strong>공개 URL</strong>을 돌려주면 → 그 주소를 <code>&lt;img&gt;</code>에 넣어 화면에 띄웁니다.
+        이미지 같은 큰 파일은 데이터베이스(표)가 아니라 <strong>스토리지(파일 보관함)</strong>에 두고,
+        DB에는 보통 이 <strong>URL만</strong> 저장합니다.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    실습 328 데모 페이지 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+
+  <!--
+    supabase-js v2 를 CDN 으로 불러옵니다.
+    왜 CDN 인가: npm 설치·빌드 없이 이 HTML 파일 하나를 더블클릭해 바로 실행하기 위해서입니다.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ──────────────────────────────────────────────────────────────
+    // 1) 내 Supabase 프로젝트 연결 값 (공개해도 되는 값만 넣습니다)
+    // ──────────────────────────────────────────────────────────────
+    // SUPABASE_URL, SUPABASE_ANON_KEY 는 "브라우저에 나가도 되는 공개 값"입니다.
+    // anon 키는 설계상 공개를 전제로 하며, 진짜 보호는 RLS/Storage 정책이 합니다.
+    // ⚠️ service_role 키(마스터 키)는 절대 여기 넣지 마세요 — 넣으면 누구나 모든 데이터를 휘저을 수 있습니다.
+    // (배포 시에는 빌드 단계에서 환경변수로 주입하거나, 별도 config 파일로 분리하는 게 더 깔끔합니다.)
+    const SUPABASE_URL = "https://YOUR-PROJECT-ref.supabase.co"; // ← Project Settings > API 의 Project URL 로 교체
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_PUBLIC_KEY";   // ← 같은 화면의 anon public 키로 교체
+
+    const BUCKET = "images"; // Supabase Storage 에서 만든 버킷 이름과 정확히 같아야 합니다.
+
+    // supabase-js 클라이언트 생성 — 이 객체로 Storage 업로드/URL 받기를 합니다.
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 화면 요소들을 미리 잡아 둡니다(매번 다시 찾지 않게).
+    const fileInput = document.getElementById("fileInput");
+    const statusEl = document.getElementById("status");
+    const previewWrap = document.getElementById("previewWrap");
+
+    // 상태 메시지를 안전하게 출력하는 함수.
+    // textContent 를 쓰는 이유: 파일명 등 사용자가 영향을 주는 문자열을 innerHTML 로 넣으면
+    // 그 안의 <script> 가 실행되는 XSS 위험이 있어, 글자는 항상 textContent 로만 찍습니다.
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message;
+      statusEl.classList.toggle("error", isError);
+    }
+
+    // 파일 검증: 이미지인지 + 너무 크지 않은지 (업로드 "전에" 막아 비용·시간 낭비를 줄입니다)
+    const MAX_BYTES = 5 * 1024 * 1024; // 5MB — 데모 기준 상한. 큰 파일은 업로드/표시가 느려서 막습니다.
+    function validate(file) {
+      if (!file.type.startsWith("image/")) {
+        return "이미지 파일만 올릴 수 있어요. (jpg, png, webp 등)";
+      }
+      if (file.size > MAX_BYTES) {
+        return "파일이 너무 커요. 5MB 이하 이미지를 골라 주세요.";
+      }
+      return null; // 문제 없음
+    }
+
+    // 파일을 고르면(change 이벤트) 업로드를 시작합니다.
+    fileInput.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return; // 사용자가 취소한 경우
+
+      // (1) 검증
+      const errorMsg = validate(file);
+      if (errorMsg) {
+        setStatus(errorMsg, true);
+        fileInput.value = ""; // 같은 파일을 다시 고를 수 있게 입력값 초기화
+        return;
+      }
+
+      setStatus("업로드 중...");
+      previewWrap.replaceChildren(); // 이전 미리보기 지우기 (innerHTML="" 대신 안전한 메서드 사용)
+
+      try {
+        // (2) 업로드 경로(파일명)를 고유하게 만듭니다.
+        // 왜: 같은 이름으로 올리면 기존 파일을 덮어쓰거나 충돌이 납니다.
+        //     시각(Date.now) + 정리한 원본 이름으로 충돌을 피합니다.
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_"); // 한글·공백·특수문자는 경로 사고 방지로 치환
+        const path = `${Date.now()}-${safeName}`;
+
+        // (3) Storage 버킷에 업로드.
+        // upsert:false → 같은 경로가 이미 있으면 덮어쓰지 않고 에러(실수 덮어쓰기 방지).
+        const { error: uploadError } = await supabase
+          .storage
+          .from(BUCKET)
+          .upload(path, file, { cacheControl: "3600", upsert: false });
+
+        if (uploadError) throw uploadError;
+
+        // (4) 공개 URL 받기 (public 버킷일 때 — 누구나 이 주소로 이미지를 볼 수 있음)
+        const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+        const publicUrl = data.publicUrl;
+
+        // ── 비공개(private) 버킷이라면 위 getPublicUrl 대신 아래처럼 서명 URL 을 받습니다.
+        //    서명 URL 은 "정해진 시간 동안만" 열리는 임시 주소라 비공개 파일을 잠깐 보여줄 때 씁니다.
+        // const { data: signed, error: signErr } =
+        //   await supabase.storage.from(BUCKET).createSignedUrl(path, 60); // 60초 유효
+        // if (signErr) throw signErr;
+        // const publicUrl = signed.signedUrl;
+
+        // (5) 화면에 미리보기 표시
+        const img = document.createElement("img");
+        img.src = publicUrl;          // 받은 URL 을 그대로 src 에 — 이미지 주소는 textContent 대상이 아님
+        img.alt = "업로드한 이미지";  // 접근성: 이미지를 못 보는 사용자/스크린리더 안내
+
+        const urlBox = document.createElement("div");
+        urlBox.className = "url-box";
+        urlBox.textContent = publicUrl; // URL 문자열은 textContent 로 출력(안전)
+
+        previewWrap.append(img, urlBox);
+        setStatus("업로드 완료! Storage 의 " + BUCKET + " 버킷에 저장됐어요.");
+        fileInput.value = ""; // 다음 업로드를 위해 초기화
+      } catch (err) {
+        // (6) 실패 처리: 권한 거부(403)·네트워크 오류·버킷 이름 오타 등.
+        // 콘솔에는 원문을 남겨 개발자가 보고, 화면에는 사람이 읽을 메시지를 보여 줍니다.
+        console.error("업로드 실패:", err);
+        const friendly =
+          (err && err.message) ? err.message : "알 수 없는 오류가 났어요.";
+        setStatus("업로드에 실패했어요: " + friendly + " (콘솔 F12 에서 자세히 보세요)", true);
+      }
+    });
+  </script>
+</body>
+</html>

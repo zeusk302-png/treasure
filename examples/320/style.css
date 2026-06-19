@@ -1,0 +1,195 @@
+/*
+  ============================================================
+  실습 320 — 접근성 폼 스타일 (style.css)
+  ============================================================
+  이 파일은 무엇인가:
+    - 폼의 모양을 꾸미되, "접근성을 해치지 않는" 방식으로만 꾸밉니다.
+  왜 이렇게 하는가 (핵심 이유):
+    - 보기 좋게 만들려다 포커스 테두리를 지우거나, 글자색 대비를 흐리게 하면
+      키보드 사용자·저시력 사용자가 못 쓰게 됩니다. 그래서 '포커스가 또렷이 보이는지',
+      '글자와 배경의 대비가 충분한지'를 최우선으로 둡니다.
+*/
+
+/* 색·간격을 한곳에 모아둔 디자인 토큰. 값 하나만 바꿔도 전체 톤이 일관되게 바뀝니다. */
+:root {
+  --main: #1d4ed8;          /* 파랑 - 흰 배경 위에서 대비가 충분(읽기 쉬움) */
+  --main-dark: #1e40af;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --line: #cbd2dc;
+  --text: #1f2933;          /* 거의 검정 - 흰 배경 대비 충분 */
+  --muted: #52606d;
+  --error: #b91c1c;         /* 빨강이되 충분히 진하게 - 저시력에서도 읽히게 */
+  --focus: #f59e0b;         /* 포커스 테두리 색(주황) - 파랑 요소 위에서도 눈에 띔 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px 20px 8px;
+}
+header h1 { margin: 0 0 6px; font-size: 1.5rem; }
+.lead { margin: 0; color: var(--muted); }
+
+main {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px 20px 48px;
+}
+
+/*
+  "본문 바로가기" 링크: 평소엔 화면 밖으로 밀어 안 보이게 숨깁니다.
+  이유 - 마우스 사용자에겐 거슬리지 않게, 그러나 코드에서 사라지진 않아 키보드/스크린리더는 인식합니다.
+*/
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--main);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 0 0 8px 0;
+  text-decoration: none;
+  z-index: 10;
+}
+/*
+  Tab으로 포커스가 닿는 순간(:focus)에만 화면 안으로 끌어와 보여줍니다.
+  이유 - 키보드 사용자가 "본문으로 바로가기" 버튼을 실제로 쓸 수 있게 합니다.
+*/
+.skip-link:focus {
+  left: 0;
+}
+
+form {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.form-help { margin: 0 0 16px; color: var(--muted); font-size: 0.92rem; }
+
+.field { margin-bottom: 18px; }
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.req { color: var(--error); }      /* 필수 표시 별표를 빨강으로(색은 보조 신호, 글자 '*'가 진짜 신호) */
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+
+.hint { margin: 6px 0 0; font-size: 0.85rem; color: var(--muted); }
+
+/*
+  에러 메시지: 비어 있을 땐 자리를 차지하지 않다가, 글자가 채워지면 빨강 + 굵게로 보입니다.
+  ::before로 ⚠ 아이콘을 붙여, '색이 안 보이는 사람'도 모양으로 오류임을 알게 합니다(색만으로 구분 금지).
+*/
+.error {
+  margin: 6px 0 0;
+  color: var(--error);
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 0;
+}
+.error:not(:empty)::before {
+  content: "⚠ ";
+}
+
+/*
+  검증 실패한 입력칸은 빨강 테두리로도 표시(.invalid 클래스는 script.js가 붙임).
+  이유 - 스크린리더는 메시지로, 눈으로 보는 사람은 테두리로 — 두 경로 모두 알려주기 위함.
+*/
+.invalid {
+  border-color: var(--error) !important;
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 0 0 18px;
+}
+legend { font-weight: 600; padding: 0 6px; }
+
+.radio-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.radio, .checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.checkbox-field label { font-weight: 400; }
+
+.submit-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--main);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.submit-btn:hover { background: var(--main-dark); }
+
+.result {
+  margin: 16px 0 0;
+  font-weight: 600;
+  color: var(--main-dark);
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 24px;
+}
+
+/*
+  ★ 접근성의 핵심 ★ — 포커스 표시(focus ring)
+  Tab으로 이동 중인 요소에 또렷한 외곽선을 줍니다.
+  :focus-visible를 쓰는 이유 - 마우스 클릭 땐 테두리를 안 띄우고(거슬림 방지),
+  키보드로 이동할 때만 띄워줍니다. outline은 "절대 지우지 않는다"가 접근성 제1원칙입니다.
+*/
+a:focus-visible,
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/*
+  움직임을 줄여달라고 시스템에 설정한 사용자(어지럼증 등)를 배려.
+  이유 - prefers-reduced-motion이면 모든 전환/애니메이션을 사실상 끕니다(멀미·발작 위험 줄이기).
+*/
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

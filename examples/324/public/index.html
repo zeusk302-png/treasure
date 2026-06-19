@@ -1,0 +1,172 @@
+<!--
+  이 파일은 무엇인가:
+    RAG 챗봇의 화면(채팅 UI)입니다. 질문을 입력하면 서버(/api/chat)에 보내고,
+    돌아온 답변과 "근거(출처)"를 화면에 보여줍니다.
+  왜 있는가:
+    사용자가 직접 질문하고 답을 확인하는 입구입니다.
+  보안 포인트:
+    서버가 돌려준 답변/질문을 화면에 넣을 때 innerHTML이 아니라 textContent를 씁니다.
+    innerHTML로 넣으면 사용자가 입력한 <script> 같은 태그가 "실행"되어 XSS 공격이 될 수 있어
+    이를 막는 것입니다. (textContent는 항상 "글자 그대로"만 표시합니다.)
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 문서로 답하는 RAG 챗봇</title>
+  <style>
+    :root {
+      --main: #4f46e5;
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --text: #1f2937;
+      --muted: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--main);
+      color: #fff;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 6px; font-size: 1.4rem; }
+    header p { margin: 0; opacity: 0.9; font-size: 0.9rem; }
+    main { max-width: 720px; margin: 0 auto; padding: 20px; }
+    #log { min-height: 200px; margin-bottom: 16px; }
+    .msg {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 10px 0;
+    }
+    .msg .who { font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
+    .msg.user { background: #eef2ff; }
+    .sources { margin-top: 8px; font-size: 0.85rem; color: var(--muted); }
+    .sources summary { cursor: pointer; color: var(--main); font-weight: 600; }
+    .sources li { margin: 6px 0; }
+    form { display: flex; gap: 8px; }
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      background: var(--main);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.5; cursor: default; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>내 문서로 답하는 RAG 챗봇</h1>
+    <p>질문하면 내 문서에서 근거를 찾아 답합니다. 자료에 없으면 "없다"고 답합니다.</p>
+  </header>
+
+  <main>
+    <div id="log"></div>
+    <form id="chat-form">
+      <input id="question" type="text" placeholder="내 문서에 대해 물어보세요…" autocomplete="off" />
+      <button id="send" type="submit">보내기</button>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("question");
+    const sendBtn = document.getElementById("send");
+    const log = document.getElementById("log");
+
+    // 화면에 말풍선 하나를 추가하는 함수.
+    // text는 항상 textContent로 넣습니다(innerHTML 금지 → XSS 방지).
+    function addMessage(who, text) {
+      const wrap = document.createElement("div");
+      wrap.className = "msg " + (who === "나" ? "user" : "");
+
+      const label = document.createElement("div");
+      label.className = "who";
+      label.textContent = who;
+
+      const body = document.createElement("div");
+      body.textContent = text; // 사용자/AI 텍스트를 "글자 그대로"만 표시
+
+      wrap.appendChild(label);
+      wrap.appendChild(body);
+      log.appendChild(wrap);
+      wrap.scrollIntoView({ behavior: "smooth" });
+      return wrap;
+    }
+
+    // 답변 아래에 "근거(출처)"를 접이식으로 붙이는 함수.
+    function addSources(wrap, sources) {
+      if (!sources || sources.length === 0) return;
+      const details = document.createElement("details");
+      details.className = "sources";
+
+      const summary = document.createElement("summary");
+      summary.textContent = `근거 보기 (${sources.length}개 조각)`;
+      details.appendChild(summary);
+
+      const ul = document.createElement("ul");
+      for (const s of sources) {
+        const li = document.createElement("li");
+        // 여기서도 textContent로 — 출처/본문에 특수문자가 있어도 안전하게 표시.
+        li.textContent = `[${s.source} · 유사도 ${s.similarity}] ${s.snippet}…`;
+        ul.appendChild(li);
+      }
+      details.appendChild(ul);
+      wrap.appendChild(details);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+
+      addMessage("나", question);
+      input.value = "";
+      sendBtn.disabled = true;
+
+      const pending = addMessage("챗봇", "생각 중…");
+
+      try {
+        // 서버에만 비밀 키가 있으므로, 브라우저는 질문만 보냅니다.
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        const data = await res.json();
+
+        // 답변 텍스트 교체(역시 textContent).
+        pending.querySelector("div:last-child").textContent =
+          data.answer || data.error || "(빈 응답)";
+        addSources(pending, data.sources);
+      } catch (err) {
+        pending.querySelector("div:last-child").textContent =
+          "네트워크 오류가 발생했습니다.";
+      } finally {
+        sendBtn.disabled = false;
+        input.focus();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "_comment_what": "이 파일은 무엇인가: 이 작은 Node 서버를 실행하기 위한 설명서(package.json)입니다.",
+  "_comment_why": "왜 있는가: 'npm install'이 어떤 라이브러리를 받아야 하는지, 'npm start'가 무엇을 실행하는지를 알려 줘서, 처음 받는 사람도 두 줄 명령으로 똑같이 띄울 수 있게 하려는 것입니다.",
+  "name": "health-check-uptime-demo",
+  "version": "1.0.0",
+  "description": "실습 335 — /health 헬스체크 엔드포인트 + 업타임 모니터 연동 데모",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

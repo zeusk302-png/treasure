@@ -1,0 +1,199 @@
+/*
+  실습 321 — 스켈레톤 로딩 UI (style.css)
+  무엇: 스켈레톤 박스 + shimmer(반짝임) 애니메이션, 진짜 카드 디자인, 에러 박스 스타일.
+  왜: "스켈레톤"의 핵심은 결국 CSS입니다. 회색 박스 + 흐르는 반짝임이 "곧 콘텐츠가 온다"는 느낌을 줍니다.
+  핵심 원칙: 스켈레톤 카드와 진짜 카드의 '크기'를 똑같이 맞춥니다.
+            그래야 교체될 때 화면이 덜컥 움직이는 layout shift가 생기지 않습니다.
+*/
+
+/* 색·간격을 한곳에서 관리하는 디자인 토큰. 한 번 정해 두면 일관성이 유지됩니다. */
+:root {
+  --main: #4f46e5;
+  --bg: #f7f7fb;
+  --card: #ffffff;
+  --line: #e5e7eb;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --skel: #e6e8ec;       /* 스켈레톤 박스의 기본 회색 */
+  --skel-shine: #f3f4f6; /* shimmer로 지나가는 밝은 띠 색 */
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.hero {
+  background: var(--main);
+  color: #fff;
+  padding: 32px 20px;
+  text-align: center;
+}
+.hero h1 { margin: 0 0 8px; font-size: 1.6rem; }
+.hero p { margin: 0; opacity: 0.9; }
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+/* 버튼 영역 */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.btn {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--main); }
+.btn-primary {
+  background: var(--main);
+  border-color: var(--main);
+  color: #fff;
+  font-weight: 600;
+}
+
+/*
+  카드 목록 그리드.
+  auto-fill + minmax: 화면 폭에 따라 카드 열 수가 자동으로 늘고 줄어듭니다(반응형).
+  스켈레톤 카드도 진짜 카드도 '같은 그리드' 안에 들어가므로 배치가 동일합니다.
+*/
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.hint {
+  grid-column: 1 / -1;     /* 안내 문구는 그리드 전체 폭을 차지 */
+  color: var(--muted);
+  margin: 8px 0;
+}
+
+/*
+  ── 진짜 카드와 스켈레톤 카드가 '공유'하는 틀 ──
+  무엇: .card 와 .skeleton-card 가 같은 padding/배경/모서리를 갖게 합니다.
+  왜: 둘의 외형 크기를 맞춰야 교체 시 화면이 안 흔들립니다(layout shift 방지).
+*/
+.card,
+.skeleton-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* 진짜 카드의 썸네일: 고정 비율(16:9)로 높이를 예약해 둡니다. */
+.card .thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;     /* 이미지가 늦게 와도 자리가 미리 잡혀 있어 흔들리지 않습니다 */
+  border-radius: 8px;
+  background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+  margin-bottom: 12px;
+}
+.card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.card p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+/*
+  ── 스켈레톤 조각들 ──
+  회색 박스 한 칸 = .skel. 제목/본문/썸네일 자리를 이 박스로 흉내 냅니다.
+  중요: 스켈레톤의 썸네일/줄 높이를 진짜 카드의 그것과 같게 맞춥니다.
+*/
+.skel {
+  position: relative;
+  overflow: hidden;          /* 흐르는 반짝임 띠가 박스 밖으로 안 보이게 자릅니다 */
+  background: var(--skel);
+  border-radius: 6px;
+}
+.skel-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;      /* 진짜 카드 썸네일과 동일한 비율/높이 */
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.skel-title {
+  height: 18px;              /* 진짜 제목(h3) 높이쯤 */
+  width: 70%;
+  margin-bottom: 10px;
+}
+.skel-line {
+  height: 12px;             /* 진짜 본문 한 줄 높이쯤 */
+  width: 100%;
+  margin-bottom: 8px;
+}
+.skel-line.short { width: 60%; }  /* 마지막 줄은 짧게 — 실제 글처럼 자연스럽게 */
+
+/*
+  ── shimmer(반짝임) 애니메이션 ──
+  무엇: 회색 박스 위로 밝은 띠가 좌→우로 흐릅니다.
+  왜: 정지된 회색보다 "움직이는 로딩"이 진행 중임을 더 확실히 느끼게 해 줍니다.
+  방법: 가짜 요소(::after)에 밝은 그라데이션 띠를 만들고, 그 위치를 계속 이동시킵니다.
+*/
+.skel::after {
+  content: "";
+  position: absolute;
+  inset: 0;                 /* 박스를 가득 채움 */
+  transform: translateX(-100%);  /* 시작은 왼쪽 바깥 */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--skel-shine) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.3s infinite;  /* 1.3초마다 좌→우로 반복 */
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }  /* 오른쪽 바깥까지 흘러감 */
+}
+
+/*
+  접근성 배려: 사용자가 OS에서 "움직임 줄이기"를 켜 두었다면 반짝임을 끕니다.
+  왜: 움직임이 어지럼증을 유발하는 사람도 있어, 이 설정을 존중하는 것이 좋습니다.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .skel::after { animation: none; }
+}
+
+/*
+  ── 에러 상태 ──
+  로딩에 실패했을 때 보여 줄 박스. 빨간 톤으로 "문제가 있다"를 분명히 합니다.
+*/
+.error-box {
+  grid-column: 1 / -1;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+}
+.error-box .retry {
+  margin-top: 12px;
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+  font-weight: 600;
+}
+
+.foot {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 24px;
+}

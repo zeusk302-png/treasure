@@ -1,0 +1,9 @@
+# 비밀값이 들어간 .env 는 절대 깃에 올리지 않습니다 (.env.example 견본만 올립니다)
+.env
+.env.local
+.env.*.local
+
+# 의존성·로컬 데이터
+node_modules/
+# Meilisearch 가 로컬에 남기는 데이터 폴더(도커 대신 바이너리로 띄운 경우)
+data.ms/

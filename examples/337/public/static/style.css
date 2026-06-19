@@ -1,0 +1,90 @@
+/*
+  이 파일은 무엇인가:
+  데모 페이지의 모양을 입히는 스타일시트입니다.
+  왜 여기(/static)에 있는가:
+  server.js가 /static 경로를 "1년 캐시 + immutable"로 서빙합니다.
+  즉, 이 파일은 한 번 받으면 재방문 시 네트워크 없이 즉시 적용됩니다(빠름).
+  내용을 바꾸면 index.html의 ?v= 값을 올려 새 URL로 만들어야 새로 받아집니다(캐시 버스팅).
+*/
+
+:root {
+  /* 디자인 토큰: 색을 한 곳에서 관리해 두면 나중에 한 줄만 바꿔도 전체가 바뀝니다. */
+  --main: #2563eb;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --line: #e5e7eb;
+  --text: #1f2937;
+  --muted: #6b7280;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  background: var(--main);
+  color: #fff;
+  padding: 28px 20px;
+  text-align: center;
+}
+header h1 { margin: 0 0 8px; font-size: 1.5rem; }
+header p { margin: 0; opacity: 0.92; }
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.card h2 { margin-top: 0; font-size: 1.05rem; }
+
+code {
+  background: #f1f5f9;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+button {
+  background: var(--main);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+button:hover { opacity: 0.92; }
+
+/* 결과 출력 영역: 캐시 정책 JSON을 보기 좋게 들여쓰기로 표시 */
+.output {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 12px;
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+  min-height: 1.5em;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 24px;
+}

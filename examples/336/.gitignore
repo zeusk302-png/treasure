@@ -1,0 +1,11 @@
+# 비밀값이 들어간 .env 는 절대 깃에 올리지 않습니다 (.env.example 견본만 올립니다)
+.env
+.env.local
+.env.*.local
+
+# 의존성·산출물
+node_modules/
+
+# k6가 결과를 파일로 내보낼 때 생기는 산출물(옵션 사용 시)
+summary.json
+*.log

@@ -86,7 +86,7 @@ total = len(catalog)
 done = sum(1 for x in catalog if has_code(x["id"]))
 
 L = []
-L.append("# 실습 300선 — 1년 커리큘럼")
+L.append("# 실습 %d선 — 1년 커리큘럼" % total)
 L.append("")
 L.append("> 비전공자가 단계별로 따라 할 수 있는 실습 **%d개**. 쉬움(★)부터 종합 프로젝트(★★★★★)까지, 카테고리별로 한 단계씩 쌓입니다. 코드·설명서가 준비되는 대로 '코드' 칸에 링크가 채워집니다. **(현재 %d / %d 준비됨)**" % (total, done, total))
 L.append("")

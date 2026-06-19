@@ -1,0 +1,22 @@
+{
+  "//": "실습 312 — Meilisearch 즉시 검색 데모. 의존성과 실행 스크립트를 정의하는 파일입니다.",
+  "name": "practice-312-meilisearch-instant-search",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meilisearch로 오타에 강한 즉시 검색창 만들기 (비전공 청년용 웹개발 가이드)",
+  "type": "commonjs",
+  "scripts": {
+    "//seed": "data.json을 Meilisearch에 색인하는 스크립트. 검색하려면 이걸 먼저 한 번 돌려야 합니다.",
+    "seed": "node seed.js",
+    "//start": "검색 API + 검색 페이지를 제공하는 서버를 켭니다.",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "//express": "간단한 웹서버(브라우저에 페이지/검색 API를 내려줌)를 만드는 도구",
+    "express": "^4.19.2",
+    "//meilisearch": "Meilisearch 서버와 대화하는 공식 클라이언트(색인·검색을 코드로 호출)",
+    "meilisearch": "^0.41.0",
+    "//dotenv": "비밀값을 코드에 박지 않고 .env 파일에서 읽어 오기 위한 도구",
+    "dotenv": "^16.4.5"
+  }
+}

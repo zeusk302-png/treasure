@@ -1,0 +1,12 @@
+{
+  "name": "practice-337-cache-headers",
+  "version": "1.0.0",
+  "private": true,
+  "description": "캐시·CDN 헤더로 정적자원 빠르게 하기 — 캐시 헤더 적용 데모",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

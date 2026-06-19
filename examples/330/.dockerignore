@@ -1,0 +1,24 @@
+# 이 파일은 무엇인가:
+# Docker 가 이미지를 구울 때 "컨테이너 안으로 가져가지 말 것" 목록입니다.
+# 왜 있는가:
+# (1) 빌드를 빠르게 — 용량 큰 폴더(node_modules 등)를 통째로 복사하느라 느려지는 걸 막습니다.
+#     어차피 node_modules 는 Dockerfile 안에서 'npm install' 로 새로 깔립니다.
+# (2) 보안 — 진짜 비밀값이 든 .env 가 실수로 이미지에 박혀 유출되는 걸 막습니다.
+
+# 의존성 폴더 (이미지 안에서 새로 설치하므로 복사 불필요)
+node_modules
+
+# 비밀값 파일 (절대 이미지에 넣지 않음)
+.env
+.env.local
+.env.*.local
+
+# 깃·도커 관련 메타파일과 문서
+.git
+.gitignore
+Dockerfile
+.dockerignore
+README.md
+
+# 로그
+npm-debug.log

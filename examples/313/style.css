@@ -1,0 +1,141 @@
+/*
+  ============================================================
+  실습 313 — 디바운스 자동완성 검색 UI (style.css)
+  이 파일이 무엇인가:
+    - 검색창·추천 드롭다운·강조 항목·상태 표시줄의 "모양"만 담당합니다.
+  왜 변수(:root)로 색을 모았는가:
+    - 색을 한곳에서 관리하면 나중에 테마(밝게/어둡게)를 바꾸기 쉽기 때문입니다.
+  ============================================================
+*/
+
+:root {
+  --main: #4f46e5;       /* 강조색(포커스 테두리·선택 항목) */
+  --bg: #0f172a;         /* 페이지 배경(어두운 남색) */
+  --card: #1e293b;       /* 카드/입력 배경 */
+  --line: #334155;       /* 경계선 */
+  --text: #e2e8f0;       /* 본문 글자(어두운 배경에서 읽히게 밝게) */
+  --muted: #94a3b8;      /* 부가 설명용 흐린 글자 */
+  --hover: #334155;      /* 마우스 올렸을 때 항목 배경 */
+}
+
+* { box-sizing: border-box; } /* padding이 너비를 안 넘치게 — 레이아웃 예측이 쉬워짐 */
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.page-head {
+  text-align: center;
+  padding: 32px 20px 8px;
+}
+.page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+.page-head p { margin: 0; color: var(--muted); }
+
+.wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px 20px 48px;
+}
+
+/*
+  search-box: position:relative 가 핵심.
+  → 안에 있는 드롭다운(.suggestions)을 이 상자 기준으로 "절대 위치"로 띄우기 위함.
+*/
+.search-box { position: relative; }
+
+.search-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+}
+/* 포커스(클릭/탭으로 들어왔을 때) 강조 — 어디에 입력 중인지 보이게 */
+.search-input:focus {
+  border-color: var(--main);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
+}
+
+/*
+  추천 드롭다운: 입력창 바로 아래에 겹쳐 띄움.
+  position:absolute + top:100% → search-box의 맨 아래(=input 밑)에서 시작.
+*/
+.suggestions {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 4px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 10;               /* 다른 요소 위로 올라오게 */
+  max-height: 280px;
+  overflow-y: auto;          /* 추천어가 많으면 스크롤 */
+}
+
+.suggestions li {
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* 마우스를 올렸을 때 */
+.suggestions li:hover { background: var(--hover); }
+
+/*
+  키보드 ↑/↓로 "현재 고른" 항목.
+  JS가 이 클래스를 붙였다 뗐다 하며 강조 위치를 옮깁니다.
+*/
+.suggestions li.active {
+  background: var(--main);
+  color: #fff;
+}
+
+/* 사용자가 친 글자와 일치하는 부분 강조(굵게) — 어디가 매칭됐는지 보여 줌 */
+.suggestions li mark {
+  background: transparent;
+  color: inherit;
+  font-weight: 700;
+}
+
+.status {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.status p { margin: 4px 0; }
+.muted { color: var(--muted); font-size: 0.85em; }
+
+.page-foot {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 24px;
+}
+
+/*
+  화면엔 안 보이지만 스크린리더는 읽는 라벨용.
+  display:none 으로 숨기면 보조기술도 못 읽으므로, 이 방식(시각만 숨김)을 씁니다.
+*/
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

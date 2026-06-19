@@ -1,0 +1,83 @@
+<!--
+  ============================================================
+  실습 313 — 디바운스 자동완성 검색 UI (index.html)
+  이 파일이 무엇인가:
+    - "타이핑이 잠깐 멈췄을 때만" 검색을 보내는(=디바운스) 자동완성 검색창의 화면 뼈대입니다.
+    - 검색 input + 그 아래로 뜨는 추천어 목록(드롭다운)으로 구성됩니다.
+  왜 이렇게 만드는가:
+    - 글자 하나마다 서버로 요청하면 서버가 과부하됩니다. 멈췄을 때만 1번 보내 요청을 아낍니다.
+    - 실제 로직(디바운스·키보드 조작·요청 취소)은 script.js에, 모양은 style.css에 분리했습니다.
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일에서도 글자/레이아웃이 적절히 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디바운스 자동완성 검색 UI 데모</title>
+  <!-- 화면 스타일은 별도 파일로 분리 — 역할(모양 vs 동작)을 나누면 읽기 쉽기 때문 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-head">
+    <h1>디바운스 자동완성 검색</h1>
+    <p>글자마다가 아니라 "잠깐 멈췄을 때"만 검색을 보내, 서버 요청을 아낍니다.</p>
+  </header>
+
+  <main class="wrap">
+    <!--
+      search-box: input과 추천 드롭다운을 함께 감싸는 상자.
+      position:relative(스타일)로 잡아 두고, 드롭다운을 그 아래에 절대배치하기 위함.
+    -->
+    <section class="search-box">
+      <label class="visually-hidden" for="search-input">검색어 입력</label>
+
+      <!--
+        role="combobox" 등 ARIA 속성:
+          - 스크린리더에게 "이건 자동완성이 달린 입력창"이라고 알려 줘 접근성을 높입니다.
+          - aria-expanded: 드롭다운이 열렸는지 여부(JS가 true/false로 갱신).
+          - aria-controls: 어떤 목록을 제어하는지(아래 ul의 id).
+          - autocomplete="off": 브라우저 기본 자동완성을 꺼야 우리가 만든 목록과 안 겹칩니다.
+      -->
+      <input
+        id="search-input"
+        type="text"
+        class="search-input"
+        placeholder="도시/단어를 검색해 보세요 (예: 부산, 서울, 리액트)"
+        role="combobox"
+        aria-expanded="false"
+        aria-autocomplete="list"
+        aria-controls="suggestion-list"
+        autocomplete="off"
+      />
+
+      <!--
+        추천어가 들어갈 빈 목록.
+          - role="listbox" + 각 항목 role="option": 자동완성 목록임을 보조기술에 알림.
+          - hidden 속성: 평소엔 숨겨 두고, 추천어가 있을 때만 JS가 보이게 함.
+          - 내용은 script.js가 textContent로 채웁니다(innerHTML 금지 — XSS 방지).
+      -->
+      <ul id="suggestion-list" class="suggestions" role="listbox" hidden></ul>
+    </section>
+
+    <!--
+      상태 표시줄: 디바운스가 진짜로 요청을 아끼는지 "눈으로" 확인하는 칸.
+        - 검색 실행 횟수가 타자 수만큼 늘지 않으면 디바운스가 동작 중인 것.
+    -->
+    <section class="status" aria-live="polite">
+      <p>검색 실행 횟수: <strong id="request-count">0</strong>회
+        <span class="muted">(빠르게 칠 때는 안 늘고, 멈췄을 때만 늘면 정상)</span>
+      </p>
+      <p id="result-info" class="muted">검색어를 입력하면 여기에 결과 개수가 표시됩니다.</p>
+    </section>
+  </main>
+
+  <footer class="page-foot">
+    실습 313 데모 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+
+  <!-- 동작(디바운스/자동완성/키보드)은 이 파일에 — defer로 HTML을 다 읽은 뒤 실행 -->
+  <script defer src="script.js"></script>
+</body>
+</html>

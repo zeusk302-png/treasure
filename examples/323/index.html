@@ -1,0 +1,56 @@
+<!--
+  이 파일은 무엇인가:
+  Claude 스트리밍 챗봇의 "화면(UI)"입니다. 사용자가 메시지를 입력하면
+  서버(server.js)에 보내고, 돌아오는 답을 글자가 타이핑되듯 보여 줍니다.
+
+  왜 이렇게 구성했나:
+  - 화면(HTML/CSS) + 동작(script.js)을 나눠 두면 초보가 어디를 고쳐야 할지 찾기 쉽습니다.
+  - 이 파일에는 API 키가 한 글자도 없습니다. 키는 서버에만 있어야 안전하기 때문입니다.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude 스트리밍 챗봇</title>
+  <!-- 화면 꾸미기는 별도 파일로 분리 — HTML은 구조에만 집중하게 하려고 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <h1>🤖 스트리밍 챗봇</h1>
+      <p>글자가 흘러나오는 Claude 챗봇 — 키는 서버에만 있고 화면에는 없습니다.</p>
+    </header>
+
+    <!-- 시스템 프롬프트: 챗봇의 "성격/규칙"을 정하는 칸.
+         왜 화면에 뒀나: 같은 모델이라도 시스템 프롬프트만 바꾸면 말투/역할이 통째로 바뀌는 걸 체험시키려고. -->
+    <section class="system">
+      <label for="system" class="system__label">시스템 프롬프트 (챗봇의 성격·규칙)</label>
+      <textarea
+        id="system"
+        class="system__input"
+        rows="2"
+      >당신은 한국어로 답하는 친절한 도우미입니다. 답은 간결하게 해주세요.</textarea>
+    </section>
+
+    <!-- 대화가 쌓이는 영역. 메시지 말풍선은 script.js가 만들어 넣습니다. -->
+    <main id="chat" class="chat" aria-live="polite"></main>
+
+    <!-- 입력 줄: 폼으로 감싸 Enter 키 전송도 자연스럽게 동작하게 함 -->
+    <form id="form" class="composer">
+      <input
+        id="input"
+        class="composer__input"
+        type="text"
+        placeholder="메시지를 입력하세요…"
+        autocomplete="off"
+      />
+      <button id="send" class="composer__send" type="submit">보내기</button>
+    </form>
+  </div>
+
+  <!-- 동작 로직은 마지막에 불러옵니다 — 위 요소들이 먼저 그려진 뒤 연결되도록 -->
+  <script src="script.js"></script>
+</body>
+</html>

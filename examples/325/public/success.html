@@ -1,0 +1,75 @@
+<!--
+  이 파일은 무엇인가:
+  결제가 끝나고 Stripe가 손님을 돌려보내는 '성공 페이지'입니다.
+  주소에 붙어 온 session_id로 서버에 "이 결제 진짜 됐어?"를 물어, 'paid'일 때만 성공으로 보여 줍니다.
+
+  왜 다시 서버에 확인하는가 (보안):
+  이 페이지 주소(success.html?session_id=...)는 결제를 안 해도 누구나 직접 열 수 있습니다.
+  그래서 "이 페이지에 도착함 = 결제 완료"라고 믿으면 안 되고, 서버가 Stripe에 세션을 조회해
+  payment_status가 'paid'인지 '확인'해야 합니다. (가게 출고 같은 진짜 처리는 실습 326의 웹훅에서 합니다.)
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 완료 — Stripe 테스트 결제</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #f6f7fb; color: #1f2937; line-height: 1.6;
+      display: flex; min-height: 100vh; align-items: center; justify-content: center; margin: 0; padding: 20px;
+    }
+    .card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 16px;
+      padding: 32px; max-width: 420px; width: 100%; text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .icon { font-size: 3rem; }
+    h1 { font-size: 1.3rem; margin: 8px 0; }
+    a { color: #635bff; font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    #status { color: #6b7280; min-height: 1.4em; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">✅</div>
+    <h1>결제가 완료되었습니다!</h1>
+    <!-- 서버 확인 결과가 여기 채워집니다. 사용자에게 보이는 값은 textContent로만 넣습니다. -->
+    <p id="status">결제 내역을 확인하는 중...</p>
+    <p><a href="/">← 가게로 돌아가기</a></p>
+  </div>
+
+  <script>
+    // 주소(?session_id=...)에서 세션 ID를 꺼냅니다.
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    const statusEl = document.getElementById("status");
+
+    async function verify() {
+      // 세션 ID가 없으면(직접 들어온 경우) 확인할 수 없다고 알립니다.
+      if (!sessionId) {
+        statusEl.textContent = "결제 정보를 찾을 수 없습니다.";
+        return;
+      }
+      try {
+        // 서버에 "이 세션 결제됐어?"를 다시 묻습니다(브라우저 도착만으로 믿지 않기 위해).
+        const res = await fetch("/check-session?session_id=" + encodeURIComponent(sessionId));
+        const data = await res.json();
+        if (data.paid) {
+          // 금액 표기. 원(KRW)은 소수점이 없으니 그대로, 통화는 대문자로 보여 줍니다.
+          const amount = data.amount.toLocaleString("ko-KR");
+          // textContent 사용 이유: 외부에서 온 값을 innerHTML로 넣으면 XSS 위험이 있어 막는 것입니다.
+          statusEl.textContent = `결제 확인 완료 · 금액 ${amount}${(data.currency || "").toUpperCase()}`;
+        } else {
+          statusEl.textContent = "아직 결제가 확인되지 않았습니다.";
+        }
+      } catch (e) {
+        statusEl.textContent = "결제 확인 중 오류가 발생했습니다.";
+      }
+    }
+    verify();
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# 비밀값이 든 .env 는 절대 깃에 올리지 않습니다 (.env.example 견본만 올립니다)
+.env
+.env.local
+.env.*.local
+
+# 의존성·빌드 산출물
+node_modules/

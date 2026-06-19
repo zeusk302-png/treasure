@@ -1,0 +1,80 @@
+# ──────────────────────────────────────────────────────────────
+# 이 파일은 무엇인가:
+#   GitHub Actions "CI(지속적 통합) 워크플로우" 정의 파일입니다.
+#   push 하거나 Pull Request를 올릴 때마다 GitHub가 깨끗한 컴퓨터(러너)를
+#   하나 빌려서, 우리가 적어 둔 검사(설치 → 린트 → 테스트 → 빌드)를
+#   자동으로 실행해 줍니다.
+# 왜 있는가:
+#   사람이 매번 "내 PC에선 잘 되는데?"를 확인하는 건 빠뜨리기 쉽습니다.
+#   이 파일이 있으면 "검사를 통과한 코드만 합치자"는 규칙을 기계가 강제해 줘서,
+#   깨진 코드가 main 브랜치로 합쳐지는 사고를 막습니다.
+# 어디에 둬야 하는가:
+#   반드시 저장소 루트의 .github/workflows/ 폴더 안에 .yml 로 둬야
+#   GitHub가 자동으로 인식합니다. (경로/철자가 틀리면 그냥 무시됩니다.)
+# ──────────────────────────────────────────────────────────────
+
+# name: GitHub의 Actions 탭에 표시될 이 워크플로우의 이름입니다(사람이 알아보기 쉽게).
+name: CI
+
+# on: "언제 이 워크플로우를 돌릴지"를 정하는 칸 — 이게 자동화의 방아쇠입니다.
+on:
+  push:
+    branches: [main] # main 브랜치에 push될 때 실행 — 합쳐진 코드가 멀쩡한지 확인하려고.
+  pull_request:
+    branches: [main] # main으로 향하는 PR이 올라올 때 실행 — '합치기 전에' 막는 게 핵심.
+  workflow_dispatch: {} # Actions 탭에서 버튼으로 수동 실행도 가능하게 — 처음 테스트할 때 편하라고.
+
+# permissions: 이 워크플로우에 주는 권한을 '최소한'으로 줄입니다.
+# 기본값보다 권한을 좁혀 두면, 토큰이 새도 할 수 있는 일이 적어 더 안전합니다.
+permissions:
+  contents: read # 코드를 읽기만 하면 충분 — 쓰기 권한은 굳이 안 줍니다(보안 원칙: 최소 권한).
+
+jobs:
+  # build-and-test: 하나의 '작업(job)' — 아래 단계들이 위에서 아래로 순서대로 실행됩니다.
+  build-and-test:
+    # runs-on: 어떤 종류의 가상 컴퓨터(러너)에서 돌릴지. ubuntu가 가장 흔하고 빠릅니다.
+    runs-on: ubuntu-latest
+
+    # strategy.matrix: 같은 검사를 여러 환경에서 동시에 돌리는 '행렬' 기능.
+    # 여기선 Node 20과 22 두 버전에서 각각 검사 — "특정 버전에서만 깨지는 문제"를 잡으려고.
+    strategy:
+      fail-fast: false # 한 버전이 실패해도 나머지 버전은 끝까지 돌려, 어디서 깨졌는지 다 보이게.
+      matrix:
+        node-version: [20, 22]
+
+    steps:
+      # 1) 저장소 코드를 러너로 내려받습니다. 이게 없으면 러너는 빈 컴퓨터라 검사할 코드가 없습니다.
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      # 2) 지정한 버전의 Node.js를 설치합니다.
+      #    cache: 'npm' 은 의존성 캐시를 재사용해 매번 새로 받는 시간을 줄여 줍니다(속도↑, 요금↓).
+      - name: Node.js ${{ matrix.node-version }} 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      # 3) 의존성 설치 — npm ci 는 package-lock.json 그대로 '정확히' 설치합니다.
+      #    npm install 과 달리 lock 파일을 안 바꿔서, CI에선 재현성이 높은 npm ci 를 씁니다.
+      - name: 의존성 설치
+        run: npm ci
+
+      # 4) 린트(코드 스타일/실수 검사) — "잘못된 코드 냄새"를 합치기 전에 걸러냅니다.
+      #    실패하면 이 단계에서 빨간불이 켜지고, 뒤 단계는 실행되지 않습니다(불필요한 시간 절약).
+      - name: 린트 검사
+        run: npm run lint
+
+      # 5) 테스트 — 함수가 기대대로 동작하는지 자동 확인. 핵심 안전망입니다.
+      - name: 테스트 실행
+        run: npm test
+
+      # 6) 빌드 — 실제 배포할 때처럼 한 번 묶어 봐서, '빌드 자체가 깨지는' 문제를 미리 잡습니다.
+      - name: 빌드
+        run: npm run build
+
+      # (참고) 비밀값이 필요하면 코드에 박지 말고 아래처럼 'Secrets'로 주입합니다.
+      #   env:
+      #     API_TOKEN: ${{ secrets.API_TOKEN }}
+      # Secrets 는 저장소 Settings > Secrets and variables > Actions 에서만 넣습니다.
+      # 로그에도 ***로 가려져 출력돼 안전합니다. (이 예제는 비밀값이 없어 주석으로만 둡니다.)

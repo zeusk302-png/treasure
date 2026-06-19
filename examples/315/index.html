@@ -1,0 +1,103 @@
+<!--
+  ============================================================
+  실습 315 — 디자인 토큰(CSS 변수)으로 테마 시스템 만들기
+  ------------------------------------------------------------
+  이 파일은 무엇? : 색·간격·글꼴을 "디자인 토큰"(CSS 변수)으로 한 곳에 모아 두고,
+                    페이지의 모든 요소가 그 토큰을 '참조'만 하도록 만든 데모 페이지입니다.
+  왜 있나?        : 토큰을 한 줄만 바꾸면(예: --color-brand) 버튼·링크·강조 색이 전부
+                    한꺼번에 일관되게 바뀝니다. 색을 #4f46e5처럼 여기저기 직접 박으면
+                    나중에 브랜드 색을 바꿀 때 수십 군데를 손으로 고쳐야 하고, 빠뜨리면
+                    화면 톤이 제각각이 됩니다. 토큰은 그 "단일 진실의 원천" 역할을 합니다.
+  보안 메모       : 이 페이지는 순수 프론트(HTML/CSS/JS)라 비밀값이 전혀 없습니다.
+                    아래 테마 전환 버튼이 다루는 값은 색 이름뿐이라 공개되어도 안전합니다.
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디자인 토큰으로 만드는 테마 시스템</title>
+
+  <!--
+    style.css에 토큰(CSS 변수) 정의와 모든 스타일이 들어 있습니다.
+    HTML은 "무엇을 보여줄지"만, CSS는 "어떻게 보일지(토큰)"만 담당하게 분리한 것 —
+    역할을 나눠 두면 디자인만 따로 바꾸기가 쉬워집니다.
+  -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<!--
+  data-theme 속성으로 현재 테마를 표시합니다. 기본값은 "indigo".
+  CSS에서 [data-theme="..."] 선택자로 이 속성 값에 따라 토큰을 통째로 갈아끼웁니다.
+  즉 "테마 전환 = data-theme 한 글자 바꾸기"가 되도록 설계한 것입니다.
+-->
+<body data-theme="indigo">
+
+  <header class="site-header">
+    <h1>디자인 토큰 테마 데모</h1>
+    <p class="subtitle">색·간격·글꼴을 한 곳에 모아 두고, 버튼 하나로 전체 톤을 바꿉니다.</p>
+
+    <!--
+      테마 전환 버튼 묶음. 각 버튼의 data-set-theme 값이 곧 적용할 테마 이름입니다.
+      값을 HTML 속성에 담아 두면, JS가 어떤 테마로 바꿀지 한 줄로 읽어 올 수 있어
+      버튼을 추가할 때 JS를 안 고쳐도 됩니다(확장에 강한 구조).
+    -->
+    <div class="theme-switch" role="group" aria-label="테마 선택">
+      <button class="chip" data-set-theme="indigo">인디고</button>
+      <button class="chip" data-set-theme="emerald">에메랄드</button>
+      <button class="chip" data-set-theme="rose">로즈</button>
+      <button class="chip" data-set-theme="dark">다크</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 1) 토큰이 실제로 어떻게 쓰이는지 보여 주는 카드들 -->
+    <section class="grid">
+      <article class="card">
+        <h2>버튼 — 토큰을 참조</h2>
+        <p class="muted">버튼 색은 직접 박지 않고 <code>--color-brand</code> 토큰을 봅니다.</p>
+        <button class="btn btn-primary">기본 버튼</button>
+        <button class="btn btn-outline">테두리 버튼</button>
+      </article>
+
+      <article class="card">
+        <h2>강조 텍스트</h2>
+        <p>이 문단의 <a href="#" class="link">링크</a>와
+          <span class="badge">배지</span>도 모두 같은 브랜드 토큰을 씁니다.</p>
+        <p class="muted">그래서 위에서 테마를 바꾸면 여기까지 한꺼번에 바뀝니다.</p>
+      </article>
+
+      <article class="card">
+        <h2>간격·글꼴도 토큰</h2>
+        <p class="muted">카드 안쪽 여백은 <code>--space-4</code>,
+          제목 크기는 <code>--font-lg</code>처럼 간격·글꼴도 토큰으로 통일했습니다.</p>
+        <p>값 하나만 바꾸면 모든 카드의 여백이 동시에 넓어지거나 좁아집니다.</p>
+      </article>
+    </section>
+
+    <!-- 2) "현재 적용된 토큰 값" 미리보기 — 학습용으로 토큰을 눈에 보이게 -->
+    <section class="card token-preview">
+      <h2>지금 적용된 토큰</h2>
+      <p class="muted">아래 색 칩은 실제 CSS 변수 값을 그대로 읽어와 보여 줍니다.
+        테마를 바꾸면 이 칩도 같이 바뀝니다.</p>
+      <ul class="swatch-list" id="swatchList">
+        <!-- JS가 여기에 "토큰 이름 + 현재 값" 칩을 채워 넣습니다. -->
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    실습 315 · 디자인 토큰 테마 시스템 · 부산코딩스쿨 비전공 청년용 웹개발 가이드
+  </footer>
+
+  <!--
+    script.js는 "버튼을 누르면 data-theme를 바꾸고, 선택을 기억하고,
+    현재 토큰 값을 칩으로 보여 주는" 동작만 담당합니다.
+    스타일 값 자체는 절대 JS에 두지 않습니다 — 색/간격은 CSS 토큰이 단일 진실의 원천이니까요.
+  -->
+  <script src="script.js"></script>
+</body>
+</html>

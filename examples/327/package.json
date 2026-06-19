@@ -1,0 +1,18 @@
+{
+  "_comment": "이 파일은 무엇인가: 이 실습이 어떤 패키지를 쓰고 어떻게 실행되는지 적은 프로젝트 설명서입니다. 왜 있는가: 'npm install'로 의존성을 한 번에 깔고, 'npm start'로 서버를 켜기 위해서입니다.",
+  "name": "practice-327-email-send",
+  "version": "1.0.0",
+  "private": true,
+  "description": "실습 327 — 폼 제출 시 Resend로 확인 메일 자동 발송",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "resend": "^4.0.0"
+  },
+  "optionalDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,10 @@
+# 비밀값/설정이 들어간 .env 는 절대 깃에 올리지 않습니다 (.env.example 견본만 올립니다)
+.env
+.env.local
+.env.*.local
+
+# 의존성 폴더 — npm install 로 누구나 다시 받을 수 있으니 깃에 올리지 않습니다.
+node_modules/
+
+# 로그/잡파일
+*.log

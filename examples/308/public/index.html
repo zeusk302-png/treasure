@@ -1,0 +1,131 @@
+<!--
+  index.html — 레이트리밋 데모 페이지
+  ────────────────────────────────────
+  무엇인가: 버튼을 눌러 /api/hello를 호출하고, 200(통과)·429(막힘) 결과를 색으로 보여주는 화면.
+  왜 있는가: "1분에 N회 넘으면 막힌다"를 글이 아니라 직접 눌러서 체감하기 위해.
+  보안 메모: 서버가 보내준 메시지를 화면에 찍을 때 innerHTML이 아니라 textContent를 쓴다.
+            innerHTML로 찍으면 응답에 섞인 <script> 같은 것이 실행될 수 있어(XSS) 위험하기 때문.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>레이트리밋 데모 — 1분에 N회 막기</title>
+  <style>
+    :root {
+      --main: #4f46e5;
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --ok: #16a34a;     /* 통과(200) = 초록 */
+      --blocked: #dc2626;/* 막힘(429) = 빨강 */
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    header { background: var(--main); color: #fff; padding: 28px 20px; text-align: center; }
+    header h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    header p { margin: 0; opacity: 0.9; }
+    main { max-width: 720px; margin: 0 auto; padding: 20px 20px 60px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+      padding: 18px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    button {
+      background: var(--main); color: #fff; border: 0; border-radius: 8px;
+      padding: 10px 16px; font-size: 0.95rem; cursor: pointer; margin: 4px 8px 4px 0;
+    }
+    button:hover { filter: brightness(1.08); }
+    .meta { font-size: 0.9rem; color: var(--muted); }
+    #log { list-style: none; padding: 0; margin: 12px 0 0; max-height: 320px; overflow:auto; }
+    #log li {
+      display: flex; gap: 10px; align-items: center;
+      padding: 6px 10px; border-radius: 6px; margin: 4px 0; background: #f8fafc;
+      font-size: 0.92rem;
+    }
+    .badge { font-weight: 700; min-width: 44px; text-align: center; border-radius: 4px; padding: 2px 6px; color:#fff; }
+    .badge.ok { background: var(--ok); }
+    .badge.blocked { background: var(--blocked); }
+    code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>레이트리밋 데모</h1>
+    <p>버튼을 빠르게 누르면 한도를 넘는 순간 <code>429</code>로 막힙니다.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <p class="meta">서버 설정: 정해진 창(기본 60초) 동안 정해진 횟수(기본 10회)까지만 통과합니다. 한도를 넘기면 빨간색 429가 뜹니다.</p>
+      <button id="oneBtn">요청 1번 보내기</button>
+      <button id="burstBtn">빠르게 15번 연타</button>
+      <button id="clearBtn">기록 지우기</button>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0; font-size:1.05rem;">결과</h2>
+      <ul id="log"></ul>
+    </section>
+  </main>
+
+  <script>
+    // 로그 한 줄을 화면에 추가하는 함수.
+    // 보안: 모든 텍스트는 textContent로 넣는다(innerHTML 금지 — XSS 방지).
+    const logEl = document.getElementById("log");
+
+    function addLog(status, remaining, message) {
+      const li = document.createElement("li");
+
+      const badge = document.createElement("span");
+      // 200은 ok(초록), 그 외(특히 429)는 blocked(빨강)
+      badge.className = "badge " + (status === 200 ? "ok" : "blocked");
+      badge.textContent = String(status); // 상태코드 숫자도 textContent로
+
+      const text = document.createElement("span");
+      // 남은 횟수와 서버 메시지를 합쳐 보여준다. 서버가 준 message를 그대로 textContent로 출력.
+      const left = remaining === null ? "" : `남은 횟수: ${remaining} · `;
+      text.textContent = left + message;
+
+      li.appendChild(badge);
+      li.appendChild(text);
+      // 최신 항목이 위로 오도록 맨 앞에 끼운다
+      logEl.prepend(li);
+    }
+
+    // 실제로 /api/hello를 한 번 호출하는 함수.
+    async function callApi() {
+      try {
+        const res = await fetch("/api/hello");
+        // 서버가 응답 헤더에 남은 횟수를 담아 보냈다(rateLimiter.js 참고). 그걸 읽어 표시.
+        const remaining = res.headers.get("X-RateLimit-Remaining");
+        const data = await res.json(); // 200이면 {ok,message,...}, 429면 {error,message,retryAfter}
+        addLog(res.status, remaining, data.message || data.error || "");
+      } catch (err) {
+        // 네트워크 자체가 실패한 경우(서버 꺼짐 등)
+        addLog(0, null, "요청 실패: " + err.message);
+      }
+    }
+
+    document.getElementById("oneBtn").addEventListener("click", callApi);
+
+    // "연타": 짧은 간격으로 15번 호출해, 한도를 넘기는 순간 429로 바뀌는 걸 보여준다.
+    document.getElementById("burstBtn").addEventListener("click", async () => {
+      for (let i = 0; i < 15; i++) {
+        await callApi();
+      }
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      // 기존 항목을 안전하게 비운다(innerHTML="" 대신 자식 제거)
+      while (logEl.firstChild) logEl.removeChild(logEl.firstChild);
+    });
+  </script>
+</body>
+</html>
