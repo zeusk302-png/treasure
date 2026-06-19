@@ -94,7 +94,7 @@
 | # | 실습 | 목표 | 난이도 | 개념 | 코드 |
 |---|---|---|---|---|---|
 | 056 | 버튼 누르면 알림창 띄우기 (첫 이벤트) | 버튼 1개를 만들고 클릭하면 alert가 뜨게 해서 '이벤트'가 무엇인지 처음 체감한다 | ★☆☆☆☆ | click 이벤트, addEventListener | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/056) |
-| 057 | 버튼 클릭으로 화면 글자 바꾸기 | 버튼을 누르면 <p> 안의 텍스트가 다른 문장으로 바뀌게 해서 DOM에서 요소를 골라 내용을 바꾸는 법을 배운다 | ★☆☆☆☆ | getElementById, textContent | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/057) |
+| 057 | 버튼 클릭으로 화면 글자 바꾸기 | 버튼을 누르면 `<p>` 안의 텍스트가 다른 문장으로 바뀌게 해서 DOM에서 요소를 골라 내용을 바꾸는 법을 배운다 | ★☆☆☆☆ | getElementById, textContent | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/057) |
 | 058 | 박스 색깔 바꾸기 버튼 3개 만들기 | 빨강·초록·파랑 버튼을 만들어 누르는 색으로 박스 배경색이 바뀌게 해서 style 속성을 JS로 조작한다 | ★☆☆☆☆ | element.style, 이벤트 연결 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/058) |
 | 059 | 다크모드 토글 버튼 만들기 | 버튼 한 번으로 밝은 화면/어두운 화면을 번갈아 바꿔 classList.toggle로 상태를 켜고 끄는 패턴을 익힌다 | ★★☆☆☆ | classList.toggle, CSS 클래스 전환 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/059) |
 | 060 | 더보기/접기 텍스트 토글 만들기 | 긴 글을 '더보기' 버튼으로 펼치고 '접기'로 다시 숨겨 요소를 보였다 숨겼다 하는 show/hide를 배운다 | ★★☆☆☆ | hidden 속성, display 토글 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/060) |
@@ -248,14 +248,14 @@
 
 | # | 실습 | 목표 | 난이도 | 개념 | 코드 |
 |---|---|---|---|---|---|
-| 181 | 내 페이지에 title과 meta description 한 줄 달기 | 정적 HTML의 <head>에 고유한 <title>과 meta description을 넣어 구글 검색결과에 보일 '제목·설명'을 직접 만들어 본다 | ★☆☆☆☆ | title, meta description | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/181) |
+| 181 | 내 페이지에 title과 meta description 한 줄 달기 | 정적 HTML의 `<head>`에 고유한 `<title>`과 meta description을 넣어 구글 검색결과에 보일 '제목·설명'을 직접 만들어 본다 | ★☆☆☆☆ | title, meta description | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/181) |
 | 182 | lang·charset·viewport 기본 메타 3종 세트 채우기 | html lang="ko", charset=utf-8, viewport 메타를 넣어 한글 깨짐·모바일 확대 문제를 없애고 '기본기 메타'를 이해한다 | ★☆☆☆☆ | lang, charset, viewport | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/182) |
-| 183 | 모든 이미지에 의미 있는 alt 텍스트 붙이기 | 사이트의 모든 <img>에 내용을 설명하는 alt를 달고, 장식용 이미지는 alt=""로 비워 스크린리더와 검색엔진이 이미지를 이해하게 한다 | ★☆☆☆☆ | alt 텍스트, 대체 텍스트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/183) |
+| 183 | 모든 이미지에 의미 있는 alt 텍스트 붙이기 | 사이트의 모든 `<img>`에 내용을 설명하는 alt를 달고, 장식용 이미지는 alt=""로 비워 스크린리더와 검색엔진이 이미지를 이해하게 한다 | ★☆☆☆☆ | alt 텍스트, 대체 텍스트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/183) |
 | 184 | 카톡·SNS 공유 미리보기용 OG 태그 만들기 | og:title·og:description·og:image·og:url 메타를 넣어 카카오톡·페이스북에 링크를 붙였을 때 예쁜 미리보기 카드가 뜨게 한다 | ★★☆☆☆ | Open Graph, 공유 미리보기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/184) |
 | 185 | h1~h3 제목 위계로 문서 뼈대 바로잡기 | 페이지에 h1은 하나만 두고 h2·h3로 단계를 맞춰 검색엔진과 스크린리더가 이해하는 올바른 '목차 구조'를 만든다 | ★★☆☆☆ | 제목 위계, 시맨틱 구조 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/185) |
 | 186 | robots.txt 손으로 만들어 올리기 | public 폴더에 robots.txt를 두고 Allow/Disallow 의미를 익혀, 운영 사이트에 'Disallow: /' 전면 차단이 남지 않게 점검한다 | ★★☆☆☆ | robots.txt, 크롤러 허용/차단 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/186) |
 | 187 | 내 페이지 주소를 적은 sitemap.xml 만들기 | 사이트의 모든 페이지 URL을 담은 sitemap.xml을 만들어 검색엔진이 페이지 목록을 한 번에 알 수 있게 한다 | ★★☆☆☆ | sitemap.xml, URL 목록 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/187) |
-| 188 | canonical 태그로 대표 주소 한 개 지정하기 | <link rel="canonical">을 넣어 www·끝슬래시 등 중복 주소 때문에 검색 점수가 갈리는 문제를 막는 '대표 주소 지정' 개념을 익힌다 | ★★☆☆☆ | canonical, 중복 URL 정리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/188) |
+| 188 | canonical 태그로 대표 주소 한 개 지정하기 | `<link rel="canonical">`을 넣어 www·끝슬래시 등 중복 주소 때문에 검색 점수가 갈리는 문제를 막는 '대표 주소 지정' 개념을 익힌다 | ★★☆☆☆ | canonical, 중복 URL 정리 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/188) |
 | 189 | Lighthouse 돌려보고 4개 점수 읽기 | 크롬 개발자도구의 Lighthouse로 Performance·Accessibility·Best Practices·SEO 점수를 뽑고, 빨간 항목 목록을 해석하는 법을 익힌다 | ★★★☆☆ | Lighthouse, 진단 점수 읽기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/189) |
 | 190 | 이미지를 WebP로 줄이고 width·height·lazy 넣기 | 큰 사진을 WebP로 변환·압축하고 width/height와 loading="lazy"를 넣어 LCP를 줄이고 레이아웃 밀림(CLS)을 막는다 | ★★★☆☆ | 이미지 최적화, WebP, lazy loading | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/190) |
 | 191 | 키보드만으로 사이트 전체 돌아다니기 + focus 표시 살리기 | 마우스 없이 Tab·Enter로 모든 링크·버튼·폼에 닿는지 점검하고, 지워진 포커스 외곽선(:focus-visible)을 되살려 키보드 접근성을 확보한다 | ★★★☆☆ | 키보드 접근성, 포커스 표시, tab 순서 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/191) |
@@ -363,7 +363,7 @@
 
 | # | 실습 | 목표 | 난이도 | 개념 | 코드 |
 |---|---|---|---|---|---|
-| 276 | 닫는 태그 빠진 HTML 고치기 — 화면이 통째로 기울어진 페이지 | </div>가 빠져 레이아웃이 무너진 정적 페이지를 받아 태그 짝을 맞춰 정상 복구하며, HTML은 여는/닫는 태그가 짝이어야 한다는 것을 배운다 | ★☆☆☆☆ | HTML 태그 짝, 마크업 구조 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/276) |
+| 276 | 닫는 태그 빠진 HTML 고치기 — 화면이 통째로 기울어진 페이지 | `</div>`가 빠져 레이아웃이 무너진 정적 페이지를 받아 태그 짝을 맞춰 정상 복구하며, HTML은 여는/닫는 태그가 짝이어야 한다는 것을 배운다 | ★☆☆☆☆ | HTML 태그 짝, 마크업 구조 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/276) |
 | 277 | 오타 난 CSS 속성 살리기 — 색이 하나도 안 먹는 카드 | colour, bacground, font-weigth 같은 오타 속성 때문에 스타일이 적용 안 되는 카드 컴포넌트를 F12 요소검사로 찾아 고치며 CSS 속성명 정확성을 배운다 | ★☆☆☆☆ | CSS 속성 오타, 개발자도구 요소검사 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/277) |
 | 278 | 세미콜론·따옴표 빠진 JS 한 줄 고치기 — 아무 버튼도 안 눌리는 페이지 | 구문 오류(SyntaxError)로 스크립트 전체가 죽어 버튼이 먹통인 페이지를 F12 콘솔의 빨간 줄을 읽고 고치며, JS는 한 곳만 깨져도 전부 멈춘다는 것을 배운다 | ★☆☆☆☆ | SyntaxError, 콘솔 에러 읽기 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/278) |
 | 279 | 오타 클래스명 매칭하기 — 가운데 정렬이 안 되는 박스 | HTML의 class="continer"와 CSS의 .container가 안 맞아 스타일이 빠진 레이아웃을 고치며, 선택자는 철자가 정확히 일치해야 적용된다는 것을 배운다 | ★☆☆☆☆ | CSS 선택자 매칭, 클래스명 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/279) |
@@ -394,7 +394,7 @@
 | 299 | 내 키 어디서 쓰나 표 만들기 — anon은 프론트, service_role은 절대 금지 | AI에게 '키가 어디에 쓰이는지 파일·줄 단위로 보고'를 시켜, service_role(secret) 키가 브라우저로 가는 코드에 단 한 군데도 없는지 검증하는 표를 완성한다 | ★★☆☆☆ | anon vs service_role, 키 사용처 점검 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/299) |
 | 300 | Supabase 테이블에 RLS 켜기 — 끄면 어떻게 새는지 먼저 확인 | RLS가 꺼진 테이블을 publishable 키로 통째로 읽히는 것을 직접 본 뒤 RLS를 켜서, 공개 키가 안전한 진짜 이유가 '키 숨김'이 아니라 'RLS 차단'임을 체감한다 | ★★★☆☆ | RLS 켜기, 행 수준 보안 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/300) |
 | 301 | '본인 데이터만' RLS 정책 작성하고 남의 행 못 읽는지 검증하기 | auth.uid() 기준 SELECT/INSERT 정책을 만들고, 다른 계정으로 로그인해 남의 행이 0건으로 막히는지 실제로 시도해 정책이 작동함을 증명한다 | ★★★☆☆ | RLS 정책, 인가 검증 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/301) |
-| 302 | 방명록 입력 이스케이프 — <script> 글이 실행되지 않게 막기 | 사용자 입력을 innerHTML 대신 textContent로 출력하도록 고쳐, 악성 스크립트가 글로 들어와도 코드가 아니라 글자로만 표시되는 XSS 방어를 만든다 | ★★★☆☆ | 입력 이스케이프, XSS | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/302) |
+| 302 | 방명록 입력 이스케이프 — `<script>` 글이 실행되지 않게 막기 | 사용자 입력을 innerHTML 대신 textContent로 출력하도록 고쳐, 악성 스크립트가 글로 들어와도 코드가 아니라 글자로만 표시되는 XSS 방어를 만든다 | ★★★☆☆ | 입력 이스케이프, XSS | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/302) |
 | 303 | 개인정보 최소 수집 폼 — 안 쓰는 항목 칼럼째 지우기 | 주민번호·생년월일처럼 실제로 안 쓰는 입력란을 폼과 테이블에서 제거하고 필수만 남겨, '필요 없는 건 처음부터 받지 않는다'는 최소 수집 원칙을 폼으로 구현한다 | ★★★★☆ | 개인정보 최소 수집, 데이터 다이어트 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/303) |
 | 304 | npm audit 돌리고 취약 의존성 한 개 고치기 | 프로젝트에서 npm audit를 실행해 알려진 취약점 목록을 뽑고, 심각도 높은 항목 하나를 버전 갱신으로 해결한 뒤 package-lock.json을 커밋해 '내가 안 짠 8할의 코드'를 점검한다 | ★★★★☆ | npm audit, 의존성·공급망 점검 | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/304) |
 | 305 | Vercel에 보안 헤더 깔기 — CSP/HSTS 적용하고 점수 확인하기 | vercel.json(또는 헤더 설정)에 Content-Security-Policy, X-Content-Type-Options, HSTS 등 보안 헤더를 추가하고 외부 점검 도구로 등급 향상을 확인해, 브라우저가 강제하는 마지막 방어선을 친다 | ★★★★★ | 보안 헤더, CSP·HSTS | [코드](https://github.com/zeusk302-png/treasure/tree/main/examples/305) |
