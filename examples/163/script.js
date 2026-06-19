@@ -100,14 +100,17 @@ async function send() {
     // ★ 여기가 스트리밍의 핵심 ★
     // 응답 본문을 'reader'로 열어, 조각(value)이 도착할 때마다 글자로 풀어
     // AI 말풍선에 '이어 붙인다'. = 점진적 렌더링(progressive rendering)
-    const reader = res.body.getReader();
+    const reader = res.body.getReader(); // 응답 본문을 '읽기 커서'로 연다 (한 번에 안 받고 조금씩 읽음)
+    // TextDecoder: 네트워크로 오는 건 바이트(숫자) 묶음이라, 사람이 읽는 글자로 풀어 줘야 한다.
     const decoder = new TextDecoder();
-    let full = "";
+    let full = ""; // 지금까지 받은 글자를 누적해 둔다 (말풍선에 매번 통째로 다시 그릴 용도)
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break; // 더 올 조각이 없으면 끝
 
+      // { stream: true }: 한글 한 글자가 여러 바이트라 조각 경계에서 잘릴 수 있다.
+      // 이 옵션이 잘린 바이트를 다음 조각까지 기억해 줘서 글자가 깨지지 않게 한다.
       const chunk = decoder.decode(value, { stream: true });
       full += chunk;
       aiBubble.textContent = full; // 받은 만큼만 다시 그린다 → 타자 치듯 보임

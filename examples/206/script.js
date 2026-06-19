@@ -1,4 +1,10 @@
 // ============================================================
+//  이 파일은 무엇인가: 문의 폼(index.html)의 '동작' 담당 스크립트입니다.
+//  왜 있는가: 사용자가 보내기를 누르면 입력값을 모아 JSON으로 n8n Webhook에
+//            POST 전송하고, 그 결과(성공/실패)를 화면 상태 문구로 보여 줍니다.
+//            전송된 데이터는 n8n에서 슬랙 알림 + 구글 시트 저장 + 응답으로 분기됩니다.
+// ============================================================
+// ============================================================
 //  여기에 n8n에서 복사한 "Production URL"을 붙여 넣으세요.
 //  예: https://내계정.app.n8n.cloud/webhook/contact-form
 //  (이 주소는 비밀이 아닙니다. 누가 폼을 제출하든 들어오는 '받는 창구'일 뿐입니다.)
@@ -23,6 +29,8 @@ form.addEventListener("submit", async (event) => {
   }
 
   // 입력값 읽기
+  // .trim(): 앞뒤 공백을 잘라 냅니다. 왜: 사용자가 실수로 넣은 빈 칸 때문에
+  // 시트에 "  홍길동 " 처럼 지저분하게 쌓이거나 빈값처럼 보이는 걸 막기 위해서입니다.
   const data = {
     name: document.getElementById("name").value.trim(),
     email: document.getElementById("email").value.trim(),
@@ -61,6 +69,8 @@ form.addEventListener("submit", async (event) => {
 
 // 상태 메시지를 색깔과 함께 표시하는 작은 도우미 함수
 function setStatus(text, type) {
+  // textContent로 출력 — innerHTML로 하면 글자 안에 들어온 <script> 같은 태그가
+  // 진짜 코드로 실행될 수 있어(XSS 위험) 일부러 글자 그대로만 찍는 방식을 씁니다.
   statusEl.textContent = text;
   statusEl.className = "status" + (type ? " " + type : "");
 }

@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!--
+  이 파일이 무엇이고 왜 있는가:
+  - 무엇: 서버 없이 브라우저에서 바로 열리는 '이메일 회원가입' 정적 페이지(실습 131).
+  - 왜: "회원가입 = Supabase Auth에 사용자 한 명이 생긴다"를 눈으로 확인하기 위한 가장 작은 예제.
+        브라우저에서 Supabase를 직접 부르므로 별도 백엔드 서버 코드가 필요 없다.
+  - 핵심: 폼 제출 → db.auth.signUp({ email, password }) 한 줄이 전부다.
+  - 주의: 여기 넣는 키는 반드시 anon(publishable) 키(공개돼도 되는 출입증).
+          service_role(secret) 키는 모든 보안(RLS)을 우회하므로 이 파일에 절대 두지 말 것.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -48,13 +57,19 @@
     const msg = document.getElementById('msg');
 
     // 화면에 안내 메시지를 보여주는 작은 도우미
+    // ok가 true면 초록(성공), false면 빨강(실패) 스타일을 입혀 한눈에 구분되게 한다.
     function show(text, ok) {
+      // textContent로 넣는 이유: 사용자가 입력한 값(에러 메시지 등)을 그대로 화면에 쓸 때
+      // innerHTML을 쓰면 <script> 같은 코드가 실행될 수 있어(XSS) 위험하다. textContent는 글자로만 취급해 안전하다.
       msg.textContent = text;
       msg.className = ok ? 'ok' : 'err';
     }
 
     form.addEventListener('submit', async function (e) {
+      // preventDefault: 폼은 기본적으로 제출 시 페이지를 새로고침한다.
+      // 그러면 자바스크립트가 멈추고 결과 메시지도 사라지므로, 기본 동작을 막고 우리가 직접 처리한다.
       e.preventDefault();
+      // trim(): 이메일 앞뒤 공백을 제거 — 실수로 들어간 공백 때문에 가입이 실패하는 일을 막는다.
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
 

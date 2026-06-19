@@ -1,3 +1,11 @@
+<!--
+  실습 300 — Supabase RLS(행 수준 보안) 켜기 전후 비교 데모 페이지
+  무엇: 공개(publishable/anon) 키 하나로 같은 테이블을 조회하면서,
+        RLS를 켜기 전(=3줄 다 새는 상태)과 켠 후(=0줄)의 결과를 눈으로 비교하는 화면.
+  왜 있나: "공개 키가 노출돼도 안전한 진짜 이유는 키를 숨겨서가 아니라 RLS가 막아줘서"라는
+          보안 원칙을, 말로만 외우지 않고 직접 새는 걸 본 다음 막히는 걸 확인하려고.
+  같이 쓰는 파일: schema.sql(1→2→3단계를 SQL Editor에서 순서대로 실행).
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -59,20 +67,28 @@
     const SUPABASE_ANON_KEY = "여기에-publishable(anon)-키-붙여넣기";
     // =================================================================
 
+    // 공개(anon) 키로 Supabase에 접속하는 클라이언트를 만든다.
+    // 이 키는 브라우저에 노출돼도 되는 값 — 보호는 키가 아니라 서버 쪽 RLS가 한다(이 실습의 핵심).
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // 테이블 하나를 조회해서 "몇 줄이 읽혔는지"와 내용을 화면에 보여주는 공통 함수.
+    // 두 버튼(secret_notes / public_posts)이 같은 코드를 재사용하려고 함수로 뺐다.
     async function query(table, countEl, outEl) {
-      countEl.textContent = "...";
+      countEl.textContent = "...";        // 누른 직후 "지금 일하는 중"임을 표시 (사용자가 멈춘 줄 알지 않게)
       outEl.textContent = "조회 중...";
+      // select("*") = 그 테이블의 모든 행을 달라는 요청. RLS가 꺼져 있으면 통째로 새고,
+      // 켜져 있으면 "허용 정책"이 연 행만 돌아온다 → 그 차이를 눈으로 보는 게 실습 목적.
       const { data, error } = await supabase.from(table).select("*");
       if (error) {
+        // 에러 메시지를 숨기지 않고 그대로 보여준다 — 초보가 "무엇이 막혔는지" 스스로 진단하게 하려고.
         countEl.textContent = "오류";
         outEl.textContent = "에러: " + error.message;
         return;
       }
-      countEl.textContent = data.length + "줄";
+      countEl.textContent = data.length + "줄";  // 0줄이냐 3줄이냐가 RLS 동작 여부의 증거
+      // textContent로 출력 — innerHTML로 하면 DB에 섞여 들어온 <script>가 실행될 수 있어(XSS) 막는 것.
       outEl.textContent = data.length === 0
-        ? "(빈 목록 — RLS가 막았거나 데이터가 없음)"
+        ? "(빈 목록 — RLS가 막았거나 데이터가 없음)"  // 0줄을 "고장"으로 오해하지 않게 안내 문구를 둔다
         : JSON.stringify(data, null, 2);
     }
 

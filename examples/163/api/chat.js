@@ -105,6 +105,8 @@ export default async function handler(req, res) {
       const { value, done } = await reader.read();
       if (done) break;
 
+      // { stream: true }: 조각 경계에서 글자(여러 바이트)가 잘릴 수 있으므로, 잘린 부분을
+      // 다음 조각까지 기억해 깨지지 않게 풀어 준다. buffer 에 계속 이어 붙여 둔다.
       buffer += decoder.decode(value, { stream: true });
 
       // SSE 는 줄 단위. "data: {...}" 줄에서 JSON 만 꺼낸다.

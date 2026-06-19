@@ -68,6 +68,9 @@ form.addEventListener("submit", async (e) => {
   form.style.display = "none";
   await db.auth.signOut(); // 임시 세션 정리 (새 비밀번호로 다시 로그인하도록)
   setTimeout(() => {
+    // location.replace를 쓰는 이유: 현재 페이지를 '히스토리에서 교체'해 버리므로,
+    // 로그인 화면에서 뒤로가기를 눌러도 이미 소용없어진 재설정 페이지로 되돌아가지 않습니다.
+    // (location.href = ...는 히스토리에 남아 뒤로가기로 돌아올 수 있어 혼란을 줍니다.)
     location.replace("login.html");
   }, 1800);
 });

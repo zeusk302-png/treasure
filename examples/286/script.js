@@ -1,4 +1,10 @@
-// index.html 에서 <script src="script.js" defer></script> 로 불러온다.
+// 이 파일은 무엇인가?
+//   비동기(async) 순서 꼬임 버그를 "고친 정답 버전"의 자바스크립트다.
+//   index.html 에서 <script src="script.js" defer></script> 로 불러온다.
+// 왜 있는가?
+//   같은 폴더의 broken.html 은 await 없이 데이터를 받아 목록이 늘 비어 보인다.
+//   이 파일은 async/await 로 "데이터가 도착할 때까지 기다렸다가 그리도록" 순서를 바로잡아,
+//   before(broken) ↔ after(이 파일)를 비교 학습할 수 있게 한다.
 
 // 진짜 서버 대신, 0.5초 뒤에 응답이 도착하는 가짜 API를 흉내 낸다.
 // 실제 fetch("...주소...") 도 "응답이 나중에 온다"는 점이 똑같다.
@@ -25,6 +31,8 @@ async function loadTodos() {
     // 데이터가 "도착한 뒤"에 화면을 그린다.
     for (let i = 0; i < todos.length; i++) {
       const li = document.createElement("li");
+      // textContent 로 글자만 넣는다(왜?): innerHTML 로 넣으면 데이터에 섞인
+      // <script> 같은 태그가 실제로 실행될 수 있어(XSS 위험) 그걸 막으려는 것.
       li.textContent = todos[i];
       listEl.appendChild(li);
     }

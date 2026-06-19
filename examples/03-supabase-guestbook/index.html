@@ -1,3 +1,9 @@
+<!--
+  무엇: 브라우저에서 Supabase 데이터베이스에 직접 글을 저장/읽는 "방명록" 한 장짜리 페이지.
+  왜 있나: 별도 서버 코드 없이도 "저장된다 = DB에 한 줄 쌓인다"를 눈으로 보고,
+          anon 키는 공개돼도 되고 안전은 RLS가 책임진다는 걸 체험하기 위한 실습 파일.
+  구조: ① 입력 폼(이름·메시지) ② 글 목록 ③ Supabase CDN 라이브러리 ④ 저장/불러오기 스크립트.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -34,14 +40,17 @@
     const SUPABASE_URL = "https://여기에-내-프로젝트.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_여기에-내-anon-키";
 
+    // Supabase 접속 객체(db)를 한 번 만들어 두고 재사용 — 이걸로 테이블에 읽기/쓰기를 합니다.
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const listEl = document.getElementById('list');
 
+    // 저장된 글을 DB에서 모두 가져와 화면에 그리는 함수.
+    // async/await: DB 응답은 시간이 걸려서(네트워크), 기다렸다가 처리하려고 비동기로 작성.
     async function loadEntries() {
       const { data, error } = await db
-        .from('guestbook')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from('guestbook')          // guestbook 테이블에서
+        .select('*')                // 모든 칼럼을
+        .order('created_at', { ascending: false }); // 최신 글이 위로 오게 정렬
       if (error) { listEl.textContent = '에러: ' + error.message; return; }
       listEl.innerHTML = data.map(function (row) {
         return '<div class="entry"><div class="who">' + escapeHtml(row.name) +
@@ -56,13 +65,17 @@
       const name = document.getElementById('name').value.trim();
       const message = document.getElementById('message').value.trim();
       if (!name || !message) return;
+      // insert: guestbook 테이블에 새 줄(글) 한 개를 추가 = "진짜로 DB에 저장".
+      // created_at은 DB가 자동으로 넣어주므로(schema.sql의 default now()) 여기서 안 보냄.
       const { error } = await db.from('guestbook').insert({ name: name, message: message });
       if (error) { alert('저장 실패: ' + error.message); return; }
-      e.target.reset();
-      loadEntries();
+      e.target.reset();   // 폼 비우기 — 같은 글이 또 들어가는 실수 방지
+      loadEntries();      // 저장 직후 목록을 다시 그려 방금 쓴 글이 바로 보이게 함
     });
 
-    // 사용자가 넣은 글에 태그가 끼어들지 않도록 최소한의 안전 처리
+    // 사용자가 넣은 글을 화면에 그릴 때 < > 같은 특수문자를 안전한 문자로 바꿔주는 함수.
+    // 왜 필요? 위 loadEntries는 innerHTML로 글을 그리는데, 누군가 <script>를 글로 적으면
+    // 그게 코드로 실행될 수 있습니다(XSS 공격). 미리 escape해서 '글자'로만 보이게 막는 것.
     function escapeHtml(s) {
       return s.replace(/[&<>"']/g, function (c) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];

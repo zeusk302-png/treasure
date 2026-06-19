@@ -13,6 +13,9 @@ const nextBtn = document.getElementById("nextBtn");      // 다음 버튼
 const currentLabel = document.getElementById("current"); // 현재 번호 표시
 const totalLabel = document.getElementById("total");     // 전체 개수 표시
 
+// 숫자 5를 직접 쓰지 않고 slides.length로 세는 이유:
+// HTML에 <img class="slide">를 더 넣거나 빼도 JS를 고칠 필요 없이
+// 전체 개수와 순환이 자동으로 맞춰지게 하기 위함입니다.
 const total = slides.length; // 슬라이드 전체 장수 (여기서는 5)
 let index = 0;               // 현재 보고 있는 슬라이드 번호 (0부터 시작)
 

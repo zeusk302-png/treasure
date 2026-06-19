@@ -1,3 +1,13 @@
+/*
+  이 파일은 무엇? : 햄버거 슬라이드 메뉴의 '보이는 모양과 움직임(스타일)'을 정하는 파일입니다.
+  왜 있나?       : HTML(구조)과 동작(JS)을 분리하면 수정·재사용이 쉬워집니다.
+                   이 예제의 핵심 마법은 전부 여기 CSS에 있습니다 —
+                   평소엔 transform: translateX(100%)로 메뉴를 화면 밖에 숨겨 두고,
+                   body에 'menu-open' 클래스가 붙으면 translateX(0)으로 끌어와
+                   transition 덕분에 '스르륵' 미끄러져 보이게 됩니다.
+                   즉 JS는 클래스만 켜고 끄고, 실제 애니메이션은 CSS가 처리합니다.
+*/
+
 /* ===== 기본 초기화 ===== */
 * {
   margin: 0;
@@ -114,7 +124,10 @@ body.menu-open .side-menu {
   inset: 0;          /* top/right/bottom/left 0 → 화면 전체 덮기 */
   background: rgba(0, 0, 0, 0.4);
 
-  /* 평소엔 안 보이고 클릭도 통과시킴 */
+  /* 평소엔 안 보이고 클릭도 통과시킴.
+     opacity:0(투명)만 쓰면 눈엔 안 보여도 막이 그대로 깔려 있어서 뒤 버튼 클릭을 막아버립니다.
+     그래서 visibility:hidden을 함께 줘서 '없는 것처럼' 만들어 클릭이 통과되게 합니다.
+     둘 다 transition에 넣어야 켜고 끌 때 깜빡이지 않고 부드럽게 나타나고 사라집니다. */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;

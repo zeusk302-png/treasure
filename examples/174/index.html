@@ -1,3 +1,10 @@
+<!--
+  index.html — 이 실습의 "화면" 입니다.
+  무엇: Supabase 키가 코드에 박혀 있지 않다는 것을 눈으로 확인하는 데모 페이지.
+  왜: 비전공자가 "환경변수 주입" 흐름(Vercel 금고 → build.js → env-config.js → 이 화면)을
+      직접 보고, 공개 키(anon)와 비밀 키(service_role)의 차이를 헷갈리지 않게 하기 위함입니다.
+  주의: 이 파일에는 키가 한 글자도 없습니다. 설정값은 env-config.js 의 window.__ENV__ 에서만 읽습니다.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>

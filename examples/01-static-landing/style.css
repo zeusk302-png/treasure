@@ -1,8 +1,18 @@
+/*
+  이 파일이 무엇인가: index.html의 '꾸밈(색·여백·정렬·글꼴)'을 담당하는 스타일시트.
+  왜 있는가: 내용(HTML)과 디자인(CSS)을 분리해 두면, 색이나 모양을 바꿔도 글 내용은 안 건드려도 됨.
+            index.html의 <link rel="stylesheet" href="style.css">가 이 파일을 불러온다.
+*/
+
+/* :root 의 -- 변수들: 자주 쓰는 색을 이름으로 한 번만 정해두는 곳.
+   왜: 갈색 톤을 바꾸고 싶을 때 여기 한 줄(--brown)만 고치면 페이지 전체 색이 같이 바뀜(반복 줄이기) */
 :root {
-  --beige: #f6efe6;
-  --brown: #7b5e3b;
-  --ink: #2b2b2b;
+  --beige: #f6efe6;  /* 배경용 연한 베이지 */
+  --brown: #7b5e3b;  /* 제목·버튼용 갈색 (포인트 색) */
+  --ink: #2b2b2b;    /* 본문 글자색(잉크) */
 }
+/* box-sizing: border-box → 요소 너비에 padding/border를 '포함'해서 계산.
+   왜: 이게 없으면 padding을 줄 때마다 박스가 의도보다 커져 레이아웃이 어긋남. 초보가 자주 헷갈리는 부분 */
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -25,9 +35,13 @@ body {
   padding: 12px 24px;
   border-radius: 999px;
 }
+/* max-width + margin: 0 auto → 본문 폭을 640px로 제한하고 좌우 여백을 자동으로 나눠 가운데 정렬.
+   왜: 넓은 화면에서 글이 끝까지 늘어나면 읽기 힘들어서, 적당한 폭으로 묶고 중앙에 두는 것 */
 main { max-width: 640px; margin: 0 auto; padding: 40px 20px; }
 section { margin-bottom: 48px; }
 h2 { color: var(--brown); border-bottom: 2px solid var(--beige); padding-bottom: 8px; }
-.menu { list-style: none; padding: 0; }
+.menu { list-style: none; padding: 0; } /* list-style:none → 목록 앞 점(•) 제거 (메뉴판처럼 보이게) */
+/* display:flex + justify-content:space-between → li 안의 두 span(메뉴명/가격)을 한 줄에 놓고 양끝으로 벌림.
+   왜: 가격을 오른쪽 끝에 가지런히 정렬하는 가장 쉬운 방법 (메뉴판 느낌) */
 .menu li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #ddd; }
 footer { text-align: center; padding: 24px; color: #999; }

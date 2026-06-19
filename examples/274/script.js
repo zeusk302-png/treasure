@@ -31,6 +31,7 @@ questionEl.addEventListener("keydown", (e) => {
 });
 
 async function ask() {
+  // .trim(): 앞뒤 공백을 떼어 '띄어쓰기만 입력'한 경우를 빈 질문으로 친다(헛 호출 방지).
   const question = questionEl.value.trim();
   if (!question) {
     setStatus("질문을 먼저 입력해 주세요.", "bad");
@@ -57,6 +58,8 @@ async function ask() {
     }
 
     // 답 표시
+    // textContent 사용(innerHTML 아님): AI 답에 <script> 같은 게 섞여 와도 그대로 '글자'로만
+    // 보여 주어 코드 실행을 막는다(XSS 방지). 출력은 기본으로 textContent가 안전하다.
     answerEl.textContent = data.answer;
 
     // 근거 문서 표시 (RAG의 핵심: 어디서 답을 가져왔는지 보여 준다)
@@ -71,6 +74,8 @@ async function ask() {
   } catch (err) {
     setStatus("실패: " + err.message, "bad");
   } finally {
+    // finally: 성공이든 실패든 마지막엔 반드시 버튼을 다시 켠다.
+    // (성공 때만 켜면, 에러가 나는 순간 버튼이 영영 잠겨 다시 못 물어보게 됨)
     askBtn.disabled = false;
   }
 }

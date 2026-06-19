@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!--
+    이 파일이 무엇인가: 실습 121 '할 일 앱'의 화면(구조 + 스타일)입니다.
+    왜 있나: 사용자가 보는 부분(입력칸·추가 버튼·체크박스 달린 목록)을 그리고,
+             실제 동작(서버에 insert/select/update)은 아래에서 불러오는 script.js가 맡습니다.
+             즉 'HTML = 뼈대/모양', 'script.js = 기능'으로 역할을 나눠 둔 것입니다.
+    이번 실습의 핵심 화면 요소: 각 할 일 왼쪽의 '완료 체크박스'.
+             체크하면 script.js의 toggleDone이 그 줄만 골라 서버에 update로 저장합니다.
+  -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>할 일 앱 — 완료 토글이 서버에 저장됨 (실습 121)</title>

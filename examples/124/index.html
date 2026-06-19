@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
+<!--
+  이 파일이 무엇인가:
+    실습 124 "방명록 키워드 검색창"의 화면(틀) 파일입니다.
+    검색어 입력칸 + [검색]/[전체 보기] 버튼 + 결과를 담을 ul#list 만 그려 둡니다.
+
+  왜 이렇게 나눠 두는가 (HTML vs JS 역할 분담):
+    - 화면의 '뼈대'와 '모양'은 여기(HTML+CSS)에 두고,
+    - 실제로 서버에서 글을 검색·불러와 채우는 '동작'은 script.js에 둡니다.
+    이렇게 나누면 초보가 "어디가 화면이고 어디가 기능인지" 헷갈리지 않습니다.
+    li(글 한 줄)는 미리 적어 두지 않습니다 — script.js가 검색 결과만큼 만들어 넣습니다.
+-->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

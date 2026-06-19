@@ -1,7 +1,14 @@
 <!DOCTYPE html>
+<!--
+  이 파일은 무엇인가: 블로그의 "글 상세" 페이지입니다.
+  왜 있는가: 글 하나의 전체 내용을 보여주는 화면입니다. 이 페이지 하나로
+  모든 글을 보여주는 게 핵심 — 어떤 글을 채울지는 주소 뒤 ?id=숫자 값을 보고
+  script.js 가 결정합니다. 그래서 여기엔 내용 대신 "빈 자리(id)"만 둡니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <!-- viewport: 휴대폰에서도 글자가 적당한 크기로 보이게 함(모바일 대응의 기본이라 넣음) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>내 블로그 - 글 상세</title>
   <link rel="stylesheet" href="style.css" />
@@ -30,6 +37,11 @@
     <p>비전공 청년 웹개발 가이드 · 실습 242</p>
   </footer>
 
+  <!--
+    script.js 를 </body> 바로 앞에 두는 이유: HTML(빈 자리)이 먼저 다 만들어진 뒤에
+    스크립트가 실행돼야, getElementById 로 그 자리를 확실히 찾아 내용을 채울 수 있기 때문.
+    <head> 에 넣으면 자리가 아직 없어서 못 찾을 수 있음.
+  -->
   <script src="script.js"></script>
 </body>
 </html>

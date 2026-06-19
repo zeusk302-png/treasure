@@ -26,6 +26,41 @@
 10. **위험 체험:** SQL Editor에서 `alter table memos disable row level security;` → 새로고침 후 ① 시도 → 이번엔 **남의 메모까지 새며 빨강(위험)** 표시. 확인 즉시 `alter table memos enable row level security;` 로 **다시 켭니다.**
 11. `checklist.md`를 위에서부터 하나씩 체크하며 빠진 검증이 없는지 확인합니다.
 
+## 🤖 바이브코딩 프롬프트
+이 실습(두 계정으로 RLS를 직접 공격해 보는 '침투 검증 도구')을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 웹 보안 실습을 돕는 프론트엔드 멘토야. 비전공자가 이해할 검증 도구 한 페이지를 만들어 줘.
+  목표: Supabase의 RLS(행 수준 보안)가 진짜로 '남의 데이터'를 막는지 두 계정으로 직접 공격해 보는 verify.html.
+  제약:
+  - 순수 HTML/CSS/JS만, 빌드 도구 없이 브라우저에서 바로 열리게.
+  - Supabase 라이브러리는 CDN(@supabase/supabase-js@2)으로 불러오고, URL/anon 키는 별도 supabase.js의 자리표시자(placeholder)로 둬. service_role 키는 절대 코드에 넣지 마.
+  - 검증 대상은 memos 테이블(컬럼: id, user_id, content, created_at) + 본인 행만 select/insert/delete/update 허용하는 RLS 정책. 이 정책을 만드는 schema.sql도 같이 줘.
+  산출물:
+  - verify.html: 로그인 폼 + "내 메모 추가/목록 보기"(정상 대조군) + "①전부 훔쳐보기 ②남의 id로 조회 ③남 이름으로 글 심기 ④남의 메모 삭제" 공격 버튼 + 결과 로그 영역.
+  - supabase.js(자리표시자), schema.sql(테이블+RLS), style.css.
+  코드만 주지 말고 각 부분이 무엇이고 왜 그렇게 했는지 한국어 주석으로 한 줄씩 설명해 줘.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  방금 만든 verify.html에 '자동 안전/위험 판정'을 추가해 줘.
+  - 각 공격 결과를 보고 "안전(막힘)"은 초록, "위험(뚫림)"은 빨강으로 결과 로그에 색깔로 표시.
+  - 판정 기준: ①요청 결과에 내 user_id가 아닌 행이 하나라도 섞이면 위험, 없으면 안전. ②남의 id로 조회 시 빈 배열 []이면 안전. ③insert가 with check 정책에 막혀 에러면 안전. ④delete가 0줄이면 안전.
+  - 로그인하면 내 user_id를 로그 맨 위에 보여줘서, 다른 계정으로 ②③ 공격 칸에 붙여넣기 쉽게 해 줘.
+  - 콘솔에서도 실험하게 db 객체를 window에 노출해 줘.
+  로그 출력은 textContent나 escapeHtml로 안전하게 처리하고, 왜 innerHTML 대신 그렇게 했는지 주석으로 설명해 줘.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  RLS 검증 도구가 이상해. 아래 증상과 콘솔 에러를 붙여넣을게. 원인을 단계별로 짚어 줘.
+  증상: [예) ① 전부 훔쳐보기에서 남의 메모까지 보임 / 로그인해도 빈 배열만 옴 / ③ 남 이름으로 글이 심어짐]
+  콘솔 에러: [여기에 붙여넣기]
+  확인해 줄 것: (1) memos 테이블에 RLS가 켜져 있는지(alter table ... enable row level security) (2) select/insert/delete 정책이 각각 있는지와 using/with check 조건이 auth.uid()=user_id인지 (3) supabase.js에 넣은 게 anon 키가 맞는지(service_role을 잘못 넣으면 RLS가 우회돼 전부 뚫림) (4) 로그인 세션이 실제로 살아 있는지.
+  가능성 높은 순서대로 원인과 고치는 법을 알려주고, 왜 그게 원인인지도 설명해 줘.
+  ```
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 학습에 좋습니다.
+
 ## 검증법
 - **화면(UI):** B로 로그인했을 때 A의 메모가 **0개**로 안 보이는가? 다시 A로 오면 A 것만 보이는가?
 - **한 테이블 증거:** 대시보드 Table Editor → `memos`에 A·B의 줄이 **함께** 들어 있는가? (화면에서만 갈라 보인 것)

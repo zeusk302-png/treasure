@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!--
+  실습 271 — AI 챗봇: 받은 답을 말풍선 UI로 보여주기
+  무엇: 질문을 입력하면 내 말풍선(오른쪽 파랑)과 AI 말풍선(왼쪽 회색)이 차례로 쌓이는
+        카카오톡 모양의 채팅 화면. HTML·CSS·JS 가 이 한 파일 안에 모두 들어 있어
+        더블클릭만으로 브라우저에서 바로 동작합니다(서버·인터넷·API 키 불필요).
+  왜 한 파일인가: 비전공자가 "보내기 → 잠깐 기다림 → 답 도착" 이라는 비동기(async/await) 흐름과
+        채팅 UI 의 기본기를 설치/설정 없이 바로 체감하게 하려고 일부러 단일 파일로 만들었습니다.
+        진짜 AI 를 붙이는 안전한 방법(키는 중간 서버에만)은 맨 아래 [실제 API 붙이기] 주석 참고.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -164,6 +173,10 @@
     function addTypingBubble() {
       const div = document.createElement('div');
       div.className = 'bubble ai';
+      // 여기서는 innerHTML 을 써도 안전합니다. 사용자가 입력한 글이 아니라
+      // "우리가 직접 적은 고정 HTML"(점 3개 애니메이션)만 넣기 때문입니다.
+      // 반대로 사용자가 친 글을 화면에 넣을 땐(addBubble) innerHTML 대신
+      // textContent 를 써야 <script> 삽입 같은 XSS 공격을 막을 수 있습니다.
       div.innerHTML = '<span class="typing"><span></span><span></span><span></span></span>';
       messagesEl.appendChild(div);
       scrollToBottom();

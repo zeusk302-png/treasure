@@ -54,6 +54,37 @@ n8n이 그 사실을 받아서 그 사람에게 **환영 메일을 자동으로*
 11. n8n으로 돌아와 모든 노드에 **초록 체크**가 뜨는지, 그리고 내 메일함에 **환영 메일**이 도착했는지 확인한다.
 12. 잘 되면 n8n 워크플로우를 **Active(켜짐)** 로 두어, 앞으로는 새 구독자가 생길 때마다 자동으로 메일이 나가게 한다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 자동화를 AI(n8n AI 또는 ChatGPT/Claude)에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 n8n 노코드 자동화를 가르치는 멘토야. 나는 비전공자고, n8n 클라우드에 그대로 Import 할 수 있는 워크플로우 JSON 한 개를 만들고 싶어.
+  목표: Supabase의 subscribers 테이블에 새 행(INSERT)이 생기면, 그 사람에게 환영 이메일을 자동 발송한다.
+  제약:
+  - 노드 구성은 [Webhook(POST, path=new-subscriber)] → [Set(이메일·이름 꺼내기)] → [IF(이메일 비었는지 검사)] → 참이면 [Send Email], 거짓이면 [Set(메일 건너뜀)] 이렇게 5개로.
+  - Supabase Database Webhook이 보내는 본문은 { "type":"INSERT", "record": { "email":..., "name":... } } 모양이야. Set 노드는 $json.body.record.email / .name 으로 값을 꺼낼 것.
+  - 메일 비밀번호·SMTP 비밀값은 JSON에 절대 넣지 말고, credentials.smtp.id 자리에는 REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID 같은 자리표시자만 둬.
+  산출물: n8n Import 가능한 workflow.json 전체 + 각 노드가 무슨 역할인지 한 줄씩 설명.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  위 워크플로우를 개선해줘.
+  1) 이름(name)이 비어 있으면 '구독자'로 대체해서 메일이 어색하지 않게 해줘. (예: $json.body.record.name || '구독자')
+  2) 메일 제목·본문에 구독자 이름과 가입 시각($now.format)을 끼워 넣어줘.
+  3) 이메일이 비어 있는(잘못된) 행이 들어와도 워크플로우가 깨지지 않고 '메일 건너뜀' 가지로 흐르게 IF 분기를 확인해줘.
+  바꾼 부분과 그 이유를 한 줄씩 설명해줘. 비밀값은 여전히 Credentials에만 두고 JSON엔 넣지 마.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  Supabase에 행을 추가했는데 n8n에 실행이 안 생기거나, 실행은 됐는데 메일이 안 와. 단계별로 진단해줘.
+  - 내 Supabase Webhook 설정: (Table/Events/Method/URL 붙여넣기)
+  - n8n 실행 기록(Executions)에서 본 에러 메시지: (그대로 붙여넣기)
+  체크해야 할 순서를 알려줘: ① Supabase Webhook URL이 n8n Webhook 주소(production/test)와 맞는지 ② Set 노드가 $json.body.record.email 로 값을 제대로 꺼냈는지 ③ IF가 어느 가지로 흘렀는지 ④ Send Email의 SMTP Credential이 연결됐는지. 가장 의심되는 원인부터 짚어줘.
+  ```
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 학습에 훨씬 좋습니다.
+
 ## 검증법
 
 아래를 모두 만족하면 성공입니다.

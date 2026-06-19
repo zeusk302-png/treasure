@@ -1,5 +1,7 @@
 /* 실습 261 — 게시판(댓글 + 좋아요) 디자인. 내용 이해가 우선, 꾸밈은 최소만. */
 
+/* box-sizing: border-box — 칸의 가로폭(width)에 테두리·안쪽여백(padding)까지 포함시킴.
+   왜? 이게 없으면 padding을 줄 때마다 칸이 예상보다 커져 줄이 어긋나 보이기 때문. */
 * { box-sizing: border-box; }
 
 body {
@@ -60,6 +62,8 @@ button:disabled { background: #bbb; cursor: not-allowed; }
   padding: 16px;
 }
 .post-title { margin: 0 0 4px; font-size: 1.1rem; }
+/* white-space: pre-wrap — 글쓴이가 누른 줄바꿈(엔터)을 화면에도 그대로 보여 줌.
+   왜? 이게 없으면 여러 줄로 쓴 글이 한 줄로 뭉쳐 보여 가독성이 떨어지기 때문. */
 .post-body { margin: 0 0 10px; white-space: pre-wrap; }
 .post-meta { color: #999; font-size: 0.82rem; }
 
@@ -92,6 +96,8 @@ button:disabled { background: #bbb; cursor: not-allowed; }
 .no-comment { color: #999; font-size: 0.9rem; }
 
 /* 댓글 입력 줄 */
+/* flex-wrap: wrap — 한 줄에 다 안 들어가면 자동으로 아랫줄로 내려 줌.
+   왜? 좁은 휴대폰 화면에서 '이름칸+내용칸+버튼'이 한 줄에 안 들어가 잘리는 것을 막기 위함. */
 .comment-form { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .comment-form input.who-input { flex: 0 0 110px; min-width: 90px; margin: 0; }
 .comment-form input.text-input { flex: 1; min-width: 160px; margin: 0; }

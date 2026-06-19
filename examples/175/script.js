@@ -68,6 +68,9 @@ function render() {
   const anon = isProd ? prodAnon.value.trim() : prevAnon.value.trim();
 
   // 3) 적용 결과 표시 (키는 앞 일부만 보여줘서 길이로 화면이 깨지지 않게)
+  //    출력은 innerHTML이 아니라 textContent를 씁니다.
+  //    왜? 사용자가 입력칸에 <script> 같은 태그를 넣어도 그대로 글자로만 보이고
+  //    실행되지 않게 막기 위함입니다(innerHTML이면 XSS 공격에 취약).
   appliedUrl.textContent  = url  || "— (이 환경에 등록된 값이 없습니다)";
   appliedAnon.textContent = anon ? maskKey(anon) : "— (이 환경에 등록된 값이 없습니다)";
 
@@ -125,6 +128,8 @@ segBtns.forEach(function (btn) {
 });
 
 // 입력이 바뀔 때마다 적용 결과 다시 그리기
+// 왜 "input" 이벤트인가? 저장 버튼 없이도 타이핑하는 즉시 결과/경고가 갱신되게 해서,
+// "값을 바꾸면 어떤 환경에 어떻게 반영되는지"를 실시간으로 체감하게 하려는 것입니다.
 [prodUrl, prodAnon, prevUrl, prevAnon].forEach(function (inp) {
   inp.addEventListener("input", render);
 });

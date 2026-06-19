@@ -1,3 +1,11 @@
+/*
+  무엇: 문의 폼(index.html)의 '동작' 담당. 보내기를 누르면 입력값을 모아
+        n8n Webhook 주소로 fetch(POST) 요청을 보내고, 결과를 화면에 표시합니다.
+  왜 있나: HTML 폼만으로는 다른 페이지로 이동해 버립니다. 같은 화면에 머문 채
+          데이터만 자동화로 넘기고 "접수됐다"는 응답을 보여 주려면 JavaScript가 필요합니다.
+          이 파일이 사이트(브라우저)와 자동화(n8n)를 잇는 다리 역할을 합니다.
+*/
+
 // ============================================================
 //  여기에 n8n에서 복사한 "Production URL"을 붙여 넣으세요.
 //  예: https://내계정.app.n8n.cloud/webhook/contact-form
@@ -31,6 +39,11 @@ form.addEventListener("submit", async (event) => {
   setStatus("보내는 중...", "");
 
   try {
+    // fetch로 n8n Webhook에 데이터를 '보냅니다(POST)'.
+    //  - method: "POST" — 새 데이터를 만들어 보낼 때 쓰는 방식(GET=가져오기와 구분).
+    //  - Content-Type: application/json — "내용물이 JSON 형식"임을 받는 쪽에 알려 주는 꼬리표.
+    //    이게 없으면 n8n이 body를 제대로 못 읽어 $json.body.name 이 비는 흔한 함정이 생깁니다.
+    //  - JSON.stringify(data) — 자바스크립트 객체를 전송 가능한 글자(문자열)로 바꿔 줍니다.
     const response = await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -58,6 +71,9 @@ form.addEventListener("submit", async (event) => {
 
 // 상태 메시지를 색깔과 함께 표시하는 작은 도우미 함수
 function setStatus(text, type) {
+  // textContent로 출력합니다(innerHTML 아님). innerHTML로 글자를 넣으면 사용자가 적은
+  // <script> 같은 코드가 실제로 실행될 수 있어 위험(XSS)합니다. textContent는 글자를
+  // '글자 그대로'만 보여 주므로 안전합니다.
   statusEl.textContent = text;
   statusEl.className = "status" + (type ? " " + type : "");
 }

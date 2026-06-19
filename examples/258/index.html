@@ -1,3 +1,10 @@
+<!--
+  실습 258 — 커뮤니티 게시판(글쓰기 + 목록 보기)의 '화면' 파일입니다.
+  무엇: 사용자가 보는 입력 폼(글쓰기)과 글 목록 자리를 그리는 HTML 뼈대.
+  왜 있나: 화면(HTML)·동작(script.js)·데이터(schema.sql)를 역할별로 나눠 두면
+          비전공자도 "어디를 고치면 무엇이 바뀌는지"가 분명해지기 때문입니다.
+          이 파일은 '뼈대'만 만들고, 실제 저장/불러오기 동작은 script.js가 맡습니다.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -33,6 +40,7 @@
       <button id="submit" type="submit">글 올리기</button>
 
       <!-- 결과/안내 메시지가 표시되는 자리 -->
+      <!-- hidden: 처음엔 보여 줄 메시지가 없으므로 숨겨 둠. 저장 성공/실패 때 script.js가 숨김을 풀어 보여 줍니다. -->
       <p id="status" class="status" hidden></p>
     </form>
 
@@ -41,6 +49,7 @@
       <h2 class="list-title">올라온 글 <span id="count" class="count">(0)</span></h2>
       <ul id="list" class="list">
         <!-- 여기에 JS가 글 카드를 그려 넣습니다. -->
+        <!-- 아래 줄은 데이터가 오기 전 잠깐 보이는 기본 안내문. script.js가 글을 불러오면 이 내용을 지우고 실제 목록으로 바꿔 끼웁니다. -->
         <li class="empty">아직 글이 없어요. 첫 글을 남겨 보세요!</li>
       </ul>
     </section>

@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  이 파일: 회원가입 폼의 "뼈대(화면 구조)" 입니다.
+  왜 있나: 사용자가 보는 입력칸·버튼·에러 박스·성공 메시지의 자리를 만들어 둡니다.
+           실제 검사 로직은 script.js, 색·여백 같은 모양은 style.css 가 담당합니다.
+           (HTML=구조 / CSS=모양 / JS=동작 으로 역할을 나누는 것이 유지보수에 좋기 때문)
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -29,6 +35,8 @@
       <input type="text" id="name" name="name" placeholder="홍길동" />
 
       <!-- 2) 이메일 -->
+      <!-- type="email"이 아니라 일부러 text 로 둠: 이 실습은 JS로 직접 형식을 검사하는
+           연습이라, 브라우저 자동 검사 대신 우리 검사 코드가 동작하는지 보려는 것. -->
       <label for="email">이메일</label>
       <input type="text" id="email" name="email" placeholder="you@example.com" />
 

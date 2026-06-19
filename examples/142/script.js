@@ -196,10 +196,13 @@ document.getElementById("deleteOtherBtn").addEventListener("click", async () => 
 // ============================================================
 function addLog(type, text) {
   const li = document.createElement("li");
-  li.className = "log-item " + type; // safe / danger / info
+  li.className = "log-item " + type; // safe / danger / info (색깔 구분용 클래스)
   const time = new Date().toLocaleTimeString("ko-KR");
+  // innerHTML로 시간 span을 끼워 넣되, text는 반드시 escapeHtml로 통과시킨다.
+  // 왜? 로그에 들어가는 text 안에 에러 메시지나 메모 내용 등 '사용자/서버가 만든 값'이 섞일 수 있는데,
+  // 그대로 innerHTML에 넣으면 그 안의 <script> 등이 실행되는 XSS가 될 수 있어 미리 무해화하는 것.
   li.innerHTML = '<span class="t">' + time + '</span> ' + escapeHtml(text);
-  logEl.prepend(li);
+  logEl.prepend(li); // 최신 로그가 맨 위에 보이도록 append 대신 prepend
 }
 
 document.getElementById("clearLogBtn").addEventListener("click", () => {
@@ -212,6 +215,9 @@ function showAuthMsg(text, type) {
 }
 function clearAuthMsg() { authMsg.textContent = ""; authMsg.className = ""; }
 
+// escapeHtml: 위험한 문자(& < > " ')를 화면에 '글자 그대로' 보이도록 바꿔 주는 함수.
+// 왜 필요? innerHTML로 글을 넣을 때 이 변환을 거치면 <script> 같은 게 코드로 실행되지 않고
+// 그냥 "<script>"라는 텍스트로만 보여서 XSS(악성 스크립트 주입)를 막을 수 있기 때문.
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])

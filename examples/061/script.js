@@ -1,3 +1,8 @@
+// 이 파일(script.js): 눈 버튼을 누르면 비밀번호를 보였다/가렸다 하는 '동작'을 담당합니다.
+// - 무엇: 입력칸의 type을 password(가림) ↔ text(보임)로 뒤집고, 아이콘과 접근성 안내도 같이 바꿉니다.
+// - 왜 있나: HTML은 모양만 그릴 뿐 '클릭하면 무슨 일이 일어날지'는 자바스크립트가 정해야 하기 때문입니다.
+// - 핵심: 비밀번호 자체를 지우거나 다시 만드는 게 아니라, '표시 방식(type)'만 바꾸는 것이라 안전합니다.
+
 // 1) 화면에서 필요한 요소 3개를 찾아옵니다
 const passwordInput = document.getElementById("password"); // 비밀번호 입력칸
 const toggleBtn = document.getElementById("toggleBtn"); // 눈 버튼

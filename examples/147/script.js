@@ -24,6 +24,8 @@ loadBtn.addEventListener("click", async () => {
     console.log("응답 JSON:", data);
 
     // 응답 안의 글귀 한 줄을 꺼내 화면에 표시한다.
+    // textContent로 넣는 이유: 외부에서 받은 값(여기선 API 응답)을 innerHTML로 넣으면
+    // 그 안에 <script> 같은 게 섞여 있을 때 실행될 수 있어(XSS) 위험하다. 글자 그대로만 찍는 textContent가 안전하다.
     quoteBox.textContent = `"${data.content}" — ${data.author}`;
   } catch (error) {
     // 요청 자체가 실패하면(인터넷 끊김 등) 여기로 온다.
@@ -37,6 +39,8 @@ const saveBtn = document.getElementById("saveBtn");
 const recorded = document.getElementById("recorded");
 
 saveBtn.addEventListener("click", () => {
+  // .trim()으로 앞뒤 공백을 떼는 이유: 사용자가 실수로 띄어쓰기만 입력한 칸을
+  // "채워졌다"고 오해하지 않게 하려는 것. 아래 빈 칸 검사를 정확하게 만들어 준다.
   const reqUrl = document.getElementById("reqUrl").value.trim();
   const status = document.getElementById("status").value.trim();
   const respPart = document.getElementById("respPart").value.trim();

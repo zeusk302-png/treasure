@@ -17,6 +17,9 @@ function render(user) {
   const secretText = document.getElementById("secretText");
 
   // 헤더: 왼쪽 로고 / 오른쪽에 내 이메일
+  // 참고: 여기서 innerHTML을 쓰는 건 user.email이 'Supabase가 검증해 넘겨준 값'이라 비교적 안전하기 때문입니다.
+  // 만약 방문자가 자유롭게 입력한 글자(댓글·이름 등)를 화면에 넣을 땐 innerHTML 대신 textContent를 쓰세요.
+  // (그래야 <script> 같은 게 끼어들어 실행되는 XSS를 막습니다 — 아래 secretText는 그래서 textContent를 씁니다.)
   headerEl.innerHTML = `
     <a class="logo" href="mypage.html">🔒 마이페이지</a>
     <nav><span class="user">${user.email}</span></nav>

@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  이 파일(index.html): "좋아요 하트 토글" 실습의 화면 뼈대(구조)입니다.
+  - 무엇: 카드 한 장 안에 제목·사진 자리·하트 버튼·좋아요 숫자를 배치합니다.
+  - 왜: HTML은 '무엇이 있는가(구조)'만 담당합니다. 색·모양은 style.css가,
+        누르면 일어나는 동작(토글·숫자 증감)은 script.js가 맡습니다.
+  - JS가 찾아 쓸 수 있도록 핵심 요소에 id(likeBtn, heart, count)를 붙여 둔 것이 포인트입니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -22,7 +29,9 @@
         <span id="heart" class="heart">♡</span>
       </button>
 
-      <!-- 좋아요 숫자를 보여주는 곳. JS가 이 안의 글자를 바꿉니다. -->
+      <!-- 좋아요 숫자를 보여주는 곳. JS가 이 안의 글자를 바꿉니다.
+           여기 적힌 0은 임시값일 뿐 — 페이지가 열리면 script.js의 render()가
+           실제 시작값(12)으로 곧바로 덮어쓰기 때문에 화면엔 12가 보입니다. -->
       <span id="count" class="count">0</span>
       <span class="count-label">명이 좋아합니다</span>
     </div>

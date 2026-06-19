@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!--
+  이 파일(index.html): '안전한 챗봇'의 프론트(브라우저 화면)입니다.
+  왜 있나: 사용자가 질문을 입력하면, AI를 '직접' 부르지 않고 우리가 배포한
+          서버 함수(Edge Function /functions/v1/chat)에 질문만 보냅니다.
+  왜 이렇게 하나: AI 비밀 키를 이 파일에 적으면 누구나 페이지 소스를 열어
+          훔쳐 쓸 수 있기 때문(요금 폭탄). 그래서 비밀 키는 서버에만 두고,
+          이 파일에는 공개돼도 되는 anon 키만 둡니다.
+  짝꿍 파일: supabase/functions/chat/index.ts (실제 AI 호출을 대신하는 서버 함수)
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -56,9 +65,13 @@
     const input = document.getElementById("q");
     const sendBtn = document.getElementById("send");
 
+    // 말풍선 하나를 만들어 화면에 붙이는 함수.
     function addBubble(text, who) {
       const div = document.createElement("div");
       div.className = "bubble " + (who === "me" ? "me" : "bot");
+      // textContent로 글자를 넣습니다(innerHTML 아님).
+      // 왜: 사용자나 AI가 보낸 글에 <script> 같은 태그가 섞여 있어도
+      //     '글자 그대로' 보여줄 뿐 실행되지 않게 막기 위함(XSS 방지).
       div.textContent = text;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;

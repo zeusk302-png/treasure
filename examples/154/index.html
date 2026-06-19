@@ -1,3 +1,10 @@
+<!--
+  이 파일(index.html): '내 위치 날씨' 페이지의 뼈대(화면 구조)입니다.
+  왜 있나: 브라우저가 받아온 좌표·날씨를 보여줄 '빈 칸(자리)'들을 미리 만들어 둡니다.
+          실제 동작(위치 요청 → 날씨 받기 → 칸 채우기)은 script.js가, 꾸미기는 style.css가 맡습니다.
+  여기서는 id가 붙은 요소들(예: coordsView, weatherUrlView, result)이 핵심 —
+  script.js가 이 id로 칸을 찾아 내용을 채우기 때문입니다.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>

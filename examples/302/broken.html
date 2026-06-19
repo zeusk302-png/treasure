@@ -62,8 +62,8 @@
     const entriesBox = document.getElementById("entries");
 
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      // 사용자가 적은 값을 그대로 저장
+      e.preventDefault(); // 폼 기본 동작(페이지 새로고침)을 막음 — 새로고침되면 방금 적은 글 목록이 사라지기 때문
+      // 사용자가 적은 값을 그대로 저장 (여기서 거르지 않은 '날것' 입력이 아래 render 에서 그대로 코드가 됨)
       entries.unshift({ name: nameInput.value, body: bodyInput.value });
       nameInput.value = "";
       bodyInput.value = "";

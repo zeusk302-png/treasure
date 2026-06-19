@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!--
+  이 파일이 무엇이고 왜 있나:
+  - 무엇: 실습 301의 단일 HTML 페이지. Supabase에 로그인하고 → 메모를 추가하고 → "내 메모만" 조회하는 화면.
+  - 왜: RLS(행 수준 보안) 정책이 진짜 작동하는지 "눈으로" 검증하기 위함. SQL Editor는 관리자 권한이라
+        RLS를 우회할 수 있어 막히는 모습을 못 본다. 그래서 anon(공개) 키로 도는 이 브라우저 페이지에서
+        A 계정 / B 계정으로 번갈아 로그인해 "남의 메모가 0건으로 막히는지"를 확인하는 것이 이 파일의 목적이다.
+  - 주의: 아래 <script> 안 SUPABASE_URL / SUPABASE_ANON_KEY 두 줄만 내 값으로 바꾸면 동작한다.
+          schema.sql(테이블+정책)을 먼저 SQL Editor에서 실행해 둬야 한다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -61,6 +70,8 @@
   </div>
 
   <script type="module">
+    // type="module" 로 둔 이유: 아래 import 구문을 쓰려면 모듈 스크립트여야 한다(일반 <script>에선 import가 에러).
+    // esm.sh CDN에서 supabase-js v2를 직접 불러온다 — 설치(npm)·빌드 없이 HTML 한 파일로 실습하려는 의도.
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     // ===== 여기 두 줄만 내 값으로 바꾸세요 (publishable/anon 키) =====
@@ -69,15 +80,23 @@
     // service_role(secret) 키는 절대 넣지 마세요. RLS를 통째로 우회해 검증 자체가 무의미해집니다.
     // =================================================================
 
+    // createClient: 이 anon 키로 Supabase에 말 거는 "전화기"를 하나 만든다.
+    // 모든 요청에 "지금 로그인한 사람"이 함께 실려 나가고, 서버의 RLS 정책이 auth.uid()로 그 사람을 판별한다.
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // document.getElementById 가 길어서 $ 한 글자로 줄인 도우미 — 코드를 짧고 읽기 쉽게 하려는 의도(특별한 라이브러리 아님).
     const $ = (id) => document.getElementById(id);
 
+    // refreshWho: "현재 로그인" 표시를 지금 로그인 상태에 맞게 새로 그린다.
+    // 이게 있어야 A/B 중 누구로 로그인했는지 화면에서 확인하며 검증할 수 있다(검증의 핵심 단서).
     async function refreshWho() {
       const { data } = await supabase.auth.getUser();
+      // textContent 로 출력하는 이유: 이메일 값을 그대로 화면에 박을 때 innerHTML을 쓰면 XSS 위험이 있어 안전한 textContent를 쓴다.
       $("whoami").textContent = data.user ? data.user.email : "로그아웃 상태";
     }
     refreshWho();
+    // onAuthStateChange: 로그인/로그아웃이 일어날 때마다 자동으로 표시를 갱신한다.
+    // 버튼을 누른 직후뿐 아니라, 새로고침·세션 만료 등 상태가 바뀌는 모든 순간을 따라가게 하려는 것.
     supabase.auth.onAuthStateChange(() => refreshWho());
 
     $("btnSignup").addEventListener("click", async () => {
@@ -116,6 +135,8 @@
     $("btnList").addEventListener("click", async () => {
       $("count").textContent = "...";
       $("listOut").textContent = "조회 중...";
+      // 코드는 "전체(select *)"를 달라고 하지만, 실제로는 RLS의 SELECT 정책(auth.uid() = user_id)이 서버에서 걸러
+      // "내 줄"만 돌려준다. 즉 코드를 바꾸지 않아도 로그인한 사람마다 결과가 달라진다 — 이게 이 실습이 증명하려는 핵심.
       const { data, error } = await supabase.from("my_notes").select("*").order("id");
       if (error) {
         $("count").textContent = "오류";

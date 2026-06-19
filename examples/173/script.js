@@ -13,6 +13,9 @@ const statusBox = document.getElementById("status");
 const cfg = window.APP_CONFIG;
 
 if (!cfg) {
+  // 참고(왜 여기만 innerHTML?): 이 메시지는 개발자가 직접 적은 고정 문자열이라
+  // 사용자 입력이 섞이지 않아 안전합니다. 사용자가 넣은 값을 출력할 때는 아래처럼
+  // 반드시 textContent 를 써야 합니다(innerHTML 은 <script> 가 실행될 수 있어 XSS 위험).
   statusBox.innerHTML =
     "❌ config.js 를 찾지 못했습니다.\n" +
     "→ config.example.js 를 복사해 config.js 를 만들고 공개키를 넣으세요.\n" +
@@ -24,6 +27,9 @@ if (!cfg) {
     cfg.SUPABASE_ANON_KEY.includes("여기에");
 
   // 3) 안전 점검: 코드 어디에도 service_role 키가 없어야 함
+  //    왜: service_role 은 RLS(행 보안)를 전부 무시하는 마스터 키라, 브라우저로 새면
+  //    DB 전체가 털립니다. 설정 전체를 문자열로 펼쳐(JSON.stringify) 그 글자가 있는지
+  //    검사해, 실수로 비밀 키를 넣었을 때 즉시 화면에 경고를 띄우려는 안전장치입니다.
   const hasSecretLeak = JSON.stringify(cfg)
     .toLowerCase()
     .includes("service_role");

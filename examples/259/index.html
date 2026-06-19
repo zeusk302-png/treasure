@@ -1,3 +1,18 @@
+<!--
+  실습 259 — "로그인해야 글 쓰는 게시판" 의 화면(HTML) 파일
+  ─────────────────────────────────────────────────────────────
+  이 파일이 무엇인가:
+    - 사용자가 눈으로 보는 '화면 뼈대'입니다. (로그인/회원가입 폼, 글쓰기 칸, 글 목록)
+  이 파일이 왜 있는가:
+    - 인증(=누구냐)의 기초를 체험하기 위해, "글 읽기는 누구나 / 글쓰기는 로그인한 사람만"
+      이라는 규칙을 화면으로 보여 줍니다.
+    - 실제 동작(로그인·글 저장·목록 불러오기)은 script.js 가, 데이터 저장과 진짜 보안(RLS)은
+      schema.sql 이 담당합니다. 이 HTML 은 '뼈대'만 그립니다.
+  연결 관계(셋이 한 묶음):
+    - index.html  : 화면 뼈대 (지금 이 파일)
+    - script.js   : 로그인/글쓰기 동작 + Supabase 연결
+    - schema.sql  : posts 표 + RLS 보안 (DB쪽 진짜 자물쇠)
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -51,6 +66,10 @@
     <section class="card">
       <h2 class="section-title">새 글 쓰기</h2>
       <form id="postForm">
+        <!-- 처음엔 disabled(잠금)로 시작합니다.
+             왜? 로그인 전에는 글을 못 쓰게 막는 '친절한 화면 잠금'이기 때문입니다.
+             로그인에 성공하면 script.js 의 renderAuth() 가 이 잠금을 풀어 줍니다.
+             ※ 이건 어디까지나 '안내용' 잠금이고, 진짜 보안은 schema.sql 의 RLS 입니다. -->
         <textarea id="content" rows="3"
           placeholder="로그인하면 여기에 글을 쓸 수 있어요." required disabled></textarea>
         <button id="postBtn" type="submit" disabled>글 올리기</button>
@@ -81,7 +100,9 @@
   <!-- 1) Supabase 자바스크립트 라이브러리를 CDN으로 불러옵니다. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함) -->
+  <!-- 2) 우리가 작성한 코드 (반드시 위 라이브러리 줄보다 아래에 있어야 함)
+       왜 순서가 중요한가? script.js 가 위에서 불러온 supabase 를 사용하는데,
+       라이브러리가 먼저 준비돼 있지 않으면 "supabase is not defined" 에러가 납니다. -->
   <script src="script.js"></script>
 </body>
 </html>

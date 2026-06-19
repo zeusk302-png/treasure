@@ -1,3 +1,12 @@
+/*
+  이 파일(style.css)은 무엇이고 왜 있나?
+  - 무엇: 실습 040의 '모양(레이아웃·색·간격)'을 담당하는 스타일 파일입니다.
+          index.html 의 <link rel="stylesheet" href="style.css" /> 한 줄로 연결됩니다.
+  - 왜:   이번 실습의 핵심인 CSS Grid의 fr 단위(비율 나누기)가 바로 이 파일의
+          .dashboard 규칙에 들어 있습니다. HTML(내용)과 CSS(모양)를 분리해 두면
+          숫자(1fr 2fr 1fr)만 바꿔도 레이아웃이 어떻게 변하는지 실험하기 쉽습니다.
+*/
+
 /* ===== 페이지 전체 기본 스타일 ===== */
 body {
   font-family: "Pretendard", "맑은 고딕", sans-serif;

@@ -1,3 +1,16 @@
+/*
+  이 파일이 무엇인가:
+    드래그앤드롭 파일 첨부의 "동작"(JavaScript)을 담당합니다.
+    드롭 영역 클릭/끌어 놓기 → 파일 받기 → 배열에 모으기 → 목록 다시 그리기 → 삭제,
+    이미지면 미리보기 썸네일까지 — 이 흐름 전체가 여기 있습니다.
+  왜 이렇게 짰나(핵심 아이디어):
+    - 화면에 보이는 목록을 직접 고치지 않고, files 배열을 진짜 데이터로 삼아
+      배열이 바뀔 때마다 render()로 화면을 통째로 다시 그립니다(데이터 → 화면 한 방향).
+      이렇게 하면 추가·삭제 로직이 단순해지고 버그가 줄어듭니다.
+    - 드래그앤드롭의 함정인 "브라우저가 파일을 그냥 열어버리는 기본 동작"은
+      아래 dragover/drop의 preventDefault()로 막습니다(가장 흔한 실수 지점).
+*/
+
 // ===== 화면 요소 잡아두기 =====
 const dropZone = document.getElementById("dropZone");   // 점선 드롭 영역
 const fileInput = document.getElementById("fileInput"); // 숨겨둔 진짜 파일 입력칸
@@ -102,8 +115,12 @@ function render() {
     // --- 파일명 + 크기 ---
     const info = document.createElement("div");
     info.className = "file-info";
+    // innerHTML 로 만드는 건 우리가 직접 쓴 "빈 껍데기"뿐이라 안전하다.
+    // 사용자가 정한 파일명은 절대 여기에 끼워 넣지 않고, 아래에서 textContent 로만 넣는다.
     info.innerHTML =
       '<span class="file-name"></span><span class="file-size"></span>';
+    // 파일명을 innerHTML 이 아니라 textContent 로 넣는 이유: 파일명에 <script> 같은
+    // 글자가 들어와도 코드로 실행되지 않고 그냥 글자로만 보이게 막기 위함(XSS 방지).
     info.querySelector(".file-name").textContent = file.name;     // 안전하게 텍스트로
     info.querySelector(".file-size").textContent = formatSize(file.size);
     li.appendChild(info);

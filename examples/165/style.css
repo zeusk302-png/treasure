@@ -1,4 +1,11 @@
+/*
+  이 파일이 무엇이고 왜 있는지:
+  - 대시보드의 '겉모습(색·여백·막대·표)'만 담당합니다. 동작 로직은 전혀 없습니다.
+  - 왜 :root 변수(--bg, --accent 등)를 쓰나? 색을 한곳에 모아두면, 나중에 테마를 바꿀 때
+    여기 변수 값만 고치면 화면 전체가 한 번에 바뀌어 유지보수가 쉽습니다.
+*/
 :root {
+  /* 자주 쓰는 색을 변수로 미리 정의 — 아래에서 var(--이름)으로 재사용합니다. */
   --bg: #f4f1ea;
   --card: #ffffff;
   --ink: #2b2b2b;
@@ -54,6 +61,7 @@ body {
   background: var(--ok);
   transition: width 0.25s ease, background 0.25s ease;
 }
+/* 한도를 넘으면 script.js가 막대에 'over' 클래스를 붙입니다 → 막대 색이 경고색으로 바뀌어 위험을 눈에 띄게 합니다. */
 .bar-fill.over { background: var(--warn); }
 
 .status {

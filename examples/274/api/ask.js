@@ -58,6 +58,8 @@ export default async function handler(req, res) {
   }
 
   // 브라우저가 보낸 질문 꺼내기
+  // req.body || {} : 본문이 비어 있을(undefined) 때를 대비한 안전장치.
+  // undefined에서 .question을 꺼내려 하면 서버가 터지므로, 없으면 빈 객체로 대체한다.
   const { question } = req.body || {};
   if (!question || typeof question !== "string" || !question.trim()) {
     return res.status(400).json({ error: "question(질문)이 필요합니다." });

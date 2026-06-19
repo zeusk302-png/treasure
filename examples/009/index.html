@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  이 파일이 무엇인가: <img> 태그로 사진을 화면에 띄우는 법을 배우는 실습용 HTML 한 장입니다.
+  왜 있나: 비전공자가 "그림 주소(src)", "설명 글자(alt)", "크기(width)" 세 가지를 직접 눈으로
+          확인하도록 만든 예제입니다. 그림이 잘 보이는 경우 / 인터넷 없이도 보이는 경우 /
+          일부러 깨뜨려서 alt 글자가 대신 나오는 경우, 이렇게 3가지 상황을 한 화면에 모았습니다.
+          브라우저로 더블클릭해 열면 바로 작동합니다(별도 설치 필요 없음).
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -34,7 +41,13 @@
     같은 <code>&lt;img&gt;</code> 태그에 <code>alt</code> 와 <code>width</code> 가 들어있어요.
   </p>
 
-  <!-- 예시 2) 파일 없이도 항상 보이는 그림 (SVG 그림을 src 에 직접 넣음) -->
+  <!--
+    예시 2) 파일 없이도 항상 보이는 그림 (SVG 그림을 src 에 직접 넣음)
+    왜 이렇게 했나: 보통 src 에는 그림 "파일 주소"를 적지만, 여기서는 'data:image/svg+xml,...' 형태로
+                  그림 자체를 글자로 src 안에 통째로 넣었습니다. 그래서 인터넷이 끊겨도, 그림 파일이 없어도
+                  항상 보입니다(코드 안에 그림이 들어있으니까요). 처음엔 글자가 복잡해 보여도 외울 필요 없고,
+                  "그림을 파일이 아니라 글자로 박아 넣을 수도 있다"는 점만 알면 됩니다.
+  -->
   <img
     src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'&gt;&lt;rect width='300' height='200' fill='%234a90d9'/&gt;&lt;circle cx='240' cy='50' r='30' fill='%23ffe066'/&gt;&lt;polygon points='0,200 120,90 240,200' fill='%232e7d32'/&gt;&lt;text x='150' y='185' font-size='20' fill='white' text-anchor='middle'&gt;내 그림&lt;/text&gt;&lt;/svg&gt;"
     alt="파란 하늘에 노란 해와 초록 산이 있는 그림"

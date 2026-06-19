@@ -64,6 +64,10 @@ async function loadProfile() {
   const userId = user.id;              // 이 사람의 고유 번호(UUID) — DB에서 사람을 구분하는 열쇠
 
   // 헤더에 이메일을 표시합니다.
+  // (참고) 여기서 innerHTML을 쓰는 이유: 이메일은 Supabase가 가입 때 검증한
+  // '내 계정' 값이라 비교적 안전합니다. 하지만 일반적으로 '사용자가 자유롭게 입력한 글'
+  // (댓글·닉네임 등)을 innerHTML로 넣으면 그 안의 <script>가 실행되는 XSS 위험이 있어,
+  // 그런 값은 textContent로 넣어야 합니다. (실습 180 참고)
   headerEl.innerHTML = `
     <a class="logo" href="mypage.html">👤 마이페이지</a>
     <nav><span class="user">${email}</span></nav>

@@ -30,6 +30,9 @@ const SUPABASE_ANON_KEY = "sb_publishable_여기에-내-anon-공개키-붙여넣
 // -------------------------------------------------------------
 // 2) 연결(클라이언트) 만들기
 // -------------------------------------------------------------
+// 소문자 supabase 는 index.html 의 CDN 줄이 만들어 준 '라이브러리'이고,
+// 그걸로 만든 db 가 우리가 실제로 명령을 보낼 '내 DB로 가는 전화선'입니다.
+// (헷갈리지 않게 변수 이름을 db 로 따로 둔 것 — 이름이 둘 다 supabase 면 혼란스럽기 때문)
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // 이 가게에서 받는 '예약 가능한 시간대 후보' 목록 (운영 시간이라고 생각하세요)
@@ -180,8 +183,9 @@ formEl.addEventListener("submit", async (e) => {
     // 방금 잡은 시간대를 곧바로 '마감'으로 반영 (조건부 UI 즉시 갱신)
     const taken = await fetchTakenTimes(date);
     renderTimeOptions(taken);
-    timeEl.value = "";
-    // 성공 메시지를 덮어쓰지 않도록 다시 보여 줍니다.
+    timeEl.value = ""; // 같은 시간대를 또 누르지 않도록 시간대 선택을 비워 둡니다.
+    // renderTimeOptions 가 안내 메시지를 덮어쓸 수 있어, 성공 메시지를 한 번 더 띄워
+    // 손님이 '완료'됐다는 걸 확실히 보게 합니다(마지막에 보이는 메시지가 이깁니다).
     showStatus("ok", `예약 완료: ${date} ${time} (${name}님)`);
   } catch (err) {
     console.error("❌ 예약 저장 실패:", err.message);

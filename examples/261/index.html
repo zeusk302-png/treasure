@@ -1,3 +1,11 @@
+<!--
+  실습 261 — 커뮤니티 게시판 (댓글 1:N + 좋아요 카운트) 화면
+  이 파일이 무엇?  : 사용자가 보는 게시판 페이지의 뼈대(HTML)입니다.
+  왜 있나?         : 글쓰기 폼·글 목록 자리만 HTML로 잡아 두고,
+                     실제 데이터(글/댓글/좋아요)는 script.js가 Supabase에서 받아와
+                     이 자리에 채워 넣습니다. (HTML=빈 무대, JS=배우 배치)
+  같이 보는 파일   : style.css(꾸밈), script.js(동작), schema.sql(데이터베이스 표 설계)
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,8 +36,11 @@
     <section id="postList" class="post-list">불러오는 중…</section>
   </main>
 
-  <!-- Supabase 자바스크립트 라이브러리 (CDN) -->
+  <!-- Supabase 자바스크립트 라이브러리 (CDN)
+       왜 먼저 불러오나? : 아래 script.js가 supabase 기능을 쓰기 때문에,
+       라이브러리를 '먼저' 읽어 둬야 합니다. 순서가 바뀌면 "supabase is not defined" 오류가 납니다. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 우리 코드(동작 담당). 라이브러리 다음에 와야 함. -->
   <script src="script.js"></script>
 </body>
 </html>

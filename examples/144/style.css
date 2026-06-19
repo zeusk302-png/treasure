@@ -1,4 +1,11 @@
-/* 실습 144 — 역할(role)에 따라 화면 나누기 스타일 */
+/* ============================================================
+   실습 144 — 역할(role)에 따라 화면 나누기 스타일
+   이 파일이 무엇인가: index.html 과 admin.html 이 함께 쓰는 디자인(CSS) 파일.
+   왜 따로 있나: 화면 모양(색·여백·배치)을 HTML/JS 로직과 분리해 두면
+                 두 페이지가 같은 디자인을 공유하고, 한 곳만 고쳐도 둘 다 바뀌어 관리가 쉽다.
+   핵심 클래스: .role-badge(역할 배지), .admin-link(관리 메뉴 링크),
+               .role-card(역할별 안내 카드) — 모두 '역할에 따라 보이는 부분'의 모양을 담당.
+   ============================================================ */
 body {
   font-family: system-ui, "Malgun Gothic", sans-serif;
   margin: 0;
@@ -90,6 +97,8 @@ code {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
+  /* box-sizing: border-box — width:100%에 padding을 '포함'시킨다.
+     안 쓰면 padding이 너비에 더해져 입력칸이 부모 밖으로 삐져나오는 흔한 함정을 막는다. */
   box-sizing: border-box;
 }
 
@@ -106,6 +115,8 @@ code {
 }
 
 /* 보조(회원가입) 버튼 — 테두리만 있는 버튼 */
+/* !important 를 쓴 이유: 바로 위 .login-form button 규칙이 모든 버튼을 진한 배경으로 칠하는데,
+   회원가입 버튼만 흰 배경으로 '덮어쓰기' 하려고 강제 우선순위를 준 것. (남발은 금물) */
 .ghost-btn {
   background: #fff !important;
   color: #3a4a5e !important;

@@ -23,6 +23,8 @@
     label { display: block; font-weight: 700; margin: 12px 0 4px; }
     input, textarea {
       width: 100%;
+      /* box-sizing: border-box — padding/테두리를 width 안에 포함시킵니다.
+         이게 없으면 width:100% + padding 때문에 입력칸이 부모를 삐져나가 보입니다. */
       box-sizing: border-box;
       padding: 10px 12px;
       border: 1px solid #ccc;
@@ -77,6 +79,9 @@
     <!-- 단, 새로고침되어 화면이 깜빡이지 않도록 JS에서 기본 동작을 막습니다. -->
     <form id="guestbook-form">
       <label for="name">이름</label>
+      <!-- required: 빈 칸이면 브라우저가 제출을 막아 줍니다(1차 방어).
+           maxlength="20": 너무 긴 입력을 막아 화면·DB가 깨지는 것을 예방합니다.
+           단, 사용자가 개발자도구로 우회할 수 있으니 진짜 검사는 JS/서버에서 다시 합니다. -->
       <input id="name" type="text" placeholder="홍길동" maxlength="20" required />
 
       <label for="message">메시지</label>

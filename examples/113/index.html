@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  이 파일은 무엇인가:
+    실습 113 "localStorage의 한계 체험" 페이지입니다. 할 일을 적어 두는 작은 메모 앱이지만,
+    데이터를 일부러 서버로 보내지 않고 브라우저 안의 localStorage에만 저장합니다.
+  왜 이렇게 만들었나:
+    "내 브라우저에만 저장하면 다른 창/브라우저/기기에서는 안 보인다"는 한계를
+    수강생이 직접 눈으로 확인하게 하려고요. 이 불편함을 느껴야 다음 단계(서버 DB·Supabase)가
+    왜 필요한지 스스로 납득할 수 있습니다. (=일부러 만든 '불완전한' 예제)
+  구성: HTML/CSS/순수 JavaScript 한 파일 — 더블클릭으로 바로 열립니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -161,6 +171,9 @@
   <script>
     // 이 실습의 핵심: 데이터를 "내 브라우저(localStorage)"에만 저장한다.
     // 일부러 서버로 보내지 않기 때문에, 다른 브라우저/기기에서는 보이지 않는다.
+    // STORAGE_KEY = localStorage 안에서 우리 데이터를 찾는 '서랍 이름표'.
+    //   왜 고유한 이름을 쓰나: 같은 브라우저에서 다른 페이지들도 localStorage를 쓰므로,
+    //   이름이 겹치면 서로의 데이터를 덮어쓸 수 있어 'practice113_' 처럼 구분되는 이름을 붙인다.
     const STORAGE_KEY = "practice113_todos";
 
     const todoInput = document.getElementById("todo");
@@ -181,6 +194,9 @@
     }
 
     // 할 일 목록 저장하기 (배열 → 글자로 바꿔 저장)
+    // 왜 JSON.stringify로 바꾸나: localStorage는 '글자(문자열)'만 저장할 수 있어서,
+    //   배열/객체를 그대로 넣을 수 없다. 그래서 글자로 변환(stringify)해서 넣고,
+    //   불러올 때는 다시 배열로 복원(parse)한다. (위 loadTodos와 짝)
     function saveTodos(todos) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
     }

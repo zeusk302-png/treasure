@@ -107,6 +107,9 @@ function renderProduct(p) {
   // 가격을 1,000원 같이 천 단위 콤마로 보기 좋게 만듭니다.
   const priceText = Number(p.price).toLocaleString("ko-KR") + "원";
 
+  // 이름·가격·설명은 innerHTML이 아니라 textContent로 넣습니다.
+  // 왜? innerHTML로 넣으면 데이터에 섞인 <script> 같은 태그가 '코드'로 실행될 수 있어(XSS 위험)
+  //     글자를 '글자 그대로만' 안전하게 보여 주는 textContent를 씁니다.
   imgEl.src = p.image_url ? p.image_url : "";
   imgEl.alt = p.name;
   nameEl.textContent = p.name;

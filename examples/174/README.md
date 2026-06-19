@@ -55,6 +55,43 @@ SUPABASE_ANON_KEY   ──┴─▶  node build.js  ──▶  env-config.js  �
 SUPABASE_SERVICE_ROLE_KEY ─✗ (build.js가 읽지 않음 → 브라우저로 절대 안 내려감)
 ```
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습("키를 코드에 박지 않고 Vercel 환경변수로 주입")을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. 역할·목표·제약을 분명히 적을수록 결과가 안전해집니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 보안에 깐깐한 웹 강사야. 비전공자용 실습 페이지를 만들어줘.
+  목표: Supabase 키를 "코드에 박지 않고" Vercel 환경변수에 두고, 배포할 때 자동으로 주입하는 흐름을 보여주는 정적 사이트.
+  만들 파일:
+    - index.html / style.css / script.js : 화면. 키를 한 글자도 적지 말고, window.__ENV__(주입된 설정)를 "읽기만" 해.
+    - build.js : 배포 시 process.env 의 SUPABASE_URL, SUPABASE_ANON_KEY 를 읽어 env-config.js 파일을 생성하는 Node 스크립트.
+    - vercel.json : buildCommand 를 "node build.js" 로 설정.
+    - .env.example / env-config.example.js : 진짜 값 대신 "자리표시자"만 든 견본.
+    - .gitignore : .env 와 env-config.js(진짜 값) 업로드를 차단하되, *.example 견본은 올라가게.
+  제약: anon(공개) 키만 브라우저로 내려보내고, service_role(비밀) 키는 build.js 가 절대 읽지 않게 해.
+  코드만 주지 말고 왜 그렇게 했는지 한국어 주석으로 한 줄씩 설명해줘.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  여기에 "안전 점검" 기능을 추가해줘.
+  1) 페이지 로드 시 window.__ENV__ 가 있는지, 자리표시자 그대로인지(=미주입), 진짜 anon 키가 주입됐는지를 구분해 "현재 설정 상태"에 표시.
+  2) 만약 주입된 값 어딘가에 "service_role" 이라는 글자가 섞여 있으면 🚨 위험 경고를 띄우고 연결 버튼을 비활성화.
+  3) build.js 에도 안전장치: ANON 키 자리에 service_role 키가 들어오면 빌드를 중단(process.exit(1))하게.
+  4) "Supabase에 연결해 보기" 버튼: anon 키로 가볍게 핑을 보내, 테이블이 없거나 RLS로 막혀도 "키 인증은 성공"으로 안내.
+  보안 판단(왜 anon은 공개해도 되고 service_role은 안 되는지)을 주석으로 설명해줘.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  Vercel에 배포했는데 화면에 "env-config.js 를 찾지 못했습니다" 또는 계속 "자리표시자 상태"라고 떠.
+  내 vercel.json, build.js, .gitignore 내용을 붙여넣을게. 아래를 단계별로 점검해줘:
+  - buildCommand 가 실제로 실행됐는지(Vercel 배포 로그 확인 방법)
+  - 환경변수 이름 철자(SUPABASE_URL / SUPABASE_ANON_KEY)가 정확한지
+  - 환경변수를 추가한 뒤 Redeploy 를 눌렀는지(환경변수는 다음 배포부터 적용)
+  원인 후보를 가능성 높은 순서로 정리하고, 각각 어떻게 확인/수정하는지 비전공자가 이해하게 풀어줘.
+  ```
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 학습에 좋습니다. 특히 이 실습처럼 보안이 걸린 주제는 "공개해도 되는 값과 숨겨야 하는 값을 주석으로 구분해줘"를 꼭 붙이세요.
+
 ## 검증법
 
 1. `git status`에서 **`env-config.js`와 `.env`가 목록에 없어야** 합니다. 보이면 `.gitignore` 철자/위치를 다시 확인합니다.

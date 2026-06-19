@@ -28,6 +28,8 @@ const observer = new IntersectionObserver(
         }
       } else if (REPEAT) {
         // 화면 밖으로 나갔다 → 다시 숨겨서, 다음에 또 등장하게 합니다.
+        // is-visible만 떼면 CSS의 기본 .reveal 상태(투명 + 아래로 내려감)로 자동 복귀하므로,
+        // 따로 숨기는 코드를 짤 필요 없이 클래스 하나만 제거하면 됩니다.
         entry.target.classList.remove("is-visible");
       }
     });

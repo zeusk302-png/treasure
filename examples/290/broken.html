@@ -70,6 +70,9 @@
         .order("created_at", { ascending: false });
 
       if (error) { listEl.textContent = "에러: " + error.message; return; }
+      // 사용자가 쓴 글을 innerHTML 로 화면에 그린다.
+      // (참고/주의: innerHTML 은 사용자가 넣은 <script> 같은 HTML 이 그대로 실행될 수 있어 XSS 위험이 있다.
+      //  이 파일은 "비밀키 노출 사고"를 보여 주는 게 목적이라 그대로 두지만, 실제 서비스라면 textContent 로 출력하는 게 안전하다.)
       listEl.innerHTML = (data || [])
         .map(function (row) { return "<p><b>" + row.name + "</b> : " + row.message + "</p>"; })
         .join("") || "아직 글이 없어요.";

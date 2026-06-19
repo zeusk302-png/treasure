@@ -23,6 +23,9 @@ drop policy if exists "모두 수정"  on guestbook;
 
 -- 3) ✅ 고침 2: 읽기·작성은 열어두되, 의미를 좁힌다.
 --    방명록이므로 글 목록은 누구나 본다.
+--    읽기(select)에 한해서는 using (true)가 의도된 정상이다.
+--    (broken.sql에서 위험했던 건 '삭제·수정'에 using (true)를 쓴 것 —
+--     읽기는 원래 공개라 괜찮지만, 삭제는 작성자 본인으로 좁혀야 한다.)
 create policy "누구나 읽기"
   on guestbook for select
   using (true);

@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  이 파일은 무엇? 이 실습의 '화면 뼈대'(HTML)입니다.
+  왜 있나? 색이 바뀔 박스(id=colorBox)와 버튼 3개를 화면에 그려두는 곳입니다.
+  실제 색을 바꾸는 동작은 script.js가, 모양·여백은 style.css가 담당합니다(역할 분리).
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -22,6 +27,11 @@
     </div>
   </main>
 
+  <!--
+    script.js를 </body> '바로 앞'에서 불러오는 이유:
+    위쪽 HTML(박스·버튼)이 먼저 다 그려진 뒤에 JS가 실행되어야
+    document.getElementById/querySelectorAll이 그 요소들을 제대로 찾을 수 있기 때문입니다.
+  -->
   <script src="script.js"></script>
 </body>
 </html>

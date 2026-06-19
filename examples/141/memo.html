@@ -227,6 +227,10 @@
     function clearMemoMsg() { memoMsg.textContent = ""; memoMsg.className = ""; }
 
     // 사용자가 넣은 글에 태그가 끼어들지 않도록 최소한의 안전 처리
+    //   왜 필요한가: 위 loadMemos는 메모 내용을 innerHTML로 화면에 그립니다.
+    //   만약 누가 메모에 <script>...</script> 같은 태그를 적으면 그게 '코드'로
+    //   실행될 수 있습니다(XSS). 그래서 <, >, & 등을 글자(&lt; 등)로 바꿔
+    //   '코드'가 아니라 '그냥 글자'로만 보이게 막는 것입니다.
     function escapeHtml(s) {
       return s.replace(/[&<>"']/g, (c) =>
         ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])

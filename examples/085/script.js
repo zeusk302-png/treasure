@@ -139,6 +139,8 @@ function render() {
 function addTodo(text) {
   const newTodo = {
     id: Date.now(), // 항목마다 다른 고유 번호(현재 시간 밀리초)
+    // 왜 고유 번호가 필요한가: 나중에 체크/삭제할 때 "어느 항목인지"를 이 id로 콕 집기 때문.
+    // 글자(text)는 똑같은 할 일이 둘일 수 있어 기준으로 못 쓴다.
     text: text,
     done: false,    // 새 할 일은 아직 완료되지 않은 상태
   };

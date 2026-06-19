@@ -1,3 +1,11 @@
+/*
+  이 파일(style.css)은 무엇이고 왜 있나?
+  - 무엇: index.html이 만든 카드의 '모습'과 '움직임(hover 효과)'을 정의하는 CSS 파일.
+  - 왜: 구조(HTML)와 꾸미기/효과(CSS)를 분리하기 위해 따로 둔다.
+         이 파일의 핵심은 세 가지 짝꿍이다 —
+           :hover(언제 바뀔지) · transform(무엇이 바뀔지) · transition(어떻게=부드럽게 바뀔지).
+*/
+
 /* ===== 기본 정리 ===== */
 * {
   box-sizing: border-box;
@@ -53,6 +61,11 @@ body {
     이 한 줄이 '핵심'입니다.
     transform과 box-shadow가 바뀔 때
     0.3초 동안 부드럽게(ease) 변하라는 뜻입니다.
+
+    왜 transition을 :hover가 아니라 '평소 상태'인 .card 에 넣을까?
+    → 여기에 둬야 마우스를 올릴 때뿐 아니라 '뗄 때'도 부드럽게 돌아옵니다.
+       만약 .card:hover 쪽에만 넣으면 올릴 때만 부드럽고
+       마우스를 치울 때는 툭 끊기듯 되돌아가기 때문입니다.
   */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

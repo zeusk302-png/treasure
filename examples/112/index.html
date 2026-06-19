@@ -1,5 +1,13 @@
 <!DOCTYPE html>
-<!-- 이 한 페이지만으로 동작합니다. 더블클릭해서 브라우저로 여세요. -->
+<!--
+  실습 112 — 간단 가계부 v1 (이 파일이 무엇이고 왜 있는지)
+  무엇: 수입/지출을 입력하면 목록에 쌓이고 총수입·총지출·잔액을 자동 계산해 주는,
+        HTML·CSS·자바스크립트만으로 만든 한 파일짜리 가계부 앱입니다.
+  왜:  "여러 데이터를 객체 배열로 모아 두고(filter/reduce로) 계산해서 보여 준다"는
+        감각과, localStorage로 새로고침해도 안 사라지게 저장하는 법을 익히려고 만든 실습입니다.
+  특징: 설치·서버 없이 동작하도록 외부 라이브러리를 일부러 안 썼습니다.
+  사용: 이 한 페이지만으로 동작합니다. 더블클릭해서 브라우저로 여세요.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -215,7 +223,9 @@
           delBtn.className = "del";
           delBtn.textContent = "✕";
           delBtn.addEventListener("click", function () {
-            // index 번째 항목만 빼고 새 배열을 만듭니다. (filter)
+            // index 번째 항목만 빼고 "새 배열"을 만들어 통째로 바꿉니다. (filter)
+            // 왜 이렇게? 배열을 새로 만든 뒤 saveItems→render→updateSummary를 다시 부르면
+            // 화면(목록)과 저장값(localStorage)과 합계가 항상 같은 상태로 맞춰지기 때문입니다.
             items = items.filter(function (_, i) { return i !== index; });
             saveItems();
             render();
@@ -233,6 +243,9 @@
     // 8) [추가] 버튼: 입력값을 읽어 새 항목을 배열에 넣고 저장합니다.
     addBtn.addEventListener("click", function () {
       const desc = descInput.value.trim();
+      // 입력칸에서 읽은 값은 항상 "글자(문자열)"입니다.
+      // Number()로 진짜 숫자로 바꾸지 않으면 "8000"+"8000"이 "80008000"처럼
+      // 이어 붙어 합계가 엉망(또는 NaN)이 되기 때문에 여기서 숫자로 변환합니다.
       const amount = Number(amountInput.value); // 글자 → 숫자
       const type = typeSelect.value;
 

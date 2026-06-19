@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  실습 176 — 브랜치 → 미리보기(Preview) 배포 URL 받기 (연습판 화면)
+  무엇: 실제 Git 명령과 Vercel 자동 Preview 배포 흐름을 "흉내" 내는 연습용 한 장짜리 페이지.
+  왜 있나: 라이브(Production)를 건드리지 않고 새 브랜치로만 변경 → 임시 주소(Preview URL)를 받는
+          전체 순서를, 진짜 배포 환경 없이도 설치 없이 더블클릭만으로 손에 익히게 하려고.
+  구성: 이 index.html(화면 뼈대) + style.css(꾸밈) + script.js(단계 버튼 동작).
+        실제 서버/Git를 호출하지 않으므로 안전하게 반복 연습할 수 있음.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />

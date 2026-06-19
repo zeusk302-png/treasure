@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  실습 274 — RAG 챗봇의 '화면'(프론트엔드 뼈대)
+  무엇: 질문 입력칸 + 예시 버튼 + 답/근거 표시 영역이 들어간 한 페이지.
+  왜: 사용자가 직접 보고 만지는 부분. 실제 검색·AI 호출은 여기 없고,
+      script.js가 이 화면의 입력값을 서버(/api/ask)로 보내 처리합니다.
+      (비밀 키는 이 파일에 한 글자도 없습니다 — 그래야 안전합니다.)
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -45,8 +52,12 @@
 
       <button id="askBtn" type="button">물어보기</button>
 
+      <!-- aria-live="polite": '찾는 중…', '완료' 같은 진행 상태를 화면 낭독기(시각장애인용)가
+           조용히 읽어 주게 하는 표시. 빈 칸이지만 script.js가 여기에 글을 채웁니다. -->
       <div id="status" class="status" role="status" aria-live="polite"></div>
 
+      <!-- hidden: 처음엔 숨겨 두고, 답이 도착하면 script.js가 hidden을 떼어 보여 줍니다.
+           (빈 답변 상자가 미리 보이면 사용자가 헷갈리기 때문) -->
       <div id="answerBox" class="answer-box" hidden>
         <p class="answer-label">답변</p>
         <p id="answer" class="answer"></p>

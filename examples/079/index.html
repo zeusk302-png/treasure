@@ -75,6 +75,12 @@
     <p>© 부산코딩스쿨 실습 예제 079</p>
   </footer>
 
+  <!--
+    script 태그를 </body> 바로 앞(맨 아래)에 둔 이유:
+    JS가 querySelectorAll(".reveal")로 카드들을 찾는데,
+    위쪽 HTML이 모두 만들어진 뒤에 실행되어야 카드를 빠짐없이 잡습니다.
+    (head 안에서 일찍 실행하면 아직 카드가 없어 아무것도 못 찾을 수 있음)
+  -->
   <script src="script.js"></script>
 </body>
 </html>

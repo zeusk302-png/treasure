@@ -69,12 +69,17 @@
     const greeting = document.getElementById("greeting");
 
     // localStorage에 저장할 때 쓸 "이름표(키)"입니다. 항상 같은 글자를 써야 다시 꺼낼 수 있습니다.
+    // 한 곳(상수)에 모아 두는 이유: 저장할 때와 꺼낼 때 키 철자가 다르면 값을 영영 못 찾는 실수가 잦아서,
+    // 오타를 한 곳에서만 관리하려고 변수로 빼 둔 것입니다.
     const STORAGE_KEY = "savedName";
 
     // 2) 화면에 인사말을 그리는 함수.
     //    이름이 있으면 인사하고, 없으면 안내 문구를 보여줍니다.
     function showGreeting(name) {
       if (name) {
+        // textContent로 글자만 넣습니다(innerHTML 아님).
+        // 사용자가 입력한 이름을 그대로 화면에 넣을 때 innerHTML을 쓰면
+        // 이름 자리에 들어온 <script> 같은 태그가 진짜로 실행될 수 있어(XSS 위험) 막는 것입니다.
         greeting.textContent = name + "님, 안녕하세요!";
       } else {
         greeting.textContent = "아직 저장된 이름이 없어요.";
@@ -84,6 +89,8 @@
     // 3) 페이지가 열리자마자 localStorage에서 이름을 꺼내 봅니다.
     //    getItem은 저장된 값이 없으면 null을 돌려줍니다.
     const savedName = localStorage.getItem(STORAGE_KEY);
+    // savedName이 null(저장된 적 없음)일 때 그대로 넣으면 입력칸에 "null" 글자가 보일 수 있어,
+    // || "" 로 "값이 없으면 빈 문자열"이 되게 해 두었습니다.
     nameInput.value = savedName || ""; // 입력칸에도 채워 두면 편합니다.
     showGreeting(savedName);
 

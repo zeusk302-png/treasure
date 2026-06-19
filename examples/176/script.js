@@ -36,6 +36,9 @@ function btnFor(step) {
 }
 
 function enableNext(step) {
+  // 방금 끝낸 단계의 "다음" 버튼만 열어 줌(disabled = false).
+  // 왜: 브랜치 → 커밋 → push → 배포는 순서가 정해진 흐름이라, 순서를 건너뛰면
+  //     실제 Git/Vercel에서도 의미가 없어짐. 버튼을 차례로만 열어 흐름의 '순서'를 몸에 익히게 하려는 의도.
   const idx = ORDER.indexOf(step);
   const next = ORDER[idx + 1];
   if (next) btnFor(next).disabled = false;
@@ -85,7 +88,10 @@ buttons.forEach((btn) => {
 });
 
 resetBtn.addEventListener("click", () => {
-  // 터미널 비우기
+  // 터미널 비우기 — 고정된 안내 문구 한 줄로 다시 채움.
+  // 왜 여기서는 innerHTML을 써도 되나: 넣는 문자열이 우리가 직접 적은 '고정값'이라 위험이 없음.
+  //   (사용자가 입력한 값을 innerHTML에 넣으면 <script>가 실행될 수 있어 XSS 위험 →
+  //    그런 경우엔 textContent를 써야 함. 로그를 찍는 log() 함수가 textContent를 쓰는 이유가 그것.)
   terminal.innerHTML =
     '<p class="term-line dim">$ # 위 단계를 순서대로 실행하면 여기에 로그가 나옵니다</p>';
   // 보드 초기화

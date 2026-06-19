@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  실습 140 — callback.html (구글에서 돌아오는 도착지 페이지)
+  무엇: 구글 동의를 마친 사용자가 '자동으로 되돌아오는' 페이지입니다.
+  왜 있나: login.html에서 지정한 redirectTo 주소가 바로 이 페이지라서,
+          로그인 완료 직후 '누가 로그인했는지'(callback.js)를 확인해 보여주는 역할을 합니다.
+          상태에 따라 3개 화면(처리 중 / 성공 / 정보 없음) 중 하나만 보여주려고 처음엔 hidden으로 숨겨 둡니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />

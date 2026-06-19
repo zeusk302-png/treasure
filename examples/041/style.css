@@ -1,3 +1,9 @@
+/* 이 파일은 무엇? 맛집 카드 페이지(index.html)의 모양·색·배치를 담당하는 CSS입니다.
+   왜 있나? 실습 041의 핵심인 "미디어쿼리 없이 화면 너비에 따라 카드 열 개수가
+            자동으로 바뀌는 반응형 그리드"를 실제로 적용하는 곳이기 때문입니다.
+   가장 중요한 부분은 아래 .card-grid의 grid-template-columns 한 줄입니다.
+   index.html의 <link rel="stylesheet" href="style.css">가 이 파일을 불러옵니다. */
+
 /* ===== 페이지 전체 기본 스타일 ===== */
 body {
   font-family: "Pretendard", "맑은 고딕", sans-serif;

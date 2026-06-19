@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  이 파일: 실시간 글자 수 카운터 실습의 화면 뼈대(HTML)입니다.
+  무엇: 자기소개를 적는 입력칸(textarea)과, 그 아래 "0/100" 글자 수 표시 영역을 그립니다.
+  왜 있나: 동작(글자 세기)은 script.js가, 꾸미기는 style.css가 맡고,
+          이 파일은 "어떤 요소가 어디에 있는지" 구조만 담당합니다(역할 분리).
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -21,11 +27,16 @@
 
     <!-- 글자 수가 실시간으로 표시되는 영역 -->
     <!-- 예: 23/100 형태로 표시됩니다 -->
+    <!-- id="count"는 script.js가 getElementById("count")로 찾아서 숫자를 바꿔 끼우는 자리표입니다. -->
+    <!-- (id 이름이 HTML과 JS에서 글자까지 똑같아야 연결됩니다 — 다르면 카운터가 안 움직입니다.) -->
     <p class="counter">
       <span id="count">0</span>/<span id="max">100</span>
     </p>
   </main>
 
+  <!-- script를 body 맨 끝에 두는 이유: 위의 입력칸·표시 영역이 먼저 만들어진 뒤에
+       script.js가 실행되어야 getElementById로 그 요소들을 찾을 수 있기 때문입니다.
+       (head에 두면 아직 없는 요소를 찾다가 null이 되어 카운터가 동작하지 않습니다.) -->
   <script src="script.js"></script>
 </body>
 </html>

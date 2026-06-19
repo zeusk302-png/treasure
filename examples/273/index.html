@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  이 파일은? 실습 273의 "이력 저장 챗봇" 화면 + 동작 전체가 담긴 한 장짜리 페이지입니다.
+  왜 있나요? 보통 챗봇 데모는 새로고침하면 대화가 사라지는데, 이 파일은 대화를
+            Supabase(데이터베이스)에 저장했다가 다시 불러와(복원), 새로고침해도
+            이전 대화가 그대로 보이게 하는 것이 핵심입니다.
+  무엇을 하나요? (1) 사용자별 구분 키 만들기 → (2) 저장된 대화 불러와 화면에 그리기 →
+                (3) 메시지 저장 → (4) AI에게 "최근 맥락"을 함께 보내 답 받기.
+  보안 원칙: 화면(브라우저)에는 공개돼도 되는 값만 둡니다(URL·anon 키·웹훅 주소는 config.js에).
+            AI API 키 같은 비밀값은 절대 여기 두지 않고 n8n이 대신 들고 호출합니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -58,6 +68,8 @@
     function getUserKey() {
       let key = localStorage.getItem('chat_user_key');
       if (!key) {
+        // Math.random().toString(36) = 무작위 숫자를 0~9·a~z 문자로 바꾼 것 → 겹칠 일이 거의 없는 임의 ID.
+        // 이렇게 만든 키를 localStorage에 저장해 두면, 같은 브라우저로 다시 와도 같은 키 → 내 대화를 다시 찾아옵니다.
         key = 'user_' + Math.random().toString(36).slice(2, 10);
         localStorage.setItem('chat_user_key', key);
       }
@@ -72,7 +84,7 @@
       wrap.className = 'msg ' + role;
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
-      bubble.textContent = content; // textContent라 태그가 끼어들 수 없어 안전합니다
+      bubble.textContent = content; // textContent로 출력 — innerHTML로 했다면 사용자가 넣은 <script>가 실행될 수 있어(XSS) 글자로만 보이게 막는 것
       wrap.appendChild(bubble);
       logEl.appendChild(wrap);
       logEl.scrollTop = logEl.scrollHeight;

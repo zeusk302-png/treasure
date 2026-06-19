@@ -41,6 +41,51 @@
 7. **테스트.** 이 폴더의 `index.html` 을 브라우저로 열어(또는 VS Code Live Server로) 폼을 채우고 `보내기`를 누릅니다.
 8. **운영용 전환 + 배포.** 잘 되면 n8n 오른쪽 위 **`Active`(활성) 토글**을 켜고, `script.js`의 `WEBHOOK_URL` 을 항상 살아 있는 **Production URL**(`/webhook/contact-form`)로 바꿉니다. 사이트 파일을 GitHub에 올려 Vercel로 배포하면 완성입니다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습(폼 → n8n → 슬랙+구글시트 다중 분기)을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. 한 번에 다 시키지 말고 **1단계 → 2단계 → (막히면) 디버깅** 순서로 끊어서 시키는 것이 핵심입니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 비전공자를 돕는 웹/자동화 멘토야. 정적 HTML 문의 폼 페이지 하나를 만들어 줘.
+  - 파일: index.html, style.css, script.js 세 개로 분리
+  - 폼 입력: 이름(필수, 2자 이상), 이메일(필수, type=email), 문의 내용(필수, 5자 이상), 보내기 버튼
+  - script.js: 제출 시 새로고침을 막고(preventDefault), 브라우저 기본 검증을 통과하면
+    { name, email, message } JSON을 const WEBHOOK_URL 주소로 fetch POST 한다.
+  - WEBHOOK_URL 값은 일단 "REPLACE_WITH_YOUR_N8N_WEBHOOK_URL" 자리표시자로 둔다(실제 주소는 내가 나중에 넣음).
+  - 보내는 동안 버튼을 잠그고 "보내는 중..."을, 성공/실패 시 초록/빨강 상태 문구를 보여 줘.
+  - 사용자에게 보이는 텍스트는 innerHTML 말고 textContent로 출력해(XSS 방지).
+  중요: 코드만 주지 말고 각 줄이 무엇을 하고 왜 그렇게 했는지 한국어 주석으로 설명해 줘.
+  ```
+
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  좋아. 이제 이 폼을 받을 n8n 워크플로우 JSON을 만들어 줘. 노드는 5개야.
+  1) Webhook(POST, path=contact-form, responseMode=responseNode, Allowed Origins=*)
+  2) Set 노드: body.name/email/message를 이름/이메일/메시지로 정리하고,
+     받은시각({{ $now.format('yyyy-MM-dd HH:mm:ss') }})과 슬랙알림문구 필드도 만든다.
+  3~5) Set 노드 하나에서 화살표를 '세 갈래'로 동시에 분기해서:
+     - Slack 노드(메시지 post)로 알림
+     - Google Sheets 노드(operation=append)로 받은시각/이름/이메일/메시지 4칸을 한 줄 추가
+     - Respond to Webhook 노드로 { ok:true } 영수증을 폼에 돌려준다
+  비밀값 규칙: 슬랙 봇 토큰과 구글 OAuth 토큰은 JSON에 절대 박지 말고
+  credential id는 REPLACE_WITH_... 자리표시자로 둬. 문서 ID도 자리표시자로.
+  왜 이렇게 분기하는지, 어떤 값이 공개고 어떤 값이 비밀인지 주석/설명으로 풀어 줘.
+  ```
+
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  폼은 "전송에 실패했습니다"가 뜨고, 슬랙 알림은 오는데 구글 시트에만 한 줄도 안 쌓여.
+  (또는: 시트에 새 줄로 안 쌓이고 같은 줄을 덮어써.)
+  내 script.js와 workflow.json은 아래에 붙일게. 비전공자도 알아듣게,
+  의심 가는 원인을 가능성 높은 순서로 하나씩 짚고 "어디를 어떻게 확인/수정"하면 되는지
+  단계별로 알려 줘. 특히 시트 머리글 이름과 컬럼 이름 일치, Operation이 Append인지,
+  Document/Credential이 자리표시자 그대로인지, Webhook이 켜져 있는지(CORS 포함)를 점검해 줘.
+  [여기에 script.js / workflow.json 내용과 에러 메시지를 붙여넣기]
+  ```
+
+> 프롬프트 팁: 어떤 단계든 끝에 **"코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"** 를 덧붙이면, 결과를 그대로 쓰지 않고 직접 검증하는 '디렉터' 연습이 됩니다.
+
 ## 검증법
 
 1. **시트에 한 줄 쌓이는지(이번 실습의 핵심 증거):** 폼을 한 번 제출한 뒤 **구글 시트**를 봅니다. 머리글 아래에 아래처럼 한 행이 추가돼 있으면 성공입니다. **두 번 제출하면 두 줄**로 쌓이는지도 확인하세요(누적).

@@ -22,6 +22,9 @@ const headerEl = document.getElementById("appHeader");
 function renderHeader(session) {
   if (session) {
     // ── 로그인 상태: '내 계정' 메뉴 + 로그아웃 버튼 ──
+    // email은 Supabase가 인증한 session에서 온 값(사용자가 화면에서 자유롭게 친 날것 입력이 아님)이라
+    // 여기 innerHTML에 넣어도 비교적 안전합니다. 만약 사용자가 직접 입력한 닉네임 등을 넣는다면
+    // <script> 같은 게 섞여 실행되는 XSS 위험이 있으니, 그땐 textContent로 넣어 막아야 합니다.
     const email = session.user.email;
     headerEl.innerHTML = `
       <a class="logo" href="index.html">☕ 동네카페</a>

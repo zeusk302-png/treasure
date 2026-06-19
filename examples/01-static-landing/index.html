@@ -1,23 +1,39 @@
+<!--
+  이 파일이 무엇인가: 카페 소개 한 장짜리 정적 웹페이지의 '내용(content)' 담당 파일.
+  왜 있는가: 서버·데이터베이스 없이 HTML만으로도 웹페이지가 된다는 걸 보여주는 가장 기본 실습.
+            글자·구조는 여기(index.html), 색·모양은 style.css가 맡아 '내용'과 '꾸밈'을 분리한다.
+            (분리하면 디자인을 바꿔도 내용은 안 건드려도 되어 유지보수가 쉬움)
+-->
 <!DOCTYPE html>
+<!-- lang="ko": 이 페이지가 한국어임을 브라우저·검색엔진에 알림 → 스크린리더 발음, 번역, 검색에 도움 -->
 <html lang="ko">
 <head>
+  <!-- charset UTF-8: 한글이 깨지지 않게 하는 문자 인코딩 설정. 한글 페이지엔 사실상 필수 -->
   <meta charset="UTF-8" />
+  <!-- viewport: 휴대폰에서도 화면 너비에 맞춰 보이게 함. 이게 없으면 모바일에서 글자가 깨알같이 작아짐 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>햇살카페 — 동네 사랑방</title>
+  <!-- description: 검색결과·SNS 공유 시 제목 아래 뜨는 설명 문구. 검색 노출(SEO)에 도움 -->
   <meta name="description" content="동네 골목 끝 작은 카페, 햇살카페입니다." />
+  <!-- 외부 CSS 연결: 같은 폴더의 style.css를 불러옴. 경로(href)나 파일명이 틀리면 꾸밈이 통째로 안 먹음 -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- 히어로: 페이지 맨 위 첫인상 영역(가게 이름 + 한 줄 소개 + 행동 버튼) -->
   <header class="hero">
     <h1>햇살카페</h1>
     <p>동네 골목 끝, 햇살 잘 드는 작은 사랑방</p>
+    <!-- href="#menu": 같은 페이지 안에서 id="menu" 위치로 부드럽게 이동(앵커 링크). 다른 페이지로 가는 게 아님 -->
     <a class="btn" href="#menu">메뉴 보기</a>
   </header>
 
   <main>
+    <!-- id="menu": 위 '메뉴 보기' 버튼(href="#menu")이 찾아오는 목적지 표시 -->
     <section id="menu">
       <h2>메뉴</h2>
       <ul class="menu">
+        <!-- 한 줄에 span 두 개: 왼쪽=메뉴명 / 오른쪽=가격.
+             style.css에서 이 li를 flex로 만들어 두 span을 양끝으로 벌려(가격 우측 정렬) 보여줌 -->
         <li><span>핸드드립 커피</span><span>4,500원</span></li>
         <li><span>카페라떼</span><span>5,000원</span></li>
         <li><span>오늘의 케이크</span><span>6,000원</span></li>

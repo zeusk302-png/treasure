@@ -39,6 +39,45 @@
 9. `admin@test.com` 으로 **로그인** → **전체 회원 목록(2명)** 이 보인다. 헤더에 "관리자" 배지가 뜬다.
 10. **로그아웃** 후 `user@test.com` 으로 **로그인** → 목록 대신 **"🚫 접근 권한이 없습니다"** 화면이 뜬다. (화면 가드가 막은 것)
 
+## 🤖 바이브코딩 프롬프트
+이 실습을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. (단계별로 시키면 막혀도 어디서 틀렸는지 찾기 쉽습니다.)
+
+- **1단계(뼈대 만들기)** — DB 쪽 역할 + RLS 골격부터 잡기:
+  ```text
+  Supabase(PostgreSQL)로 "관리자만 전체 회원 목록을 보는" RLS 실습의 SQL을 만들어줘.
+  - profiles 테이블: id(uuid, auth.users 참조), email, nickname,
+    role(text, 'user'/'admin'만 허용, 기본값 'user'), created_at.
+  - profiles에 RLS를 켜고, SELECT 정책을 "본인 줄은 누구나 / 전부는 관리자만"으로
+    OR 조건(auth.uid() = id  OR  내가 admin)으로 만들어줘.
+  - ★ 중요: 정책 안에서 profiles를 직접 조회하면 무한 반복(recursion) 에러가 나니,
+    'security definer' 함수 is_admin()으로 admin 여부 판정을 빼서 반복을 끊어줘.
+  - 다시 실행해도 안전하게(create ... if not exists, drop policy if exists) 짜줘.
+  - 비전공자도 읽게 각 블록에 "무엇을 하는지 + 왜 이렇게 하는지" 한국어 주석을 달아줘.
+  ```
+- **2단계(기능 추가/개선)** — 화면 가드 + 권한 훔치기 차단 붙이기:
+  ```text
+  위 schema.sql을 쓰는 admin.html 한 장(HTML+JS, Supabase CDN)을 만들어줘.
+  - 로그인 폼 → 로그인하면 내 role을 profiles에서 읽어와서,
+    admin이면 전체 회원 표를 보여주고, 일반회원이면 "🚫 접근 권한 없음" 화면을 보여줘.
+  - 표를 채울 때 우리 코드는 그냥 select('*') 만 하고, where role 같은 권한 필터는
+    절대 우리가 쓰지 마. 누가 무엇을 보는지는 RLS가 정하게 둬.
+  - 추가로 schema.sql에, 일반회원이 자기 role을 'admin'으로 바꿔 권한을 훔치는 걸
+    막는 트리거(prevent_role_change)를 넣어줘.
+  - 사용자 값은 textContent/escapeHtml로 출력해서 XSS를 막아줘.
+  - "화면 가드는 편의일 뿐, 진짜 보안은 RLS"라는 점을 주석으로 분명히 적어줘.
+  ```
+- **막혔을 때(디버깅)** — 에러를 그대로 붙여 진단 요청:
+  ```text
+  Supabase RLS가 예상과 다르게 동작해. 아래 증상 중 하나를 단계별로 진단해줘.
+  (1) "infinite recursion detected in policy for relation profiles" 에러가 난다.
+  (2) 관리자로 로그인했는데 회원 목록이 자기 한 줄만 보인다.
+  (3) 일반회원으로 로그인했는데 다른 회원 줄까지 보인다(= 위험).
+  내 schema.sql과 supabase.js, admin.html을 붙여넣을게.
+  원인 후보를 우선순위로 정리하고, 어디를 어떻게 고치는지 한 줄씩 설명해줘.
+  특히 RLS가 켜져 있는지, is_admin()이 security definer인지부터 확인해줘.
+  ```
+> 프롬프트 팁: 끝에 "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 학습에 훨씬 좋습니다.
+
 ## 검증법
 - **관리자 vs 일반회원:** `admin@test.com`은 전체 목록(2명)이 보이고, `user@test.com`은 "권한 없음" 화면이 뜨는가?
 - **★ 핵심 — URL/콘솔로 직접 뚫어 보기(진짜 보안 검증):** `user@test.com`으로 로그인한 채 개발자도구 → **Console**에서 화면 가드를 건너뛰고 직접 데이터를 요청해 본다:

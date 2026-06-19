@@ -21,6 +21,37 @@
 6. 배포된 페이지를 직접 열어 **[내 페이지 헤더 확인하기]** 버튼을 누릅니다. 검은 박스에 7개 헤더가 모두 `[OK ]`로 찍히는지 봅니다.
 7. F12(개발자도구) → **Console** 탭을 봅니다. `index.html`에 일부러 넣어 둔 인라인 `style="color: blue"`를 **CSP가 차단했다는 빨간 경고**가 떠 있고, 그 문장이 파란색이 아니라 **빨간색**으로 보이면 CSP가 제대로 작동하는 것입니다.
 
+## 🤖 바이브코딩 프롬프트
+이 실습을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. 보안 헤더는 "값 한 글자"가 틀리면 사이트가 깨지거나 방어가 안 되므로, **AI에게 시키되 값의 의미를 같이 설명받아 직접 점검**하는 게 핵심입니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 웹 보안을 쉽게 설명하는 멘토야. Vercel에 정적 사이트(index.html, style.css, app.js)를 배포한다고 가정하고,
+  모든 경로에 핵심 보안 헤더를 붙이는 vercel.json 파일을 만들어줘.
+  포함할 헤더: Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options,
+  X-Frame-Options, Referrer-Policy, Permissions-Policy, Cross-Origin-Opener-Policy.
+  제약: 학습용 *.vercel.app 도메인이라 HSTS의 preload는 빼고 max-age와 includeSubDomains만 쓸 것.
+  CSP는 'unsafe-inline'을 절대 쓰지 말고 script-src 'self', style-src 'self'로 엄격하게 해줘.
+  각 헤더가 무엇을 막는지, 왜 그 값으로 했는지 한 줄씩 주석(또는 옆 설명)으로 풀어줘.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  방금 만든 사이트에, 지금 페이지에 실제로 적용된 보안 헤더를 눈으로 확인하는 버튼을 추가해줘.
+  버튼을 누르면 fetch로 현재 페이지 자신을 다시 요청해 응답 헤더를 읽고,
+  위 7개 헤더가 각각 적용됐는지 [OK]/[없음]으로 목록과 'N/7' 개수를 화면에 출력해줘.
+  그리고 Supabase를 쓴다면 CSP의 connect-src에 내 프로젝트 주소만 정확히 추가하는 법도 알려줘.
+  코드는 인라인 <script>가 아니라 외부 app.js로 빼서 CSP에 안 막히게 해줘.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  배포했더니 화면이 깨지고 콘솔에 이런 에러가 떠: (여기에 Console의 빨간 에러 메시지를 붙여넣기)
+  내 vercel.json의 CSP는 이거야: (여기에 Content-Security-Policy 값을 붙여넣기)
+  무엇이 어떤 헤더 규칙에 막힌 건지, 어떤 출처를 어느 지시문(script-src/style-src/connect-src 등)에
+  추가해야 풀리는지 단계별로 알려줘. 단, 'unsafe-inline'으로 전부 푸는 임시방편은 빼고
+  꼭 필요한 출처만 최소로 여는 방법으로 알려줘.
+  ```
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면, 헤더 값 하나하나가 무엇을 막는지 직접 판별할 수 있어 학습에 좋습니다.
+
 ## 검증법
 - securityheaders.com 결과가 **적용 전 D~F → 적용 후 A**로 올라갔는가? (두 화면을 나란히 캡처하면 이번 실습의 결과물이 완성됩니다.)
 - 페이지의 **[내 페이지 헤더 확인하기]** 버튼을 눌렀을 때 `content-security-policy`, `strict-transport-security`, `x-content-type-options`, `x-frame-options`, `referrer-policy`, `permissions-policy`, `cross-origin-opener-policy`가 **7 / 7** 로 모두 `[OK ]`인가?

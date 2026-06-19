@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!--
+  이 파일(index.html)이 무엇이고 왜 있나:
+  - '무엇' : 가계부 화면(틀)입니다. 월 선택 칸, 지출 추가 폼, 분류별 합계 카드,
+            지출 목록을 화면에 그려 둡니다. 실제 데이터 처리는 script.js가 합니다.
+  - '왜'  : 보이는 부분(HTML/CSS)과 동작 부분(JS)을 파일로 나눠 두면,
+            비전공자가 "어디를 고치면 뭐가 바뀌는지" 찾기 쉽기 때문입니다.
+  - 데이터 흐름: 이 화면의 빈 칸(<ul id="summary">, <ul id="expenseList"> 등)을
+            script.js가 Supabase에서 받은 값으로 채워 넣습니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />

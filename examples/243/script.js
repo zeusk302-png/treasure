@@ -14,6 +14,9 @@ const emptyMsg = document.getElementById("empty"); // "글이 없어요" 안내�
 //    (버튼마다 붙이지 않고 부모에 한 번만 붙이는 방법 = 이벤트 위임)
 filterBox.addEventListener("click", function (event) {
   // 진짜로 눌린 게 태그 버튼인지 확인한다. 버튼이 아니면 무시.
+  // closest를 쓰는 이유: 버튼 안의 글자나 여백을 눌러도 event.target이 버튼이 아닐 수 있는데,
+  //   closest(".tag-btn")가 "나 또는 가장 가까운 부모 중 태그 버튼"을 찾아주기 때문입니다.
+  // 버튼이 아닌 곳(상자의 빈 틈)을 누르면 null이 되므로 return으로 조용히 빠져나갑니다.
   const clickedBtn = event.target.closest(".tag-btn");
   if (!clickedBtn) return;
 
@@ -51,5 +54,8 @@ function applyFilter(tag) {
   });
 
   // 5) 보일 글이 하나도 없으면 안내문을 띄우고, 있으면 감춘다
+  // visibleCount !== 0 의 결과(true/false)를 hidden에 그대로 넣는 트릭:
+  //   보이는 글이 있으면(0이 아니면) true → 안내문 숨김, 0개면 false → 안내문 보임.
+  //   if문 없이 한 줄로 "결과 없음" 상태를 처리하기 위한 패턴입니다.
   emptyMsg.hidden = visibleCount !== 0;
 }

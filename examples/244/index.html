@@ -1,3 +1,10 @@
+<!--
+  이 파일: 제품 소개 랜딩페이지(한 장짜리)의 뼈대(HTML).
+  왜 있나: 마케팅용 랜딩페이지의 기본 골격인 '히어로 → 기능 → CTA' 3단 구조를
+           눈으로 보고 따라 만들기 위한 연습용 예시입니다. 자바스크립트 없이
+           HTML + CSS(style.css)만으로 동작합니다.
+  구조 요약: header.hero(첫 화면) → main 안에 features(기능 카드) + cta(행동 유도) → footer.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,6 +19,8 @@
   <header class="hero">
     <nav class="nav">
       <div class="logo">FocusFlow</div>
+      <!-- href="#cta"는 같은 페이지 안 id="cta"인 곳으로 점프 — 새 페이지를 여는 게 아니라
+           아래 CTA 섹션으로 데려가서 바로 행동(전환)하게 유도하는 장치입니다. -->
       <a class="nav-cta" href="#cta">무료로 시작하기</a>
     </nav>
 

@@ -1,3 +1,12 @@
+/*
+ * 이 파일(script.js)은 무엇인가?
+ *  - index.html에 있는 시계 박스(#clock)와 날짜 박스(#date)의 글자를
+ *    "지금 시각"으로 바꿔 끼우고, 그 동작을 1초마다 반복시키는 자바스크립트입니다.
+ * 왜 HTML과 따로 있나?
+ *  - 화면 모양(HTML)과 "움직임"(JS)을 분리하면 코드를 읽고 고치기 쉽기 때문입니다.
+ *    (이 파일은 index.html 맨 아래의 <script src="script.js">로 불려옵니다.)
+ */
+
 // 1) HTML에서 시각/날짜를 보여줄 요소를 미리 찾아둡니다.
 //    document.getElementById는 "이름표(id)로 요소 하나를 찾아줘"라는 뜻입니다.
 const clockBox = document.getElementById("clock");

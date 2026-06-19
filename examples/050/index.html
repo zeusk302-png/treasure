@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  이 파일은 무엇인가: CSS만으로 만든 '로딩 스피너' 예제의 화면(HTML) 부분입니다.
+  왜 있는가: 데이터를 불러오는 동안 "처리 중이에요"를 알려 주는 빙글 도는 고리를
+            이미지·JavaScript 없이 CSS만으로 만드는 원리를 익히기 위한 실습입니다.
+  구조: 스피너의 '모양과 움직임'은 모두 같은 폴더의 style.css 가 담당하고,
+        이 HTML 은 스피너를 놓을 빈 상자(div/span)만 제공합니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -18,7 +25,10 @@
 
     <!-- ① 가장 기본: 한 줄이 빠진 고리가 회전하는 스피너 -->
     <section class="demo">
-      <!-- 이 div 하나가 곧 스피너입니다. 모양은 모두 CSS가 만듭니다. -->
+      <!-- 이 div 하나가 곧 스피너입니다. 모양은 모두 CSS가 만듭니다.
+           role="status" 와 aria-label 을 넣은 이유: 빙글 도는 모양은 '눈'으로만 보이고
+           화면낭독기(시각장애인용 음성 안내)에는 안 보이기 때문에, "지금 불러오는 중"임을
+           소리로도 알려 주려고 붙입니다. -->
       <div class="spinner" role="status" aria-label="불러오는 중"></div>
       <p class="label">기본 스피너</p>
     </section>

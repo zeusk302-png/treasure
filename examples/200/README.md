@@ -31,6 +31,46 @@
 6. 캔버스로 돌아와 화면 위 가운데 **`Test workflow`(전체 실행)** 버튼을 눌러 처음부터 끝까지 한 번 돌립니다.
 7. **`필요한 값만 추리기 (Set)` 노드를 클릭**합니다. `OUTPUT`에 `도시`, `현재기온`, `단위`, `측정시각` 네 항목만 깔끔하게 정리되어 있으면 성공입니다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습을 AI(클로드 등)에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. n8n 워크플로우는 결국 JSON 파일이라, AI에게 "이런 워크플로우 JSON을 만들어 달라"고 시킬 수 있습니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  당신은 n8n 자동화 전문가입니다. n8n에 그대로 Import 할 수 있는 워크플로우 JSON을 만들어 주세요.
+  목표: 공개 날씨 API(Open-Meteo)에 요청을 보내 부산의 현재 기온을 받아오기.
+  구성: 노드 3개를 한 줄로 연결.
+    1) Manual Trigger (수동 실행 버튼)
+    2) HTTP Request 노드 — URL은 https://api.open-meteo.com/v1/forecast,
+       Query Parameters로 latitude=35.18, longitude=129.08, current=temperature_2m,
+       인증(Authentication)은 None (이 API는 비밀 키가 필요 없는 공개 API라서).
+    3) Set 노드 — 일단은 비워 두기.
+  제약: 비전공자가 읽을 수 있게 노드 이름은 한국어로 지어 주세요.
+  산출물: workflow.json 전체 내용만 코드블록으로 주세요.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  위 워크플로우의 Set 노드를 채워 주세요.
+  HTTP Request 응답 JSON은 current 상자 안에 temperature_2m(기온)과 time(측정시각)이 있고,
+  current_units 상자 안에 temperature_2m(단위, 예: °C)이 들어 있습니다.
+  Set 노드에서 아래 네 항목만 한국어 이름으로 깔끔하게 정리해 주세요.
+    - 도시: "부산 (위도 35.18, 경도 129.08)" (고정 문자열)
+    - 현재기온: 응답의 current.temperature_2m (숫자)
+    - 단위: 응답의 current_units.temperature_2m (문자열)
+    - 측정시각: 응답의 current.time (문자열)
+  n8n 표현식 문법({{ $json.경로 }})을 사용하고, 각 값의 경로를 왜 그렇게 잡았는지도 알려 주세요.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  n8n에서 위 워크플로우를 실행했는데 Set 노드의 '현재기온'이 비어 있습니다(또는 오류가 납니다).
+  HTTP Request 노드의 OUTPUT(JSON 응답)은 아래와 같습니다:
+  (여기에 OUTPUT 패널의 JSON을 그대로 붙여넣기)
+  무엇이 문제인지 단계별로 짚어 주세요.
+  특히 제가 쓴 경로( {{ $json.current.temperature_2m }} )가 실제 응답 구조와 맞는지,
+  Query Parameter(current=temperature_2m)를 빠뜨리거나 오타 내지 않았는지 확인해 주세요.
+  ```
+> 프롬프트 팁: "코드(JSON)만 주지 말고 각 노드를 왜 그렇게 설정했는지, 값의 경로를 왜 그렇게 잡았는지 주석처럼 한 줄씩 풀어서 설명해줘"를 덧붙이면, 단순히 복붙하는 데서 그치지 않고 'API 응답에서 값 꺼내는 원리'를 배울 수 있습니다.
+
 ## 검증법
 
 1. 4단계에서 HTTP Request 노드의 `OUTPUT`에 JSON이 나타나고, 그 안에 `current` 상자와 `temperature_2m` 값이 보이면 호출 성공입니다. 대략 이런 모양입니다.

@@ -1,3 +1,11 @@
+<!--
+  index.html — 비밀키를 코드에 박지 않는 "안전한 after" 예시 페이지
+  무엇: Supabase 설정값을 이 파일에 직접 쓰지 않고, 업로드가 차단된 config.js 에서 불러와
+        "분리가 잘 됐는지" 상태를 화면에 보여 주는 데모 페이지입니다.
+  왜:  비밀키가 GitHub에 한 번 올라가면 기록(히스토리)에 영원히 남기 때문에,
+        애초에 코드에 안 박는 습관을 눈으로 체감시키려고 만든 학습용 페이지입니다.
+        (일부러 키를 박은 나쁜 예시는 broken.html 과 비교해 보세요.)
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -87,6 +95,11 @@
     핵심: config.js 는 .gitignore 로 업로드가 차단됩니다.
     저장소에는 자리표시자만 든 config.example.js 만 올라갑니다.
     실습자는 config.example.js 를 복사해 config.js 를 만들어 진짜 공개키를 넣습니다.
+  -->
+  <!--
+    로드 순서가 중요합니다(왜): config.js 가 먼저 실행돼야 window.APP_CONFIG 가 만들어지고,
+    그 다음 script.js 가 그 값을 읽어 상태를 판단할 수 있습니다. 순서를 바꾸면
+    script.js 입장에서 설정이 아직 없어 "❌ config.js 를 찾지 못했습니다"가 뜹니다.
   -->
   <script src="config.js"></script>
   <script src="script.js"></script>

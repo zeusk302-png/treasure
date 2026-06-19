@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  무엇: 실시간 환전 계산기(원↔달러)의 '화면 뼈대'를 그리는 파일.
+  왜 있나: HTML은 '무엇이 보일지(입력 칸·버튼·표시 칸)'만 담당하고,
+          모양은 style.css가, 동작(환율 받아오기·계산)은 script.js가 맡는다.
+          이렇게 역할을 나누면 비전공자도 "어디를 고쳐야 하는지" 찾기 쉬워진다.
+  연결고리: 아래 요소들의 id(krwInput, usdInput, urlView, rateView, status, info, refreshBtn)를
+          script.js가 getElementById로 찾아 값을 채우거나 동작을 건다. 그래서 id 이름은 함부로 바꾸면 안 된다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />

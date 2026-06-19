@@ -19,12 +19,19 @@ create table if not exists public.profiles (
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
+-- security definer: 이 함수를 "만든 사람(관리자)의 권한"으로 실행하라는 뜻.
+--   가입하는 일반 사용자는 profiles에 직접 쓸 권한이 없지만, 이 트리거 함수가
+--   대신 한 줄을 넣어줘야 하므로 관리자 권한이 필요해서 넣은 설정입니다.
 security definer
+-- search_path를 public으로 고정 — 함수가 의도한 테이블만 보도록 막는 보안 관례.
 set search_path = public
 as $$
 begin
   insert into public.profiles (id, email, full_name)
+  -- raw_user_meta_data ->> 'full_name': 가입 폼에서 받은 이름을 꺼내옴(없으면 NULL).
   values (new.id, new.email, new.raw_user_meta_data ->> 'full_name')
+  -- on conflict (id) do nothing: 혹시 같은 id가 이미 있으면 에러 내지 말고 그냥 넘어가라.
+  --   트리거가 두 번 도는 드문 상황에서도 가입이 실패하지 않게 하는 안전장치입니다.
   on conflict (id) do nothing;
   return new;
 end;

@@ -7,6 +7,9 @@ const helloBtn = document.getElementById("hello-btn");
 const statusEl = document.getElementById("status");
 
 helloBtn.addEventListener("click", () => {
+  // textContent 로 글자를 넣는 이유: 사용자가 보거나 입력한 값을 화면에 쓸 때
+  // innerHTML 을 쓰면 그 안의 <script> 같은 태그가 진짜로 실행될 수 있어(XSS) 위험합니다.
+  // textContent 는 글자 그대로만 넣어 주므로 안전합니다.
   statusEl.textContent = "안녕하세요! 키보드(Enter/Space)로도 잘 눌렸어요. ✅";
 });
 
@@ -25,6 +28,9 @@ const form = document.getElementById("contact-form");
 const formResult = document.getElementById("form-result");
 
 form.addEventListener("submit", (event) => {
+  // event.preventDefault() 를 부르는 이유: 폼은 기본적으로 제출되면
+  // 페이지를 새로고침(서버로 이동)해 버립니다. 여기선 보낼 서버가 없고
+  // 화면 안내만 보여 줄 거라, 그 기본 동작을 막아 새로고침을 멈춥니다.
   event.preventDefault(); // 실제 전송 대신 화면 안내만
   const name = document.getElementById("name").value.trim();
   formResult.textContent = name

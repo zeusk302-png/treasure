@@ -86,6 +86,9 @@ async function subscribe(email) {
 // -------------------------------------------------------------
 function showStatus(kind, text) {
   const icon = kind === "fail" ? "❌ " : kind === "ok" ? "✅ " : "ℹ️ ";
+  // textContent로 글자만 넣습니다(innerHTML 아님). 이유: 사용자가 입력한 이메일이
+  // 화면에 다시 표시될 때, innerHTML이면 그 안의 <script> 같은 코드가 실행될 수 있어
+  // XSS(악성 스크립트 주입) 위험이 됩니다. textContent는 항상 '순수 글자'로만 처리해 안전합니다.
   statusEl.textContent = icon + text;
   statusEl.classList.remove("info", "ok", "fail");
   statusEl.classList.add(kind);

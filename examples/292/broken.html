@@ -55,6 +55,9 @@
       const head = document.createElement("div");
       const nameEl = document.createElement("span");
       nameEl.className = "name";
+      // 사용자 입력(이름)은 textContent 로 넣는다.
+      // 왜: innerHTML 로 넣으면 이름 자리에 심어둔 <script> 가 실행돼 XSS(악성 스크립트) 위험이 있다.
+      //     이 실습의 '버그'는 날짜뿐이고, 이 보안 습관은 깨진 버전에서도 지킨다.
       nameEl.textContent = c.name;
       const dateEl = document.createElement("span");
       dateEl.className = "date";

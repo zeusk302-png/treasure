@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  이 파일(signup.html)은 무엇이고 왜 있나?
+  - 무엇: Supabase 이메일/비밀번호 회원가입 + '메일함을 확인하세요' 안내 화면.
+  - 왜: 이메일을 진짜 가진 사람만 가입을 끝내게 하는 '이메일 검증' 흐름의 1단계 화면이라서.
+        가입 요청(signUp)을 보내며 emailRedirectTo로 '돌아올 주소(confirm.html)'를 함께 알려주는 게 핵심입니다.
+  - 짝꿍 파일: confirm.html (메일 링크를 누르면 돌아와 인증 완료를 확인하는 2단계 화면).
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />

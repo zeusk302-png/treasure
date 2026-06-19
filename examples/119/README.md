@@ -48,6 +48,50 @@
 7. (확인) Supabase 대시보드 → **Authentication → Policies** (또는 Table editor의 표 → RLS) 에서
    방금 만든 정책 두 개(`anyone can read guestbook`, `anyone can insert guestbook`)가 보이는지 확인한다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습(방명록에 RLS를 켜고 읽기/쓰기 정책을 다는 것)을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 Supabase + 바닐라 자바스크립트로 초보용 예제를 만드는 강사야.
+  지금 guestbook 표(id, name, message, created_at)에 대해 "RLS(행 수준 보안)를 켜고
+  읽기/쓰기 정책을 추가하는" SQL 스크립트(schema.sql)를 만들어 줘.
+
+  요구사항:
+  - 1단계: 표에 RLS를 켜는 SQL (alter table ... enable row level security)
+  - 2단계: 누구나(anon, authenticated) 읽을 수 있는 select 정책 (using true)
+  - 3단계: 누구나(anon, authenticated) 새 글을 쓸 수 있는 insert 정책 (with check true)
+  - 정책을 다시 실행해도 에러가 안 나도록 각 정책 앞에 drop policy if exists 를 넣어 줘.
+  - update/delete 정책은 일부러 만들지 마(기본 거절로 안전하게 두기).
+  비전공자가 읽을 거니까, 줄마다 '무엇을 하는지 + 왜 그렇게 하는지'를 한국어 주석으로 설명해 줘.
+  ```
+
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  위 schema.sql과 짝이 되는 화면(index.html)과 로직(script.js)도 만들어 줘.
+  - anon(공개) 키로 supabase-js를 써서 글을 select(목록)·insert(쓰기) 한다.
+  - ★ 핵심 학습 포인트 ★: RLS는 켜졌는데 정책이 없을 때를
+    초보가 눈으로 알 수 있게 안내해 줘.
+      · 읽기 정책이 없으면 select는 '에러가 아니라 빈 배열 []'이 온다 → "글 0개"가 뜨면
+        "혹시 읽기 정책이 없는 건 아닌지" 친절히 알려 주는 안내 메시지.
+      · 쓰기 정책이 없으면 insert가 'row-level security policy' 에러를 던진다 →
+        그 에러를 잡아 "쓰기 정책(schema.sql 3단계)을 실행하세요"로 풀어 설명.
+  - 사용자 입력은 textContent로 출력해서 XSS를 막아 줘(innerHTML 쓰지 마).
+  - 키 자리표시자(placeholder)를 그대로 두고 실행하면 미리 경고하도록 해 줘.
+  ```
+
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  RLS를 켠 뒤 방명록이 이상해. 아래 증상/에러를 보고 원인과 해결을 단계별로 짚어 줘.
+  - 증상: DB에는 글이 분명 있는데 화면 목록이 텅 비어 있다. 콘솔엔 에러가 없고 "글 0개"만 뜬다.
+  - 또는: 글을 남기면 콘솔에 "new row violates row-level security policy for table guestbook" 에러가 난다.
+  내가 쓴 키가 anon(sb_publishable_...)인지 service_role(sb_secret_...)인지도 같이 점검해 줘.
+  지금 schema.sql에 어떤 정책이 빠졌을 가능성이 큰지, 어떤 SQL을 실행하면 되는지 알려 줘.
+  ```
+
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 학습에 좋습니다. 특히 보안(RLS·키) 주제는 "이 줄을 빼면 무슨 사고가 나는지"까지 물어보면 이해가 깊어집니다.
+
 ## 검증법
 
 - **정책 없이 RLS만 켰을 때(4단계):** 목록이 **비고**, 글쓰기 시 콘솔에 `new row violates row-level security policy` 에러가 뜨는가?

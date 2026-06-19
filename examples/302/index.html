@@ -55,8 +55,8 @@
     const entriesBox = document.getElementById("entries");
 
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      entries.unshift({ name: nameInput.value, body: bodyInput.value });
+      e.preventDefault(); // 폼 기본 동작(페이지 새로고침)을 막음 — 새로고침되면 화면이 초기화돼 우리가 그린 목록이 사라지기 때문
+      entries.unshift({ name: nameInput.value, body: bodyInput.value }); // unshift: 맨 앞에 추가 — 최신 글이 위로 오게 하려고
       nameInput.value = "";
       bodyInput.value = "";
       render();

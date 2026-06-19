@@ -1,3 +1,10 @@
+/*
+  이 파일: 비밀번호 토글 화면의 "보기(디자인)" 담당.
+  왜 있나: 카드 모양, 입력칸, 눈 버튼의 위치·색을 정한다. 특히 눈 버튼을
+          입력칸 오른쪽 "안쪽"에 겹쳐 놓기 위해 .field에 position:relative,
+          .toggle에 position:absolute를 쓴다(아래 주석 참고).
+*/
+
 /* ===== 기본 색·폰트 정리 ===== */
 :root {
   --main: #4f46e5;    /* 버튼 강조색 (보라) */
@@ -52,6 +59,9 @@ label {
 
 /* ===== 입력칸 + 눈 버튼 묶음 ===== */
 .field {
+  /* position: relative — 눈 버튼(.toggle)을 이 박스 "기준"으로 겹쳐 놓기 위함.
+     이게 없으면 아래 .toggle의 position:absolute가 화면 전체를 기준으로 잡혀
+     엉뚱한 곳에 붙는다. */
   position: relative;
   margin-bottom: 20px;
 }

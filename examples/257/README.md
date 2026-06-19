@@ -42,6 +42,64 @@
 5. **확인 화면을 본다.** "샘플 예약자 / 2026-06-20 / 10:00 예약을 취소할까요?" 같은 내용이 떠야 한다.
 6. **[예약 취소]를 누른다.** "취소 완료" 메시지가 뜨고, 그 예약이 표에서 사라진다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. (Project URL·키는 본인 것으로 바꿔 넣으세요.)
+
+- **1단계(뼈대 만들기)** — 취소용 SQL부터:
+
+  ```text
+  너는 Supabase + 정적 HTML로 '예약 취소 링크' 미니 결과물을 만드는 조력자야.
+  비전공자가 읽을 수 있게 한국어 주석을 충분히 달아 줘.
+
+  먼저 SQL을 만들어 줘. 목표:
+  - public.reservations 표에 추측 불가능한 취소 토큰 칸(cancel_token uuid,
+    기본값 gen_random_uuid())을 추가한다. (이미 표가 있을 수 있으니
+    add column if not exists 로 안전하게.)
+  - RLS(행 수준 보안)를 켠다.
+  - anon 역할에게 DELETE 와 SELECT 는 허용한다.
+  - 단, cancel_token 칸의 SELECT 권한만 revoke 해서 '토큰 목록 캐기'를 막는다.
+  - 테스트용 샘플 예약 1줄을 외우기 쉬운 고정 토큰으로 넣어 준다.
+
+  제약: id(1,2,3…)는 추측당하니 식별은 반드시 토큰으로. 왜 토큰을 쓰는지,
+  왜 토큰 칸만 못 읽게 막는지 SQL 주석으로 설명해 줘.
+  ```
+
+- **2단계(기능 추가/개선)** — 손님이 누르는 취소 페이지:
+
+  ```text
+  이제 cancel.html 과 script.js 를 만들어 줘. 동작:
+  1) 주소창의 토큰을 읽는다:
+     new URLSearchParams(location.search).get("token")
+  2) 지우기 전에 확인 화면을 보여 준다:
+     from("reservations").select("name, slot_date, slot_time")
+       .eq("cancel_token", token)
+     (cancel_token 칸은 못 읽으니 select 목록에 넣지 마.)
+  3) [예약 취소] 버튼을 누르면:
+     from("reservations").delete().eq("cancel_token", token)
+  4) 토큰이 안 맞으면 '예약을 찾을 수 없음', 성공하면 '취소 완료'를 보여 준다.
+
+  보안 제약(중요): script.js 맨 위 키는 anon(sb_publishable_…) 키만 쓰고,
+  service_role(sb_secret_…) 키는 절대 넣지 마. 그 이유도 주석으로 남겨 줘.
+  사용자 이름 등은 textContent 로 출력해서 XSS를 막아 줘.
+  ```
+
+- **막혔을 때(디버깅)** — 에러를 그대로 붙여넣고 진단 요청:
+
+  ```text
+  취소가 동작하지 않아. 아래 증상/에러를 보고 원인을 단계별로 짚어 줘.
+  - 증상: (예: 토큰을 넣었는데 확인 화면이 비어 있음 / "취소 완료"는 뜨는데
+    Table editor 에서 줄이 안 지워짐 / Console 에 빨간 에러)
+  - 콘솔 에러 원문: (F12 → Console 의 빨간 줄을 그대로 붙여넣기)
+  - 내 토큰: 00000000-0000-4000-8000-000000000257
+
+  점검 순서를 제안해 줘: schema.sql 을 실제로 Run 했는지, 주소의 ?token=…
+  대시(-) 철자, SUPABASE_URL/anon 키 오타, RLS 정책이 delete/select 둘 다
+  걸렸는지, cancel_token revoke 가 됐는지. 고친 코드는 무엇을 왜 바꿨는지 알려 줘.
+  ```
+
+> 프롬프트 팁: "코드만 주지 말고 **왜 그렇게 했는지 주석으로 설명**해 줘", "비전공자가 이해하게 한 줄씩 풀어 줘"를 덧붙이면 학습에 훨씬 좋습니다.
+
 ## 검증법
 
 - **취소 성공:** 올바른 토큰으로 [예약 취소]를 누르면 "취소 완료" 메시지가 뜨는가? Supabase **Table editor → reservations** 에서 그 줄이 **사라졌는가?**

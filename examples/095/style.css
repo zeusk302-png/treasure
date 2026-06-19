@@ -1,3 +1,12 @@
+/*
+  이 파일: 실시간 글자 수 카운터 화면의 꾸미기(CSS)입니다.
+  무엇: 카드 모양 박스, 입력칸 모양, 글자 수 표시 위치/색을 정합니다.
+  왜 있나: HTML(구조)과 꾸미기를 따로 두면, 색·여백만 바꾸고 싶을 때
+          HTML은 건드리지 않고 이 파일만 고치면 됩니다(유지보수가 쉬움).
+  핵심 포인트: 90자를 넘으면 JS가 .counter에 'warning' 클래스를 붙이는데,
+              아래 .counter.warning 규칙이 그때 빨간 경고색을 입혀줍니다.
+*/
+
 /* 화면 전체 기본 스타일 */
 body {
   font-family: "Segoe UI", "Apple SD Gothic Neo", sans-serif;
@@ -50,7 +59,9 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 8px;
   resize: vertical;
-  box-sizing: border-box; /* padding을 포함해 너비 계산 */
+  /* box-sizing: border-box — padding(안쪽 여백)까지 포함해 너비를 계산합니다.
+     이게 없으면 width:100% + padding 때문에 입력칸이 카드 밖으로 삐져나옵니다. */
+  box-sizing: border-box;
 }
 
 textarea:focus {
@@ -68,6 +79,9 @@ textarea:focus {
 }
 
 /* 글자 수가 한계에 가까워지면 빨간색으로 경고 */
+/* .counter.warning = 'counter'와 'warning' 클래스를 둘 다 가진 요소에만 적용.
+   평소엔 회색이다가, JS가 90자 이상일 때 warning을 붙이는 순간 이 규칙이 켜집니다.
+   (색을 JS에서 직접 바꾸지 않고 CSS 클래스로 분리해, 디자인은 CSS가 맡게 한 것입니다.) */
 .counter.warning {
   color: #e11d48;
   font-weight: 600;

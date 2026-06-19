@@ -216,7 +216,7 @@
     //   (남의 id를 억지로 끼워 넣어도 with check 가 막아줍니다.)
     // ============================================================
     profileForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+      e.preventDefault();              // 폼 기본 동작(페이지 새로고침)을 막아야 저장 도중 화면이 리셋되지 않음
       const nickname = nicknameEl.value.trim();
       const bio      = bioEl.value.trim();
       if (!nickname) { showProfileMsg("닉네임을 입력하세요.", "error"); return; }
@@ -239,6 +239,9 @@
     });
 
     // ---- 미리보기 카드 그리기 ----
+    // 사용자가 입력한 닉네임/소개를 화면에 넣을 땐 textContent를 씁니다.
+    // 왜: innerHTML로 넣으면 사용자가 닉네임에 <script>를 적었을 때 그게 실행될 수 있어(XSS) 위험합니다.
+    //     textContent는 무조건 '글자 그대로'만 보여줘서 안전합니다.
     function renderPreview(nickname, bio) {
       viewNickname.textContent = nickname || "(닉네임 없음)";
       viewBio.textContent      = bio || "(소개 없음)";

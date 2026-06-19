@@ -65,6 +65,10 @@ mergeBtn.addEventListener("click", () => {
 
   // Production 카드 갱신
   prodCard.classList.add("updated");
+  // innerHTML을 쓰는 이유: 문구 안에 <strong> 강조 태그를 넣어야 해서입니다.
+  // 여기서는 우리가 직접 적은 "고정 문자열"만 넣으므로 안전합니다. 만약 사용자가 입력한 값을
+  // 화면에 보여줄 때는 innerHTML 대신 textContent를 써야 합니다(innerHTML은 <script>가 끼면
+  // 실행되는 XSS 위험이 있기 때문). — 이 차이가 보안의 핵심 포인트라 적어 둡니다.
   prodDesc.innerHTML = "검토를 거쳐 반영 완료. <strong>이제 버튼이 초록</strong>입니다.";
 
   // 버튼 상태 고정

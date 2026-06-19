@@ -1,3 +1,11 @@
+<!--
+  login.html — 이메일·비밀번호 로그인 폼 (실습 132)
+  무엇: 서버 코드 없이, 브라우저에서 바로 Supabase 인증(signInWithPassword)을 불러
+        성공하면 환영 메시지, 실패하면 에러 메시지를 보여주는 단일 HTML 파일입니다.
+  왜 있나: "로그인 = 누구인지 확인(인증)"의 가장 첫 흐름을 직접 만들어 보고,
+          브라우저에 둬도 되는 키(anon)와 절대 두면 안 되는 키(service_role)의 차이를 체득하기 위함입니다.
+  쓰는 법: 아래 <script> 안의 SUPABASE_URL / SUPABASE_ANON_KEY 두 값만 내 프로젝트 값으로 바꾸면 됩니다.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -44,6 +52,8 @@
 
     // 결과 메시지를 화면에 보여주는 작은 도우미 함수
     function showMessage(text, isOk) {
+      // textContent로 넣는 이유: innerHTML을 쓰면 메시지에 섞인 <script> 같은 태그가
+      // 그대로 실행돼 XSS 공격이 될 수 있어, 글자 그대로만 출력해 안전하게 막는 것
       msgEl.textContent = text;
       msgEl.className = isOk ? 'ok' : 'err';
     }

@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
+    <!--
+      이 파일(index.html) = 장바구니 화면의 "뼈대"입니다.
+      여기에는 빈 자리(상품 목록·장바구니 목록·합계)만 미리 만들어 두고,
+      실제 내용은 script.js가 cart 배열을 보고 채워 넣습니다.
+      (HTML=뼈대 / style.css=꾸미기 / script.js=동작·계산, 으로 역할을 나눠 둔 것)
+      그래서 id="product-list", id="cart-list" 같은 빈 칸이 핵심입니다 —
+      script.js가 이 id를 찾아 내용을 그려 넣기 때문에 함부로 바꾸면 화면이 비어 보입니다.
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>실습 250 — localStorage 장바구니</title>

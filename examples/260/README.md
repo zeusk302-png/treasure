@@ -24,6 +24,55 @@
 6. `index.html`을 브라우저로 엽니다. 이메일·비밀번호로 **가입 → 로그인**하고, 글을 2개 정도 올립니다. 내 글에는 **[내 글] 배지와 수정·삭제 버튼**이 보입니다.
 7. **다른 계정으로 테스트(핵심)**: 로그아웃 → 다른 이메일로 새로 가입·로그인합니다. 이제 아까 쓴 글에는 **수정·삭제 버튼이 보이지 않습니다.**
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. (Supabase 프로젝트는 미리 만들어 두고, anon 키와 Project URL을 준비한 상태로 시작하세요.)
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 비전공 학습자를 돕는 웹개발 멘토야. Supabase를 백엔드로 쓰는 '공개 게시판'을
+  단일 index.html 파일(외부 빌드 없이 브라우저로 바로 열리게) + schema.sql 한 개로 만들어줘.
+
+  [기능]
+  - 이메일/비밀번호로 가입·로그인·로그아웃 (Supabase Auth)
+  - 로그인한 사람만 글(제목+내용) 작성, 누구나 글 목록 읽기
+  - Supabase JS 라이브러리는 CDN(@supabase/supabase-js@2)으로 불러와
+
+  [제약]
+  - SUPABASE_URL, SUPABASE_ANON_KEY 는 파일 위쪽에 자리표시자로 두고, "여기에 내 값 넣기"라고 표시
+  - 브라우저에는 anon(공개) 키만 둬. service_role(비밀) 키는 절대 코드에 넣지 마.
+  - 화면에 출력하는 사용자 글은 innerHTML 직접 삽입 말고 이스케이프해서 XSS를 막아줘.
+
+  [산출물]
+  - index.html, schema.sql 두 파일. 그리고 왜 그렇게 짰는지 한국어 주석으로 한 줄씩 설명해줘.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  이제 보안을 강화하자. posts 테이블에 RLS(Row Level Security)를 켜고,
+  '작성자 본인만' 자기 글을 수정·삭제할 수 있게 정책을 추가해줘.
+
+  - posts.user_id 의 기본값을 auth.uid() 로 둬서 글 주인이 자동 기록되게 해줘.
+  - 정책 4종: (select) 누구나 읽기 using(true),
+    (insert) with check(auth.uid()=user_id),
+    (update) using·with check 모두 auth.uid()=user_id,
+    (delete) using(auth.uid()=user_id).
+  - 화면에서는 '내 글'에만 수정·삭제 버튼이 보이게 하되,
+    "이건 겉보기 가드일 뿐이고 진짜 차단은 RLS"라는 점을 주석으로 분명히 적어줘.
+  - schema.sql 은 다시 실행해도 깨지지 않게 drop policy if exists 로 시작하게 해줘.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  글을 올리거나 RLS를 켰는데 동작이 이상해. 아래 증상/에러를 붙여넣을게.
+  [증상] (예: "저장 실패: new row violates row-level security policy" 또는 삭제해도 글이 그대로 남음)
+  [내 schema.sql] (붙여넣기)
+  [브라우저 Console 메시지] (붙여넣기)
+
+  원인을 비전공자도 알게 한국어로 단계별로 설명하고, 무엇을 어디서(SQL Editor / Authentication →
+  Policies / index.html) 확인·수정하면 되는지 짚어줘. 특히 anon vs service_role 키 혼동,
+  with check 누락, RLS 미활성화 가능성을 점검해줘.
+  ```
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 학습에 좋습니다.
+
 ## 검증법
 
 - **본인 글만 버튼 보임**: 로그인한 계정이 쓴 글에만 수정·삭제 버튼이 나타난다(겉보기 가드).

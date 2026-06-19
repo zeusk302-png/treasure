@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  이 파일은 무엇? : 실습 263의 '보호된 대시보드' 화면입니다. (로그인한 사람만 볼 수 있음)
+  왜 있나?        : 이 실습의 핵심인 '로그인 게이트(보호 라우트)'를 보여 주기 위해서입니다.
+                    페이지가 열리자마자 "지금 로그인돼 있나?"를 스스로 확인하고(아래 guard()),
+                    아니면 본문을 안 보여 주고 login.html로 돌려보냅니다.
+  주의            : 이건 '화면 차원의 보호'입니다. 데이터 자체를 지키려면 DB의 RLS가 따로 필요합니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -65,6 +72,8 @@
     const logoutBtn = document.getElementById("logoutBtn");
 
     // 로그인 페이지로 돌려보내기 (= 보호 라우트의 '게이트')
+    // href 가 아니라 replace 를 쓰는 이유: replace 는 '히스토리(방문 기록)'를 덮어씁니다.
+    // 그래서 추방당한 뒤 '뒤로가기'를 눌러도 보호 페이지로 다시 못 돌아옵니다.
     function kickToLogin() {
       window.location.replace("login.html");
     }

@@ -8,6 +8,9 @@
 
 -- 1) 회원 테이블 (개인정보 포함)
 --    로그인한 사용자(auth.users)와 연결하기 위해 user_id 컬럼을 둔다.
+--    references auth.users: "이 행은 누구 것인지"를 로그인 사용자에 묶는다(없으면 본인 행 구분이 불가).
+--    default auth.uid(): 새 행을 넣을 때 user_id를 비워도 "지금 로그인한 사람"으로 자동 채워,
+--                        실수로 남의 id를 넣거나 빈칸으로 두는 사고를 막는다.
 create table if not exists members (
   id          bigint generated always as identity primary key,
   user_id     uuid not null references auth.users (id) default auth.uid(),

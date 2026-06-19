@@ -37,11 +37,14 @@ let domain = "내이름.com"; // 입력값을 정리해서 보관 (자리표시�
 
 // ---- 도우미 -----------------------------------------------------
 function log(text, cls = "") {
+  // 가짜 터미널에 한 줄(p)을 추가하는 함수.
   const p = document.createElement("p");
   p.className = "term-line" + (cls ? " " + cls : "");
+  // textContent로 출력하는 이유: innerHTML로 넣으면 사용자가 입력한 도메인 안의
+  // <script> 같은 글자가 진짜 코드로 실행될 수 있어(XSS 위험) 글자 그대로만 보여주려고.
   p.textContent = text;
   terminal.appendChild(p);
-  terminal.scrollTop = terminal.scrollHeight;
+  terminal.scrollTop = terminal.scrollHeight; // 새 줄이 보이게 항상 맨 아래로 스크롤
 }
 
 function markDone(btn, label) {
@@ -75,7 +78,8 @@ buyBtn.addEventListener("click", () => {
   buyStatus.className = "step-status ok";
   markDone(buyBtn, "구매 완료 ✓");
 
-  // 다음 단계 열기
+  // 다음 단계 열기 — 실제 작업처럼 "앞 단계를 끝내야 다음이 열리는" 순서를 강제하려고
+  // 다음 버튼의 disabled를 여기서 풀어 줍니다(처음엔 HTML에서 disabled로 잠가 둠).
   addBtn.disabled = false;
   addStatus.textContent = "Vercel에 도메인을 추가할 준비가 됐습니다. 버튼을 누르세요.";
   addStatus.className = "step-status";
@@ -118,6 +122,9 @@ dnsBtn.addEventListener("click", () => {
 // ---- 4) www / 루트 301 통일 ------------------------------------
 redirectBtn.addEventListener("click", () => {
   const choice = document.querySelector('input[name="canonical"]:checked').value;
+  // 왜 root에서 www를 먼저 떼나: 사용자가 "www.내이름.com"을 입력했을 수도 있어서,
+  // 항상 순수 루트(내이름.com)를 기준으로 잡은 뒤 대표/비대표를 다시 계산해야
+  // "www.www..." 같은 중복이 안 생깁니다.
   // 루트(예: 내이름.com)에서 www를 떼고/붙이고 계산
   const root = domain.replace(/^www\./i, "");
   const canonical = choice === "www" ? `www.${root}` : root;

@@ -27,6 +27,49 @@
 8. **방향 바꿔 보기**: `index.html`에서 05·06번 카드에 붙은 `data-reveal="left"` / `data-reveal="right"`를 봅니다. `style.css`의 `.reveal[data-reveal="left"]`가 시작 위치를 옆으로 바꿔, 옆에서 미끄러져 들어오게 만듭니다. 다른 카드에도 `data-reveal="left"`를 붙여 보세요.
 9. **반복 끄기**: `script.js` 맨 위의 `const REPEAT = true;`를 `false`로 바꿔 저장·새로고침합니다. 이제 한 번 등장한 카드는 위로 다시 올라갔다 내려와도 사라지지 않고 계속 보입니다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. 한 번에 다 시키지 말고 **단계별**로 시키면, 중간에 결과를 확인하며 고칠 수 있어 훨씬 안전합니다.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+
+  ```text
+  너는 웹 프론트엔드 강사야. HTML/CSS/JS로 "스크롤 리빌(scroll reveal)" 데모 한 페이지를 만들어 줘.
+  요구사항:
+  - 파일은 index.html, style.css, script.js 세 개로 분리(외부 링크/번들러 없이 그냥 더블클릭으로 열리게).
+  - 맨 위에 화면을 꽉 채우는(min-height:100vh) 안내 화면 hero를 두고, 아래로 스크롤하면 카드 6~7개가 차례로 나오게.
+  - 카드는 평소엔 opacity:0 + translateY(40px)로 살짝 아래에 투명하게 숨겨 두고,
+    화면에 들어오면 IntersectionObserver로 is-visible 클래스를 붙여 제자리로 떠오르게.
+  - 부드러운 움직임은 CSS transition(0.6s)으로 처리. setInterval이나 scroll 이벤트로 px 계산하지 말 것(IntersectionObserver만 사용).
+  비전공자가 읽을 거라서, 코드만 주지 말고 왜 그렇게 했는지 한국어 주석으로 한 줄씩 설명해 줘.
+  ```
+
+- **2단계(기능 추가/개선)** 프롬프트:
+
+  ```text
+  방금 만든 스크롤 리빌에 다음을 추가해 줘. 기존 코드는 최대한 유지하고 바뀐 부분만 알려 줘.
+  1) data-reveal="left" / "right" 속성을 붙인 카드는 위가 아니라 옆에서 미끄러져 들어오게(translateX 활용).
+  2) script.js 맨 위에 const REPEAT 스위치를 둬서, true면 화면 밖으로 나갔다 들어올 때마다 다시 등장,
+     false면 한 번 등장 후 unobserve로 감시를 끊어 계속 보이게.
+  3) IntersectionObserver의 threshold와 rootMargin이 등장 타이밍에 어떤 영향을 주는지 주석으로 설명.
+  4) prefers-reduced-motion: reduce 미디어쿼리로, 움직임에 민감한 사용자에겐 애니메이션 없이 바로 보여 주기.
+  각 옵션 값이 무슨 뜻이고 왜 그 값을 골랐는지 한국어 주석으로 풀어 줘.
+  ```
+
+- **막혔을 때(디버깅)** 프롬프트:
+
+  ```text
+  스크롤을 내려도 카드가 등장하지 않고 계속 투명한 채로 있어(또는 처음부터 다 보여).
+  내 index.html / style.css / script.js를 그대로 붙여넣을게. 아래를 순서대로 점검해서 원인을 짚어 줘.
+  - script 태그가 </body> 직전에 있는지, 파일 경로(href/src)가 맞는지
+  - .reveal와 .reveal.is-visible의 opacity/transform 값이 서로 반대로 설정됐는지
+  - IntersectionObserver가 observe()로 실제 요소들을 감시 목록에 등록했는지
+  - F12 콘솔의 빨간 오류 메시지(있으면 그대로 붙여넣을게)
+  원인을 한 가지로 단정하지 말고, 가능성 높은 순서로 후보를 나열하고 각각 확인 방법을 알려 줘.
+  ```
+
+> 프롬프트 팁: 끝에 "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 결과 코드가 학습용으로 훨씬 좋아집니다.
+
 ## 검증법
 
 - 스크롤을 내릴 때 카드가 **처음엔 안 보이다가, 화면에 들어오는 순간** 아래에서 위로 떠오르면 성공입니다.

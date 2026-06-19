@@ -67,6 +67,10 @@
     <p>끝까지 스크롤하셨습니다. 위로 다시 올려 보세요.</p>
   </footer>
 
+  <!-- script를 body 맨 끝에 두는 이유:
+       위쪽 카드(.reveal)들이 먼저 만들어진 뒤에 JS가 실행돼야
+       querySelectorAll로 카드를 빠짐없이 찾아 감시할 수 있기 때문입니다.
+       (head에 두면 아직 안 만들어진 카드를 찾으려다 빈손이 됩니다.) -->
   <script src="script.js"></script>
 </body>
 </html>

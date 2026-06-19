@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  이 파일이 무엇인가: FAQ 아코디언 실습의 화면 뼈대(HTML)입니다.
+  왜 있는가: 질문/답을 담는 "구조"만 여기서 만들고,
+            보기(색·애니메이션)는 style.css, 동작(클릭 시 펼침)은 script.js 가 맡습니다.
+            이렇게 구조·디자인·동작을 파일로 나누면 한 가지를 고칠 때 나머지를 안 건드려도 됩니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -19,6 +25,11 @@
     -->
     <section class="faq" aria-label="자주 묻는 질문 목록">
 
+      <!--
+        aria-expanded="false": 지금 답이 "닫혀 있다"를 화면 읽기 프로그램(스크린리더)에 알려주는 표시.
+                               눈에는 안 보이지만 시각장애 사용자를 위해 넣습니다. (열리면 JS가 true로 바꿈)
+        aria-hidden="true"   : + 아이콘은 장식일 뿐이라 스크린리더가 굳이 읽지 않게 숨깁니다.
+      -->
       <div class="faq-item">
         <button class="faq-question" type="button" aria-expanded="false">
           <span>수강 신청은 어떻게 하나요?</span>

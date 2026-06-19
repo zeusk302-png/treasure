@@ -1,3 +1,11 @@
+/*
+  이 파일은 무엇인가:
+  실습 281 '고친 정답' 페이지(index.html)가 불러다 쓰는 스타일시트입니다.
+  왜 있나(왜 분리했나):
+  HTML과 CSS를 한 파일에 섞으면(broken.html처럼 <style> 안에 박으면) 길어질수록 읽기·재사용이
+  어렵습니다. 그래서 실무 관행대로 모양(CSS)을 별도 파일로 떼어, index.html에서 <link>로 연결합니다.
+  핵심 수정 포인트(가로 스크롤 제거): 아래 FIX 2(.page), FIX 3(.photo) 주석을 보세요.
+*/
 body {
   margin: 0;
   font-family: "맑은 고딕", sans-serif;

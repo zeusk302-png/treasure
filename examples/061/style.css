@@ -1,5 +1,17 @@
+/*
+  이 파일(style.css): 로그인 폼의 '겉모양(디자인)'만 담당합니다.
+  - 무엇: 카드 모양 배경, 입력칸·버튼 스타일, 그리고 눈 버튼을 입력칸 안
+    오른쪽에 겹쳐 놓는 배치를 정합니다.
+  - 왜 있나: HTML(구조)·JS(동작)과 역할을 나눠 두면, 색이나 위치만 바꾸고 싶을 때
+    이 파일만 고치면 되어 초보도 안전하게 수정할 수 있기 때문입니다.
+  - 핵심 배치: .password-field에 position:relative를 주고, .toggle-btn에
+    position:absolute를 줘서 눈 버튼을 입력칸 위에 띄웁니다(아래 주석 참고).
+*/
+
 /* 페이지 전체 기본 정리 */
 * {
+  /* box-sizing: border-box -> padding/border를 너비에 포함시켜 계산.
+     이게 없으면 입력칸에 padding을 줄 때 칸이 360px을 넘쳐 깨지기 쉬워서 넣습니다. */
   box-sizing: border-box;
 }
 
@@ -64,17 +76,25 @@ input:focus {
 
 /* 비밀번호 입력칸 + 눈 버튼을 겹쳐 두기 위한 영역 */
 .password-field {
+  /* position:relative -> 이 영역을 '기준점'으로 삼습니다.
+     이게 있어야 아래 .toggle-btn의 absolute(오른쪽 8px)가 화면 전체가 아니라
+     이 칸 안을 기준으로 위치를 잡습니다. 빼먹으면 버튼이 엉뚱한 곳으로 갑니다. */
   position: relative;
 }
 
 /* 입력칸 오른쪽에 눈 버튼이 들어갈 공간을 비워둡니다 */
 .password-field input {
+  /* 오른쪽에 padding을 둬서 글자가 눈 버튼 아래로 가려지지 않게 자리를 비웁니다. */
   padding-right: 48px;
 }
 
 /* 눈 버튼: 입력칸 안 오른쪽에 떠 있도록 */
 .toggle-btn {
+  /* position:absolute -> 위 .password-field(relative)를 기준으로 위치를 직접 지정합니다. */
   position: absolute;
+  /* top:50% + translateY(-50%) -> 버튼을 입력칸 높이의 정확히 가운데에 맞추는 표준 기법.
+     top:50%만 주면 버튼의 '위쪽 끝'이 가운데에 와서 살짝 아래로 치우치므로
+     자기 키의 절반(translateY(-50%))만큼 위로 올려 정중앙을 맞춥니다. */
   top: 50%;
   right: 8px;
   transform: translateY(-50%);

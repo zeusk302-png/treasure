@@ -34,6 +34,9 @@ main {
 }
 
 /* 화면 너비에 따라 카드 열 개수가 자동으로 늘고 주는 반응형 그리드 */
+/* 왜 이렇게: '카드 최소 200px'만 정해 두면(minmax 200px) 들어갈 수 있는 만큼
+   auto-fill 이 열을 알아서 채워 줍니다. 그래서 휴대폰(좁음)은 1~2열,
+   넓은 모니터는 4~5열로 '미디어쿼리 없이' 자동 반응형이 됩니다. */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

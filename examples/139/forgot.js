@@ -17,9 +17,13 @@ const REDIRECT_TO =
   location.origin + location.pathname.replace(/forgot\.html$/, "reset.html");
 
 document.getElementById("forgotForm").addEventListener("submit", async (e) => {
+  // e.preventDefault(): 폼의 기본 동작(페이지 새로고침)을 막는 이유 —
+  // 새로고침되면 우리가 짠 JS가 중단되고 입력값도 날아가므로, 화면 안에서 처리하려고 막습니다.
   e.preventDefault();
   msgEl.classList.remove("show");
 
+  // .trim(): 이메일 앞뒤에 실수로 들어간 공백을 제거 —
+  // " me@x.com "처럼 공백이 붙으면 발송이 실패할 수 있어 미리 정리합니다.
   const email = document.getElementById("email").value.trim();
 
   // 재설정 메일 발송. redirectTo로 '메일 링크를 누르면 어디로 돌아올지'를 지정합니다.

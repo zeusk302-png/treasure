@@ -18,9 +18,12 @@ const baseDeployments = [
 const badDeployment = { id: "v4", commit: "f00dbad", msg: "환영 문구 수정(오타 포함)", state: "ready", age: "방금" };
 
 // 화면 상태
+// map(...{ ...d })로 '복사본'을 만드는 이유: 원본 baseDeployments를 그대로 쓰면 화면에서 목록을 바꿀 때
+// 원본까지 함께 변해 버려, '처음부터 다시'(resetAll)를 눌러도 깨끗한 초기 상태로 못 돌아갑니다.
+// 그래서 원본은 '정답지'로 남겨 두고, 화면용은 따로 복사해서 마음껏 바꾸는 것입니다.
 let deployments = baseDeployments.map((d) => ({ ...d })); // 복사본
-let currentId = "v3";   // 지금 라이브인 배포 id
-let badDeployed = false; // 고장난 v4를 올렸는지
+let currentId = "v3";   // 지금 라이브인 배포 id (= 손님에게 실제로 보이는 배포. 롤백은 이 값을 과거 배포로 바꾸는 일)
+let badDeployed = false; // 고장난 v4를 올렸는지 (두 번 올리는 것·결과물 패널 조건 판단에 씀)
 
 // ---- DOM 참조 ---------------------------------------------------
 const listEl = document.getElementById("deploy-list");

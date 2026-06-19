@@ -20,6 +20,8 @@ const doneMsg = document.getElementById("done-msg");
 const TOTAL_STEPS = panels.length; // 3
 
 // ---- 단계 상태: 지금 몇 단계에 있는지 (1부터 시작) ----
+// 초보가 자주 막히는 곳: 이 값(currentStep)을 바꾸기만 하면 화면이 저절로 바뀌지 않는다.
+// 값을 바꾼 "뒤에 반드시 render()를 다시 불러야" 그 숫자에 맞게 화면이 다시 그려진다.
 let currentStep = 1;
 
 // ============================================================
@@ -146,9 +148,12 @@ function fillSummary() {
 }
 
 // 입력값을 화면에 넣을 때 안전하게 처리(태그가 그대로 실행되지 않도록)
+// 왜 필요? 위 fillSummary는 innerHTML로 요약을 그린다. 만약 닉네임에 <script>...</script>
+// 같은 걸 적으면 그게 진짜 코드로 실행될 수 있다(XSS 공격). textContent에 한 번 담았다가
+// 꺼내면 < 가 &lt; 로 바뀌어 "글자"로만 보이게 되므로, 그 위험을 막으려고 거치는 단계다.
 function escapeHtml(text) {
   const div = document.createElement("div");
-  div.textContent = text;
+  div.textContent = text; // textContent: 무엇을 넣든 코드가 아닌 '글자'로만 취급한다
   return div.innerHTML;
 }
 

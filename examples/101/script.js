@@ -41,6 +41,8 @@ searchInput.addEventListener("input", function () {
   countText.textContent = matched.length + "곳";
 
   // (E) 결과가 0개면 "검색 결과가 없습니다" 안내를 보여준다.
+  //     matched.length !== 0 → 결과가 있으면 true(=숨김), 0개면 false(=보임).
+  //     hidden 에 직접 참/거짓을 넣어, if 문 없이 한 줄로 보였다/숨겼다 처리한다.
   emptyMsg.hidden = matched.length !== 0;
 });
 

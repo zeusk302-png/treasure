@@ -1,3 +1,7 @@
+// 이 파일(script.js): 화면의 '동작'을 담당합니다.
+// 핵심 흐름은 "체크박스 상태(checked)를 읽어 → 버튼의 비활성화(disabled)를 바꾼다" 한 가지입니다.
+// 한 요소의 상태에 따라 다른 요소를 제어하는 가장 기본적인 패턴이라, 폼(form) 만들기의 기초가 됩니다.
+
 // 1) 화면에서 필요한 요소를 찾아옵니다
 const agreeCheck = document.getElementById("agreeCheck"); // 약관 동의 체크박스
 const signupBtn = document.getElementById("signupBtn"); // 가입하기 버튼

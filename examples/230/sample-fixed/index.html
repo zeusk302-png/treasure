@@ -34,7 +34,7 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     document.getElementById("guestbook-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
+      e.preventDefault(); // 폼 기본 동작(새로고침) 막기 — 안 막으면 페이지가 리로드돼 JS가 끊기고 입력도 날아가서 넣음
       const text = document.getElementById("message").value;
       await supabase.from("messages").insert({ text });
     });

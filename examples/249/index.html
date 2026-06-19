@@ -1,3 +1,10 @@
+<!--
+  실습 249 — 상품 목록 쇼핑몰 페이지 (화면 뼈대)
+  무엇: Supabase products 표에서 읽어 온 상품들을 카드 그리드로 보여 줄 '틀'입니다.
+  왜 이렇게: 상품 카드는 데이터 개수만큼 늘어나므로 HTML에 미리 다 적지 않습니다.
+            대신 빈 그리드(<section id="product-grid">)만 두고, script.js가 DB에서
+            데이터를 읽어 와 카드를 '그려 넣습니다'(JS가 화면을 채우는 구조).
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>

@@ -144,6 +144,11 @@ function noCoverImage() {
 
 // 사용자가 입력한 글자를 화면에 안전하게 표시하기 위한 함수.
 // (제목·저자에 < > & " 같은 글자가 있어도 태그로 잘못 해석되지 않게 바꾼다.)
+//
+// 왜 꼭 필요한가? 위 renderBooks는 책 제목·저자를 innerHTML(=HTML 문자열)로 화면에 넣는다.
+// 만약 API가 돌려준 제목에 <script>...</script> 같은 글자가 들어 있으면,
+// 그대로 innerHTML에 넣을 경우 그 코드가 '실제로 실행'될 수 있다(이게 XSS 보안 위험).
+// 그래서 < > & " 를 미리 안전한 표기(&lt; 등)로 바꿔, '글자 그대로 보이게만' 하고 실행은 막는다.
 function escapeHtml(text) {
   return text
     .replace(/&/g, "&amp;")

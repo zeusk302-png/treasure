@@ -82,7 +82,10 @@ function updateCounter() {
 // 5) 새 할 일을 배열에 추가한다.
 function addTodo(text) {
   const newTodo = {
-    id: Date.now(), // 현재 시각(밀리초)을 고유 번호로 사용
+    // 현재 시각(밀리초)을 고유 번호로 사용.
+    // 왜: 나중에 toggleDone/removeTodo가 "어떤 항목인지" id로 콕 집어 찾기 때문에,
+    //     항목마다 서로 겹치지 않는 번호가 필요하다. 시각은 누를 때마다 달라져 겹치기 어렵다.
+    id: Date.now(),
     text: text,
     done: false, // 처음엔 미완료 상태
   };
@@ -91,6 +94,8 @@ function addTodo(text) {
 }
 
 // 6) 특정 할 일의 완료 상태를 뒤집는다(체크 ↔ 해제).
+//    왜 map으로 "새 배열"을 만드나: 원본을 직접 고치지 않고 바뀐 새 배열로 통째로 교체하면,
+//    "데이터가 바뀌었다 → render()로 다시 그린다"는 흐름이 깨끗하게 유지되어 버그가 줄어든다.
 function toggleDone(id) {
   todos = todos.map(function (todo) {
     if (todo.id === id) {

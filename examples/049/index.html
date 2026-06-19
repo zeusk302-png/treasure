@@ -1,9 +1,19 @@
 <!DOCTYPE html>
+<!--
+  이 파일(index.html)은 무엇이고 왜 있나?
+  - 무엇: 카드 3장이 가로로 놓인 페이지의 '뼈대(구조)'를 담은 HTML 파일이다.
+  - 왜: hover(마우스 올림) 효과의 주인공인 .card 요소를 만들어 두기 위함이다.
+         실제로 떠오르는 '움직임'은 같은 폴더의 style.css가 담당하고,
+         이 파일은 <link>로 그 style.css를 불러와 연결만 한다.
+         (구조는 HTML, 꾸미기/효과는 CSS로 역할을 나누는 것이 웹의 기본 원칙)
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>마우스 올리면 떠오르는 hover 카드 효과</title>
+  <!-- 같은 폴더의 style.css를 불러온다. 이 줄이 없으면 카드가 꾸며지지 않고
+       떠오르는 효과도 동작하지 않는다(두 파일이 같은 폴더에 있어야 연결됨) -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>

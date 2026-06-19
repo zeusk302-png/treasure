@@ -1,8 +1,18 @@
+<!--
+  이 파일(index.html): 한 화면짜리 자기소개(프로필) 페이지입니다.
+  왜 있나: 지금까지 따로 배운 HTML 조각(시맨틱 구조 header/main/footer, 이미지 img,
+           목록 ul/li, 링크 a, 인라인 style)을 한 파일로 합쳐 "완성형 1페이지"를 체험하기 위함.
+  특징: 별도 .css 파일 없이 각 태그의 style 속성(인라인 스타일)만으로 꾸밉니다
+        (입문 단계라 파일을 하나로 단순하게 유지하려는 의도).
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- charset=UTF-8: 한글이 깨지지 않게 글자 인코딩을 지정 (안 넣으면 '???'처럼 보일 수 있음) -->
   <meta charset="UTF-8">
+  <!-- viewport: 휴대폰에서 화면 너비에 맞춰 보이게 함 (없으면 모바일에서 글자가 아주 작게 나옴) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- title: 브라우저 탭에 뜨는 이름. 본인 이름으로 바꾸면 됩니다 -->
   <title>김부산 | 프로필</title>
 </head>
 <!-- body 전체에 인라인 스타일로 배경색과 기본 글꼴을 지정합니다 -->
@@ -26,6 +36,8 @@
         width="160"
         height="160"
         style="border-radius: 50%; border: 4px solid #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <!-- border-radius: 50% 는 네모 사진의 모서리를 끝까지 둥글려 '동그란 프로필 사진'으로 만듭니다 -->
+        <!-- width/height를 같은 값(160)으로 줘서 정사각형이라야 50%일 때 정확히 원이 됩니다 -->
     </section>
 
     <!-- 2-2) 소개 문단: 자기소개를 p 태그로 작성합니다 -->
@@ -52,7 +64,7 @@
     <section style="background-color: #ffffff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
       <h2 style="margin-top: 0; font-size: 20px; color: #4f46e5;">링크</h2>
       <ul style="line-height: 1.9; padding-left: 20px; margin: 0;">
-        <!-- target="_blank"는 새 탭에서 링크를 엽니다 -->
+        <!-- target="_blank"는 새 탭에서 링크를 엽니다 (내 프로필 페이지를 닫지 않고 다른 사이트를 보게 하려는 것) -->
         <li><a href="https://github.com" target="_blank" style="color: #4f46e5;">GitHub</a></li>
         <li><a href="https://www.naver.com" target="_blank" style="color: #4f46e5;">블로그</a></li>
         <!-- mailto는 메일 작성 창을 엽니다 -->

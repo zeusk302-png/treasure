@@ -11,9 +11,16 @@
     없는 페이지는 통째로 지우면 됩니다.
   ─────────────────────────────────────────────
 -->
+<!--
+  아래 <urlset>의 xmlns="...sitemaps.org..." 주소는 "이건 sitemap 표준 형식이에요"라고
+  검색엔진에게 알려 주는 약속표(스키마)입니다. 무서워 보여도 그대로 둬야 인식됩니다 — 지우거나 고치지 마세요.
+  이 <urlset>부터 </urlset>까지가 페이지 전체를 담는 "큰 바구니"이고, 그 안의 <url>...</url> 하나가 페이지 한 개입니다.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <!-- 1) 메인(홈) 페이지 -->
+  <!-- <loc>만 필수입니다. 나머지(lastmod/changefreq/priority)는 "참고용"이라 없어도 동작합니다.
+       priority 1.0은 "이 사이트에서 제일 중요한 페이지"라는 뜻 — 보통 홈에만 줍니다. -->
   <url>
     <loc>https://내사이트.com/</loc>
     <lastmod>2026-06-18</lastmod>

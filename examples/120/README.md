@@ -51,6 +51,41 @@
    → localStorage 때와 달리, **같은 할 일이 그대로 보입니다.** (서버에 저장됐기 때문!)
 7. Supabase 대시보드 → **Table Editor → todos** 표를 열어, 방금 추가한 줄이 실제로 들어가 있는지 눈으로 확인한다.
 
+## 🤖 바이브코딩 프롬프트
+
+이 실습(localStorage 할 일 앱 → Supabase `todos` 표로 이전)을 AI에게 시켜 만들 때 그대로 복사해 쓸 수 있는 프롬프트입니다. 자리표시자(대괄호 부분)는 내 상황에 맞게 바꾸세요.
+
+- **1단계(뼈대 만들기)** 프롬프트:
+  ```text
+  너는 웹 프론트엔드 + Supabase 멘토야. 비전공자도 한 줄씩 이해할 수 있게 설명을 곁들여 줘.
+  목표: 기존 localStorage 기반 '할 일 앱'을 Supabase 서버 저장으로 바꾸는 가장 단순한 버전을 만들어 줘.
+  산출물 3개를 따로 줘:
+   1) schema.sql — public.todos 표(id bigint identity PK, text not null, done boolean default false, created_at timestamptz default now())를 만들고,
+      RLS를 켠 뒤, anon/authenticated에게 select(읽기)와 insert(쓰기)를 허용하는 정책 2개. 여러 번 실행해도 안전하게(create table if not exists, drop policy if exists) 해 줘.
+   2) index.html — 할 일 입력칸 + [추가] 버튼 + 목록(ul) + 상태 안내 박스. Supabase JS 라이브러리는 CDN(@supabase/supabase-js@2)으로 불러오고, 그다음 줄에서 script.js를 불러오도록 순서를 지켜 줘.
+   3) script.js — SUPABASE_URL / SUPABASE_ANON_KEY는 '자리표시자' 상수로 두고, db.from("todos").select(...)로 목록을 불러오고 db.from("todos").insert({ text })로 추가하도록 async/await로 작성해 줘.
+  제약: anon(공개) 키만 쓰는 전제로 만들고, service_role 키는 절대 코드에 넣지 마. 목록 출력은 textContent로 해서 XSS를 막아 줘.
+  ```
+- **2단계(기능 추가/개선)** 프롬프트:
+  ```text
+  방금 만든 할 일 앱에 다음을 추가/개선해 줘. 기존 동작은 그대로 두고 필요한 부분만 바꿔 줘.
+   1) 자리표시자(SUPABASE_URL/ANON_KEY)를 안 바꾼 채 열면, 에러로 죽지 말고 '아직 내 프로젝트 값이 입력되지 않았어요' 같은 안내를 화면과 콘솔에 보여 줘.
+   2) 저장 중에는 [추가] 버튼을 잠그고(disabled) '저장 중…' → 성공하면 '저장 완료!'를 보여 준 뒤 입력칸을 비우고 포커스를 돌려 줘.
+   3) Supabase 에러 메시지(does not exist / row-level security / Invalid API key)를 비전공자가 알아볼 한국어 안내로 풀어 주는 friendlyError 함수를 만들어 줘.
+   4) created_at을 ko-KR 형식(월/일/시:분)으로 보기 좋게 표시해 줘. Enter 키로도 추가되게 해 줘.
+  왜 그렇게 했는지 핵심 부분은 주석으로 설명해 줘.
+  ```
+- **막혔을 때(디버깅)** 프롬프트:
+  ```text
+  Supabase 할 일 앱에서 에러가 났어. 아래 정보를 보고 원인 후보를 가능성 높은 순으로 정리하고, 각 후보를 내가 1분 안에 확인할 방법과 고치는 법을 단계별로 알려 줘. 코드를 통째로 다시 주지 말고 바뀌는 부분만 콕 집어 줘.
+   - 개발자도구(F12) Console에 찍힌 에러 메시지: [여기에 빨간 에러 전체를 붙여넣기]
+   - schema.sql을 실행했는지: [예 / 아니오 / 모르겠음]
+   - script.js에 넣은 키가 sb_publishable_(anon)로 시작하는지 sb_secret_(service_role)인지: [붙여넣기]
+   - Supabase Table Editor의 todos 표에 줄이 실제로 들어가 있는지: [예 / 아니오]
+  특히 'relation public.todos does not exist'와 'row-level security policy' 에러는 무엇을 뜻하고 schema.sql의 어느 단계와 연결되는지 짚어 줘.
+  ```
+> 프롬프트 팁: "코드만 주지 말고 왜 그렇게 했는지 주석으로 설명해줘", "비전공자가 이해하게 한 줄씩 풀어줘"를 덧붙이면 결과를 그대로 받아쓰지 않고 '검수하는 디렉터'로 학습하기 좋습니다.
+
 ## 검증법
 
 - **추가:** [추가] 후 `✅ 저장 완료!`가 뜨고 목록에 새 항목이 나타나는가? Console에 `✅ 저장 성공: ...` 로그가 찍히는가?

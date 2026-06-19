@@ -28,6 +28,9 @@ const posts = {
 
 // 1) 현재 주소에서 ?id= 값 읽기
 //    예: detail.html?id=2  ->  id 는 "2"
+//    URLSearchParams 를 쓰는 이유: 주소 문자열을 직접 자르지 않고도 ?뒤의 값들을
+//    안전하고 간단하게 꺼낼 수 있는 브라우저 기본 도구이기 때문.
+//    주의: 여기서 꺼낸 id 는 숫자가 아니라 문자열("2")이다 — 디버깅 때 자주 헷갈리는 지점.
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -42,6 +45,10 @@ const post = posts[id];
 if (post) {
   // 글을 찾았으면 내용 채우기
   document.title = post.title + " - 내 블로그";
+  // textContent 로 채우는 이유(중요): 글자를 "글자 그대로" 넣어 안전하다.
+  // innerHTML 로 넣으면 내용 안에 들어 있는 <script> 같은 태그가 실제로 실행될 수 있어
+  // (XSS, 악성 스크립트 주입) 위험하다. 지금은 우리가 만든 데이터지만, 나중에 사용자가
+  // 쓴 글을 보여줄 때를 대비해 처음부터 textContent 쓰는 습관을 들인다.
   titleEl.textContent = post.title;
   dateEl.textContent = post.date;
   bodyEl.textContent = post.body;

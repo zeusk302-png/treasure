@@ -156,6 +156,8 @@ export default async function handler(req, res) {
     "https://source.unsplash.com/800x500/?" +
     encodeURIComponent(cityName + ",city,travel");
   tasks.push(
+    // redirect: "follow" — 이 이미지 서비스는 "검색어에 맞는 사진"으로 다시 안내(리다이렉트)하기 때문에,
+    // 따라가서(follow) 마지막에 도착한 진짜 이미지 주소(r.url)를 받아 쓰려는 것이다.
     fetch(photoSearch, { redirect: "follow" })
       .then((r) => {
         // 실제 이미지로 리다이렉트되면 그 최종 주소를 쓴다.
