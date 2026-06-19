@@ -152,6 +152,51 @@ nav:
       - 09-ethics-law/11.md
       - 09-ethics-law/12.md
       - 09-ethics-law/13.md
+  - 10. 프론트엔드 심화:
+      - 10-frontend-advanced/index.md
+      - 10-frontend-advanced/01.md
+      - 10-frontend-advanced/02.md
+      - 10-frontend-advanced/03.md
+      - 10-frontend-advanced/04.md
+      - 10-frontend-advanced/05.md
+      - 10-frontend-advanced/06.md
+      - 10-frontend-advanced/07.md
+      - 10-frontend-advanced/08.md
+      - 10-frontend-advanced/09.md
+  - 11. 백엔드 심화:
+      - 11-backend-advanced/index.md
+      - 11-backend-advanced/01.md
+      - 11-backend-advanced/02.md
+      - 11-backend-advanced/03.md
+      - 11-backend-advanced/04.md
+      - 11-backend-advanced/05.md
+      - 11-backend-advanced/06.md
+      - 11-backend-advanced/07.md
+      - 11-backend-advanced/08.md
+      - 11-backend-advanced/09.md
+  - 12. 데이터베이스 심화:
+      - 12-database-advanced/index.md
+      - 12-database-advanced/01.md
+      - 12-database-advanced/02.md
+      - 12-database-advanced/03.md
+      - 12-database-advanced/04.md
+      - 12-database-advanced/05.md
+      - 12-database-advanced/06.md
+      - 12-database-advanced/07.md
+      - 12-database-advanced/08.md
+      - 12-database-advanced/09.md
+  - 13. AI 도구·연동:
+      - 13-ai-tools/index.md
+      - 13-ai-tools/01.md
+      - 13-ai-tools/02.md
+      - 13-ai-tools/03.md
+      - 13-ai-tools/04.md
+      - 13-ai-tools/05.md
+      - 13-ai-tools/06.md
+      - 13-ai-tools/07.md
+      - 13-ai-tools/08.md
+      - 13-ai-tools/09.md
+      - 13-ai-tools/10.md
   - 실습(따라하기):
       - practice/index.md
       - 실습 300선 커리큘럼: practice/curriculum.md

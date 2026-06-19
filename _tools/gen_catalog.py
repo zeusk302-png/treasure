@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """실습 커리큘럼 결과(JSON)를 읽어 docs/practice/curriculum.md 와 examples/_catalog.json 생성.
 examples/<id>/ 또는 <id>-*/ 폴더 존재 여부로 '코드 준비됨'을 표시한다."""
-import json, os, glob, sys
+import json, os, glob, sys, re
 from collections import OrderedDict
+
+# 셀 안 날것 HTML 태그(<title>·<script> 등)는 표 렌더링을 깨고(특히 RCDATA 요소는
+# 페이지 뒷부분을 통째로 삼킴) 목차 앵커까지 사라지게 한다. 렌더 시점에 자동으로
+# 백틱 코드스팬으로 감싸 재발을 막는다(이미 백틱으로 감싼 건 건드리지 않음).
+TAG_RE = re.compile(r'(?<!`)(</?[a-zA-Z][^>]*>)(?!`)')
 
 ROOT = r"C:\Users\김세영\Desktop\부산코딩스쿨_강의자료\treasure"
 # 인자로 원본 JSON 경로를 받거나, 없으면 examples/_catalog.json 으로 재생성
@@ -72,7 +77,9 @@ def stars(n):
     return "★" * n + "☆" * (5 - n)
 
 def esc(s):
-    return str(s).replace("|", "\\|").replace("\n", " ")
+    s = str(s).replace("\n", " ")
+    s = TAG_RE.sub(r"`\1`", s)        # 날것 HTML 태그 → 코드스팬(렌더 깨짐 방지)
+    return s.replace("|", "\\|")
 
 REPO = "https://github.com/zeusk302-png/treasure/tree/main/examples"
 total = len(catalog)
