@@ -58,6 +58,7 @@ plugins:
 
 nav:
   - 홈: index.md
+  - 시작 가이드: guide/index.md
   - 공지사항: notice/index.md
   - 1. 마음가짐:
       - 01-mindset/index.md
